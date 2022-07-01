@@ -66,6 +66,100 @@ public class TestMap
 		assertEquals(true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
 	}
 
+	@Test
+	public void TestToString()
+	{
+		argvInitialize(m);
+		//System.out.println("Map.toString() ? " + m);
+		assertEquals("Map.toString() ? {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}", "Map.toString() ? " + m.toString());
+	}
+
+	@Test
+	public void TestKeySetAndBacking()
+	{
+		argvInitialize(m);
+		int sm0, sm1, sm2, ss0, ss1, ss2;
+		System.out.println("Test keyset and backing");
+
+		//System.out.println(m + " " + m.size());
+		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5", m + " " + m.size());
+
+		s1 = m.keySet();
+		sm0 = m.size();
+		ss0 = s1.size();
+
+		iter = s1.iterator();
+		count = s1.size()+2;
+		while(iter.hasNext()&&count-->=0)
+		{
+			Object k = iter.next();
+			
+			//System.out.print("[" + k + "=" + m.get(k) + "]; ");
+			assertEquals(true, k.equals(m.get(k)));
+		}
+
+		//System.out.println("\n" + s1);
+		assertEquals("[pluto, gambatek, ciccio, qui, pippo]", s1.toString());
+		
+		s1.remove(argv[0]);
+
+		sm1 = m.size();
+		ss1 = s1.size();
+
+		//System.out.println(m + " " + m.size());
+		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui} 4", m + " " + m.size());
+		
+		iter = s1.iterator();
+		count = s1.size()+2;
+		while(iter.hasNext()&&count-->=0)
+		{
+			Object k = iter.next();
+
+			//System.out.print("[" + k + "=" + m.get(k) + "]; ");
+			assertEquals(true, k.equals(m.get(k)));
+		}
+
+		//System.out.println("\n" + s1);
+		assertEquals("[pluto, gambatek, ciccio, qui]", s1.toString());
+
+		System.out.println("Inserisco nella mappa e controllo il set");
+		m.put("carrozza", "carrozza");
+		
+		//System.out.println(m + " " + m.size());
+		assertEquals("{pluto=pluto, gambatek=gambatek, carrozza=carrozza, ciccio=ciccio, qui=qui} 5", m + " " + m.size());
+
+		iter = s1.iterator();
+		count = s1.size()+2;
+		while(iter.hasNext()&&count-->=0)
+		{
+			Object k = iter.next();
+			
+			//System.out.print("[" + k + "=" + m.get(k) + "]; ");
+			assertEquals(true, k.equals(m.get(k)));
+		}
+		
+		//System.out.println("\n" + s1);
+		assertEquals("[pluto, gambatek, carrozza, ciccio, qui]", s1.toString());
+
+		sm2 = m.size();
+		ss2 = s1.size();
+
+		// s1.remove("carrozza");
+		// System.out.println("Removed carrozza from keyset");
+		assertEquals(true, s1.remove("carrozza"));
+
+		System.out.println("set size=" + s1.size() + "; map size=" + m.size());
+		assertEquals("set size=4; map size=4", "set size=" + s1.size() + "; map size=" + m.size());
+		assertEquals(false, sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size());
+		assertEquals(true, (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
+	}
+
+	@Test
+	public void TestEmptyingByKeySetIterator()
+	{
+		
+	}
+
 	private void argvInitialize(HMap m)
 	{
 		for(int i=0;i<argv.length;i++)
