@@ -77,7 +77,17 @@ public class SetAdapter implements HSet
 
     public int hashCode()
     {
-        return ht.hashCode();
+        int hc = 0;
+        
+        HIterator it = this.iterator();
+        while (it.hasNext())
+        {
+            if (it.next() == null)
+                continue;
+            hc += it.next().hashCode();
+        }
+
+        return hc;
     }
 
     public boolean isEmpty()
