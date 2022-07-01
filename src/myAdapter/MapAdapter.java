@@ -1,5 +1,7 @@
 package myAdapter;
 
+import java.util.Enumeration;
+
 public class MapAdapter implements HMap
 {
     private Hashtable ht;
@@ -106,5 +108,198 @@ public class MapAdapter implements HMap
             return (getKey()==null ? 0 : getKey().hashCode()) ^
             (getValue()==null ? 0 : getValue().hashCode());
         }
-    }    
+    }
+
+
+    
+    private class EntrySet implements HSet
+    {
+        public EntrySet()
+        {
+            
+        }
+    
+        public boolean add(Object o)
+        {
+            throw new UnsupportedOperationException();
+        }
+    
+        public boolean addAll(HCollection c)
+        {
+            throw new UnsupportedOperationException();
+        }
+    
+        public void clear()
+        {
+            ht.clear();
+        }
+    
+        public boolean contains(Object o)
+        {
+            if (!(o instanceof Entry))
+                return false;
+            Entry oEntry = (Entry)o;
+
+            if (!ht.containsKey(oEntry.getKey()))
+                return false;
+            if (!ht.get(oEntry.getKey()).equals(oEntry.getValue()))
+                return false;
+            return true;
+        }
+    
+        public boolean containsAll(HCollection c)
+        {
+            HIterator it = c.iterator();
+            while (it.hasNext())
+            {
+                Object element = it.next();
+                if (!this.contains(element))
+                    return false;
+            }
+            return true;
+        }
+    
+        public boolean equals(Object o)
+        {
+            if (!(o instanceof HSet))
+                return false;
+            HSet oSet = (HSet)o;
+    
+            if (oSet.size() != this.size())
+                return false;
+    
+            HIterator it = oSet.iterator();
+            while (it.hasNext())
+            {
+                Object element = it.next();
+                if (!this.contains(element))
+                    return false;
+            }
+            
+            // Same size and same elements.
+            return true;
+        }
+    
+        public int hashCode()
+        {
+            return ht.hashCode();
+        }
+    
+        public boolean isEmpty()
+        {
+            return ht.isEmpty();
+        }
+    
+        public HIterator iterator()
+        {
+            return new SetAdapterIterator();
+        }
+    
+        public boolean remove(Object o)
+        {
+            if (!contains(o))
+                return false;
+            ht.remove(o.hashCode());
+            return true;
+        }
+    
+        public boolean removeAll(HCollection c)
+        {
+            boolean modified = false;
+            HIterator it = this.iterator();
+            while (it.hasNext())
+            {
+                Object element = it.next();
+                if (remove(element))
+                    modified = true;
+            }
+            return modified;
+        }
+    
+        public boolean retainAll(HCollection c)
+        {
+            boolean modified = false;
+            HIterator it = this.iterator();
+            while (it.hasNext())
+            {
+                Object element = it.next();
+                if (!c.contains(element))
+                {
+                    this.remove(element);
+                    modified = true;
+                }     
+            }
+    
+            return modified;
+        }
+    
+        public int size()
+        {
+            return ht.size();
+        }
+    
+        public Object[] toArray()
+        {
+            Object[] arr = new Object[this.size()];
+            int i = 0;
+            for (Enumeration e = ht.elements(); e.hasMoreElements(); i++)
+                arr[i] = e.nextElement();
+    
+            return arr;
+        }
+    
+        public Object[] toArray(Object[] a)
+        {
+            if (a.length < this.size())
+                throw new IllegalArgumentException();
+            int i = 0;
+            for (Enumeration e = ht.elements(); e.hasMoreElements(); i++)
+                a[i] = e.nextElement();
+    
+            return a;
+        }
+    
+        public String toString()
+        {
+            String res = "[";
+            HIterator it = this.iterator();
+            while (it.hasNext())
+            {
+                Object element = it.next();
+                res += element;
+                if (it.hasNext())
+                    res += ", ";
+            }
+            res += "]";
+            return res;
+        }
+
+        private class EntrySetIterator implements HIterator
+        {
+            private Enumeration values;
+            private Object lastReturned;
+    
+            public EntrySetIterator()
+            {
+                values = ht.elements();
+                lastReturned = null;
+            }
+    
+            public boolean hasNext()
+            {
+                return values.hasMoreElements();
+            }
+    
+            public Object next()
+            {
+                lastReturned = values.nextElement();
+                return lastReturned;
+            }
+    
+            public void remove()
+            {
+                //SetAdapter.this.remove(lastReturned);
+            }
+        }
+    }
 }

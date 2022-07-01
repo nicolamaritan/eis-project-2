@@ -78,55 +78,12 @@ public class TestSet
 		assertEquals(0, s.size());
 	}
 
-	public static void main(String[] argv)
+	/*public static void main(String[] argv)
 	{
-		//change to interface types
-
-
-		if(argv.length < 6)
-			argv = vals;
-
-		//change to actual adapters
-
-
-		
 
 		try
 		{
-			System.out.print(s.size() + " ");
-			iterate(s.iterator());
-			for(int i=0;i<argv.length;i++)
-			{
-				System.out.println(argv[i] + " " + s.add(argv[i]));
-				System.out.print(s.size() + " ");
-				iterate(s.iterator());
-			}
-			if(s.size() == argv.length-1)
-				System.out.println("\n*** set correctly refuses clones ***\n");
-			else
-				System.out.println("\n*** set wronlgy accepts clones ***\n");
-				
-	
-			System.out.println("Set.toString()? " + s);
-	
-			iter2 = s.iterator();
-			while(iter2.hasNext())
-			{
-				iter2.next();
-				iter2.remove();
-				System.out.print(s.size() + " ");
-				iterate(s.iterator());
-			}
-			if(c.size() == 0)
-				System.out.println("\n*** set iterator removal works ***\n");
-			else
-				System.out.println("\n*** set iterator removal fails ***\n");
-				
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+
 
 		System.out.println("Test cwCollection");
 
@@ -161,7 +118,7 @@ public class TestSet
 			System.out.println("\n*** collection iterator removal works ***\n");
 		else
 			System.out.println("\n*** collection iterator removal fails ***\n");
-	}
+	}*/
 
 	public static void iterate(HIterator iter)
 	{
