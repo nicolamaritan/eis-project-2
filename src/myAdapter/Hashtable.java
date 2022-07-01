@@ -11,14 +11,14 @@ public class Hashtable
         ht.clear();
     }
 
-    public void contains(Object value)
+    public boolean contains(Object value)
     {
-        ht.contains(value);
+        return ht.contains(value);
     }
 
-    public void containsKey(Object key)
+    public boolean containsKey(Object key)
     {
-        ht.containsKey(key);
+        return ht.containsKey(key);
     }
 
     public Enumeration elements()
@@ -29,6 +29,16 @@ public class Hashtable
     public Object get(Object key)
     {
         return ht.get(key);
+    }
+
+    public boolean isEmpty()
+    {
+        return ht.isEmpty();
+    }
+
+    public Enumeration keys()
+    {
+        return ht.keys();
     }
 
     public Object put(Object key, Object value)
