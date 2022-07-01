@@ -941,6 +941,20 @@ public class MapAdapter implements HMap
             return hc;
         }
 
+        public String toString()
+        {
+            HIterator it = this.iterator();
+            String res = "[";
+            while (it.hasNext())
+            {
+                res += it.next();
+                if (it.hasNext())
+                    res += ", ";
+            }
+            res += "]";
+            return res;
+        }
+
         private class ValuesIterator implements HIterator
         {
             Enumeration values;
