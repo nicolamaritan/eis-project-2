@@ -23,7 +23,7 @@ public class MapAdapter implements HMap
 
     public boolean containsValue(Object value)
     {
-        return false;
+        return ht.contains(value);
     }
 
     public Object get(Object key)
@@ -62,7 +62,13 @@ public class MapAdapter implements HMap
 
     public void putAll(HMap t)
     {
-        
+        HSet tEntrySet = t.entrySet();
+        HIterator it = tEntrySet.iterator();
+        while (it.hasNext())
+        {
+            Entry entry = (Entry)it.next();
+            this.put(entry.getKey(), entry.getValue());
+        }
     }
 
     public Object remove(Object key)
@@ -198,9 +204,13 @@ public class MapAdapter implements HMap
     
         public boolean remove(Object o)
         {
-            if (!contains(o))
+            if (!(o instanceof Entry))
                 return false;
-            ht.remove(o.hashCode());
+            Entry oEntry = (Entry)o;
+
+            if (!this.contains(oEntry))
+                return false;
+            ht.remove(oEntry.getKey());
             return true;
         }
     
@@ -211,7 +221,7 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object element = it.next();
-                if (remove(element))
+                if (this.remove(element))
                     modified = true;
             }
             return modified;
@@ -254,9 +264,14 @@ public class MapAdapter implements HMap
             if (a.length < this.size())
                 throw new IllegalArgumentException();
             int i = 0;
-            for (Enumeration e = ht.elements(); e.hasMoreElements(); i++)
-                a[i] = e.nextElement();
-    
+            for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
+            {
+                Entry entry = new Entry();
+                Object currentKey = e.nextElement();
+                entry.key = currentKey;
+                entry.value = ht.get(currentKey);
+                a[i] = entry;
+            }
             return a;
         }
     
