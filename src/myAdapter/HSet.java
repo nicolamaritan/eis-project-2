@@ -1,6 +1,6 @@
 package myAdapter;
 
-public interface HSet 
+public interface HSet extends HCollection
 {
     // Query Operations
 

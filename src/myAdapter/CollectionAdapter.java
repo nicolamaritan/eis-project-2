@@ -122,8 +122,11 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         // Call to vector method
         vector.copyInto(arrayTarget);
         
+        Object[] returnedArray = new Object[this.size()];
+        vector.copyInto(returnedArray);
+        
         // Return the array
-        return arrayTarget;
+        return returnedArray;
     }
 
     /**

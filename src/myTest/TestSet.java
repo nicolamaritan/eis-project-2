@@ -13,7 +13,7 @@ import myAdapter.*;
 public class TestSet
 {
 	HSet s = null;
-	HMap c = null;
+	HCollection c = null;
 	HIterator iter2 = null;
 	String[] argv = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
 
@@ -27,7 +27,7 @@ public class TestSet
 	public void BeforeMethod()
 	{
 		s = new SetAdapter();
-		c = new MapAdapter();
+		c = new CollectionAdapter();
 	}
 
 	@After
@@ -38,7 +38,7 @@ public class TestSet
 	}
 
 	@Test
-	public void ClonesAcceptanceTest()
+	public void SetClonesAcceptanceTest()
 	{
 		assertEquals(0, s.size());
 		iterate(s.iterator());
@@ -56,16 +56,16 @@ public class TestSet
 	}
 
 	@Test
-	public void ToStringTest()
+	public void SetToStringTest()
 	{
-		argvInitiate();
+		argvInitiate(s);
 		assertEquals("[pluto, ciccio, qui, paperino, pippo]", s.toString());
 	}
 
 	@Test
-	public void IteratorRemovalTest()
+	public void SetIteratorRemovalTest()
 	{
-		argvInitiate();
+		argvInitiate(s);
 		iter2 = s.iterator();
 		int i = 5;
 		while(iter2.hasNext())
@@ -78,47 +78,43 @@ public class TestSet
 		assertEquals(0, s.size());
 	}
 
-	/*public static void main(String[] argv)
+	@Test
+	public void CollectionClonesAcceptanceTest()
 	{
-
-		try
-		{
-
-
-		System.out.println("Test cwCollection");
-
-
-		System.out.print(c.size() + " ");
+		assertEquals(0, c.size());
 		iterate(c.iterator());
 		for(int i=0;i<argv.length;i++)
 		{
-			System.out.println(argv[i] + " " + c.add(argv[i]));
-			System.out.print(c.size() + " ");
+			assertEquals(true, c.add(argv[i]));
+			assertEquals(i + 1, c.size());
 			iterate(c.iterator());
 		}
+		assertEquals(false, c.size() == argv.length - 1);
+	}
 
-		if(c.size() == argv.length-1)
-			System.out.println("\n*** collection refuses clones ***\n");
-		else
-			System.out.println("\n*** collection accepts clones ***\n");
-			
+	@Test
+	public void CollectionToStringTest()
+	{
+		argvInitiate(c);
+		assertEquals("[pippo, pippo, pluto, paperino, ciccio, qui]", c.toString());
+	}
 
-		System.out.println("Collection.toString()? " + c);
-
+	@Test
+	public void CollectionIteratorRemovalTest()
+	{
+		argvInitiate(c);
+		int i = 6;
 		iter2 = c.iterator();
 		while(iter2.hasNext())
 		{
 			iter2.next();
 			iter2.remove();
 			System.out.print(c.size() + " ");
+			assertEquals(--i, c.size());
 			iterate(c.iterator());
 		}
-
-		if(c.size() == 0)
-			System.out.println("\n*** collection iterator removal works ***\n");
-		else
-			System.out.println("\n*** collection iterator removal fails ***\n");
-	}*/
+		assertEquals(0, c.size());
+	}
 
 	public static void iterate(HIterator iter)
 	{
@@ -130,10 +126,10 @@ public class TestSet
 		System.out.println("}");
 	}
 
-	public void argvInitiate()
+	public void argvInitiate(HCollection c)
 	{
 		for (int i = 0; i < argv.length; i++)
-			s.add(argv[i]);
+			c.add(argv[i]);
 	}
 
 
