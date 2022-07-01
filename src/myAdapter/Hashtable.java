@@ -6,6 +6,11 @@ public class Hashtable
 {   
     private java.util.Hashtable ht;
 
+    public Hashtable()
+    {
+        ht = new java.util.Hashtable();
+    }
+
     public void clear()
     {
         ht.clear();

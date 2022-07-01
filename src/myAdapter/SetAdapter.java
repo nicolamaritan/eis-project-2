@@ -94,7 +94,7 @@ public class SetAdapter implements HSet
     {
         if (!contains(o))
             return false;
-        ht.remove(o);
+        ht.remove(o.hashCode());
         return true;
     }
 
@@ -152,6 +152,21 @@ public class SetAdapter implements HSet
             a[i] = e.nextElement();
 
         return a;
+    }
+
+    public String toString()
+    {
+        String res = "[";
+        HIterator it = this.iterator();
+        while (it.hasNext())
+        {
+            Object element = it.next();
+            res += element;
+            if (it.hasNext())
+                res += ", ";
+        }
+        res += "]";
+        return res;
     }
 
     private class SetAdapterIterator implements HIterator

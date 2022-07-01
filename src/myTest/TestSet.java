@@ -1,27 +1,95 @@
 package myTest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import myAdapter.*;
 
 public class TestSet
 {
-	
+	HSet s = null;
+	HMap c = null;
+	HIterator iter2 = null;
+	String[] argv = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
+
+	@BeforeClass
+	public static void BeforeClassMethod()
+	{
+		System.out.println("Test Set");
+	}
+
+	@Before
+	public void BeforeMethod()
+	{
+		s = new SetAdapter();
+		c = new MapAdapter();
+	}
+
+	@After
+	public void AfterMethod()
+	{
+		s = null;
+		c = null;
+	}
+
+	@Test
+	public void ClonesAcceptanceTest()
+	{
+		assertEquals(0, s.size());
+		iterate(s.iterator());
+
+		assertEquals(true, s.add(argv[0]));
+		assertEquals(false, s.add(argv[1]));
+
+		for(int i=2;i<argv.length;i++)
+		{
+			assertEquals(true, s.add(argv[i]));
+			assertEquals(i, s.size());
+			iterate(s.iterator());
+		}
+		assertEquals(argv.length - 1, s.size());
+	}
+
+	@Test
+	public void ToStringTest()
+	{
+		argvInitiate();
+		assertEquals("[pluto, ciccio, qui, paperino, pippo]", s.toString());
+	}
+
+	@Test
+	public void IteratorRemovalTest()
+	{
+		argvInitiate();
+		iter2 = s.iterator();
+		int i = 5;
+		while(iter2.hasNext())
+		{
+			iter2.next();
+			iter2.remove();
+			assertEquals(--i, s.size());
+			iterate(s.iterator());
+		}
+		assertEquals(0, s.size());
+	}
 
 	public static void main(String[] argv)
 	{
 		//change to interface types
-		HSet s = null;
-		HMap c = null;
-		HIterator iter2 = null;
-		String[] vals = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
+
 
 		if(argv.length < 6)
 			argv = vals;
 
 		//change to actual adapters
-		s = new SetAdapter();
-		c = new MapAdapter();
 
-		System.out.println("Test Set");
+
+		
 
 		try
 		{
@@ -104,4 +172,12 @@ public class TestSet
 		}
 		System.out.println("}");
 	}
+
+	public void argvInitiate()
+	{
+		for (int i = 0; i < argv.length; i++)
+			s.add(argv[i]);
+	}
+
+
 }
