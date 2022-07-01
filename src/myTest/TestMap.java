@@ -1,19 +1,81 @@
 package myTest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import myAdapter.*;
 
 public class TestMap
 {
+	int count = 0;
+	HMap m = null;
+	HSet s1 = null;
+	HSet ks = null;
+	HIterator iter = null;
+	HCollection c = null;
+
+	String[] argv = {"pippo", "pluto", "qui", "ciccio", "gambatek"};
+
+	@Before
+	public void BeforeMethod()
+	{
+		m = new MapAdapter();
+	}
+	
+	@Test
+	public void TestPropagationFromMapToKeySet()
+	{
+		argvInitialize(m);
+		int sm0, sm1, sm2, ss0, ss1, ss2;
+		
+		//System.out.println("Test propagation from map to keyset");
+		ks = m.keySet();
+
+		//System.out.println(m + " " + m.size());
+		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5", m + " " + m.size());
+		
+		//System.out.println(ks + " " + ks.size());
+		assertEquals("[pluto, gambatek, ciccio, qui, pippo] 5", ks + " " + ks.size());
+		
+		sm0 = m.size();
+		ss0 = ks.size();
+		m.remove(argv[0]);
+		sm1 = m.size();
+		ss1 = ks.size();
+
+		//System.out.println("Entry removed: " + m + " " + m.size());
+		assertEquals("Entry removed: {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui} 4", "Entry removed: " + m + " " + m.size());
+		
+		//System.out.println(ks + " " + ks.size());
+		assertEquals("[pluto, gambatek, ciccio, qui] 4", ks + " " + ks.size());
+		
+		m.put(argv[0], argv[0]);
+		sm2 = m.size();
+		ss2 = ks.size();
+
+		//System.out.println("Entry restored: " + m + " " + m.size());
+		assertEquals("Entry restored: {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5", "Entry restored: " + m + " " + m.size());
+		
+		//System.out.println(ks + " " + ks.size());
+		assertEquals("[pluto, gambatek, ciccio, qui, pippo] 5", ks + " " + ks.size());
+		assertEquals(true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
+	}
+
+	private void argvInitialize(HMap m)
+	{
+		for(int i=0;i<argv.length;i++)
+		{
+			m.put(argv[i], argv[i]);
+		}
+	}
 	public static void main(String[] argv)
 	{
-		int count = 0;
-		HMap m = null;
-		HSet s1 = null;
-		HSet ks = null;
-		HIterator iter = null;
-		HCollection c = null;
 
-		String[] args = {"pippo", "pluto", "qui", "ciccio", "gambatek"};
 
 		m = new MapAdapter();
 

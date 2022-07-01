@@ -84,6 +84,16 @@ public class MapAdapter implements HMap
         return new Values();
     }
 
+    public String toString()
+    {
+        HSet es = this.entrySet();
+        String res = es.toString();
+        res = res.substring(1, res.length() - 1);
+        res += "}";
+        res = "{" + res;
+        return res;
+    }
+
     public class Entry
     {
         private Object value;
