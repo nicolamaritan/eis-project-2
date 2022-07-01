@@ -33,8 +33,7 @@ public class MapAdapter implements HMap
 
     public HSet entrySet()
     {
-        return null;
-
+        return new EntrySet();
     }
 
     public int hashCode()
@@ -182,7 +181,9 @@ public class MapAdapter implements HMap
     
         public int hashCode()
         {
-            return ht.hashCode();
+            int hc = 0;
+            
+            return hc;
         }
     
         public boolean isEmpty()
@@ -192,7 +193,7 @@ public class MapAdapter implements HMap
     
         public HIterator iterator()
         {
-            return new SetAdapterIterator();
+            return new EntrySetIterator();
         }
     
         public boolean remove(Object o)
@@ -276,29 +277,34 @@ public class MapAdapter implements HMap
 
         private class EntrySetIterator implements HIterator
         {
-            private Enumeration values;
+            //private Enumeration values;
+            private Enumeration keys;
             private Object lastReturned;
     
             public EntrySetIterator()
             {
-                values = ht.elements();
+                keys = ht.keys();
                 lastReturned = null;
             }
     
             public boolean hasNext()
             {
-                return values.hasMoreElements();
+                return keys.hasMoreElements();
             }
     
             public Object next()
             {
-                lastReturned = values.nextElement();
-                return lastReturned;
+                lastReturned = keys.nextElement();
+
+                Entry returned = new Entry();
+                returned.key = lastReturned;
+                returned.value = MapAdapter.this.get(lastReturned);
+                return returned;
             }
     
             public void remove()
             {
-                //SetAdapter.this.remove(lastReturned);
+                MapAdapter.this.remove(lastReturned);
             }
         }
     }
