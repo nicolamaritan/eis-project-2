@@ -145,7 +145,7 @@ public interface HMap
      * @return {@code true} if this map contains no key-value mappings
      */
     boolean isEmpty();
-
+    
     /**
      * Returns {@code true} if this map contains a mapping for the specified
      * key.  More formally, returns {@code true} if and only if
