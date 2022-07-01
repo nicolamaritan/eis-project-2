@@ -110,21 +110,11 @@ package myAdapter;
  * page.
  * </ul>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/java.base/java/util/package-summary.html#CollectionsFramework">
- * Java Collections Framework</a>.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
- *
- * @author  Josh Bloch
- * @see HashMap
- * @see TreeMap
- * @see Hashtable
- * @see SortedMap
- * @see Collection
- * @see Set
- * @since 1.2
+ * @author Nicola Maritan
+ * @see HCollection
+ * @see HSet
+ * @since 1.0
  */
 public interface HMap
 {
@@ -310,14 +300,14 @@ public interface HMap
     // Views
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
+     * Returns a {@link HSet} view of the keys contained in this map.
      * The set is backed by the map, so changes to the map are
      * reflected in the set, and vice-versa.  If the map is modified
      * while an iteration over the set is in progress (except through
      * the iterator's own {@code remove} operation), the results of
      * the iteration are undefined.  The set supports element removal,
      * which removes the corresponding mapping from the map, via the
-     * {@code Iterator.remove}, {@code Set.remove},
+     * {@code HIterator.remove}, {@code HSet.remove},
      * {@code removeAll}, {@code retainAll}, and {@code clear}
      * operations.  It does not support the {@code add} or {@code addAll}
      * operations.
@@ -344,7 +334,7 @@ public interface HMap
     HCollection values();
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
+     * Returns a {@link HSet} view of the mappings contained in this map.
      * The set is backed by the map, so changes to the map are
      * reflected in the set, and vice-versa.  If the map is modified
      * while an iteration over the set is in progress (except through
