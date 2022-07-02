@@ -125,7 +125,7 @@ public interface HSet extends HCollection
      * <p>The stipulation above does not imply that sets must accept all
      * elements; sets may refuse to add any particular element, including
      * {@code null}, and throw an exception, as described in the
-     * specification for {@link Collection#add Collection.add}.
+     * specification for {@link HCollection#add HCollection.add}.
      * Individual set implementations should clearly document any
      * restrictions on the elements that they may contain.
      *

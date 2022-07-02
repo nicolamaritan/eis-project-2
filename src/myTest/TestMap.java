@@ -28,20 +28,47 @@ public class TestMap
 		m = new MapAdapter();
 	}
 	
+	/**
+     * <p><b>Summary</b>: Tests the propagation of changes from the backing map
+	 * to the KeySet, as adding or removing entries from the backing map
+	 * affects the KeySet. Tests the methods keySet, size, remove
+	 * and put of MapAdapter, size of the KeySet.
+	 * </p>
+     * <p><b>Test Case Design</b>: HMap interface states that a change in HMap
+	 * affects the already generated KeySets and obviusly the future KeySets. Therefore
+	 * this test focuses on the propagation of different changes through puts and removes
+	 * from the HMap to the KeySet.</p>
+     * <p><b>Test Description</b>: The map is first initialized with entries
+	 * with key and value equals to the elements in argv. Then a KeySet is created
+	 * from m. The entry of key pippo is removed from the map, and then reinserted.</p>
+     * <p><b>Pre-Condition</b>: The map contains argv elements as keys and values.</p>
+     * <p><b>Post-Condition</b>:  The map contains argv elements as keys and values.</p>
+     * <p><b>Expected Results</b>: After initialization m contains 5 entries with keys
+	 * the argv elements. KeySet contains argv elements and its size is 5. Next the entry pippo=pippo
+	 * is removed from the map, therefore map and KeySet contains argv elements
+	 * except pippo=pippo and their size is 4. Finally the pippo=pippo entry is reinserted
+	 * through map, implying its presence in keySet. They both have size 5.
+	 * Lastly asserts that m and ks have the same size after all removal/insertions and
+	 * the difference in size from stage 0 to stage 1 is 1.</p>
+     */
 	@Test
 	public void TestPropagationFromMapToKeySet()
 	{
 		argvInitialize(m);
 		int sm0, sm1, sm2, ss0, ss1, ss2;
 		
-		//System.out.println("Test propagation from map to keyset");
+		System.out.println("Test propagation from map to keyset");
 		ks = m.keySet();
 
 		//System.out.println(m + " " + m.size());
-		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5", m + " " + m.size());
-		
+		for (String str : argv)
+			assertTrue("Should contain argv key.", m.containsKey(str));
+		assertEquals(5, m.size());
+
 		//System.out.println(ks + " " + ks.size());
-		assertEquals("[pluto, gambatek, ciccio, qui, pippo] 5", ks + " " + ks.size());
+		for (String str : argv)
+			assertTrue("Should contain argv key", ks.contains(str));
+		assertEquals(5, ks.size());
 		
 		sm0 = m.size();
 		ss0 = ks.size();
@@ -50,23 +77,40 @@ public class TestMap
 		ss1 = ks.size();
 
 		//System.out.println("Entry removed: " + m + " " + m.size());
-		assertEquals("Entry removed: {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui} 4", "Entry removed: " + m + " " + m.size());
-		
+		for (int i = 1; i < argv.length; i++)
+			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
+		assertEquals(4, m.size());
+
 		//System.out.println(ks + " " + ks.size());
-		assertEquals("[pluto, gambatek, ciccio, qui] 4", ks + " " + ks.size());
+		for (int i = 1; i < argv.length; i++)
+			assertTrue("Should contain argv key", ks.contains(argv[i]));
+		assertEquals(4, ks.size());
 		
 		m.put(argv[0], argv[0]);
 		sm2 = m.size();
 		ss2 = ks.size();
 
 		//System.out.println("Entry restored: " + m + " " + m.size());
-		assertEquals("Entry restored: {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5", "Entry restored: " + m + " " + m.size());
-		
+		for (String str : argv)
+			assertTrue("Should contain argv key.", m.containsKey(str));
+		assertEquals(5, m.size());
+
 		//System.out.println(ks + " " + ks.size());
-		assertEquals("[pluto, gambatek, ciccio, qui, pippo] 5", ks + " " + ks.size());
+		for (String str : argv)
+			assertTrue("Should contain argv key", ks.contains(str));
+		assertEquals(5, ks.size());
+
 		assertEquals(true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
 	}
 
+    /**
+     * <p><b>Summary</b>:</p>
+     * <p><b>Test Case Design</b>:</p>
+     * <p><b>Test Description</b>:</p>
+     * <p><b>Pre-Condition</b>:</p>
+     * <p><b>Post-Condition</b>:</p>
+     * <p><b>Expected Results</b>:</p>
+     */
 	@Test
 	public void TestToString()
 	{
@@ -278,3 +322,12 @@ public class TestMap
 	}
 
 }
+
+    /**
+     * <p><b>Summary</b>:</p>
+     * <p><b>Test Case Design</b>:</p>
+     * <p><b>Test Description</b>:</p>
+     * <p><b>Pre-Condition</b>:</p>
+     * <p><b>Post-Condition</b>:</p>
+     * <p><b>Expected Results</b>:</p>
+     */
