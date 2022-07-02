@@ -289,12 +289,28 @@ public class TestMap
 	}
 
     /**
-     * <p><b>Summary</b>:</p>
-     * <p><b>Test Case Design</b>:</p>
-     * <p><b>Test Description</b>:</p>
-     * <p><b>Pre-Condition</b>:</p>
-     * <p><b>Post-Condition</b>:</p>
-     * <p><b>Expected Results</b>:</p>
+     * <p><b>Summary</b>: Tests clearing the map through clear,
+	 * reinserting the argv elements and the propagation from
+	 * values to map. Tests method clear, put, size, values of map
+	 * iterator, remove of values, hasNext, next of values' iterator.</p>
+     * <p><b>Test Case Design</b>: After clearing the map with clear,
+	 * tests changes propagation from values to map. Infact, HMap interface
+	 * states that changes in values set propagate to the backing map.</p>
+     * <p><b>Test Description</b>: clear method is invoked on the map.
+	 * Then argv keys and values are inserted in the map. pippo=pippo is
+	 * inserted twice, but map only accept unique keys.
+	 * values is created and iterates through the set to created the temp string.</p>
+     * <p><b>Pre-Condition</b>: map contains argv values and keys.</p>
+     * <p><b>Post-Condition</b>: map contains argv values and keys but pippo=pippo. </p>
+     * <p><b>Expected Results</b>: After clear the map is empty (toString returns {}).
+	 * After inserting argv keys and values and pippo=pippo m.size is equal to argv.size,
+	 * as the second pippo=pippo insertion is not valid (unique keys). m is checked to
+	 * contain all argv keys and values and its size is 5. temp then is equal to
+	 * "pluto; gambatek; ciccio; qui; pippo; ". pippo is removed from values,
+	 * temp is "pluto; gambatek; ciccio; qui; "
+	 * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1) is true, which means
+	 * the sizes of map and values equals in each stage, and the difference in size
+	 * from stage 0 and 1 is 1.</p>
      */
 	@Test
 	public void ResetMapContentAndTestValues()
@@ -315,8 +331,12 @@ public class TestMap
 		assertFalse("*** map.put malfunction ***", m.size() != argv.length);
 
 		//System.out.println("after " + m + " " + m.size());
-		assertEquals("after {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5",
-					 "after " + m + " " + m.size());
+		for (String str : argv)
+		{
+			assertTrue("Should contain argv key.", m.containsKey(str));
+			assertEquals(str, m.get(str));
+		}
+		assertEquals(5, m.size());
 		
 
 		c = m.values();
@@ -332,7 +352,8 @@ public class TestMap
 			//System.out.print(iter.next() + "; ");
 
 		assertEquals("pluto; gambatek; ciccio; qui; pippo; ", temp);
-		assertEquals("[pluto, gambatek, ciccio, qui, pippo]", c.toString());
+		for (String str : argv)
+			assertTrue("Should be contained.", c.contains(str));
 		//System.out.println("\n" + c);
 
 		c.remove(argv[0]);
@@ -340,9 +361,13 @@ public class TestMap
 		sm1 = m.size();
 		ss1 = c.size();
 
-		System.out.println(m + " " + m.size());
-		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui} 4",
-					 m.toString() + " " + m.size());
+		//System.out.println(m + " " + m.size());
+		for (int i = 1; i < argv.length; i++)
+		{
+			assertTrue("Should contain argv key", m.containsKey(argv[i]));
+			assertEquals(m.get(argv[i]), argv[i]);
+		}
+		assertEquals(4, m.size());
 
 		iter = c.iterator();
 		count = c.size()+2;
@@ -353,7 +378,10 @@ public class TestMap
 		assertEquals("pluto; gambatek; ciccio; qui; ", temp);
 		//System.out.print(iter.next() + "; ");
 		//System.out.println("\n" + c);
-		assertEquals("[pluto, gambatek, ciccio, qui]", c.toString());
+		
+		assertFalse("Should NOT be contained", c.contains(argv[0]));
+		for (int i = 1; i < argv.length; i++)
+			assertTrue("Should be contained", c.contains(argv[i]));
 
 		sm2 = m.size();
 		ss2 = c.size();
