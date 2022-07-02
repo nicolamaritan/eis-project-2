@@ -33,67 +33,91 @@ public class TestCollection {
 	boolean b = ct.add("bbb");
 	boolean c = ct.add("ccc");
 	
-	@Test
 	/**
-	 * @safe.precondition stato attuale di ct
-	 * @safe.postcondition ct modificato con aggiunta di un elemento
-	 * @safe.summary aggiungo un elemento al ct utilizzando il metodo add(Object o)
-	 */
+     * <p><b>Summary</b>: add method test case.</p>
+     * <p><b>Test Case Design</b>: Checks if adding one element
+	 * through collection add returns true.</p>
+     * <p><b>Test Description</b>: add one string to collection.</p>
+     * <p><b>Pre-Condition</b>: ct is at its predefined state.</p>
+     * <p><b>Post-Condition</b>: ct has one more elem.</p>
+     * <p><b>Expected Results</b>: ris is true.</p>
+     */
+	@Test
 	public void add_o() {
 		boolean ris = ct.add("add(Object o) funziona");
 		assertTrue(ris);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition stato attuale di ct
-	 * @safe.postcondition ct modificato con aggiunta da parte di un'altra Collection
-	 * @safe.summary aggiunta in ct degli elementi da parte di un'altra Collection
-	 */
+     * <p><b>Summary</b>: addAll method test case.</p>
+     * <p><b>Test Case Design</b>: Checks if adding all element
+	 * through addAll returns true.</p>
+     * <p><b>Test Description</b>: add one collection.</p>
+     * <p><b>Pre-Condition</b>: ct is at its actual state.</p>
+     * <p><b>Post-Condition</b>: collection is added.</p>
+     * <p><b>Expected Results</b>: ris is true</p>
+     */
+	@Test
 	public void addAll_c() {
 		boolean ris = ct.addAll(param);
 		assertTrue(ris);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition ct contiene almeno un elemento
-	 * @safe.postcondition non ci sono piu' value in ct
-	 * @safe.summary svuotare il ct e testare se e' vuoto
-	 */
+     * <p><b>Summary</b>: clear method test case.</p>
+     * <p><b>Test Case Design</b>: Tests clear through clear method.</p>
+     * <p><b>Test Description</b>: clear is invoked.</p>
+     * <p><b>Pre-Condition</b>: ct contains at least one element.</p>
+     * <p><b>Post-Condition</b>: ct is empty.</p>
+     * <p><b>Expected Results</b>: ct is empty.</p>
+     */
+	@Test
 	public void clear() {
 		ct.clear();
 		assertTrue(ct.isEmpty());
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition ct contiene l'emento da verificare
-	 * @safe.postcondition ris e' true
-	 * @safe.summary controllo se c'e' l'elemento in ct
-	 */
+     * <p><b>Summary</b>: contains method test case.</p>
+     * <p><b>Test Case Design</b>: Tests contains behaviour
+	 * with one element in the list.</p>
+     * <p><b>Test Description</b>: contains is invoked.</p>
+     * <p><b>Pre-Condition</b>: ct contains the element to verify.</p>
+     * <p><b>Post-Condition</b>: ris is true.</p>
+     * <p><b>Expected Results</b>: ris is true.</p>
+     */
+	@Test
 	public void contains_o() {
 		boolean ris = ct.contains("Collection Adapter");
 		assertTrue(ris);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition ct contiene tutti gli elementi presenti nella Collection c
-	 * @safe.postcondition ris e' true
-	 * @safe.summary test metodo containsAll(Collection c) e verifico che gli elementi di c siano presenti in ct
-	 */
+     * <p><b>Summary</b>: containsAll method test case and verify that all element
+	 * in c are contained in ct.</p>
+     * <p><b>Test Case Design</b>: containsAll method is invoked.</p>
+     * <p><b>Test Description</b>: containsAll method is invoked.</p>
+     * <p><b>Pre-Condition</b>: ct contains each element contained in c.</p>
+     * <p><b>Post-Condition</b>: ris is true.</p>
+     * <p><b>Expected Results</b>: ris is true</p>
+     */
+	@Test
 	public void containsAll_c() {
 		boolean ris = ct.containsAll(param);
 		assertTrue(ris);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition due oggetti uguali
-	 * @safe.postcondition ris vale true
-	 * @safe.summary test metodo equals(Object o) e controllo se sono uguali
-	 */
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: Tests equals behaviour with
+	 * 4 equals objects.</p>
+     * <p><b>Test Description</b>: Collection are made equal, then equals
+	 * is invoked.</p>
+     * <p><b>Pre-Condition</b>: Two objects are equals.</p>
+     * <p><b>Post-Condition</b>: ris is true.</p>
+     * <p><b>Expected Results</b>: ris is true</p>
+     */
+	@Test
 	public void equals_o() {
 		CollectionAdapter temp = new CollectionAdapter();
 		temp.add("Collection Adapter");
@@ -115,12 +139,15 @@ public class TestCollection {
 		
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition ct contiene un elemento
-	 * @safe.postcondition ct vuoto, ris vale true
-	 * @safe.summary test metodo isEmpty() e controllo che ct sia vuoto attraverso il metodo size()
-	 */
+     * <p><b>Summary</b>: isEmpty method test case.</p>
+     * <p><b>Test Case Design</b>: isEmpty is tested after a clear invoke.</p>
+     * <p><b>Test Description</b>: ct is cleared, then isEmpty is invoked.</p>
+     * <p><b>Pre-Condition</b>: ct contains 1 element.</p>
+     * <p><b>Post-Condition</b>: ct is empty, ris is true.</p>
+     * <p><b>Expected Results</b>: ris is true</p>
+     */
+	@Test
 	public void is_empty() {
 		ct.clear();
 		boolean ris = ct.isEmpty();
@@ -137,58 +164,76 @@ public class TestCollection {
 		
 	}
 	
+    /**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove method on a present
+	 * object, which should return true.</p>
+     * <p><b>Test Description</b>: o is removed from ct.</p>
+     * <p><b>Pre-Condition</b>: ct contains at least one element.</p>
+     * <p><b>Post-Condition</b>: o is removed from ct.</p>
+     * <p><b>Expected Results</b>: ris is true.</p>
+     */
 	@Test
-	/**
-	 * @safe.precondition ct con almeno un elemento
-	 * @safe.postcondition ct senza l'elemento o
-	 * @safe.summary test remove(Object o), rimuovo da ct l'elemento o e verifico che la dimensione di ct sia cambiata
-	 */
 	public void remove_o() {
 		Object o = "Collection Adapter";
 		boolean ris = ct.remove(o);
 		assertTrue(ris);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition ct con almeno un elemento
-	 * @safe.postcondition ct senza gli elementi di Collection c
-	 * @safe.summary test removeAll(Collection c), rimuovo da ct tutti gli elementi di c
-	 */
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll method on a present
+	 * collection, which should return true.</p>
+     * <p><b>Test Description</b>: o is removed from ct.</p>
+     * <p><b>Pre-Condition</b>: ct contains at least one element.</p>
+     * <p><b>Post-Condition</b>: o is removed from ct.</p>
+     * <p><b>Expected Results</b>: ris is true.</p>
+     */
+	@Test
 	public void remove_all_c() {
 		boolean ris = ct.removeAll(param);
 		assertTrue(ris);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition ct con almeno un elemento
-	 * @safe.postcondition ct intersecato a Collection c
-	 * @safe.summary modifica ct facendogli contenere alla fine solo gli elementi presenti anche in c
-	 */
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove method on a present
+	 * object, which should return true.</p>
+     * <p><b>Test Description</b>: o is removed from ct.</p>
+     * <p><b>Pre-Condition</b>: ct contains at least one element.</p>
+     * <p><b>Post-Condition</b>: o is removed from ct.</p>
+     * <p><b>Expected Results</b>: ris is true.</p>
+     */
+	@Test
 	public void retain_all_c() {
 		boolean ris = ct.retainAll(param);
 		assertTrue(ris);
 	}
 	
-	
+    /**
+     * <p><b>Summary</b>: size method test case.</p>
+     * <p><b>Test Case Design</b>: Tests size method.</p>
+     * <p><b>Test Description</b>: Invoke size method.</p>
+     * <p><b>Pre-Condition</b>: ct has 4 elements.</p>
+     * <p><b>Post-Condition</b>: ct is unchanged.</p>
+     * <p><b>Expected Results</b>: size is 4.</p>
+     */
 	@Test
-	/**
-	 * @safe.precondition ct con almeno un elemento
-	 * @safe.postcondition size = 4
-	 * @safe.summary verifico se size e' uguale a 4
-	 */
 	public void size() {
 		int size = ct.size();
 		assertEquals(4, size);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition head con almeno un elemento
-	 * @safe.postcondition temp che e' un array contenete gli elementi di head
-	 * @safe.summary verifico che temp contenga gli elementi di head
-	 */
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray with a single element.</p>
+     * <p><b>Test Description</b>: size is true if lenght is 1, content
+	 * is true if temp[0] equals "Collection Adapter".</p>
+     * <p><b>Pre-Condition</b>: head has at least 1 element.</p>
+     * <p><b>Post-Condition</b>: temp is an array containing head elements.</p>
+     * <p><b>Expected Results</b>:size AND content are true.</p>
+     */
+	@Test
 	public void to_array() {
 		Object[] temp = head.toArray();
 		boolean size = (temp.length == 1);
@@ -196,12 +241,16 @@ public class TestCollection {
 		assertTrue(size && content);
 	}
 	
-	@Test
 	/**
-	 * @safe.precondition head con almeno un elemento, a array di destinazione
-	 * @safe.postcondition a contiene gli elementi di head
-	 * @safe.summary verifico che head cotanga gli elementi di head, facendo il confronto con la sua dimensione e il suo contenuto
-	 */
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray with a single element.</p>
+     * <p><b>Test Description</b>: size is true if lenght is 1, content
+	 * is true if temp[0] equals "Collection Adapter".</p>
+     * <p><b>Pre-Condition</b>: head has at least 1 element.</p>
+     * <p><b>Post-Condition</b>: temp is an array containing head elements.</p>
+     * <p><b>Expected Results</b>:size AND content are true.</p>
+     */
+	@Test
 	public void to_array_a() {
 		Object[] a = new Object[10];
 		a = head.toArray(a);
@@ -210,3 +259,12 @@ public class TestCollection {
 		assertTrue(size && content);
 	}
 }
+
+    /**
+     * <p><b>Summary</b>:</p>
+     * <p><b>Test Case Design</b>:</p>
+     * <p><b>Test Description</b>:</p>
+     * <p><b>Pre-Condition</b>:</p>
+     * <p><b>Post-Condition</b>:</p>
+     * <p><b>Expected Results</b>:</p>
+     */
