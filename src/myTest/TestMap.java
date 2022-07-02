@@ -104,12 +104,15 @@ public class TestMap
 	}
 
     /**
-     * <p><b>Summary</b>:</p>
-     * <p><b>Test Case Design</b>:</p>
-     * <p><b>Test Description</b>:</p>
-     * <p><b>Pre-Condition</b>:</p>
-     * <p><b>Post-Condition</b>:</p>
-     * <p><b>Expected Results</b>:</p>
+     * <p><b>Summary</b>: Tests the method toString after initialization.</p>
+     * <p><b>Test Case Design</b>: Tests the method toString.</p>
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values, then invoke toString.</p>
+     * <p><b>Pre-Condition</b>: map contains argv keys and values.</p>
+     * <p><b>Post-Condition</b>: map is unchanged.</p>
+     * <p><b>Expected Results</b>: m.toString returns
+	 * {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}.
+	 * Note that map encloses entries with {}.</p>
      */
 	@Test
 	public void TestToString()
@@ -119,6 +122,40 @@ public class TestMap
 		assertEquals("Map.toString() ? {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}", "Map.toString() ? " + m.toString());
 	}
 
+    /**
+     * <p><b>Summary</b>: Tests KeySet and backing. HMap interface
+	 * states that changes through the keySet affects the backing
+	 * map. Tests method keySet, contains, get, size, put of MapAdapter,
+	 * size, iterator, remove of KeySet, next and has Next of KeySet's
+	 * iterator.</p>
+     * <p><b>Test Case Design</b>: HMap interface states that a change in KeySet
+	 * affects the backing HMap. Therefore
+	 * this test focuses on the propagation of different changes
+	 * from the KeySet to the backing HMap.</p>
+     * <p><b>Test Description</b>: map is initialized with argv values and keys, then
+	 * their presence is tested with contains method, its size is 5.
+	 * Then the keySet s1 is created. KeySet iterator iterates through the set
+	 * and asserts that the next key returned is equal to the element of the same
+	 * key in the map (in fact pippo=pippo, qui=qui, ecc).
+	 * Next the key pippo is removed from the KeySet, thus affecting the backing
+	 * map (it removes pippo=pippo from it). KeySet iterator iterates through the set
+	 * and asserts that the next key returned is equal to the element of the same
+	 * key in the map (in fact pluto=pluto, qui=qui, ecc).
+	 * Then the entry carrozza=carrozza is inserted through the map,
+	 * thus affecting s1. Then the key carrozza is removed from s1, thus
+	 * affecting the backing list.</p>
+     * <p><b>Pre-Condition</b>: map contains argv keys and values.</p>
+     * <p><b>Post-Condition</b>: pippo=pippo is removed.</p>
+     * <p><b>Expected Results</b>: backing list is correctly affected by changes
+	 * in keySet. At the end sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size() is
+	 * false, which means that map size at stage 2 is different from final map size AND
+	 * keySet size at stage 2 is different from final keySet size AND keySet and map have the
+	 * same final size.
+	 * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1) is true wich means the map
+	 * and the keySet have the same size in each stage and the difference in size from stage 0 and
+	 * 1 is 1.
+	 * </p>
+     */
 	@Test
 	public void TestKeySetAndBacking()
 	{
@@ -127,7 +164,9 @@ public class TestMap
 		System.out.println("Test keyset and backing");
 
 		//System.out.println(m + " " + m.size());
-		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo} 5", m + " " + m.size());
+		for (String str : argv)
+			assertTrue("Should contain argv key.", m.containsKey(str));
+		assertEquals(5, m.size());
 
 		s1 = m.keySet();
 		sm0 = m.size();
@@ -144,7 +183,9 @@ public class TestMap
 		}
 
 		//System.out.println("\n" + s1);
-		assertEquals("[pluto, gambatek, ciccio, qui, pippo]", s1.toString());
+		for (String str : argv)
+			assertTrue("Should contain argv key", s1.contains(str));
+		assertEquals(5, s1.size());
 		
 		s1.remove(argv[0]);
 
@@ -152,8 +193,10 @@ public class TestMap
 		ss1 = s1.size();
 
 		//System.out.println(m + " " + m.size());
-		assertEquals("{pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui} 4", m + " " + m.size());
-		
+		for (int i = 1; i < argv.length; i++)
+			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
+		assertEquals(4, m.size());
+
 		iter = s1.iterator();
 		count = s1.size()+2;
 		while(iter.hasNext()&&count-->=0)
@@ -165,7 +208,9 @@ public class TestMap
 		}
 
 		//System.out.println("\n" + s1);
-		assertEquals("[pluto, gambatek, ciccio, qui]", s1.toString());
+		assertFalse("Should NOT contain", s1.contains(argv[0]));
+		for (int i = 1; i < argv.length; i++)
+			assertTrue("Should contain.", s1.contains(argv[i]));
 
 		System.out.println("Inserisco nella mappa e controllo il set");
 		m.put("carrozza", "carrozza");
@@ -191,7 +236,7 @@ public class TestMap
 
 		// s1.remove("carrozza");
 		// System.out.println("Removed carrozza from keyset");
-		assertEquals(true, s1.remove("carrozza"));
+		assertEquals("Should be removed.", true, s1.remove("carrozza"));
 
 		System.out.println("set size=" + s1.size() + "; map size=" + m.size());
 		assertEquals("set size=4; map size=4", "set size=" + s1.size() + "; map size=" + m.size());
@@ -199,6 +244,24 @@ public class TestMap
 		assertEquals(true, (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
 	}
 
+    /**
+     * <p><b>Summary</b>: Tests emptying the map through keySet'iterator.
+	 * KeySet's iterator removes obviusly affects the KeySet, which affects the
+	 * map. Tests method remove, size, keySet of map, hasNext, next, remove of
+	 * KeySet iterator.</p>
+     * <p><b>Test Case Design</b>: The tests focuses on map changes through
+	 * keySet's iterator. The changes on KeySet should affect the backing map.</p>
+     * <p><b>Test Description</b>: m is initialized with argv keys and values.
+	 * s1 the KeySet is created. pippo=pippo is removed from the map.
+	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
+	 * and removing each element after each next. Therefore the list is then empty.</p>
+     * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
+     * <p><b>Post-Condition</b>: The map is empty.</p>
+     * <p><b>Expected Results</b>: The created string during iteration is
+	 * "pluto 3; gambatek 2; ciccio 1; qui 0; ". The map is empty after
+	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
+	 * that the map and the keySet size both equals 0.</p>
+     */
 	@Test
 	public void TestEmptyingByKeySetIterator()
 	{
@@ -225,6 +288,14 @@ public class TestMap
 		assertEquals(true, m.size() == s1.size() && m.size() == 0);
 	}
 
+    /**
+     * <p><b>Summary</b>:</p>
+     * <p><b>Test Case Design</b>:</p>
+     * <p><b>Test Description</b>:</p>
+     * <p><b>Pre-Condition</b>:</p>
+     * <p><b>Post-Condition</b>:</p>
+     * <p><b>Expected Results</b>:</p>
+     */
 	@Test
 	public void ResetMapContentAndTestValues()
 	{
