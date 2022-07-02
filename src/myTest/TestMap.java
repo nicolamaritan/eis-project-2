@@ -62,7 +62,10 @@ public class TestMap
 
 		//System.out.println(m + " " + m.size());
 		for (String str : argv)
+		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
+			assertEquals(str, m.get(str));
+		}
 		assertEquals(5, m.size());
 
 		//System.out.println(ks + " " + ks.size());
@@ -78,7 +81,10 @@ public class TestMap
 
 		//System.out.println("Entry removed: " + m + " " + m.size());
 		for (int i = 1; i < argv.length; i++)
+		{
 			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
+			assertEquals(argv[i], m.get(argv[i]));
+		}
 		assertEquals(4, m.size());
 
 		//System.out.println(ks + " " + ks.size());
@@ -92,7 +98,10 @@ public class TestMap
 
 		//System.out.println("Entry restored: " + m + " " + m.size());
 		for (String str : argv)
+		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
+			assertEquals(str, m.get(str));
+		}
 		assertEquals(5, m.size());
 
 		//System.out.println(ks + " " + ks.size());
@@ -165,7 +174,10 @@ public class TestMap
 
 		//System.out.println(m + " " + m.size());
 		for (String str : argv)
+		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
+			assertEquals(str, m.get(str));
+		}
 		assertEquals(5, m.size());
 
 		s1 = m.keySet();
@@ -194,7 +206,10 @@ public class TestMap
 
 		//System.out.println(m + " " + m.size());
 		for (int i = 1; i < argv.length; i++)
+		{
 			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
+			assertEquals(argv[i], m.get(argv[i]));
+		}
 		assertEquals(4, m.size());
 
 		iter = s1.iterator();
