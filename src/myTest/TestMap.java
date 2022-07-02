@@ -389,6 +389,24 @@ public class TestMap
 		assertTrue("*** values NON propaga modifiche a map ***", (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
 	}
 
+    /**
+     * <p><b>Summary</b>: Tests emptying the map through value's iterator.
+	 * Value's iterator removes obviusly affects the Value, which affects the
+	 * map. Tests method remove, size, keySet of map, hasNext, next, remove of
+	 * Value iterator.</p>
+     * <p><b>Test Case Design</b>: The tests focuses on map changes through
+	 * Value's iterator. The changes on Value should affect the backing map.</p>
+     * <p><b>Test Description</b>: m is initialized with argv keys and values.
+	 * s1 the KeySet is created. pippo=pippo is removed from the map.
+	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
+	 * and removing each element after each next. Therefore the list is then empty.</p>
+     * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
+     * <p><b>Post-Condition</b>: The map is empty.</p>
+     * <p><b>Expected Results</b>: The created string during iteration is
+	 * "pluto 3; gambatek 2; ciccio 1; qui 0; ". The map is empty after
+	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
+	 * that the map and the keySet size both equals 0.</p>
+     */
 	@Test
 	public void EmptyingByValuesIteratorTest()
 	{
