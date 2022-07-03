@@ -230,6 +230,7 @@ public class MapAdapter implements HMap
         return new EntrySet();
     }
 
+    @Override
     public int hashCode()
     {
         return ht.hashCode();
@@ -382,6 +383,33 @@ public class MapAdapter implements HMap
         res += "}";
         res = "{" + res;
         return res;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof HMap) || o == null)
+            return false;
+        
+        HMap oMap = (HMap)o;
+
+        if (this.size() != oMap.size())
+            return false;
+
+        HSet ks = this.keySet();
+        HIterator ksIt = ks.iterator();
+
+        while (ksIt.hasNext())
+        {
+            Object k = ksIt.next();
+            if (!oMap.containsKey(k))
+                return false;
+            if (oMap.get(k) == null && this.get(k) != null)
+                return false;
+            if (!oMap.get(k).equals(this.get(k)))
+                return false;
+        }
+        return true;
     }
 
     public class MapAdapterEntry implements HMap.Entry

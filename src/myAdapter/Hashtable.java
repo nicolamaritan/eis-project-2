@@ -65,4 +65,9 @@ public class Hashtable
     {
         return ht.toString();
     }
+
+    public int hashCode()
+    {
+        return ht.hashCode();
+    }
 }

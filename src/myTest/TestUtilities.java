@@ -68,7 +68,7 @@ public class TestUtilities
         m.clear();
 
         for (int i = 0; i < to - from; i++)
-            m.put(i + from, i + from);
+            m.put(i + from, "" + (i + from));
     }
 
     /**
@@ -86,10 +86,10 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
-        MapAdapter list = new MapAdapter();
+        MapAdapter m = new MapAdapter();
         for (int i = from; i < to; i++)
-            list.put("" + i, i);
-        return list;
+            m.put(i, "" + i);
+        return m;
     }
 
 
@@ -110,6 +110,25 @@ public class TestUtilities
 
         for (int i = 0; i < to - from; i++)
             coll.add(i + from);
+    }
+
+        /**
+     * Adds at the end of the collection the integers starting at from (included) and
+     * ending at to (escluded).
+     * @param coll collection where to append new elements
+     * @param from lower bound (included) of the list
+     * @param to upper bound (escluded) of the list
+     * @throws IllegalArgumentException if from {@literal >} to
+     */
+    public static void addToHMap(HMap m, int from, int to)
+    {
+        if (m == null)
+            throw new NullPointerException();
+        if (from > to)
+            throw new IllegalArgumentException();
+
+        for (int i = 0; i < to - from; i++)
+            m.put(i + from, "" + (i + from));
     }
 
     /**
