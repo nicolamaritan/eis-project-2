@@ -559,6 +559,33 @@ public class TestMap
         assertEquals(0, m.size());
     }
 
+    /**
+     * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the size after each insertion
+     * 10000 times.</p>
+     * <p><b>Test Description</b>: An entry is inserted onece per
+     * iteration for 10000 times, size is asserted to be i.
+     * After the for loop clear is invoked and the map must be
+     * empty.</p>
+     * <p><b>Pre-Condition</b>: map is empty.</p>
+     * <p><b>Post-Condition</b>: map is empty.</p>
+     * <p><b>Expected Results</b>: m size is i for i in (0:10000), where
+     * at each iteration an entry is inserted. m is empty after clear.</p>
+     */
+    @Test
+    public void ClearSize_From0To10000()
+    {
+        int bound = 10000;
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, i + "");
+            assertEquals("Size should " + i + 1, i + 1, m.size());
+        }
+        m.clear();
+        assertEquals("Should be cleared", 0, m.size());
+        assertTrue("Should be empty.", m.isEmpty());
+    }
+
     // -------------------- containsKey --------------------
 
     /**
@@ -1289,8 +1316,8 @@ public class TestMap
      * The transitive property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be transitive,
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).</p>
-     * <p><b>Test Description</b>: The test invokes m.equals(m2) and m2.equals(Map3)
-     * and m.equals(Map3)</p>
+     * <p><b>Test Description</b>: The test invokes m.equals(m2) and m2.equals(m3)
+     * and m.equals(m3)</p>
      * <p><b>Pre-Condition</b>: Maps contain {0="0" : 1000000="1000000"}.</p>
      * <p><b>Post-Condition</b>: Maps are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
@@ -1301,11 +1328,11 @@ public class TestMap
         int to = 1000000;
         TestUtilities.initHMap(m, 0, to);
         TestUtilities.initHMap(m2, 0, to);
-        HMap Map3 = TestUtilities.getIntegerMapAdapter(0, to);
+        HMap m3 = TestUtilities.getIntegerMapAdapter(0, to);
 
         assertEquals("Maps should be equal.", true, m.equals(m2));
-        assertEquals("Maps should be equal.", true, m2.equals(Map3));
-        assertEquals("Transitive property is not met.",true, m.equals(Map3));
+        assertEquals("Maps should be equal.", true, m2.equals(m3));
+        assertEquals("Transitive property is not met.",true, m.equals(m3));
     }
 	
 }

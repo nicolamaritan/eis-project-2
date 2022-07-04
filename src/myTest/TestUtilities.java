@@ -140,4 +140,30 @@ public class TestUtilities
     {
         return new MapAdapter();
     }
+
+    /**
+     * Returns an HMap.Entry of key key and value value
+     * @param key
+     * @param value
+     * @return the aforementioned Entry.
+     */
+    public static HMap.Entry getEntry(Object key, Object value)
+    {
+        HMap m = new MapAdapter();
+        m.put(key, value);
+        HSet es = m.entrySet();
+        HIterator it = es.iterator();
+        return (HMap.Entry)it.next();
+    }
+
+    public static HCollection getEntryCollection(int from, int to)
+    {
+        HCollection c = new CollectionAdapter();
+        for (int i = from; i < to; i++)
+        {
+            HMap.Entry e = TestUtilities.getEntry(i, "" + i);
+            c.add(e);
+        }
+        return c;
+    }
 }
