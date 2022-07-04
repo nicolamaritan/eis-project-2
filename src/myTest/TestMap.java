@@ -1186,6 +1186,127 @@ public class TestMap
 		m.put(1, "One");
 		assertEquals("{1=One}", m.toString());
 	}
+
+	/**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toString method on a
+	 * map containing {0="0":100:"100"}.</p>
+     * <p><b>Test Description</b>: Created the expected
+     * string through iteration, then compares it with
+     * toString return.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100:"100"}.</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":100:"100"}.</p>
+     * <p><b>Expected Results</b>: m.toString returns the expected
+     * string.</p>
+     */
+	@Test
+	public void ToString_0To100()
+	{
+		TestUtilities.initHMap(m, 0, 100);
+		HIterator it = m.keySet().iterator();
+		String expected = "{";
+		while (it.hasNext())
+		{
+			Object k = it.next();
+			expected += (k + "=");
+			expected += (m.get(k));
+			if (it.hasNext())
+				expected += ", ";
+		}
+		expected += "}";
+
+        assertEquals(expected, m.toString());
+	}
+
+    // ------------------------------------------ equals method ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method is tested with an equal MapAdapter
+     * and a bigger and a smaller one. The returned values should be true and false.
+     * Also reflective property of equal is tested.</p>
+     * <p><b>Test Description</b>: Map is initialized, then different equals invoke are
+     * asserted with different arguments, generated for each case.</p>
+     * <p><b>Pre-Condition</b>: Map contains {0="0" : 1000000="1000000"}.</p>
+     * <p><b>Post-Condition</b>: Map is unchanged.</p>
+     * <p><b>Expected Results</b>: The Map is unchanged and symmetric property is valid.</p>
+     */
+    @Test
+    public void Equals_0To10()
+    {
+        int to = 1000000;
+        TestUtilities.initHMap(m, 0, to);
+        assertEquals(true, m.equals(TestUtilities.getIntegerMapAdapter(0, to)));
+        assertEquals(true, TestUtilities.getIntegerMapAdapter(0, to).equals(m));   // Symmetric property
+        assertEquals(false, m.equals(TestUtilities.getIntegerMapAdapter(0, to + 15)));  // bigger Map returns false
+        assertEquals(false, m.equals(TestUtilities.getIntegerMapAdapter(0, 5)));  // smaller Map returns false
+    }
+
+    
+    /**
+     * <p><b>Summary</b>: equals method test case.
+     * The test case the method behaviour with 2 empty Map.</p>
+     * <p><b>Test Case Design</b>: When both Maps are empty the equals
+     * method should return true because an empty Map is equal to an
+     * empty Map.</p>
+     * <p><b>Test Description</b>: Single assert, m.equals(m2) invoked.</p>
+     * <p><b>Pre-Condition</b>: Both Map are empty.</p>
+     * <p><b>Post-Condition</b>: Both Map are empty.</p>
+     * <p><b>Expected Results</b>: equals returns true, as one
+     * empty Map of course equals another empty Map.</p>
+     */
+    @Test
+    public void Equals_Empty_True()
+    {
+        assertEquals("Two empty Maps should equals.", true, m.equals(m2));
+        assertEquals("Two empty Maps should equals.", true, m2.equals(m));
+    }
+
+    /**
+     * <p><b>Summary</b>: equals method test case.
+     * The reflective property of equal method is tested.</p>
+     * <p><b>Test Case Design</b>: equals method should be reflective,
+     * therefore x.equals(x) should always return true.</p>
+     * <p><b>Test Description</b>: The test invokes m.equals(m) when
+     * m is empty, when it has 10 elements and when it has 1000 elements.</p>
+     * <p><b>Pre-Condition</b>: Map is not null.</p>
+     * <p><b>Post-Condition</b>: Map has 1000 elements. </p>
+     * <p><b>Expected Results</b>: Map equals itself, therefore
+     * reflective property is valid.</p>
+     */
+    @Test
+    public void Equals_Reflective()
+    {
+        assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is empty
+        TestUtilities.initHMap(m, 0, 10);
+        assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
+        TestUtilities.initHMap(m, 0, 1000);
+        assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
+    }
+
+    /**
+     * <p><b>Summary</b>: equals method test case.
+     * The transitive property of equal method is tested.</p>
+     * <p><b>Test Case Design</b>: equals method should be transitive,
+     * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).</p>
+     * <p><b>Test Description</b>: The test invokes m.equals(m2) and m2.equals(Map3)
+     * and m.equals(Map3)</p>
+     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 1000000="1000000"}.</p>
+     * <p><b>Post-Condition</b>: Maps are unchanged. </p>
+     * <p><b>Expected Results</b>: Equals has transitive property.</p>
+     */
+    @Test
+    public void Equals_Transitive()
+    {
+        int to = 1000000;
+        TestUtilities.initHMap(m, 0, to);
+        TestUtilities.initHMap(m2, 0, to);
+        HMap Map3 = TestUtilities.getIntegerMapAdapter(0, to);
+
+        assertEquals("Maps should be equal.", true, m.equals(m2));
+        assertEquals("Maps should be equal.", true, m2.equals(Map3));
+        assertEquals("Transitive property is not met.",true, m.equals(Map3));
+    }
 	
 }
 
