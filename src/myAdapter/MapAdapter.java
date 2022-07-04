@@ -230,6 +230,10 @@ public class MapAdapter implements HMap
         return new EntrySet();
     }
 
+    /**
+     * Returns the hash code value for this Map as per the definition in the
+     * Map interface.
+     */
     @Override
     public int hashCode()
     {
@@ -891,7 +895,7 @@ public class MapAdapter implements HMap
         {
             throw new UnsupportedOperationException();
         }
-    
+        
         /**
          * Removes all of the elements from this set (optional operation).
          * The set will be empty after this call returns.
