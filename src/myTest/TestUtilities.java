@@ -36,7 +36,7 @@ public class TestUtilities
      * @throws NullPointerException if coll is null
      * @throws IllegalArgumentException if from {@literal >} to
      */
-    public static void initCollection(HCollection coll, int from, int to)
+    public static void initHCollection(HCollection coll, int from, int to)
     {
         if (coll == null)
             throw new NullPointerException();
@@ -50,9 +50,10 @@ public class TestUtilities
     }
 
     /**
-     * Initializes a map with integers starting at from (included) and
+     * Initializes a map with integers keys and string values
+     * starting at from (included) and
      * ending at to (escluded).
-     * @param coll map to be initialize
+     * @param m map to be initialize
      * @param from lower bound (included) of the list
      * @param to upper bound (escluded) of the list
      * @throws NullPointerException if coll is null

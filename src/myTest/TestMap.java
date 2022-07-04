@@ -18,6 +18,7 @@ public class TestMap
 {
 	int count = 0;
 	HMap m = null;
+	HMap m2 = null;
 	HSet s1 = null;
 	HSet ks = null;
 	HIterator iter = null;
@@ -35,6 +36,7 @@ public class TestMap
 	public void BeforeMethod()
 	{
 		m = new MapAdapter();
+		m2 = new MapAdapter();
 	}
 
 	@BeforeClass
@@ -175,10 +177,10 @@ public class TestMap
 	 * key in the map (in fact pluto=pluto, qui=qui, ecc).
 	 * Then the entry carrozza=carrozza is inserted through the map,
 	 * thus affecting s1. Then the key carrozza is removed from s1, thus
-	 * affecting the backing list.</p>
+	 * affecting the backing Map.</p>
      * <p><b>Pre-Condition</b>: map contains argv keys and values.</p>
      * <p><b>Post-Condition</b>: pippo=pippo is removed.</p>
-     * <p><b>Expected Results</b>: backing list is correctly affected by changes
+     * <p><b>Expected Results</b>: backing Map is correctly affected by changes
 	 * in keySet. At the end sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size() is
 	 * false, which means that map size at stage 2 is different from final map size AND
 	 * keySet size at stage 2 is different from final keySet size AND keySet and map have the
@@ -292,7 +294,7 @@ public class TestMap
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * s1 the KeySet is created. pippo=pippo is removed from the map.
 	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
-	 * and removing each element after each next. Therefore the list is then empty.</p>
+	 * and removing each element after each next. Therefore the Map is then empty.</p>
      * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
      * <p><b>Post-Condition</b>: The map is empty.</p>
      * <p><b>Expected Results</b>: The created string during iteration is
@@ -437,7 +439,7 @@ public class TestMap
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * s1 the KeySet is created. pippo=pippo is removed from the map.
 	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
-	 * and removing each element after each next. Therefore the list is then empty.</p>
+	 * and removing each element after each next. Therefore the Map is then empty.</p>
      * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
      * <p><b>Post-Condition</b>: The map is empty.</p>
      * <p><b>Expected Results</b>: The created string during iteration is
@@ -478,7 +480,7 @@ public class TestMap
 
 	// -------------------- Test cases ideated by me --------------------
 
-	    // -------------------- clear, isEmpty --------------------
+	// -------------------- clear, isEmpty, size --------------------
 
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
@@ -876,7 +878,6 @@ public class TestMap
     @Test
     public void HashCode_Mixed()
     {
-		HMap m2 = new MapAdapter();
         // Empty map case
         assertEquals("maps should be equal.", true, m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
@@ -964,8 +965,228 @@ public class TestMap
 		assertEquals(bound, m.size());
 		for (int i = 0; i < bound; i++)
 			assertEquals("" + i, m.get(i));
-	} 
+	}
 
+	// ------------------------------------------ putAll method ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.
+     * While adding a null object is ok, calling putAll
+     * method, which takes a HMap argument, throws an exception.</p>
+     * <p><b>Test Case Design</b>: Tests the case with null
+     * argument passed, which is a special case of invalid argument.</p>
+     * <p><b>Test Description</b>: Calls putAll with null argument, therefore it
+     * throws NullPointerException.</p>
+     * <p><b>Pre-Condition</b>: Map is empty.</p>
+     * <p><b>Post-Condition</b>: Map is empty.</p>
+     * <p><b>Expected Results</b>: NullPointerException thrown.</p>
+     */
+    @Test(expected = java.lang.NullPointerException.class)
+    public void putAll_NullCollection_NPE()
+    {
+        m.putAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of empty collection being
+     * passed as argument, which is a limit case.</p>
+     * <p><b>Test Description</b>: The test cases calls putAll as empty
+     * collection as argument. Adding an empty Map means that no element
+     * is added, therefore putAll returns false as the Map is unchanged.</p>
+     * <p><b>Pre-Condition</b>: Map is empty, coll is empty.</p>
+     * <p><b>Post-Condition</b>: Map is empty, coll is empty.</p>
+     * <p><b>Expected Results</b>: Map is still empty.</p>
+     */
+    @Test
+    public void putAll_EmptyCollection_False()
+    {
+		m.putAll(m2);
+        assertEquals("The Map should be empty.", true, m.isEmpty());
+		assertEquals(0, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.
+     * The test adds a map to the Map,
+     * then checks if the elements were stored correctly.</p>
+     * <p><b>Test Case Design</b>: putAll must behave correctly
+     * adding a map of 3 elements, which is a common case for
+     * the putAll method.</p>
+     * <p><b>Test Description</b>: 3 elements are added and then the test
+     * checks the contained element and its size.</p>
+     * <p><b>Pre-Condition</b>: Map is empty, m2 has {1="1", 2="2", 3="3"}.</p>
+     * <p><b>Post-Condition</b>: Map and m2 both contain {1="1", 2="2", 3="3"}. In particular,
+     * m2 is unchanged.</p>
+     * <p><b>Expected Results</b>: Map contains the added elements {1="1", 2="2", 3="3"} and its size is 3.</p>
+     */
+    @Test
+    public void putAll_FromEmptyTo123()
+    {
+        TestUtilities.initHMap(m2, 1, 4);
+
+        m.putAll(m2);
+        assertEquals("Should return 1.", "1", m.get(1));
+        assertEquals("Should return 2.", "2", m.get(2));
+        assertEquals("Should return 3.", "3", m.get(3));
+        assertEquals("Maps size should be 3.", 3, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.
+     * The Map initially contains {1="1", 2="2", 3="3"}, then through
+     * remove and putAll it finally contains entries from 1="1"
+     * to 5="5" included.</p>
+     * <p><b>Test Case Design</b>: It tests how the Map behaves with
+     * removals and then with adding a map.</p>
+     * <p><b>Test Description</b>: The test removes the 3 number, then it
+     * adds through putAll method the elements {3="3", 4="4", 5="5"}.</p>
+     * <p><b>Pre-Condition</b>: Map contains {1="1", 2="2", 3="3"}}.</p>
+     * <p><b>Post-Condition</b>: Map contains {1="1":6="6"}.</p>
+     * <p><b>Expected Results</b>: Map contains the added elements {1="1":6="6"}.</p>
+     */
+    @Test
+    public void putAll_From123to12345()
+    {
+        TestUtilities.initHMap(m, 1, 4);
+        m.remove(3);
+        TestUtilities.initHMap(m2, 3, 6);
+        m.putAll(m2);
+        assertEquals("The Map should be equal.", true, m.equals(TestUtilities.getIntegerMapAdapter(1, 6)));
+    }
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.
+     * The method thest the insertion of a large number
+     * of elements through putAll.</p>
+     * <p><b>Test Case Design</b>: The test considers the case
+     * scenario of large input. From the Sommerville: "Force computation results to be
+     * too large or too small."</p>
+     * <p><b>Test Description</b>: Numbers from 1 to 100 are inserted in coll, then putAll
+     * method is invoked with coll as argument.</p>
+     * <p><b>Pre-Condition</b>: The Map is empty, coll contains aforementioed numbers.</p>
+     * <p><b>Post-Condition</b>: The Map contains number from 0 to 100.</p>
+     * <p><b>Expected Results</b>: Entries i="i" entries are stored correctly,
+	 * with i from 0 to 100.
+     * The Map size is 100.
+     */
+    @Test
+    public void putAll_0to100()
+    {
+        TestUtilities.initHMap(m2, 0, 100);
+		m.putAll(m2);
+        assertEquals("Size should be 100.",100, m.size());
+		for (int i = 0; i < 100; i++)
+			assertEquals("" + i, m.get(i));
+    }
+
+	// ------------------------------------------ remove method ------------------------------------------
+
+	/**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the remove method
+	 * in a limit case, which is an empty map, which
+	 * obviusly does not contain the key.</p>
+     * <p><b>Test Description</b>: remove is invoked with 0
+	 * key.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m is unchanged.</p>
+     * <p><b>Expected Results</b>: remove returns null and equals
+	 * to empty map.</p>
+     */
+	@Test
+	public void Remove_Empty()
+	{
+		assertNull("Should be null", m.remove(0));
+		assertEquals(new MapAdapter(), m);
+	}
+
+	/**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the remove method
+	 * in a case where the map does not contain the key.</p>
+     * <p><b>Test Description</b>: remove is invoked with 20
+	 * key.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: m is unchanged.</p>
+     * <p><b>Expected Results</b>: remove returns null and map
+	 * contains {0="0":10="10"}.</p>
+     */
+	@Test
+	public void Remove_NotInMap()
+	{
+		TestUtilities.initHMap(m, 0, 10);
+		assertNull("Should be null", m.remove(20));
+		assertEquals(TestUtilities.getIntegerMapAdapter(0, 10), m);
+	}
+
+	/**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove method
+	 * with cases of size from 0 to 100. After each remove
+	 * each assertions are being made. Tests a big input size
+	 * for map.</p>
+     * <p><b>Test Description</b>: Map contains entries {0="0":100="100"}.
+	 * Then each entries is removed entry by entry, starting with key from 0 to 100.
+	 * At each iteration the entry with key i is removed, is checked to not being contained,
+	 * returning removed key's element should return null and size should have been
+	 * decremented by one.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100="100"}.</p>
+     * <p><b>Post-Condition</b>: m is empty.</p>
+     * <p><b>Expected Results</b>: At each iteration the entry with key i is removed, is checked to not being contained,
+	 * returning removed key's element should return null and size should have been
+	 * decremented by one. m is empty.</p>
+     */
+	@Test
+	public void Remove_0To100()
+	{
+		int bound = 100;
+		TestUtilities.initHMap(m, 0, bound);
+		for (int i = 0; i < bound; i++)
+		{
+			String iStr = "" + i;
+			assertEquals("Should be contained", iStr, m.get(i));
+			assertEquals("Should be removed", iStr, m.remove(i));
+			assertFalse("Should not be contained", m.containsKey(i));
+			assertNull("Shoud be null", m.get(i));
+			assertEquals("Size should be " + (bound - i - 1), bound - i - 1, m.size());
+		}
+		assertTrue("Map should be empty.", m.isEmpty());
+
+	}
+
+	/**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toString method on an empty
+	 * map.</p>
+     * <p><b>Test Description</b>: toString is invoked on a
+	 * empty map.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m is empty.</p>
+     * <p><b>Expected Results</b>: m.toString returns {}</p>
+     */
+	@Test
+	public void ToString_Empty()
+	{
+		assertEquals("{}", m.toString());
+	}
+
+	/**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toString method on a
+	 * map containing 1=One.</p>
+     * <p><b>Test Description</b>: toString is invoked on the map.</p>
+     * <p><b>Pre-Condition</b>: m contains 1=One.</p>
+     * <p><b>Post-Condition</b>: m contains 1=One.</p>
+     * <p><b>Expected Results</b>: m.toString returns {1=One}</p>
+     */
+	@Test
+	public void ToString_OneElement()
+	{
+		m.put(1, "One");
+		assertEquals("{1=One}", m.toString());
+	}
+	
 }
 
     /**

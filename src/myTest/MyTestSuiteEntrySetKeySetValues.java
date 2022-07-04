@@ -7,33 +7,61 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.NoSuchElementException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import myAdapter.*;
 
-public class MyTestSuiteEntrySet 
+public class MyTestSuiteEntrySetKeySetValues 
 {
     private MapAdapter m;
     private HSet es;
+    private HCollection c;
 
     @BeforeClass
     public static void BeforeClassMethod()
     {
-        System.out.println(MyTestSuiteEntrySet.class.getName() + " running.");
+        System.out.println(MyTestSuiteEntrySetKeySetValues.class.getName() + " running.");
     }
 
     @Before
     public void BeforeMethod()
     {
         m = new MapAdapter();
+        es = m.entrySet();
+        c = new CollectionAdapter();
+    }
+
+    @AfterClass
+    public static void AfterClassMethod()
+    {
+        System.out.println(MyTestSuiteEntrySetKeySetValues.class.getName() + " running.");
+    }
+
+    @After
+    public void AfterMethod()
+    {
+        m = new MapAdapter();
+        es = m.entrySet();
     }
     
+    // ------------------------------------------ add method ------------------------------------------
+    @Test (expected = UnsupportedOperationException.class)
+    public void Add_UOE()
+    {
+        es.add(1);
+    }
+
+    // ------------------------------------------ addAll method ------------------------------------------
+    @Test (expected = UnsupportedOperationException.class)
+    public void AddAll_UOE()
+    {
+        es.addAll(c);
+    }
+
+	// ------------------------------------------ isEmpty method ------------------------------------------
 
     /**
-     * <p><b>Summary</b>: empty entry set test case.</p>
+     * <p><b>Summary</b>: isEmpty method test case.</p>
      * <p><b>Test Case Design</b>: Tests the limit case
      * of an empty entrySet, created from an empty
      * Map.</p>
@@ -45,9 +73,8 @@ public class MyTestSuiteEntrySet
      * true, iterator.hasNext is false and next throws NSEE</p>
      */
     @Test (expected = NoSuchElementException.class)
-    public void EntrySet_Empty()
+    public void IsEmpty_EmptyMapEmptyES()
     {
-        es = m.entrySet();
         assertEquals("Size should be 0", 0, es.size());
         assertTrue("Should be empty", es.isEmpty());
 
