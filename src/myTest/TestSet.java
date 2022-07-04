@@ -2,6 +2,7 @@ package myTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.After;
 import org.junit.Before;
@@ -75,19 +76,34 @@ public class TestSet
 	}
 
     /**
-     * <p><b>Summary</b>: Tests the toString method on the set.</p>
-     * <p><b>Test Case Design</b>: Tests the toString method on the set.</p>
-     * <p><b>Test Description</b>: Tests the toString method on the set.</p>
+     * <p><b>Summary</b>: Tests the content of the set, which should contain
+	 * the elements in argv, [pluto, ciccio, qui, paperino, pippo].</p>
+     * <p><b>Test Case Design</b>: Tests the content of the set.</p>
+     * <p><b>Test Description</b>: Removes the element in argv one by one.
+	 * If they are the same elements, at each iteration the element must be
+	 * in the set and its size should be  greater than zero (it should not
+	 * be empty). If the for loop finish and the final
+	 * size is zero, the elements are the same and the
+	 * sets contains the right elements.
+	 * The sets is then restored.</p>
      * <p><b>Pre-Condition</b>: s contains argv elements.</p>
      * <p><b>Post-Condition</b>: s in unchanged.</p>
-     * <p><b>Expected Results</b>: toString returns [pluto, ciccio, qui, paperino, pippo].
-	 * Note that the contents is enclosed by [].</p>
+     * <p><b>Expected Results</b>: At each iteration isEmpty returns false
+	 * and contains returns true, therefore argv and the sets contains
+	 * the same elements.</p>
      */
 	@Test
-	public void SetToStringTest()
+	public void SetCheckContentTest()
 	{
-		argvInitiate(s);
-		assertEquals("[pluto, ciccio, qui, paperino, pippo]", s.toString());
+		argvInitialize(s);
+		for (int i = 1; i < argv.length; i++)
+		{
+			assertFalse("Not same elements.", s.isEmpty());
+			assertTrue("Should be contained", s.contains(argv[i]));
+			s.remove(argv[i]);
+		}
+		assertTrue("Not all elements removed", s.isEmpty());
+		argvInitialize(s);
 	}
 
 	/**
@@ -96,7 +112,7 @@ public class TestSet
 	 * are next, remove and hasNext.</p>
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
 	 * method from the set. Removes elements until the set is empty.</p>
-     * <p><b>Test Description</b>: Set is initiated with argv elements.
+     * <p><b>Test Description</b>: Set is Initialized with argv elements.
 	 * Iterates through set and after each next it removes the element,
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
 	 * iterator is invoked.</p>
@@ -108,7 +124,7 @@ public class TestSet
 	@Test
 	public void SetIteratorRemovalTest()
 	{
-		argvInitiate(s);
+		argvInitialize(s);
 		iter2 = s.iterator();
 		int i = 5;
 		while(iter2.hasNext())
@@ -152,20 +168,35 @@ public class TestSet
 		assertEquals(false, c.size() == argv.length - 1);
 	}
 
-	/**
-     * <p><b>Summary</b>: Tests the toString method on the set.</p>
-     * <p><b>Test Case Design</b>: Tests the toString method on the set.</p>
-     * <p><b>Test Description</b>: Tests the toString method on the set.</p>
+    /**
+     * <p><b>Summary</b>: Tests the content of the set, which should contain
+	 * the elements in argv, [pluto, ciccio, qui, paperino, pippo].</p>
+     * <p><b>Test Case Design</b>: Tests the content of the set.</p>
+     * <p><b>Test Description</b>: Removes the element in argv one by one.
+	 * If they are the same elements, at each iteration the element must be
+	 * in the set and its size should be  greater than zero (it should not
+	 * be empty). If the for loop finish and the final size is zero,
+	 * the elements are the same and the
+	 * sets contains the right elements.
+	 * The sets is then restored.</p>
      * <p><b>Pre-Condition</b>: s contains argv elements.</p>
      * <p><b>Post-Condition</b>: s in unchanged.</p>
-     * <p><b>Expected Results</b>: toString returns "[pippo, pippo, pluto, paperino, ciccio, qui]".
-	 * Note that the contents is enclosed by [].</p>
+     * <p><b>Expected Results</b>: At each iteration isEmpty returns false
+	 * and contains returns true, therefore argv and the sets contains
+	 * the same elements.</p>
      */
 	@Test
-	public void CollectionToStringTest()
+	public void CollectionCheckContentTest()
 	{
-		argvInitiate(c);
-		assertEquals("[pippo, pippo, pluto, paperino, ciccio, qui]", c.toString());
+		argvInitialize(c);
+		for (int i = 0; i < argv.length; i++)
+		{
+			assertFalse("Not same elements.", c.isEmpty());
+			assertTrue("Should be contained", c.contains(argv[i]));
+			c.remove(argv[i]);
+		}
+		assertTrue("Not all elements removed", c.isEmpty());
+		argvInitialize(c);
 	}
 
 	/**
@@ -174,7 +205,7 @@ public class TestSet
 	 * are next, remove and hasNext.</p>
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
 	 * method from the collection. Removes elements until the collection is empty.</p>
-     * <p><b>Test Description</b>: collection is initiated with argv elements.
+     * <p><b>Test Description</b>: collection is Initialized with argv elements.
 	 * Iterates through collection and after each next it removes the element,
 	 * decrementing i. i starts from 6. At each iteration iterate with a new
 	 * iterator is invoked.</p>
@@ -186,7 +217,7 @@ public class TestSet
 	@Test
 	public void CollectionIteratorRemovalTest()
 	{
-		argvInitiate(c);
+		argvInitialize(c);
 		int i = 6;
 		iter2 = c.iterator();
 		while(iter2.hasNext())
@@ -200,6 +231,11 @@ public class TestSet
 		assertEquals(0, c.size());
 	}
 
+	/**
+	 * Iterates from iter's current position while has
+	 * next, and constructs a string while doing it.
+	 * @param iter the iterator
+	 */
 	public static void iterate(HIterator iter)
 	{
 		System.out.print("{");
@@ -210,7 +246,12 @@ public class TestSet
 		System.out.println("}");
 	}
 
-	public void argvInitiate(HCollection c)
+	/**
+	 * Initialize the collection c with the elements
+	 * in argv.
+	 * @param c collection to be initialized
+	 */
+	public void argvInitialize(HCollection c)
 	{
 		for (int i = 0; i < argv.length; i++)
 			c.add(argv[i]);

@@ -1,5 +1,6 @@
 package myTest;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -7,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import static myTest.TestUtilities.*;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import org.junit.*;
@@ -790,6 +792,8 @@ public class MyTestSuiteEntrySetKeySetValues
         }
     }
 
+    // -------------------- removeAll method --------------------
+
     /**
      * <p><b>Summary</b>: retainAll method test case. The test aim
      * to test coherence of map and its entrySet after invoking retainAll
@@ -832,17 +836,250 @@ public class MyTestSuiteEntrySetKeySetValues
         }
     }
 
+
+
+    // -------------------- toArray(Object[]) method --------------------
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the toArray method
+     * when the size of es and map is zero, which is a limit case.</p>
+     * <p><b>Test Description</b>: toArray is invoked by an empty
+     * entrySet</p>
+     * <p><b>Pre-Condition</b>: es and m are empty</p>
+     * <p><b>Post-Condition</b>: es and m are empty</p>
+     * <p><b>Expected Results</b>: es.toArray returns an empty
+     * toArray.</p>
+     */
+    @Test
+    public void ToArray_Empty()
+    {
+        assertArrayEquals(new Object[0], es.toArray());
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the toArray method
+     * when the size of es and map is 1, which is a limit case.</p>
+     * <p><b>Test Description</b>: toArray is invoked by an entryset
+     * containing only one element, then es and the array returned
+     * from toArray are checked through checkToArray.</p>
+     * <p><b>Pre-Condition</b>: es and m contains 1 element</p>
+     * <p><b>Post-Condition</b>: es and m are unchanged</p>
+     * <p><b>Expected Results</b>: es.toArray returns an array
+     * of lenght 1 containing only the element 1="One"</p>
+     */
+    @Test
+    public void ToArray_OneElement()
+    {
+        m.put(1, "One");
+        checkToArray(es, es.toArray());
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray and remove method test case.
+     * Tests the behaviour of toArray method in different cases
+     * and configurations of the entrySet.</p>
+     * <p><b>Test Case Design</b>: Checks the array to be right
+     * through checkToArray after each removals through es.remove,
+     * creating different situations and cases to test the method.</p>
+     * <p><b>Test Description</b>: The test first removes the
+     * entries with even key, then the entries with odd key. After each
+     * removal the checkToArray method is invoked to check if the
+     * generated array in all of this cases is right.</p>
+     * <p><b>Pre-Condition</b>: m and es contain {0="0":1000="1000"}.</p>
+     * <p><b>Post-Condition</b>: m and es are empty</p>
+     * <p><b>Expected Results</b>: After each removal the generated array
+     * through es.toArray is right and coherent. At the end es and m are empty.</p>
+     */
+    @Test
+    public void ToArray_0To1000()
+    {
+        int bound = 1000;
+        initHMap(m, 0, 1000);
+        for (int i = 0; i < bound; i += 2)
+        {
+            es.remove(getEntry(i, "" + i));
+            checkToArray(es, es.toArray());
+        }
+        for (int i = 1; i < bound; i += 2)
+        {
+            es.remove(getEntry(i, "" + i));
+            checkToArray(es, es.toArray());
+        }
+        assertEquals("Should be empty", 0, es.size());
+        assertEquals("Should be empty", 0, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the toArray method
+     * when the size of es and map is zero, which is a limit case.</p>
+     * <p><b>Test Description</b>: toArray is invoked by an empty
+     * entrySet</p>
+     * <p><b>Pre-Condition</b>: es and m are empty</p>
+     * <p><b>Post-Condition</b>: es and m are empty</p>
+     * <p><b>Expected Results</b>: es.toArray returns an empty
+     * toArray.</p>
+     */
+    @Test
+    public void ToArrayArrayArg_Empty()
+    {
+        Object[] a = new Object[0];
+        es.toArray(a);
+        assertArrayEquals(new Object[0], a);
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the toArray method
+     * when the size of es and map is 1, which is a limit case.</p>
+     * <p><b>Test Description</b>: toArray is invoked by an entryset
+     * containing only one element, then es and the array returned
+     * from toArray are checked through checkToArray.</p>
+     * <p><b>Pre-Condition</b>: es and m contains 1 element</p>
+     * <p><b>Post-Condition</b>: es and m are unchanged</p>
+     * <p><b>Expected Results</b>: es.toArray returns an array
+     * of lenght 1 containing only the element 1="One"</p>
+     */
+    @Test
+    public void ToArrayArrayArg_OneElement()
+    {
+        Object[] a = new Object[1];
+        m.put(1, "One");
+        es.toArray(a);
+        checkToArray(es, a);
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray and remove method test case.
+     * Tests the behaviour of toArray method in different cases
+     * and configurations of the entrySet.</p>
+     * <p><b>Test Case Design</b>: Checks the array to be right
+     * through checkToArray after each removals through es.remove,
+     * creating different situations and cases to test the method.</p>
+     * <p><b>Test Description</b>: The test first removes the
+     * entries with even key, then the entries with odd key. After each
+     * removal the checkToArray method is invoked to check if the
+     * generated array in all of this cases is right.</p>
+     * <p><b>Pre-Condition</b>: m and es contain {0="0":1000="1000"}.</p>
+     * <p><b>Post-Condition</b>: m and es are empty</p>
+     * <p><b>Expected Results</b>: After each removal the generated array
+     * through es.toArray is right and coherent. At the end es and m are empty.</p>
+     */
+    @Test
+    public void ToArrayArrayArg_0To1000()
+    {
+        int bound = 1000;
+        
+        initHMap(m, 0, 1000);
+        for (int i = 0; i < bound; i += 2)
+        {
+            es.remove(getEntry(i, "" + i));
+            Object[] a = new Object[es.size()];
+            es.toArray(a);
+            checkToArray(es, a);
+        }
+        for (int i = 1; i < bound; i += 2)
+        {
+            es.remove(getEntry(i, "" + i));
+            Object[] a = new Object[es.size()];
+            es.toArray(a);
+            checkToArray(es, a);
+        }
+        assertEquals("Should be empty", 0, es.size());
+        assertEquals("Should be empty", 0, m.size());
+    }
+
+    // -------------------- iterator method and EntrySetIterator --------------------
+    
+    /**
+     * <p><b>Summary</b>: iteration on an entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests the iterator's behaviour
+     * on the limit case of an empty entrySet.</p>
+     * <p><b>Test Description</b>: checks if the iterator is right
+     * through checkIteration method. In particular, checks
+     * if the iterator iterated the right amount of times
+     * (checks size coherence) and if after its last iteration
+     * (if it happens, otherwise the first) has next.</p>
+     * <p><b>Pre-Condition</b>: entrySet is empty</p>
+     * <p><b>Post-Condition</b>: entrySet is empty</p>
+     * <p><b>Expected Results</b>: first iteration has no next,
+     * iterated 0 times as the entrylist is empty.</p>
+     */
+    @Test
+    public void ESIterator_Empty()
+    {
+        checkIteration(es);
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on an entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests the iterator's behaviour
+     * on an entrySet of variable size, including the size 1 and
+     * a much bigger size.</p>
+     * <p><b>Test Description</b>: checks if the iterator is right
+     * through checkIteration method. In particular, checks
+     * if the iterator iterated the right amount of times
+     * (checks size coherence) and if after its last iteration
+     * (if it happens, otherwise the first) has next.
+     * The iteration is checked 1000 times for 1000 different configurations
+     * of the HMap. Infact, m contains {0="0":i="i"} for
+     * each i in {0:1000}.</p>
+     * <p><b>Pre-Condition</b>: entrySet and m are empty</p>
+     * <p><b>Post-Condition</b>: entrySet and m contain {0="0":1000="1000"}</p>
+     * <p><b>Expected Results</b>: For each iteration, m containing {0="0":i="i"},
+     * the iteration is tested through checkIteration. In particular,
+     * iterates i times, for each i in {0:1000}.</p>
+     */
+    @Test
+    public void ESIterator_Variable()
+    {
+        int bound = 1000;
+        for (int i = 1; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            checkIteration(es);
+        }
+    }
+
+
+
     private void checkEntrySet(HMap m, HSet es)
     {
-        assertEquals(m.size(), es.size());
+        assertEquals("Map and EntrySet are NOT coherent. Propagation went wrong.", m.size(), es.size());
         HIterator it = es.iterator();
         while (it.hasNext())
         {
             HMap.Entry e = (HMap.Entry)it.next();
-            assertTrue(m.containsKey(e.getKey()));
-            assertTrue(m.containsValue(e.getValue()));
-            assertEquals(e.getValue(), m.get(e.getKey()));
+            assertTrue("Map and EntrySet are NOT coherent. Propagation went wrong.", m.containsKey(e.getKey()));
+            assertTrue("Map and EntrySet are NOT coherent. Propagation went wrong.", m.containsValue(e.getValue()));
+            assertEquals("Map and EntrySet are NOT coherent. Propagation went wrong.", e.getValue(), m.get(e.getKey()));
         }
+    }
+
+    private void checkToArray(HSet es, Object[] arr)
+    {
+        assertEquals("The array and the set do NOT have the same elements.", es.size(), arr.length);
+        for (int i = 0; i < arr.length; i++)
+            assertTrue("The array and the set do NOT have the same elements.", es.contains(arr[i]));
+    }
+
+    private void checkIteration(HSet es)
+    {
+        HIterator it = es.iterator();
+        int count = 0;
+        while (it.hasNext())
+        {
+            Object e = it.next();
+            count++;
+            assertTrue("EntrySet's iterator is NOT coherent.", es.contains(e));
+        }
+
+        assertFalse("EntrySet's iterator is NOT coherent.", it.hasNext());
+        assertEquals("EntrySet's iterator is NOT coherent.", count, es.size());
+        if (count == 0)
+            assertTrue("EntrySet's iterator is NOT coherent.", es.isEmpty());
     }
 }
 

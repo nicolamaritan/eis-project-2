@@ -842,6 +842,9 @@ public class MapAdapter implements HMap
             */
             public void remove()
             {
+                /* The removal through remove method is NOT ambiguous
+                 * as the key is, by definition, unique.
+                */
                 MapAdapter.this.remove(lastReturnedKey);
             }
         }
