@@ -591,9 +591,10 @@ public class MapAdapter implements HMap
             HIterator it = this.iterator();
             while (it.hasNext())
             {
-                if (it.next() == null)
+                Object e = it.next();
+                if (e == null)
                     continue;
-                hc += it.next().hashCode();
+                hc += e.hashCode();
             }
 
             return hc;
@@ -636,7 +637,7 @@ public class MapAdapter implements HMap
         public boolean removeAll(HCollection c)
         {
             boolean modified = false;
-            HIterator it = this.iterator();
+            HIterator it = c.iterator();
             while (it.hasNext())
             {
                 Object element = it.next();

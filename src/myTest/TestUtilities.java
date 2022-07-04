@@ -156,7 +156,7 @@ public class TestUtilities
         return (HMap.Entry)it.next();
     }
 
-    public static HCollection getEntryCollection(int from, int to)
+    public static HCollection getEntryHCollection(int from, int to)
     {
         HCollection c = new CollectionAdapter();
         for (int i = from; i < to; i++)
