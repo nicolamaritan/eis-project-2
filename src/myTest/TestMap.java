@@ -85,7 +85,7 @@ public class TestMap
 		System.out.println("Test propagation from map to keyset");
 		ks = m.keySet();
 
-		//System.out.println(m + " " + m.size());
+		System.out.println(m + " " + m.size());
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
@@ -93,7 +93,7 @@ public class TestMap
 		}
 		assertEquals(5, m.size());
 
-		//System.out.println(ks + " " + ks.size());
+		System.out.println(ks + " " + ks.size());
 		for (String str : argv)
 			assertTrue("Should contain argv key", ks.contains(str));
 		assertEquals(5, ks.size());
@@ -104,7 +104,7 @@ public class TestMap
 		sm1 = m.size();
 		ss1 = ks.size();
 
-		//System.out.println("Entry removed: " + m + " " + m.size());
+		System.out.println("Entry removed: " + m + " " + m.size());
 		for (int i = 1; i < argv.length; i++)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
@@ -112,7 +112,7 @@ public class TestMap
 		}
 		assertEquals(4, m.size());
 
-		//System.out.println(ks + " " + ks.size());
+		System.out.println(ks + " " + ks.size());
 		for (int i = 1; i < argv.length; i++)
 			assertTrue("Should contain argv key", ks.contains(argv[i]));
 		assertEquals(4, ks.size());
@@ -121,7 +121,7 @@ public class TestMap
 		sm2 = m.size();
 		ss2 = ks.size();
 
-		//System.out.println("Entry restored: " + m + " " + m.size());
+		System.out.println("Entry restored: " + m + " " + m.size());
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
@@ -129,12 +129,12 @@ public class TestMap
 		}
 		assertEquals(5, m.size());
 
-		//System.out.println(ks + " " + ks.size());
+		System.out.println(ks + " " + ks.size());
 		for (String str : argv)
 			assertTrue("Should contain argv key", ks.contains(str));
 		assertEquals(5, ks.size());
 
-		assertEquals(true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
+		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
 	}
 
     /**
@@ -152,7 +152,7 @@ public class TestMap
 	public void TestToString()
 	{
 		argvInitialize(m);
-		//System.out.println("Map.toString() ? " + m);
+		System.out.println("Map.toString() ? " + m);
 		assertEquals("Map.toString() ? {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}", "Map.toString() ? " + m.toString());
 	}
 
@@ -197,7 +197,7 @@ public class TestMap
 		int sm0, sm1, sm2, ss0, ss1, ss2;
 		System.out.println("Test keyset and backing");
 
-		//System.out.println(m + " " + m.size());
+		System.out.println(m + " " + m.size());
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
@@ -215,11 +215,11 @@ public class TestMap
 		{
 			Object k = iter.next();
 			
-			//System.out.print("[" + k + "=" + m.get(k) + "]; ");
+			System.out.print("[" + k + "=" + m.get(k) + "]; ");
 			assertEquals(true, k.equals(m.get(k)));
 		}
 
-		//System.out.println("\n" + s1);
+		System.out.println("\n" + s1);
 		for (String str : argv)
 			assertTrue("Should contain argv key", s1.contains(str));
 		assertEquals(5, s1.size());
@@ -229,7 +229,7 @@ public class TestMap
 		sm1 = m.size();
 		ss1 = s1.size();
 
-		//System.out.println(m + " " + m.size());
+	    System.out.println(m + " " + m.size());
 		for (int i = 1; i < argv.length; i++)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
@@ -243,11 +243,11 @@ public class TestMap
 		{
 			Object k = iter.next();
 
-			//System.out.print("[" + k + "=" + m.get(k) + "]; ");
+			System.out.print("[" + k + "=" + m.get(k) + "]; ");
 			assertEquals(true, k.equals(m.get(k)));
 		}
 
-		//System.out.println("\n" + s1);
+	    System.out.println("\n" + s1);
 		assertFalse("Should NOT contain", s1.contains(argv[0]));
 		for (int i = 1; i < argv.length; i++)
 			assertTrue("Should contain.", s1.contains(argv[i]));
@@ -255,7 +255,7 @@ public class TestMap
 		System.out.println("Inserisco nella mappa e controllo il set");
 		m.put("carrozza", "carrozza");
 		
-		//System.out.println(m + " " + m.size());
+		System.out.println(m + " " + m.size());
 		assertEquals("{pluto=pluto, gambatek=gambatek, carrozza=carrozza, ciccio=ciccio, qui=qui} 5", m + " " + m.size());
 
 		iter = s1.iterator();
@@ -264,24 +264,24 @@ public class TestMap
 		{
 			Object k = iter.next();
 			
-			//System.out.print("[" + k + "=" + m.get(k) + "]; ");
+			System.out.print("[" + k + "=" + m.get(k) + "]; ");
 			assertEquals(true, k.equals(m.get(k)));
 		}
 		
-		//System.out.println("\n" + s1);
+		System.out.println("\n" + s1);
 		assertEquals("[pluto, gambatek, carrozza, ciccio, qui]", s1.toString());
 
 		sm2 = m.size();
 		ss2 = s1.size();
 
 		// s1.remove("carrozza");
-		// System.out.println("Removed carrozza from keyset");
+		System.out.println("Removed carrozza from keyset");
 		assertEquals("Should be removed.", true, s1.remove("carrozza"));
 
 		System.out.println("set size=" + s1.size() + "; map size=" + m.size());
 		assertEquals("set size=4; map size=4", "set size=" + s1.size() + "; map size=" + m.size());
-		assertEquals(false, sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size());
-		assertEquals(true, (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
+		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", false, sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size());
+		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", true, (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
 	}
 
     /**
@@ -323,9 +323,9 @@ public class TestMap
 
 		assertEquals("pluto 3; gambatek 2; ciccio 1; qui 0; ", temp);
 		assertEquals("[]", s1.toString());
-		//System.out.println("\n" + s1);
+		System.out.println("\n" + s1);
 
-		assertEquals(true, m.size() == s1.size() && m.size() == 0);
+		assertEquals("\n*** keyset iterator removal does not work ***\n", true, m.size() == s1.size() && m.size() == 0);
 	}
 
     /**
@@ -359,7 +359,7 @@ public class TestMap
 		System.out.println("reset map content and test values");
 		m.clear();
 		
-		//System.out.println("Before " + m + " " + m.size());
+		System.out.println("Before " + m + " " + m.size());
 		assertEquals("Before{} 0", "Before" + m + " " + m.size());
 
 		m.put(argv[0], argv[0]);
@@ -370,7 +370,7 @@ public class TestMap
 		
 		assertFalse("*** map.put malfunction ***", m.size() != argv.length);
 
-		//System.out.println("after " + m + " " + m.size());
+		System.out.println("after " + m + " " + m.size());
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
@@ -388,20 +388,24 @@ public class TestMap
 		count = c.size() +2;
 		String temp = "";
 		while(iter.hasNext() && count-- >= 0)
-			temp += iter.next() + "; ";
-			//System.out.print(iter.next() + "; ");
+        {
+            Object next = iter.next();
+			temp += next + "; ";
+			System.out.print(next + "; ");
+        }
+
 
 		assertEquals("pluto; gambatek; ciccio; qui; pippo; ", temp);
 		for (String str : argv)
 			assertTrue("Should be contained.", c.contains(str));
-		//System.out.println("\n" + c);
+		System.out.println("\n" + c);
 
 		c.remove(argv[0]);
 
 		sm1 = m.size();
 		ss1 = c.size();
 
-		//System.out.println(m + " " + m.size());
+		System.out.println(m + " " + m.size());
 		for (int i = 1; i < argv.length; i++)
 		{
 			assertTrue("Should contain argv key", m.containsKey(argv[i]));
@@ -414,10 +418,14 @@ public class TestMap
 
 		temp = "";
 		while(iter.hasNext()&&count-->= 0)
-			temp += iter.next() + "; ";
+        {
+            Object next = iter.next();
+			temp += next + "; ";
+			System.out.print(next + "; ");
+        }
 		assertEquals("pluto; gambatek; ciccio; qui; ", temp);
 		//System.out.print(iter.next() + "; ");
-		//System.out.println("\n" + c);
+		System.out.println("\n" + c);
 		
 		assertFalse("Should NOT be contained", c.contains(argv[0]));
 		for (int i = 1; i < argv.length; i++)
@@ -460,12 +468,13 @@ public class TestMap
 		String temp = "";
 		while(iter.hasNext()&&count-->=0)
 		{
-			//System.out.print(iter.next() + "; ");
-			temp += iter.next() + "; ";
+            Object next = iter.next();
+			System.out.print(next + "; ");
+			temp += next + "; ";
 			iter.remove();
 		}
 		assertEquals("pluto; gambatek; ciccio; qui; ", temp);
-		//System.out.println("\nmap " + m.size() + "; collection " + c.size());
+		System.out.println("\nmap " + m.size() + "; collection " + c.size());
 		assertEquals("map 0; collection 0", "map " + m.size() + "; collection " + c.size());
 		assertTrue("", m.size() == c.size() && m.size() == 0);	
 	}

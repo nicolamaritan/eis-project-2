@@ -111,7 +111,7 @@ public class SetAdapter implements HSet
     public boolean removeAll(HCollection c)
     {
         boolean modified = false;
-        HIterator it = this.iterator();
+        HIterator it = c.iterator();
         while (it.hasNext())
         {
             Object element = it.next();

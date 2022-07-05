@@ -157,6 +157,26 @@ public class TestUtilities
     }
 
     /**
+     * Returns an HSet containing integers starting at from (included) and
+     * ending at to (excluded).
+     * @param from lower bound (included) of the set
+     * @param to upper bound (excluded) of the set
+     * @return an HSet from (included) and
+     * ending at to (excluded).
+     * @throws IllegalArgumentException if from {@literal >} to
+     */
+    public static HSet getIntegerHSet(int from, int to)
+    {
+        if (from > to)
+            throw new IllegalArgumentException();
+
+        SetAdapter s = new SetAdapter();
+        for (int i = from; i < to; i++)
+            s.add(i);
+        return s;
+    }
+
+    /**
      * Returns an HCollection containing objects of class HMap.Entry
      * of type i="i", with integer key and string value, for i in
      * (from, to).
