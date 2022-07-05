@@ -156,6 +156,16 @@ public class TestUtilities
         return (HMap.Entry)it.next();
     }
 
+    /**
+     * Returns an HCollection containing objects of class HMap.Entry
+     * of type i="i", with integer key and string value, for i in
+     * (from, to).
+     * @param from lower bound of HMap.Entry key and value
+     * @param to upper bound of HMap.Entry key and value
+     * @return an HCollection containing objects of class HMap.Entry
+     * of type i="i", with integer key and string value, for i in
+     * (from, to).
+     */
     public static HCollection getEntryHCollection(int from, int to)
     {
         HCollection c = new CollectionAdapter();

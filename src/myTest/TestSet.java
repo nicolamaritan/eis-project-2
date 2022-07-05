@@ -78,7 +78,11 @@ public class TestSet
     /**
      * <p><b>Summary</b>: Tests the content of the set, which should contain
 	 * the elements in argv, [pluto, ciccio, qui, paperino, pippo].</p>
-     * <p><b>Test Case Design</b>: Tests the content of the set.</p>
+     * <p><b>Test Case Design</b>: Tests the content of the set. As the element
+	 * in a set are not ordered, unlike in HList, printing
+	 * a string representation of the object to test its content
+	 * is not reliable, therefore it is better looping through the elements in
+	 * some way to test their presence in the set.</p>
      * <p><b>Test Description</b>: Removes the element in argv one by one.
 	 * If they are the same elements, at each iteration the element must be
 	 * in the set and its size should be  greater than zero (it should not
@@ -111,15 +115,17 @@ public class TestSet
 	 * through its iterator, after each next. Set's iterator tested methods
 	 * are next, remove and hasNext.</p>
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
-	 * method from the set. Removes elements until the set is empty.</p>
+	 * method from the set. The test case emoves elements until the set is empty,
+	 * therefore s.size() should return 0 in the last assertion.</p>
      * <p><b>Test Description</b>: Set is Initialized with argv elements.
 	 * Iterates through set and after each next it removes the element,
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
-	 * iterator is invoked.</p>
+	 * iterator is invoked to test correct iteration.</p>
      * <p><b>Pre-Condition</b>: set contains argv elements.</p>
-     * <p><b>Post-Condition</b>: set is empty.</p>
+     * <p><b>Post-Condition</b>: set is empty, as it has been emptied
+	 * by iterator's remove.</p>
      * <p><b>Expected Results</b>: In each iteration must be --i equals s.size.
-	 * At the and set size is 0.</p>
+	 * At the end set size is 0. Therefore iterator's remove works correctly.</p>
      */
 	@Test
 	public void SetIteratorRemovalTest()
@@ -171,7 +177,11 @@ public class TestSet
     /**
      * <p><b>Summary</b>: Tests the content of the set, which should contain
 	 * the elements in argv, [pluto, ciccio, qui, paperino, pippo].</p>
-     * <p><b>Test Case Design</b>: Tests the content of the set.</p>
+     * <p><b>Test Case Design</b>: Tests the content of the set. As the element
+	 * in a collection are not ordered, unlike in HList, printing
+	 * a string representation of the object to test its content
+	 * is not reliable, therefore it is better looping through the elements in
+	 * some way to test their presence in the collection.</p>
      * <p><b>Test Description</b>: Removes the element in argv one by one.
 	 * If they are the same elements, at each iteration the element must be
 	 * in the set and its size should be  greater than zero (it should not
@@ -200,19 +210,21 @@ public class TestSet
 	}
 
 	/**
-     * <p><b>Summary</b>: Tests removing an element of the collection
-	 * through its iterator, after each next. collection's iterator tested methods
+     * <p><b>Summary</b>: Tests removing an element of the Collection
+	 * through its iterator, after each next. Collection's iterator tested methods
 	 * are next, remove and hasNext.</p>
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
-	 * method from the collection. Removes elements until the collection is empty.</p>
-     * <p><b>Test Description</b>: collection is Initialized with argv elements.
-	 * Iterates through collection and after each next it removes the element,
+	 * method from the Collection. The test case emoves elements until the Collection is empty,
+	 * therefore s.size() should return 0 in the last assertion.</p>
+     * <p><b>Test Description</b>: Collection is Initialized with argv elements.
+	 * Iterates through Collection and after each next it removes the element,
 	 * decrementing i. i starts from 6. At each iteration iterate with a new
-	 * iterator is invoked.</p>
-     * <p><b>Pre-Condition</b>: collection contains argv elements.</p>
-     * <p><b>Post-Condition</b>: collection is empty.</p>
+	 * iterator is invoked to test correct iteration.</p>
+     * <p><b>Pre-Condition</b>: Collection contains argv elements.</p>
+     * <p><b>Post-Condition</b>: Collection is empty, as it has been emptied
+	 * by iterator's remove.</p>
      * <p><b>Expected Results</b>: In each iteration must be --i equals s.size.
-	 * At the and collection size is 0.</p>
+	 * At the end Collection size is 0. Therefore iterator's remove works correctly.</p>
      */
 	@Test
 	public void CollectionIteratorRemovalTest()

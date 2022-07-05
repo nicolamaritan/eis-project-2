@@ -480,7 +480,7 @@ public class TestMap
 
 	// -------------------- Test cases ideated by me --------------------
 
-	// -------------------- clear, isEmpty, size --------------------
+	// -------------------- clear, isEmpty, size methods --------------------
 
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
@@ -586,7 +586,7 @@ public class TestMap
         assertTrue("Should be empty.", m.isEmpty());
     }
 
-    // -------------------- containsKey --------------------
+    // -------------------- containsKey method --------------------
 
     /**
      * <p><b>Summary</b>: containsKey method test case.</p>
@@ -678,7 +678,7 @@ public class TestMap
         
     }
 
-    // -------------------- containsValue --------------------
+    // -------------------- containsValue method --------------------
 
     /**
      * <p><b>Summary</b>: containsValue method test case.</p>
@@ -798,7 +798,7 @@ public class TestMap
         
     }
 
-	// -------------------- get --------------------
+	// -------------------- get method --------------------
 
     /**
      * <p><b>Summary</b>: get method test case.</p>
@@ -886,7 +886,7 @@ public class TestMap
             assertEquals("" + i, m.get(i));
     }
 
-	// -------------------- hashCode --------------------
+	// -------------------- hashCode method --------------------
 
     /**
      * <p><b>Summary</b>: hashCode test case.
@@ -949,7 +949,7 @@ public class TestMap
 
     }
 
-	// -------------------- put --------------------
+	// -------------------- put method --------------------
 	
 	/**
      * <p><b>Summary</b>: put method test case.
@@ -992,6 +992,42 @@ public class TestMap
 		assertEquals(bound, m.size());
 		for (int i = 0; i < bound; i++)
 			assertEquals("" + i, m.get(i));
+	}
+
+	/**
+     * <p><b>Summary</b>: put method test case.
+	 * Tests 1000 put invoke, but this time entries with
+     * the same key are inserted twice. The HMap interface
+     * states that it is NOT possible to have two elements
+     * with the same key in the map, therefore inserting a new
+     * entry with the same key replaces the old mapping with the new.</p>
+     * <p><b>Test Case Design</b>: Tests put with 1000
+	 * elements, testing big input for the map. Tests the special
+     * case of an entry with an already present key in the map
+     * to be put.</p>
+     * <p><b>Test Description</b>: put is invoked with
+	 * key i and the string "i" for each iteration.
+     * Then put is invoked with
+	 * key i and the string "i + 1000" for each iteration, thus
+     * replacing the old entries.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m contains {0="1000" : 1000="2000"}</p>
+     * <p><b>Expected Results</b>: m.get(i)="i + 1000" for each i in (0:1000) and its
+	 * size is 1000, therefore puts works correctly, even replacing entries.</p>
+     */
+	@Test
+	public void Put_0To1000DuplicatesKey()
+	{
+		int bound = 1000;
+        // For loop twice
+		for (int i = 0; i < bound; i++)
+			assertNull("There should not be previous mapping.", m.put(i, "" + i));
+        for (int i = 0; i < bound; i++)
+			assertEquals("Previous mapping should be " + i, "" + i, m.put(i, "" + (i + bound)));
+
+		assertEquals(bound, m.size());
+		for (int i = 0; i < bound; i++)
+			assertEquals("" + (i + bound), m.get(i));
 	}
 
 	// ------------------------------------------ putAll method ------------------------------------------

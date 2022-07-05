@@ -11,20 +11,23 @@ import static myTest.TestUtilities.*;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import javax.swing.BoundedRangeModel;
+
 import org.junit.*;
 
 import myAdapter.*;
 
-public class MyTestSuiteEntrySetKeySetValues 
+public class MyTestSuiteEntrySet 
 {
     private MapAdapter m, m2;
     private HSet es, es2;
     private HCollection c;
+    private HIterator it;
 
     @BeforeClass
     public static void BeforeClassMethod()
     {
-        System.out.println(MyTestSuiteEntrySetKeySetValues.class.getName() + " running.");
+        System.out.println(MyTestSuiteEntrySet.class.getName() + " running.");
     }
 
     @Before
@@ -40,7 +43,7 @@ public class MyTestSuiteEntrySetKeySetValues
     @AfterClass
     public static void AfterClassMethod()
     {
-        System.out.println(MyTestSuiteEntrySetKeySetValues.class.getName() + " running.");
+        System.out.println(MyTestSuiteEntrySet.class.getName() + " ended.");
     }
 
     @After
@@ -50,6 +53,8 @@ public class MyTestSuiteEntrySetKeySetValues
         es = m.entrySet();
     }
     
+    // ------------------------------------------ single method test case ------------------------------------------
+
     // ------------------------------------------ add method ------------------------------------------
     @Test (expected = UnsupportedOperationException.class)
     public void Add_UOE()
@@ -150,7 +155,8 @@ public class MyTestSuiteEntrySetKeySetValues
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 1 size and not being empty. Propagation
-     * map -> entryset is tested.</p>
+     * map -> entryset is tested. checkEntrySet and checkIteration
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Pre-Condition</b>: The entryset contains 1.</p>
      * <p><b>Post-Condition</b>: The entryset contains 1.</p>
      * <p><b>Expected Results</b>: The size method returns 1 and the isEmpty
@@ -160,6 +166,8 @@ public class MyTestSuiteEntrySetKeySetValues
     public void Size_OneElement_1()
     {
         m.put(1, "1");
+        checkEntrySet(m, es);
+        checkIteration(es);
         assertEquals("Empty entryset does not have size of one.", 1, es.size());
         assertEquals("isEmpty did not returned false.", false, es.isEmpty());
     }
@@ -1016,6 +1024,31 @@ public class MyTestSuiteEntrySetKeySetValues
     /**
      * <p><b>Summary</b>: iteration on an entryset test case.</p>
      * <p><b>Test Case Design</b>: Tests the iterator's behaviour
+     * on the limit case of an empty entrySet.</p>
+     * <p><b>Test Description</b>: checks if the iterator is right
+     * through checkIteration method. In particular, checks
+     * if the iterator iterated the right amount of times
+     * (checks size coherence) and if after its last iteration
+     * (if it happens, otherwise the first) has next.
+     * Then invokes next method on iterator, which should throw
+     * NoSuchElementException as the iterator, being empty,
+     * has no next.</p>
+     * <p><b>Pre-Condition</b>: entrySet is empty</p>
+     * <p><b>Post-Condition</b>: entrySet is empty</p>
+     * <p><b>Expected Results</b>: first iteration has no next,
+     * iterated 0 times as the entrylist is empty. NSEE is thrown
+     * due to iterator.next() call.</p>
+     */
+    @Test (expected = NoSuchElementException.class)
+    public void ESIterator_EmptyNSEE()
+    {
+        checkIteration(es);
+        es.iterator().next();
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on an entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests the iterator's behaviour
      * on an entrySet of variable size, including the size 1 and
      * a much bigger size.</p>
      * <p><b>Test Description</b>: checks if the iterator is right
@@ -1043,6 +1076,166 @@ public class MyTestSuiteEntrySetKeySetValues
         }
     }
 
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests the iterator's remove
+     * method behaviour when the entryset is empty, which is a limit case.
+     * Obviusly a next method would throw NSEE, therefore a remove
+     * method, that needs a next invoke before using it (This method can
+     * be called only once per
+     * call to next) will throw HISE.</p>
+     * <p><b>Test Description</b>: remove method is invoked by a generated
+     * iterator.</p>
+     * <p><b>Pre-Condition</b>: m and es are empty.</p>
+     * <p><b>Post-Condition</b>: m and es are empty.</p>
+     * <p><b>Expected Results</b>: HIllegalStateException has been thrown
+     * by iterator.remove().</p>
+     */
+    @Test (expected = HIllegalStateException.class)
+    public void ESIterator_EmptyRemoveISE()
+    {
+        es.iterator().remove();
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests the iterator's remove
+     * method behaviour when the entryset contains {0="0" : 10="10"}.
+     * For the first remove a next is invoked before, which must work
+     * normally. The iteration is check through checkIterarion, and the
+     * map - entryset coherence is checked through checkEntrySet.
+     * The second remove is not backed by a next call:
+     * a remove
+     * method, that needs a next invoke before using it (This method can
+     * be called only once per
+     * call to next) will throw HISE.</p>
+     * <p><b>Test Description</b>: it invoke next and then remove, which
+     * should work normally (no exception thrown here). Then the second
+     * remove, which is not backed by any next call, throws
+     * HIllegalStateException as remove method can
+     * be called only once per
+     * call to next.</p>
+     * <p><b>Pre-Condition</b>: m and es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: m and es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: iteration and entrySet are checked through checkIteration
+     * and checkEntrySet after the first remove. HIllegalStateException has been thrown
+     * by iterator.remove().</p>
+     */
+    @Test (expected = HIllegalStateException.class)
+    public void ESIterator_0To10RemoveISE()
+    {
+        initHMap(m, 0, 10);
+        it = es.iterator();
+        
+        it.next();
+        it.remove();
+        checkEntrySet(m, es);
+        checkIteration(es);
+
+        // No previous next
+        it.remove();
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.
+     * Tests iterator.remove method on a changing entryset,
+     * checking entryset - map coherence and the iteration
+     * with checkEntrySet and checkIteration.</p>
+     * <p><b>Test Case Design</b>: The map is constantly
+     * changing during execution due to it.remove,
+     * therefore coherence and iteration must be check
+     * to assure correct propagation iterator -> entryset -> map.</p>
+     * <p><b>Test Description</b>: map and es initially contain
+     * {0="0":1000="1000"}. An iterator iterates through
+     * each element and after each next it invokes the remove
+     * method, removing the just returned element.
+     * Then checkEntrySet and checkIteration are invoke
+     * to check entryset - map coherence and iteration.
+     * After iterating through all elements, the iterator.hasNext
+     * method must return false, and es and m should be both empty.</p>
+     * <p><b>Pre-Condition</b>: map and es initially contain
+     * {0="0":1000="1000"}</p>
+     * <p><b>Post-Condition</b>: m and es are empty.</p>
+     * <p><b>Expected Results</b>: Each remove invoke works right,
+     * the element is removed correctly and checkEntrySet and checkIteration
+     * work fine after each removal.</p>
+     */
+    @Test
+    public void ESIterator_0To100Remove()
+    {
+        initHMap(m, 0, 100);
+        it = es.iterator();
+        
+        while (it.hasNext())
+        {
+            HMap.Entry e = (HMap.Entry)it.next();
+            it.remove();
+
+            assertFalse("Should be removed", m.containsKey(e.getKey()));
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+        assertFalse("Should have not next", it.hasNext());
+        assertTrue("Should be empty.", es.isEmpty() && m.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: iterator.remove and m.remove method test case.
+     * Tests the behaviour of map and entrySet while elements are
+     * constantly removed from them via different ways.</p>
+     * <p><b>Test Case Design</b>: Tests different ways to remove
+     * elements from the backing map and the entryset. After each
+     * removal checkEntry and checkIteration are invoked to
+     * check map - entryset coherence and iterator's iteration
+     * working correctly. Tests map -> entryset propagation and
+     * iterator -> entryset -> map propagation.</p>
+     * <p><b>Test Description</b>: m is filled with entries {0="0":1000="1000"}.
+     * Through a for loop entries {i="i"}, i being 10, 20, 30,...
+     * are removed from the map through map.remove method. That means that 100 entries
+     * are removed from m and es. Then while the iterator's has next,
+     * it removes 1 element through iterator.remove each 10 elements,
+     * therefore it removes 90 entries, as the iterator starts iterating
+     * the map and es have 900 elements.</p>
+     * <p><b>Pre-Condition</b>: m and es are empty.</p>
+     * <p><b>Post-Condition</b>: m and es contains 810 entries.</p>
+     * <p><b>Expected Results</b>: Each removal from map and es propagates
+     * the changes correctly to the other structure. checkEntrySet and checkIteration
+     * are invoked to check coherence and that iteration works correctly.</p>
+     */
+    @Test
+    public void RemoveIteratorEsMap()
+    {
+        int bound = 1000;
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+        int initSize = m.size();
+        for (int i = 0; i < bound; i += 10)
+        {
+            m.remove(i);
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+        assertTrue("100 should be removed", (initSize - m.size()) == 100 && m.size() == es.size());
+        it = es.iterator();
+        while (it.hasNext())
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                it.next();
+                checkEntrySet(m, es);
+                checkIteration(es);
+            }
+            it.remove();
+            checkEntrySet(m, es);
+            checkIteration(es); 
+        }
+        assertTrue("190 should be removed", (initSize - m.size()) == 190 && m.size() == es.size());
+        assertTrue("Should be size 810", m.size() == es.size() && m.size() == 810);
+    }
 
 
     private void checkEntrySet(HMap m, HSet es)

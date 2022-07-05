@@ -835,17 +835,20 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception IllegalStateException if the next method has not
+             * @exception HIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
             */
             public void remove()
-            {
+            {   
+                if (lastReturnedKey == null)
+                    throw new HIllegalStateException();
                 /* The removal through remove method is NOT ambiguous
                  * as the key is, by definition, unique.
                 */
                 MapAdapter.this.remove(lastReturnedKey);
+                lastReturnedKey = null;
             }
         }
     }
