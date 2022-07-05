@@ -15,7 +15,7 @@ import org.junit.*;
 
 import myAdapter.*;
 
-public class MyTestSuiteEntrySet 
+public class TestEntrySet 
 {
     private MapAdapter m, m2;
     private HSet es, es2;
@@ -25,7 +25,7 @@ public class MyTestSuiteEntrySet
     @BeforeClass
     public static void BeforeClassMethod()
     {
-        System.out.println(MyTestSuiteEntrySet.class.getName() + " running.");
+        System.out.println(TestEntrySet.class.getName() + " running.");
     }
 
     @Before
@@ -41,7 +41,7 @@ public class MyTestSuiteEntrySet
     @AfterClass
     public static void AfterClassMethod()
     {
-        System.out.println(MyTestSuiteEntrySet.class.getName() + " ended.");
+        System.out.println(TestEntrySet.class.getName() + " ended.");
     }
 
     @After
