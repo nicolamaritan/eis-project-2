@@ -438,14 +438,14 @@ public class TestKeySet
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: KeySet is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: KeySet contains {0="0" : 1000000="1000000"}.</p>
+     * <p><b>Pre-Condition</b>: KeySet contains {0="0" : 2000="2000"}.</p>
      * <p><b>Post-Condition</b>: KeySet is unchanged.</p>
      * <p><b>Expected Results</b>: The KeySet is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To10()
+    public void Equals_0To2000()
     {
-        int to = 1000000;
+        int to = 2000;
         addToHMap(m, 0, to);
         assertEquals(true, ks.equals(getIntegerMapAdapter(0, to).keySet()));
         assertEquals(true, getIntegerMapAdapter(0, to).keySet().equals(ks));   // Symmetric property
@@ -504,14 +504,14 @@ public class TestKeySet
      * Propagation map -> KeySet is tested.</p>
      * <p><b>Test Description</b>: The test invokes ks.equals(ks2) and ks2.equals(KeySet3)
      * and ks.equals(ks3)</p>
-     * <p><b>Pre-Condition</b>: KeySets contain {1 : 1000000}.</p>
+     * <p><b>Pre-Condition</b>: KeySets contain {1 : 2000}.</p>
      * <p><b>Post-Condition</b>: KeySets are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 1000000;
+        int to = 2000;
         addToHMap(m, 0, to);
         addToHMap(m2, 0, to);
         HSet ks3 = getIntegerMapAdapter(0, to).keySet();
@@ -829,6 +829,202 @@ public class TestKeySet
             else
                 assertTrue("Both should have size 500", m.size() == ks.size() && m.size() == 500);
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument,
+     * therefore the keyset should became the empty set, since mainteining
+     * only the "empty" subset means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument.</p>
+     * <p><b>Test Description</b>: The keyset removes all but "empty", so
+     * it empties. In fact initially it contains the keys {1, 2, 3}</p>
+     * <p><b>Pre-Condition</b>: The keyset contains the keys {1, 2, 3}.</p>
+     * <p><b>Post-Condition</b>: The keyset is empty.</p>
+     * <p><b>Expected Results</b>: The keyset is empty, retainAll returns true
+     * because the keyset has changed. Coherence is checked through
+     * checkKeySet.</p>
+     */
+    @Test
+    public void RetainAll_Empty_True()
+    {
+        initHMap(m, 1, 4);
+        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertEquals("set should be empty.", 0, ks.size());
+        assertEquals("coll should be empty.", 0, c.size());
+        checkKeySet(m, ks);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument and
+     * an empty keyset as object,
+     * therefore the keyset should remain the empty keyset, since mainteining
+     * only the "empty" subset means deleting all the elements. Unlike the
+     * RetainAll_Empty_True test case, the keyset is already empty, therefore
+     * the method returns false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument and an empty set.</p>
+     * <p><b>Test Description</b>: The keyset removes all but "empty", so
+     * it empties.</p>
+     * <p><b>Pre-Condition</b>: The keyset is empty.</p>
+     * <p><b>Post-Condition</b>: The keyset is still empty.</p>
+     * <p><b>Expected Results</b>: retainAll returns false because keyset set is unchanged.</p>
+     */
+    @Test
+    public void RetainAll_Empty_False()
+    {
+        assertEquals("The set has not changed, it should return false.", false, ks.retainAll(c));
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input. Testing a typical case.</p>
+     * <p><b>Test Description</b>: The keyset initially contains numbers
+     * from 1 to 5 included. retainAll is called with a collection
+     * containing {3, 4, 5}, therefore the keyset should contain
+     * {3, 4, 5}.</p>
+     * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 5}, c contains
+     * {3, 4, 5}.</p>
+     * <p><b>Post-Condition</b>: The keyset contains {3, 4, 5}, c contains
+     * {3, 4, 5}.</p>
+     * <p><b>Expected Results</b>: set contains {3, 4, 5}, keyset has changed. retainAll returns true
+     * because the keyset has changed. Coherence is checked through
+     * checkKeySet</p>
+     */
+    @Test
+    public void RetainAll_12345()
+    {
+        initHMap(m, 1, 6);
+        TestUtilities.initHCollection(c, 3, 6);
+        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertTrue("set should contain {3, 4, 5}.", ks.equals(TestUtilities.getIntegerHSet(3, 6)));
+        checkKeySet(m, ks);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements. Testing a typical case.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input.</p>
+     * <p><b>Test Description</b>: The keyset initially contains numbers
+     * from 1 to 9 included. retainAll is called with a collection
+     * containing {2, 3}, therefore the keyset should contain the keys
+     * {2, 3}.</p>
+     * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 9}, c contains
+     * {2, 3}.</p>
+     * <p><b>Post-Condition</b>: The keyset contains {2, 3}, c contains
+     * {2, 3}.</p>
+     * <p><b>Expected Results</b>: keyset contains {2, 3}, skeysetet has changed.
+     * retainAll returns true
+     * because the set has changed. Coherence is checked through
+     * checkKeySet</p>
+     */
+    @Test
+    public void RetainAll_23()
+    {
+        initHMap(m, 1, 10);
+        c.add(2);
+        c.add(3);
+        assertTrue("The set has changed, it should return true.", ks.retainAll(c));
+        assertTrue("set should contain {2, 3}.", ks.equals(TestUtilities.getIntegerHSet(2, 4)));
+        checkKeySet(m, ks);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * many elements. Testing a typical case with a large input.</p>
+     * <p><b>Test Case Design</b>:  The retainAll method is tested with large
+     * input. The case is still a common case.</p>
+     * <p><b>Test Description</b>: The set initially contains numbers
+     * from 1 to 999 included. retainAll is called with a collection
+     * containing {300, ..., 599}, therefore the set should contain
+     * {300, 599}.</p>
+     * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 999}, c contains
+     * {300, ..., 599}.</p>
+     * <p><b>Post-Condition</b>: The keyset contains {300, ..., 599}, c contains
+     * {300, ..., 599}.</p>
+     * <p><b>Expected Results</b>: The sets are equal, therefore keyset contains {300:600}.
+     * retainAll returns true
+     * as the set is being modified. Coherence is checked through
+     * checkKeySet</p>
+     */
+    @Test
+    public void RetainAll_1000()
+    {
+        initHMap(m, 1, 1000);
+        TestUtilities.initHCollection(c, 300, 600);
+        ks.retainAll(c);
+        assertEquals("The sets should match.", TestUtilities.getIntegerHSet(300, 600), ks);
+        checkKeySet(m, ks);
+    }
+
+	/**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * not present in the keyset as an argument,
+     * therefore the keyset should became the empty set, since mainteining
+     * only a subset not contained in the set means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty intersection of keyset and c.</p>
+     * <p><b>Test Description</b>: The keyset removes all but "empty", so
+     * it empties. In fact initially it contains {1, ..., 20}</p>
+     * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 20}.</p>
+     * <p><b>Post-Condition</b>: The keyset is empty.</p>
+     * <p><b>Expected Results</b>: The keyset is empty, retainAll returns true
+     * because the set changes. Coherence is checked through
+     * checkKeySet</p>
+     */
+    @Test
+    public void RetainAll_ToEmpty()
+    {
+        initHMap(m, 1, 21);
+        TestUtilities.initHCollection(c, 21, 24);
+
+        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertEquals("The set should be empty.", 0, ks.size());
+        checkKeySet(m, ks);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The method is being tested with a collection containing
+     * duplicated elements. This should not change the method
+     * behaviour as the absence of one element in c removes
+     * all its occurencies in the keyset.</p>
+     * <p><b>Test Case Design</b>: c can contain duplicated element, and
+     * this should not change retainAll behaviour. At the end of
+     * retainAll execution every element not contained in coll
+     * must be removed.</p>
+     * <p><b>Test Description</b>: keyset contains {1, ..., 19}. c contains
+     * {4, 4, 5, 5, 6, 6}. retainAll is called, so the set should contain
+     * {4, 5, 6}.</p>
+     * <p><b>Pre-Condition</b>: keyset contains {1, ..., 19}. c contains
+     * {4, 4, 5, 5, 6, 6}.</p>
+     * <p><b>Post-Condition</b>: keyset contains {4, 5, 6}. c contains
+     * {4, 4, 5, 5, 6, 6}.</p>
+     * <p><b>Expected Results</b>: The arrays are equal, therefore the
+     * keyset contains {4, 5, 6}. retainAll returns true
+     * as the set is being modified. Coherence is checked through
+     * checkKeySet</p>
+     */
+    @Test
+    public void RetainAll_DuplicatesColl()
+    {
+        initHMap(m, 0, 20);
+        for (int i = 4; i < 7; i++)
+        {
+            c.add(i);
+            c.add(i);
+        }
+        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertEquals("The arrays should match.", TestUtilities.getIntegerHSet(4, 7), ks);
     }
 
     // ------------------------------------------ toArray method ------------------------------------------

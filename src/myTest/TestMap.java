@@ -806,18 +806,18 @@ public class TestMap
      * <p><b>Test Case Design</b>: Tests the limit case of
      * invoking the method in map with a big size. Values contained
      * are duplicated, therefore the method must still work correctly.</p>
-     * <p><b>Test Description</b>: {0=0, 100000=100000} are 
+     * <p><b>Test Description</b>: {0=0, 5000=5000} are 
      * checked to be in the map or not.</p>
      * <p><b>Pre-Condition</b>: map contains {0=0, 10000=10000}.</p>
      * <p><b>Post-Condition</b>: map is unchanged.</p>
-     * <p><b>Expected Results</b>: {0 : 10000} values are contained,
+     * <p><b>Expected Results</b>: {0 : 1000} values are contained,
      * the others no.</p>
      */
     @Test
     public void ContainsValue_0To10000Duplicates()
     {
-        int bound = 10000;
-        int bound2 = 100000;
+        int bound = 1000;
+        int bound2 = 5000;
         TestUtilities.initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             m.put(i + bound, i);
@@ -1353,14 +1353,14 @@ public class TestMap
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: Map is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: Map contains {0="0" : 1000000="1000000"}.</p>
+     * <p><b>Pre-Condition</b>: Map contains {0="0" : 1000="1000"}.</p>
      * <p><b>Post-Condition</b>: Map is unchanged.</p>
      * <p><b>Expected Results</b>: The Map is unchanged and symmetric property is valid.</p>
      */
     @Test
     public void Equals_0To10()
     {
-        int to = 1000000;
+        int to = 1000;
         TestUtilities.initHMap(m, 0, to);
         assertEquals(true, m.equals(TestUtilities.getIntegerMapAdapter(0, to)));
         assertEquals(true, TestUtilities.getIntegerMapAdapter(0, to).equals(m));   // Symmetric property
@@ -1417,14 +1417,14 @@ public class TestMap
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).</p>
      * <p><b>Test Description</b>: The test invokes m.equals(m2) and m2.equals(m3)
      * and m.equals(m3)</p>
-     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 1000000="1000000"}.</p>
+     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 1000="1000"}.</p>
      * <p><b>Post-Condition</b>: Maps are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 1000000;
+        int to = 1000;
         TestUtilities.initHMap(m, 0, to);
         TestUtilities.initHMap(m2, 0, to);
         HMap m3 = TestUtilities.getIntegerMapAdapter(0, to);

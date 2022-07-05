@@ -196,14 +196,38 @@ public class TestUtilities
         return s;
     }
 
+    /**
+     * Returns an HCollection containing integers starting at from (included) and
+     * ending at to (excluded).
+     * @param from lower bound (included) of the set
+     * @param to upper bound (excluded) of the set
+     * @return an HCollection from (included) and
+     * ending at to (excluded).
+     * @throws IllegalArgumentException if from {@literal >} to
+     */
     public static HCollection getIntegerHCollection(int from, int to)
     {
         return getIntegerHSet(from, to);
     }
 
+    /**
+     * Returns an HCollection containing string representation of integers starting at from (included) and
+     * ending at to (excluded).
+     * @param from lower bound (included) of the set
+     * @param to upper bound (excluded) of the set
+     * @return an HCollection from (included) and
+     * ending at to (excluded).
+     * @throws IllegalArgumentException if from {@literal >} to
+     */
     public static HCollection getStringHCollection(int from, int to)
     {
-        return getStringHSet(from, to);
+        if (from > to)
+        throw new IllegalArgumentException();
+
+        CollectionAdapter s = new CollectionAdapter();
+        for (int i = from; i < to; i++)
+            s.add(""+i);
+        return s;
     }
 
     /**
@@ -219,6 +243,27 @@ public class TestUtilities
     public static HCollection getEntryHCollection(int from, int to)
     {
         HCollection c = new CollectionAdapter();
+        for (int i = from; i < to; i++)
+        {
+            HMap.Entry e = TestUtilities.getEntry(i, "" + i);
+            c.add(e);
+        }
+        return c;
+    }
+
+    /**
+     * Returns an HSet containing objects of class HMap.Entry
+     * of type i="i", with integer key and string value, for i in
+     * (from, to).
+     * @param from lower bound of HMap.Entry key and value
+     * @param to upper bound of HMap.Entry key and value
+     * @return an HCollection containing objects of class HMap.Entry
+     * of type i="i", with integer key and string value, for i in
+     * (from, to).
+     */
+    public static HSet getEntryHSet(int from, int to)
+    {
+        HSet c = new SetAdapter();
         for (int i = from; i < to; i++)
         {
             HMap.Entry e = TestUtilities.getEntry(i, "" + i);

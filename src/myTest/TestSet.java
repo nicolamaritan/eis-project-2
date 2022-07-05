@@ -463,7 +463,7 @@ public class TestSet
      * <p><b>Expected Results</b>: The Collection is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To10()
+    public void Equals_0To1000()
     {
         int to = 1000;
         TestUtilities.initHCollection(s, 0, to);
@@ -588,16 +588,16 @@ public class TestSet
      * even elements, then the odd elements. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: s contains {0:1000}.</p>
+     * <p><b>Pre-Condition</b>: s contains {0:100}.</p>
      * <p><b>Post-Condition</b>: s is empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through es.toArray is right and coherent. At the end s is empty.</p>
      */
     @Test
-    public void ToArray_0To1000()
+    public void ToArray_0To100()
     {
-        int bound = 1000;
-		initHCollection(s, 0, 1000);
+        int bound = 100;
+		initHCollection(s, 0, 100);
         for (int i = 0; i < bound; i += 2)
         {
             s.remove(i);
@@ -662,17 +662,17 @@ public class TestSet
      * even elements, then the odd elements. After each
      * removal the checkToArray method is invoked to check if the
      * modified array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: s contains {0:1000}.</p>
+     * <p><b>Pre-Condition</b>: s contains {0:100}.</p>
      * <p><b>Post-Condition</b>: s is empty</p>
      * <p><b>Expected Results</b>: After each removal the modified array
      * through es.toArray is right and coherent. At the end s is empty.</p>
      */
     @Test
-    public void ToArrayArrayArg_0To1000()
+    public void ToArrayArrayArg_0To100()
     {
-        int bound = 1000;
+        int bound = 100;
         
-        initHCollection(s, 0, 1000);
+        initHCollection(s, 0, 100);
         for (int i = 0; i < bound; i += 2)
         {
             s.remove(i);
@@ -742,7 +742,7 @@ public class TestSet
      * <p><b>Test Description</b>: At each iteration the element
 	 * i (i in (0:100)) is removed from the set. At the end of the for loop
 	 * the set is empty.</p>
-     * <p><b>Pre-Condition</b>: set contains {0:1000}.</p>
+     * <p><b>Pre-Condition</b>: set contains {0:100}.</p>
      * <p><b>Post-Condition</b>: set is empty.</p>
      * <p><b>Expected Results</b>: Set has been emptied by the
 	 * remove method through the iteration. Each iteration is asserted

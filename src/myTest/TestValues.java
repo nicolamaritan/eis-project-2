@@ -363,7 +363,7 @@ public class TestValues
         c.add("10");
         assertTrue("The Values contains 10=10.", v.containsAll(c));
 
-        // {3, 4, 5 as keys}
+        // {3, 4, 5 as values}
         c = getStringHCollection(3, 6);
         assertTrue("The Values contains 3=3, 4=4 and 5=5.", v.containsAll(c));
 
@@ -444,7 +444,7 @@ public class TestValues
      * <p><b>Expected Results</b>: The Values is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To10()
+    public void Equals_0To2000()
     {
         int to = 2000;
         addToHMap(m, 0, to);
@@ -667,7 +667,7 @@ public class TestValues
      * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its Values and checv their consistency in propagation.
-     * Map contains 10 elements, and arguments are keys/entries not
+     * Map contains 10 elements, and arguments are values/entries not
      * in the map/collection.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and collection
      * are checked, remove is invoked by Values and m and collection are checked again.</p>
@@ -832,6 +832,202 @@ public class TestValues
         }
     }
 
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument,
+     * therefore the values should became the empty set, since mainteining
+     * only the "empty" subset means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument.</p>
+     * <p><b>Test Description</b>: The values removes all but "empty", so
+     * it empties. In fact initially it contains the values {"1", "2", "3"}</p>
+     * <p><b>Pre-Condition</b>: The values contains the values {"1", "2", "3"}.</p>
+     * <p><b>Post-Condition</b>: The values is empty.</p>
+     * <p><b>Expected Results</b>: The values is empty, retainAll returns true
+     * because the values has changed. Coherence is checked through
+     * checkValues.</p>
+     */
+    @Test
+    public void RetainAll_Empty_True()
+    {
+        initHMap(m, 1, 4);
+        assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
+        assertEquals("set should be empty.", 0, v.size());
+        assertEquals("coll should be empty.", 0, c.size());
+        checkValues(m, v);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument and
+     * an empty values as object,
+     * therefore the values should remain the empty values, since mainteining
+     * only the "empty" subset means deleting all the elements. Unlike the
+     * RetainAll_Empty_True test case, the values is already empty, therefore
+     * the method returns false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument and an empty set.</p>
+     * <p><b>Test Description</b>: The values removes all but "empty", so
+     * it empties.</p>
+     * <p><b>Pre-Condition</b>: The values is empty.</p>
+     * <p><b>Post-Condition</b>: The values is still empty.</p>
+     * <p><b>Expected Results</b>: retainAll returns false because values set is unchanged.</p>
+     */
+    @Test
+    public void RetainAll_Empty_False()
+    {
+        assertEquals("The set has not changed, it should return false.", false, v.retainAll(c));
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input. Testing a typical case.</p>
+     * <p><b>Test Description</b>: The values initially contains numbers in string
+     * representation
+     * from 1 to 5 included. retainAll is called with a collection
+     * containing {"3", "4", "5"}, therefore the values should contain
+     * {"3", "4", "5"}.</p>
+     * <p><b>Pre-Condition</b>: The values contains {"1", ..., "5"}, c contains
+     * {"3", "4", "5"}.</p>
+     * <p><b>Post-Condition</b>: The values contains {"3", "4", "5"}, c contains
+     * {"3", "4", "5"}.</p>
+     * <p><b>Expected Results</b>: set contains {"3", "4", "5"}, values has changed. retainAll returns true
+     * because the values has changed. Coherence is checked through
+     * checkvalues</p>
+     */
+    @Test
+    public void RetainAll_12345()
+    {
+        initHMap(m, 1, 6);
+        c = getStringHCollection(3, 6);
+        assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
+        assertTrue("set should contain {3, 4, 5}.", v.equals(TestUtilities.getStringHCollection(3, 6)));
+        checkValues(m, v);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements. Testing a typical case.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input.</p>
+     * <p><b>Test Description</b>: The values initially contains numbers
+     * from 1 to 9 included. retainAll is called with a collection
+     * containing {"2", "3"}, therefore the values should contain the values
+     * {"2", "3"}.</p>
+     * <p><b>Pre-Condition</b>: The values contains {"1", ..., "9"}, c contains
+     * {"2", "3"}.</p>
+     * <p><b>Post-Condition</b>: The values contains {"2", "3"}, c contains
+     * {"2", "3"}.</p>
+     * <p><b>Expected Results</b>: values contains {"2", "3"}, svalueset has changed.
+     * retainAll returns true
+     * because the set has changed. Coherence is checked through
+     * checkValues</p>
+     */
+    @Test
+    public void RetainAll_23()
+    {
+        initHMap(m, 1, 10);
+        c.add("2");
+        c.add("3");
+        assertTrue("The set has changed, it should return true.", v.retainAll(c));
+        assertTrue("set should contain {2, 3}.", v.equals(TestUtilities.getStringHCollection(2, 4)));
+        checkValues(m, v);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * many elements. Testing a typical case with a large input.</p>
+     * <p><b>Test Case Design</b>:  The retainAll method is tested with large
+     * input. The case is still a common case.</p>
+     * <p><b>Test Description</b>: The set initially contains numbers
+     * from 1 to 999 included in string representation. retainAll is called with a collection
+     * containing {"300", ..., "599"}, therefore the set should contain
+     * {"300", "599"}.</p>
+     * <p><b>Pre-Condition</b>: The values contains {"1", ..., "999"}, c contains
+     * {"300", ..., "599"}.</p>
+     * <p><b>Post-Condition</b>: The values contains {"300", ..., "599"}, c contains
+     * {"300", ..., "599"}.</p>
+     * <p><b>Expected Results</b>: The sets are equal, therefore values contains {"300":"600"}.
+     * retainAll returns true
+     * as the set is being modified. Coherence is checked through
+     * checkvalues</p>
+     */
+    @Test
+    public void RetainAll_1000()
+    {
+        initHMap(m, 1, 1000);
+        c = getStringHCollection(300, 600);
+        v.retainAll(c);
+        assertTrue("The sets should match.", v.equals(getStringHCollection(300, 600)));
+        checkValues(m, v);
+    }
+
+	/**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * not present in the values as an argument,
+     * therefore the values should became the empty set, since mainteining
+     * only a subset not contained in the set means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty intersection of values and c.</p>
+     * <p><b>Test Description</b>: The values removes all but "empty", so
+     * it empties. In fact initially it contains {"1", ..., "20"}</p>
+     * <p><b>Pre-Condition</b>: The values contains {"1", ..., "20"}.</p>
+     * <p><b>Post-Condition</b>: The values is empty.</p>
+     * <p><b>Expected Results</b>: The values is empty, retainAll returns true
+     * because the set changes. Coherence is checked through
+     * checkvalues</p>
+     */
+    @Test
+    public void RetainAll_ToEmpty()
+    {
+        initHMap(m, 1, 21);
+        c = getStringHCollection(21, 24);
+
+        assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
+        assertEquals("The set should be empty.", 0, v.size());
+        checkValues(m, v);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The method is being tested with a collection containing
+     * duplicated elements. This should not change the method
+     * behaviour as the absence of one element in c removes
+     * all its occurencies in the values.</p>
+     * <p><b>Test Case Design</b>: c can contain duplicated element, and
+     * this should not change retainAll behaviour. At the end of
+     * retainAll execution every element not contained in coll
+     * must be removed.</p>
+     * <p><b>Test Description</b>: values contains {"1", ..., "19"}. c contains
+     * {"4", "4", "5", "5", "6", "6"}. retainAll is called, so the set should contain
+     * {"4", "5", "6"}.</p>
+     * <p><b>Pre-Condition</b>: values contains {"1", ..., "19"}. c contains
+     * {"4", "4", "5", "5", "6", "6"}.</p>
+     * <p><b>Post-Condition</b>: values contains {"4", "5", "6"}. c contains
+     * {"4", "4", "5", "5", "6", "6"}.</p>
+     * <p><b>Expected Results</b>: The arrays are equal, therefore the
+     * values contains {"4", "5", "6"}. retainAll returns true
+     * as the set is being modified. Coherence is checked through
+     * checkvalues</p>
+     */
+    @Test
+    public void RetainAll_DuplicatesColl()
+    {
+        initHMap(m, 0, 20);
+        for (int i = 4; i < 7; i++)
+        {
+            c.add(""+i);
+            c.add(""+i);
+        }
+        assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
+        assertTrue("The arrays should match.", TestUtilities.getStringHCollection(4, 7).equals(v));
+    }
     // ------------------------------------------ toArray method ------------------------------------------
 
     /**

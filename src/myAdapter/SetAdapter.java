@@ -15,7 +15,7 @@ public class SetAdapter implements HSet
     {
         if (ht.contains(o))
             return false;
-        ht.put(o.hashCode(), o);
+        ht.put(o, o);
         return true;
     }
 
@@ -104,7 +104,7 @@ public class SetAdapter implements HSet
     {
         if (!contains(o))
             return false;
-        ht.remove(o.hashCode());
+        ht.remove(o);
         return true;
     }
 

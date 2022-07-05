@@ -450,14 +450,14 @@ public class TestEntrySet
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: EntrySet is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: EntrySet contains {0="0" : 1000000="1000000"}.</p>
+     * <p><b>Pre-Condition</b>: EntrySet contains {0="0" : 2000="2000"}.</p>
      * <p><b>Post-Condition</b>: EntrySet is unchanged.</p>
      * <p><b>Expected Results</b>: The EntrySet is unchanged and symmetric property is valid.</p>
      */
     @Test
     public void Equals_0To10()
     {
-        int to = 1000000;
+        int to = 2000;
         TestUtilities.addToHMap(m, 0, to);
         assertEquals(true, es.equals(getIntegerMapAdapter(0, to).entrySet()));
         assertEquals(true, getIntegerMapAdapter(0, to).entrySet().equals(es));   // Symmetric property
@@ -516,14 +516,14 @@ public class TestEntrySet
      * Propagation map -> entryset is tested.</p>
      * <p><b>Test Description</b>: The test invokes es.equals(es2) and es2.equals(EntrySet3)
      * and es.equals(es3)</p>
-     * <p><b>Pre-Condition</b>: EntrySets contain {1 : 1000000}.</p>
+     * <p><b>Pre-Condition</b>: EntrySets contain {1 : 2000}.</p>
      * <p><b>Post-Condition</b>: EntrySets are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 1000000;
+        int to = 2000;
         addToHMap(m, 0, to);
         addToHMap(m2, 0, to);
         HSet es3 = getIntegerMapAdapter(0, to).entrySet();
@@ -798,7 +798,7 @@ public class TestEntrySet
         }
     }
 
-    // -------------------- removeAll method --------------------
+    // -------------------- retainAll method --------------------
 
     /**
      * <p><b>Summary</b>: retainAll method test case. The test aim
@@ -842,6 +842,194 @@ public class TestEntrySet
         }
     }
 
+        /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument,
+     * therefore the set should became the empty set, since mainteining
+     * only the "empty" subset means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument.</p>
+     * <p><b>Test Description</b>: The set removes all but "empty", so
+     * it empties. In fact initially it contains {1="1", 2="2", 3="3"}</p>
+     * <p><b>Pre-Condition</b>: The set contains {1="1", 2="2", 3="3"}.</p>
+     * <p><b>Post-Condition</b>: The set is empty.</p>
+     * <p><b>Expected Results</b>: The set is empty, retainAll returns true
+     * because the set has changed. Coherence is checked after retainAll invoke.</p>
+     */
+    @Test
+    public void RetainAll_Empty_True()
+    {
+        initHMap(m, 1, 4);
+        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
+        assertEquals("set should be empty.", 0, es.size());
+        assertEquals("coll should be empty.", 0, c.size());
+        checkEntrySet(m, es);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument and
+     * an empty set as object,
+     * therefore the set should remain the empty set, since mainteining
+     * only the "empty" subset means deleting all the elements. Unlike the
+     * RetainAll_Empty_True test case, the set is already empty, therefore
+     * the method returns false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument and an empty set.</p>
+     * <p><b>Test Description</b>: The set removes all but "empty", so
+     * it empties.</p>
+     * <p><b>Pre-Condition</b>: The set is empty.</p>
+     * <p><b>Post-Condition</b>: The set is still empty.</p>
+     * <p><b>Expected Results</b>: retainAll returns false because the set is unchanged.
+     * Coherence is checked after retainAll invoke.</p>
+     */
+    @Test
+    public void RetainAll_Empty_False()
+    {
+        assertEquals("The set has not changed, it should return false.", false, es.retainAll(c));
+        checkEntrySet(m, es);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input. Testing a typical case.</p>
+     * <p><b>Test Description</b>: The set initially contains entries integer - string
+     * from 1 to 5 included. retainAll is called with a collection
+     * containing {3=3, 4=4, 5=5}, therefore the set should contain
+     * {3=3, 4=4, 5=5}.</p>
+     * <p><b>Pre-Condition</b>: The set contains {1="1", ..., 5="5"}, c contains
+     * {3=3, 4=4, 5=5}.</p>
+     * <p><b>Post-Condition</b>: The set contains {3=3, 4=4, 5=5}, c contains
+     * {3=3, 4=4, 5=5}.</p>
+     * <p><b>Expected Results</b>: set contains {3=3, 4=4, 5=5}, set has changed. retainAll returns true
+     * because the set has changed. Coherence is checked after retainAll invoke.</p>
+     */
+    @Test
+    public void RetainAll_12345()
+    {
+        initHMap(m, 1, 6);
+        c = getEntryHCollection(3, 6);
+        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
+        assertTrue("set should contain {3=3, 4=4, 5=5}.", es.equals(getEntryHSet(3, 6)));
+        checkEntrySet(m, es);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements. Testing a typical case.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input.</p>
+     * <p><b>Test Description</b>: The set initially contains entries integer - string
+     * from 1 to 9 included. retainAll is called with a collection
+     * containing {2="2", 3="3"}, therefore the set should contain
+     * {2="2", 3="3"}.</p>
+     * <p><b>Pre-Condition</b>: The set contains {1="1":10="10"}, c contains
+     * {2="2", 3="3"}.</p>
+     * <p><b>Post-Condition</b>: The set contains {2="2", 3="3"}, c contains
+     * {2="2", 3="3"}.</p>
+     * <p><b>Expected Results</b>: set contains {2="2", 3="3"}, set has changed.  retainAll returns true
+     * because the set has changed. Coherence is checked after retainAll invoke.</p>
+     */
+    @Test
+    public void RetainAll_23()
+    {
+        initHMap(m, 1, 10);
+        c.add(getEntry(2, "2"));
+        c.add(getEntry(3, "3"));
+        assertTrue("The set has changed, it should return true.", es.retainAll(c));
+        assertTrue("set should contain {2=2, 3=3}.", es.equals(getEntryHSet(2, 4)));
+        checkEntrySet(m, es);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * many elements. Testing a typical case with a large input.</p>
+     * <p><b>Test Case Design</b>:  The retainAll method is tested with large
+     * input. The case is still a common case.</p>
+     * <p><b>Test Description</b>: The set initially contains entries integer - string
+     * from 1 to 999 included. retainAll is called with a collection
+     * containing {300="300" : 600="600"}, therefore the set should contain
+     * {300="300" : 600="600"}.</p>
+     * <p><b>Pre-Condition</b>: The set contains {1="1" : 1000="1000"}, c contains
+     * {300="300" : 600="600"}.</p>
+     * <p><b>Post-Condition</b>: The set contains {300="300" : 600="600"}, c contains
+     * {300="300" : 600="600"}.</p>
+     * <p><b>Expected Results</b>: The arrays are equal, therefore set contains {300="300" : 600="600"}. retainAll returns true
+     * as the set is being modified. Coherence is checked after retainAll invoke.</p>
+     */
+    @Test
+    public void RetainAll_1000()
+    {
+        initHMap(m, 0, 1000);
+        c = getEntryHCollection(300, 600);
+        es.retainAll(c);
+        assertEquals("The arrays should match.", getEntryHSet(300, 600), es);
+    }
+
+	/**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * not present in the set as an argument,
+     * therefore the set should became the empty set, since mainteining
+     * only a subset not contained in the set means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty intersection of set and c.</p>
+     * <p><b>Test Description</b>: The set removes all but "empty", so
+     * it empties. In fact initially it contains {1="1":20="20"}</p>
+     * <p><b>Pre-Condition</b>: The set contains {1="1":20="20"}.</p>
+     * <p><b>Post-Condition</b>: The set is empty.</p>
+     * <p><b>Expected Results</b>: The set is empty, retainAll returns true
+     * because the set changes. Coherence is checked after retainAll invoke.</p>
+     */
+    @Test
+    public void RetainAll_ToEmpty()
+    {
+        initHMap(m, 1, 20);
+        TestUtilities.initHCollection(c, 20, 24);
+
+        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
+        assertEquals("The set should be empty.", 0, es.size());
+        checkEntrySet(m, es);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The method is being tested with a collection containing
+     * duplicated elements. This should not change the method
+     * behaviour as the absence of one element in c removes
+     * all its occurencies in the set.</p>
+     * <p><b>Test Case Design</b>: c can contain duplicated element, and
+     * this should not change retainAll behaviour. At the end of
+     * retainAll execution every element not contained in coll
+     * must be removed.</p>
+     * <p><b>Test Description</b>: set contains {1="1", ..., 19="19"}. c contains
+     * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}. retainAll is called, so the set should contain
+     * {4="4", 5="5", 6="6"}.</p>
+     * <p><b>Pre-Condition</b>: set contains {1="1", ..., 19="19"}. c contains
+     * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}.</p>
+     * <p><b>Post-Condition</b>: set contains {4="4", 5="5", 6="6"}. c contains
+     * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}.</p>
+     * <p><b>Expected Results</b>: The arrays are equal, therefore the
+     * set contains {4="4", 5="5", 6="6"}. retainAll returns true
+     * as the set is being modified.</p>
+     */
+    @Test
+    public void RetainAll_DuplicatesColl()
+    {
+        initHMap(m, 0, 20);
+        for (int i = 4; i < 7; i++)
+        {
+            c.add(getEntry(i, ""+i));
+            c.add(getEntry(i, ""+i));
+        }
+        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
+        assertEquals("The arrays should match.", getEntryHSet(4, 7), es);
+    }
 
 
     // -------------------- toArray(Object[]) method --------------------
