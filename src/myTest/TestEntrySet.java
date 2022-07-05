@@ -275,7 +275,7 @@ public class TestEntrySet
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To1000_DifferentKey()
+    public void Contains_0To1000_DifferentValue()
     {
         int bound = 1000;
         TestUtilities.addToHMap(m, 0, bound);
@@ -299,7 +299,7 @@ public class TestEntrySet
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To1000_DifferentValue()
+    public void Contains_0To1000_DifferentKey()
     {
         int bound = 1000;
         TestUtilities.addToHMap(m, 0, bound);

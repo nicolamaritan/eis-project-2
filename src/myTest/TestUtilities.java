@@ -176,6 +176,11 @@ public class TestUtilities
         return s;
     }
 
+    public static HCollection getIntegerHCollection(int from, int to)
+    {
+        return getIntegerHSet(from, to);
+    }
+
     /**
      * Returns an HCollection containing objects of class HMap.Entry
      * of type i="i", with integer key and string value, for i in

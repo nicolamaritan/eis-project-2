@@ -62,19 +62,25 @@ public class TestMap
      * <p><b>Test Case Design</b>: HMap interface states that a change in HMap
 	 * affects the already generated KeySets and obviusly the future KeySets. Therefore
 	 * this test focuses on the propagation of different changes through puts and removes
-	 * from the HMap to the KeySet.</p>
+	 * from the HMap to the KeySet. The tests assert that propagation
+     * happens correctly.</p>
      * <p><b>Test Description</b>: The map is first initialized with entries
 	 * with key and value equals to the elements in argv. Then a KeySet is created
 	 * from m. The entry of key pippo is removed from the map, and then reinserted.</p>
-     * <p><b>Pre-Condition</b>: The map contains argv elements as keys and values.</p>
-     * <p><b>Post-Condition</b>:  The map contains argv elements as keys and values.</p>
+     * <p><b>Pre-Condition</b>: The map contains argv elements as keys and values,
+     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek.</p>
+     * <p><b>Post-Condition</b>:  The map contains argv elements as keys and values,
+     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek.</p>
      * <p><b>Expected Results</b>: After initialization m contains 5 entries with keys
 	 * the argv elements. KeySet contains argv elements and its size is 5. Next the entry pippo=pippo
 	 * is removed from the map, therefore map and KeySet contains argv elements
 	 * except pippo=pippo and their size is 4. Finally the pippo=pippo entry is reinserted
 	 * through map, implying its presence in keySet. They both have size 5.
 	 * Lastly asserts that m and ks have the same size after all removal/insertions and
-	 * the difference in size from stage 0 to stage 1 is 1.</p>
+	 * the difference in size from stage 0 to stage 1 is 1.
+     * Hence the propagation from map to keySet works correctly.</p>
      */
 	@Test
 	public void TestPropagationFromMapToKeySet()
@@ -142,8 +148,13 @@ public class TestMap
      * <p><b>Test Case Design</b>: Tests the method toString.</p>
      * <p><b>Test Description</b>: Initialize the map with argv keys and
 	 * values, then invoke toString.</p>
-     * <p><b>Pre-Condition</b>: map contains argv keys and values.</p>
-     * <p><b>Post-Condition</b>: map is unchanged.</p>
+     * <p><b>Pre-Condition</b>: map contains argv keys and values,
+     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek.</p>
+     * <p><b>Post-Condition</b>: map contains argv keys and values,
+     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek. map is unchanged, as toString does NOT modify the
+     * map.</p>
      * <p><b>Expected Results</b>: m.toString returns
 	 * {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}.
 	 * Note that map encloses entries with {}.</p>
@@ -290,7 +301,10 @@ public class TestMap
 	 * map. Tests method remove, size, keySet of map, hasNext, next, remove of
 	 * KeySet iterator.</p>
      * <p><b>Test Case Design</b>: The tests focuses on map changes through
-	 * keySet's iterator. The changes on KeySet should affect the backing map.</p>
+	 * keySet's iterator. The changes on KeySet should affect the backing map.
+     * In this case scenario propagation from the logical point of view
+     * is: iterator -> keyset -> map. Therefore this kind of propagation
+     * is tested in this test, by modifying the map from a keyset iterator.</p>
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * s1 the KeySet is created. pippo=pippo is removed from the map.
 	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
@@ -340,11 +354,16 @@ public class TestMap
 	 * Then argv keys and values are inserted in the map. pippo=pippo is
 	 * inserted twice, but map only accept unique keys.
 	 * values is created and iterates through the set to created the temp string.</p>
-     * <p><b>Pre-Condition</b>: map contains argv values and keys.</p>
-     * <p><b>Post-Condition</b>: map contains argv values and keys but pippo=pippo. </p>
-     * <p><b>Expected Results</b>: After clear the map is empty (toString returns {}).
+     * <p><b>Pre-Condition</b>: map contains argv values and keys,
+     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek.</p>
+     * <p><b>Post-Condition</b>: map contains argv values and keys but pippo=pippo,
+     * therefore contains pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek. </p>
+     * <p><b>Expected Results</b>: After clear the map is empty (toString returns {} when
+     * the map is empty).
 	 * After inserting argv keys and values and pippo=pippo m.size is equal to argv.size,
-	 * as the second pippo=pippo insertion is not valid (unique keys). m is checked to
+	 * as the second pippo=pippo insertion is not valid (map only accepts unique keys). m is checked to
 	 * contain all argv keys and values and its size is 5. temp then is equal to
 	 * "pluto; gambatek; ciccio; qui; pippo; ". pippo is removed from values,
 	 * temp is "pluto; gambatek; ciccio; qui; "
@@ -441,12 +460,15 @@ public class TestMap
      * <p><b>Summary</b>: Tests emptying the map through value's iterator.
 	 * Value's iterator removes obviusly affects the Value, which affects the
 	 * map. Tests method remove, size, keySet of map, hasNext, next, remove of
-	 * Value iterator.</p>
+	 * KeySet iterator.</p>
      * <p><b>Test Case Design</b>: The tests focuses on map changes through
-	 * Value's iterator. The changes on Value should affect the backing map.</p>
+	 * value's iterator. The changes on KeySet should affect the backing map.
+     * In this case scenario propagation from the logical point of view
+     * is: iterator -> value -> map. Therefore this kind of propagation
+     * is tested in this test, by modifying the map from a value iterator.</p>
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
-	 * s1 the KeySet is created. pippo=pippo is removed from the map.
-	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
+	 * c the value is created. pippo=pippo is removed from the map.
+	 * Then iterates through the value creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
 	 * and removing each element after each next. Therefore the Map is then empty.</p>
      * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
      * <p><b>Post-Condition</b>: The map is empty.</p>
