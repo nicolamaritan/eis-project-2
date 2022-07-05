@@ -1365,7 +1365,7 @@ public class MapAdapter implements HMap
         {
             Object[] arr = new Object[this.size()];
             int i = 0;
-            for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
+            for (Enumeration e = ht.elements(); e.hasMoreElements(); i++)
                 arr[i] = e.nextElement();
     
             return arr;
@@ -1423,7 +1423,7 @@ public class MapAdapter implements HMap
             if (a.length < this.size())
                 throw new IllegalArgumentException();
             int i = 0;
-            for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
+            for (Enumeration e = ht.elements(); e.hasMoreElements(); i++)
                 a[i] = e.nextElement();
             return a;
         }
@@ -1538,7 +1538,7 @@ public class MapAdapter implements HMap
         public boolean removeAll(HCollection coll)
         {
             boolean modified = false;
-            HIterator it = this.iterator();
+            HIterator it = coll.iterator();
             while (it.hasNext())
             {
                 Object element = it.next();
@@ -1680,9 +1680,10 @@ public class MapAdapter implements HMap
             HIterator it = this.iterator();
             while (it.hasNext())
             {
-                if (it.next() == null)
+                Object next = it.next();
+                if (next == null)
                     continue;
-                hc += it.next().hashCode();
+                hc += next.hashCode();
             }
 
             return hc;
@@ -1730,6 +1731,7 @@ public class MapAdapter implements HMap
                 if (lastReturnedValue == null)
                     throw new HIllegalStateException();
                 Values.this.remove(lastReturnedValue);
+                lastReturnedValue = null;
             }
         }
     }

@@ -176,9 +176,34 @@ public class TestUtilities
         return s;
     }
 
+    /**
+     * Returns an HSet containing string representation of integers starting at from (included) and
+     * ending at to (excluded).
+     * @param from lower bound (included) of the set
+     * @param to upper bound (excluded) of the set
+     * @return an HSet from (included) and
+     * ending at to (excluded).
+     * @throws IllegalArgumentException if from {@literal >} to
+     */
+    public static HSet getStringHSet(int from, int to)
+    {
+        if (from > to)
+            throw new IllegalArgumentException();
+
+        SetAdapter s = new SetAdapter();
+        for (int i = from; i < to; i++)
+            s.add(""+i);
+        return s;
+    }
+
     public static HCollection getIntegerHCollection(int from, int to)
     {
         return getIntegerHSet(from, to);
+    }
+
+    public static HCollection getStringHCollection(int from, int to)
+    {
+        return getStringHSet(from, to);
     }
 
     /**
