@@ -487,9 +487,9 @@ public class TestMap
 		}
 	}
 
-	// -------------------- Test cases ideated by me --------------------
+	// ------------------------------------------ Test cases ideated by me ------------------------------------------
 
-	// -------------------- clear, isEmpty, size methods --------------------
+	// ------------------------------------------ clear, isEmpty, size methods ------------------------------------------
 
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
@@ -595,7 +595,7 @@ public class TestMap
         assertTrue("Should be empty.", m.isEmpty());
     }
 
-    // -------------------- containsKey method --------------------
+    // ------------------------------------------ containsKey method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: containsKey method test case.</p>
@@ -687,7 +687,7 @@ public class TestMap
         
     }
 
-    // -------------------- containsValue method --------------------
+    // ------------------------------------------ containsValue method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: containsValue method test case.</p>
@@ -807,7 +807,7 @@ public class TestMap
         
     }
 
-	// -------------------- get method --------------------
+	// ------------------------------------------ get method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: get method test case.</p>
@@ -895,7 +895,7 @@ public class TestMap
             assertEquals("" + i, m.get(i));
     }
 
-	// -------------------- hashCode method --------------------
+	// ------------------------------------------ hashCode method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: hashCode test case.
@@ -958,7 +958,7 @@ public class TestMap
 
     }
 
-	// -------------------- put method --------------------
+	// ------------------------------------------ put method ------------------------------------------
 	
 	/**
      * <p><b>Summary</b>: put method test case.
@@ -1038,6 +1038,38 @@ public class TestMap
 		for (int i = 0; i < bound; i++)
 			assertEquals("" + (i + bound), m.get(i));
 	}
+    
+    /**
+     * <p><b>Summary</b>: put method test case. Tests the put method
+     * behaviour trying to insert entries with duplicated keys
+     * many times.</p>
+     * <p><b>Test Case Design</b>: Trying to insert an entry
+     * with a key already in the map does NOT modify the size of
+     * the map, altough it modify the associated mapping to that
+     * kay. Therefore after inserting 100 times 100 entries
+     * with the same key should not change the map size.</p>
+     * <p><b>Test Description</b>: For 100 times, insert the entry
+     * (i, "i") 100 times.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100="100"}.</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":100="100"}.</p>
+     * <p><b>Expected Results</b>: size did not change after the
+     * nested for loop.</p>
+     */
+
+    @Test
+    public void Put_0To100AllDuplicatesKey()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+            m.put(i, "" + i);
+        int initSize = m.size();
+        for (int i = 0; i < bound; i++)
+        {
+            for (int j = 0; j < bound; j++)
+                m.put(i, "" + 1);
+        }
+        assertTrue("Sizes should be equal", m.size() - initSize == 0 && m.size() == bound);
+    }
 
 	// ------------------------------------------ putAll method ------------------------------------------
 

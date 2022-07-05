@@ -38,7 +38,7 @@ public class TestSet
 		c = null;
 	}
 
-	// -------------------- Test cases assigned from the professor --------------------
+	// ------------------------------------------ Test cases assigned from the professor ------------------------------------------
 
 	/**
      * <p><b>Summary</b>: Tests the behaviour of SetAdapter
@@ -284,7 +284,7 @@ public class TestSet
 			c.add(argv[i]);
 	}
 
-	// -------------------- Test cases ideated by me --------------------
+	// ------------------------------------------ Test cases ideated by me ------------------------------------------
 
 	// ------------------------------------------ size method ------------------------------------------
 
@@ -1046,7 +1046,7 @@ public class TestSet
      * <p><b>Test Case Design</b>: The test considers the case
      * scenario of large input. From the Sommerville: "Force computation results to be
      * too large or too small."</p>
-     * <p><b>Test Description</b>: Numbers from 1 to 100 are inserted in coll, then addAll
+     * <p><b>Test Description</b>: Numbers from 1 to 100 are inserted in c, then addAll
      * method is invoked with c as argument.</p>
      * <p><b>Pre-Condition</b>: The set is empty, c contains aforementioed numbers.</p>
      * <p><b>Post-Condition</b>: The set contains number from 1 to 100.</p>
@@ -1215,12 +1215,9 @@ public class TestSet
         s.add(2);
         s.add(3);
         s.add(3);
-        // Remove only the first occurence
         s.remove((Object)3);
         c.add(3);
-        // Remove the remaining occurency
         assertFalse("3 should be removed.", s.removeAll(c));
-        // No more 3 occurencies
         assertFalse("3 not present in the set.", s.removeAll(c));
 
         for (int i = 0; i < 10; i++)
@@ -1234,31 +1231,189 @@ public class TestSet
 		assertTrue(s.contains(1) && s.contains(2) && s.contains(4) && s.size() == 3);
     }
 
+    // ------------------------------------------ retainAll method ------------------------------------------
+
     /**
-     * <p><b>Summary</b>: removeAll method test case.</p>
-     * <p><b>Test Case Design</b>: Many 1s, 2s and 3s have been
-     * inserted and all have been removed via removeAll({1, 2, 3}).</p>
-     * <p><b>Test Description</b>: removeAll({1, 2, 3}) is being called.</p>
-     * <p><b>Pre-Condition</b>: set contains {1, 2, 2, 3, 3, 3}.</p>
-     * <p><b>Post-Condition</b>: set is empty.</p>
-     * <p><b>Expected Results</b>: set has been changed therefore removeAll returns true, its size is zero.</p>
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument,
+     * therefore the set should became the empty set, since mainteining
+     * only the "empty" subset means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument.</p>
+     * <p><b>Test Description</b>: The set removes all but "empty", so
+     * it empties. In fact initially it contains {1, 2, 3}</p>
+     * <p><b>Pre-Condition</b>: The set contains {1, 2, 3}.</p>
+     * <p><b>Post-Condition</b>: The set is empty.</p>
+     * <p><b>Expected Results</b>: The set is empty, retainAll returns true
+     * because the set has changed.</p>
      */
     @Test
-    public void RemoveAll_122333()
+    public void RetainAll_Empty_True()
     {
-        s.add(1);
-        s.add(2);
-        s.add(2);
-        s.add(3);
-        s.add(3);
-        s.add(3);
+        TestUtilities.initHCollection(s, 1, 4);
+        assertEquals("The set has changed, it should return true.", true, s.retainAll(c));
+        assertEquals("set should be empty.", 0, s.size());
+        assertEquals("coll should be empty.", 0, c.size());
+    }
 
-        c.add(1);
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with an empty collection as an argument and
+     * an empty set as object,
+     * therefore the set should remain the empty set, since mainteining
+     * only the "empty" subset means deleting all the elements. Unlike the
+     * RetainAll_Empty_True test case, the set is already empty, therefore
+     * the method returns false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty collection as an argument and an empty set.</p>
+     * <p><b>Test Description</b>: The set removes all but "empty", so
+     * it empties.</p>
+     * <p><b>Pre-Condition</b>: The set is empty.</p>
+     * <p><b>Post-Condition</b>: The set is still empty.</p>
+     * <p><b>Expected Results</b>: retainAll returns false because the set is unchanged.</p>
+     */
+    @Test
+    public void RetainAll_Empty_False()
+    {
+        assertEquals("The set has not changed, it should return false.", false, s.retainAll(c));
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input. Testing a typical case.</p>
+     * <p><b>Test Description</b>: The set initially contains numbers
+     * from 1 to 5 included. retainAll is called with a collection
+     * containing {3, 4, 5}, therefore the set should contain
+     * {3, 4, 5}.</p>
+     * <p><b>Pre-Condition</b>: The set contains {1, ..., 5}, c contains
+     * {3, 4, 5}.</p>
+     * <p><b>Post-Condition</b>: The set contains {3, 4, 5}, c contains
+     * {3, 4, 5}.</p>
+     * <p><b>Expected Results</b>: set contains {3, 4, 5}, set has changed. retainAll returns true
+     * because the set has changed.</p>
+     */
+    @Test
+    public void RetainAll_12345()
+    {
+        TestUtilities.initHCollection(s, 1, 6);
+        TestUtilities.initHCollection(c, 3, 6);
+        assertEquals("The set has changed, it should return true.", true, s.retainAll(c));
+        assertTrue("set should contain {3, 4, 5}.", s.equals(TestUtilities.getIntegerHSet(3, 6)));
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * few elements. Testing a typical case.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with small
+     * input.</p>
+     * <p><b>Test Description</b>: The set initially contains numbers
+     * from 1 to 9 included. retainAll is called with a collection
+     * containing {2, 3}, therefore the set should contain
+     * {2, 3}.</p>
+     * <p><b>Pre-Condition</b>: The set contains {1, ..., 9}, c contains
+     * {2, 3}.</p>
+     * <p><b>Post-Condition</b>: The set contains {2, 3}, c contains
+     * {2, 3}.</p>
+     * <p><b>Expected Results</b>: set contains {2, 3}, set has changed.  retainAll returns true
+     * because the set has changed.</p>
+     */
+    @Test
+    public void RetainAll_23()
+    {
+        TestUtilities.initHCollection(s, 1, 10);
         c.add(2);
         c.add(3);
+        assertTrue("The set has changed, it should return true.", s.retainAll(c));
+        assertTrue("set should contain {2, 3}.", s.equals(TestUtilities.getIntegerHSet(2, 4)));
+    }
 
-        assertEquals("The set has changed, it should return true.", true, s.removeAll(c));
-        assertEquals("set should be empty.", 0, s.size());
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The test calls retainAll with a collection containing
+     * many elements. Testing a typical case with a large input.</p>
+     * <p><b>Test Case Design</b>:  The retainAll method is tested with large
+     * input. The case is still a common case.</p>
+     * <p><b>Test Description</b>: The set initially contains numbers
+     * from 1 to 999 included. retainAll is called with a collection
+     * containing {300, ..., 599}, therefore the set should contain
+     * {300, 599}.</p>
+     * <p><b>Pre-Condition</b>: The set contains {1, ..., 999}, c contains
+     * {300, ..., 599}.</p>
+     * <p><b>Post-Condition</b>: The set contains {300, ..., 599}, c contains
+     * {300, ..., 599}.</p>
+     * <p><b>Expected Results</b>: The arrays are equal, therefore set contains {300:600}. retainAll returns true
+     * as the set is being modified.</p>
+     */
+    @Test
+    public void RetainAll_1000()
+    {
+        TestUtilities.initHCollection(s, 1, 1000);
+        TestUtilities.initHCollection(c, 300, 600);
+        s.retainAll(c);
+        assertEquals("The arrays should match.", TestUtilities.getIntegerHSet(300, 600), s);
+    }
+
+	    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * not present in the set as an argument,
+     * therefore the set should became the empty set, since mainteining
+     * only a subset not contained in the set means deleting all the elements.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the limit case of
+     * an empty intersection of set and c.</p>
+     * <p><b>Test Description</b>: The set removes all but "empty", so
+     * it empties. In fact initially it contains {1, ..., 20}</p>
+     * <p><b>Pre-Condition</b>: The set contains {1, ..., 20}.</p>
+     * <p><b>Post-Condition</b>: The set is empty.</p>
+     * <p><b>Expected Results</b>: The set is empty, retainAll returns true
+     * because the set changes.</p>
+     */
+    @Test
+    public void RetainAll_ToEmpty()
+    {
+        TestUtilities.initHCollection(s, 1, 21);
+        TestUtilities.initHCollection(c, 21, 24);
+
+        assertEquals("The set has changed, it should return true.", true, s.retainAll(c));
+        assertEquals("The set should be empty.", 0, s.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * The method is being tested with a collection containing
+     * duplicated elements. This should not change the method
+     * behaviour as the absence of one element in c removes
+     * all its occurencies in the set.</p>
+     * <p><b>Test Case Design</b>: c can contain duplicated element, and
+     * this should not change retainAll behaviour. At the end of
+     * retainAll execution every element not contained in coll
+     * must be removed.</p>
+     * <p><b>Test Description</b>: set contains {1, ..., 19}. c contains
+     * {4, 4, 5, 5, 6, 6}. retainAll is called, so the set should contain
+     * {4, 5, 6}.</p>
+     * <p><b>Pre-Condition</b>: set contains {1, ..., 19}. c contains
+     * {4, 4, 5, 5, 6, 6}.</p>
+     * <p><b>Post-Condition</b>: set contains {4, 5, 6}. c contains
+     * {4, 4, 5, 5, 6, 6}.</p>
+     * <p><b>Expected Results</b>: The arrays are equal, therefore the
+     * set contains {4, 5, 6}. retainAll returns true
+     * as the set is being modified.</p>
+     */
+    @Test
+    public void RetainAll_DuplicatesColl()
+    {
+        TestUtilities.initHCollection(s, 0, 20);
+        for (int i = 4; i < 7; i++)
+        {
+            c.add(i);
+            c.add(i);
+        }
+        assertEquals("The set has changed, it should return true.", true, s.retainAll(c));
+        assertEquals("The arrays should match.", TestUtilities.getIntegerHSet(4, 7), s);
     }
 
 	private void checkToArray(HSet es, Object[] arr)
