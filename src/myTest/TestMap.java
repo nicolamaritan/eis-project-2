@@ -130,14 +130,14 @@ public class TestMap
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals(str, m.get(str));
+			assertEquals("Returned value should be " + str, str, m.get(str));
 		}
 		assertEquals(5, m.size());
 
 		System.out.println(ks + " " + ks.size());
 		for (String str : argv)
 			assertTrue("Should contain argv key", ks.contains(str));
-		assertEquals(5, ks.size());
+		assertEquals("Size should be 5", 5, ks.size());
 		
 		sm0 = m.size();
 		ss0 = ks.size();
@@ -156,7 +156,7 @@ public class TestMap
 		System.out.println(ks + " " + ks.size());
 		for (int i = 1; i < argv.length; i++)
 			assertTrue("Should contain argv key", ks.contains(argv[i]));
-		assertEquals(4, ks.size());
+		assertEquals("Size should be 4", 4, ks.size());
 		
 		m.put(argv[0], argv[0]);
 		sm2 = m.size();
@@ -166,14 +166,14 @@ public class TestMap
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals(str, m.get(str));
+			assertEquals("Returned value should be " + str, str, m.get(str));
 		}
-		assertEquals(5, m.size());
+		assertEquals("Size should be 5", 5, m.size());
 
 		System.out.println(ks + " " + ks.size());
 		for (String str : argv)
 			assertTrue("Should contain argv key", ks.contains(str));
-		assertEquals(5, ks.size());
+		assertEquals("Size should be 5", 5, ks.size());
 
 		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
 	}
@@ -247,9 +247,9 @@ public class TestMap
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals(str, m.get(str));
+			assertEquals("Returned value should be " + str, str, m.get(str));
 		}
-		assertEquals(5, m.size());
+		assertEquals("Size should be 5", 5, m.size());
 
 		s1 = m.keySet();
 		sm0 = m.size();
@@ -268,7 +268,7 @@ public class TestMap
 		System.out.println("\n" + s1);
 		for (String str : argv)
 			assertTrue("Should contain argv key", s1.contains(str));
-		assertEquals(5, s1.size());
+		assertEquals("Size should be 5", 5, s1.size());
 		
 		s1.remove(argv[0]);
 
@@ -279,9 +279,9 @@ public class TestMap
 		for (int i = 1; i < argv.length; i++)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
-			assertEquals(argv[i], m.get(argv[i]));
+			assertEquals("Returned value should be " + argv[i], argv[i], m.get(argv[i]));
 		}
-		assertEquals(4, m.size());
+		assertEquals("Size should be 4", 4, m.size());
 
 		iter = s1.iterator();
 		count = s1.size()+2;
@@ -428,7 +428,7 @@ public class TestMap
 		for (String str : argv)
 		{
 			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals(str, m.get(str));
+			assertEquals("Returned value should be " + str, str, m.get(str));
 		}
 		assertEquals(5, m.size());
 		
@@ -463,9 +463,9 @@ public class TestMap
 		for (int i = 1; i < argv.length; i++)
 		{
 			assertTrue("Should contain argv key", m.containsKey(argv[i]));
-			assertEquals(m.get(argv[i]), argv[i]);
+			assertEquals("Returned value should be " + argv[i], m.get(argv[i]), argv[i]);
 		}
-		assertEquals(4, m.size());
+		assertEquals("Size should be 4", 4, m.size());
 
 		iter = c.iterator();
 		count = c.size()+2;
@@ -563,7 +563,7 @@ public class TestMap
     {
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
-        assertEquals(0, m.size());
+        assertEquals("Size should be 0", 0, m.size());
     }
 
     /**
@@ -583,7 +583,7 @@ public class TestMap
         assertEquals(1, m.size());
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
-        assertEquals(0, m.size());
+        assertEquals("Size should be 0", 0, m.size());
     }
 
     /**
@@ -602,7 +602,7 @@ public class TestMap
         TestUtilities.getIntegerMapAdapter(0, 10);
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
-        assertEquals(0, m.size());
+        assertEquals("Size should be 0", 0, m.size());
     }
 
     /**
@@ -622,7 +622,7 @@ public class TestMap
         TestUtilities.getIntegerMapAdapter(0, 10000);
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
-        assertEquals(0, m.size());
+        assertEquals("Size should be 0", 0, m.size());
     }
 
     /**
@@ -949,7 +949,7 @@ public class TestMap
         int bound = 1000;
         TestUtilities.initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
-            assertEquals("" + i, m.get(i));
+            assertEquals("Should return " + i, "" + i, m.get(i));
     }
 
 	// ------------------------------------------ hashCode method ------------------------------------------
@@ -1033,7 +1033,7 @@ public class TestMap
 	public void Put_OneElement()
 	{
 		m.put(5489, "Random value");
-		assertEquals(1, m.size());
+		assertEquals("Size should be 1", 1, m.size());
 		assertEquals("Random value", m.get(5489));
 	}
 
@@ -1055,9 +1055,9 @@ public class TestMap
 		int bound = 1000;
 		for (int i = 0; i < bound; i++)
 			m.put(i, "" + i);
-		assertEquals(bound, m.size());
+		assertEquals("Size should be " + bound, bound, m.size());
 		for (int i = 0; i < bound; i++)
-			assertEquals("" + i, m.get(i));
+			assertEquals("Should return " + i, "" + i, m.get(i));
 	}
 
 	/**
@@ -1091,9 +1091,9 @@ public class TestMap
         for (int i = 0; i < bound; i++)
 			assertEquals("Previous mapping should be " + i, "" + i, m.put(i, "" + (i + bound)));
 
-		assertEquals(bound, m.size());
+		assertEquals("Size should be " + bound, bound, m.size());
 		for (int i = 0; i < bound; i++)
-			assertEquals("" + (i + bound), m.get(i));
+			assertEquals("Returned value should be " + (i + bound), "" + (i + bound), m.get(i));
 	}
     
     /**
