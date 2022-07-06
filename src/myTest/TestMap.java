@@ -2,6 +2,7 @@ package myTest;
 
 // Imports
 import static org.junit.Assert.*;
+import static myTest.TestUtilities.*;
 import org.junit.*;
 import myAdapter.*;
 
@@ -1125,6 +1126,75 @@ public class TestMap
                 m.put(i, "" + 1);
         }
         assertTrue("Sizes should be equal", m.size() - initSize == 0 && m.size() == bound);
+    }
+
+    /**
+     * <p><b>Summary</b>: put method test case.
+     * Tests if the object returned from the put
+     * method is correct.</p>
+     * <p><b>Test Case Design</b>: Tests a feature of the put method
+     * for HMap, which is that when inserting an entry with a key
+     * already in the map, should return the old value and update
+     * the new mapping.</p>
+     * <p><b>Test Description</b>: m.put(1, "3") is invoked to
+     * insert 1="3". Then the entry 1="1" is inserted,
+     * updating the old one.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m contains 1="1"</p>
+     * <p><b>Expected Results</b>: m.put(1, "3") returns null as there
+     * was no previous mapping.  m.put(1, "1") returns "3" as
+     * the key was previously mapped to the value "3". The map
+     * finally contains 1="1", in particular  m.containsKey(1) && m.containsValue("1") && !m.containsValue("3")
+     * e m.get(1) == "1" return true.</p>
+     */
+    @Test
+    public void Put_Substitute0()
+    {
+        assertNull("No previous mapping, should return null", m.put(1, "3"));
+        assertEquals("Should return old value", "3", m.put(1, "1"));
+        assertTrue(m.size() == 1);
+        assertTrue("Should have put new entry", m.containsKey(1) && m.containsValue("1") && !m.containsValue("3"));
+        assertTrue("New entry should match", m.get(1) == "1");
+    }
+
+    /**
+     * <p><b>Summary</b>: put method test case.
+     * Tests if the object returned from the put
+     * method is correct.</p>
+     * <p><b>Test Case Design</b>: Tests a feature of the put method
+     * for HMap, which is that when inserting an entry with a key
+     * already in the map, should return the old value and update
+     * the new mapping.</p>
+     * <p><b>Test Description</b>: the HMap is initiated
+     * through a for loop, where at each insertion with put
+     * the return value is asserted to null, as m was empty
+     * and thus there were no mappings.
+     * Then each entry is updated inserting, through put,
+     * a new entry with the same key but value shifted
+     * of bound. Each one of this put should return the old value.
+     * Finally each entry is checked to be correct through
+     * m.contains(i), m.containsValue(""+(bound+i)) and m.get(i)</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m contains {0="100":100="200"}</p>
+     * <p><b>Expected Results</b>: m.puts in the first loop
+     * return all null. m.puts in the second loop return all "i".
+     * m contains {0="100":100="200"}.</p>
+     */
+    @Test
+    public void Put_Substitute1()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+            assertNull("No previous mapping, should return null", m.put(i, "" + i));
+        for (int i = 0; i < bound; i++)
+            assertEquals("m.put should return the old value", "" + i, m.put(i, "" + (bound + i)));
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", m.containsKey(i));
+            assertTrue("Should be contained", m.containsValue("" + (i + bound)));
+            assertEquals("Value not substitued correctly.", "" + (i + bound), m.get(i));
+            
+        }
     }
 
 	// ------------------------------------------ putAll method ------------------------------------------

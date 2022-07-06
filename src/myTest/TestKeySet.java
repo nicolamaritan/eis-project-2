@@ -1619,6 +1619,141 @@ public class TestKeySet
             assertTrue(ksArr[i].size() == 0 && ksArr[i].isEmpty() && m.isEmpty());
     }
 
+    /**
+     * <p><b>Summary</b>: Tests the correct propagation from the backing map
+     * to the keySet and viceversa, by adding and removing dinamically
+     * elements.</p>
+     * <p><b>Test Case Design</b>: Adding one element to the keySet is not
+     * possible, but it is possible adding one entry to the map, so that
+     * the keySet contains the key of the inserted entries. After each insertion
+     * through HMap.put() checkKeySet(m, ks) and checkIteration(ks) are
+     * invoked to check correct propagation.</p>
+     * <p><b>Test Description</b>: The map is initiated with entries
+     * {0="0":100="100"} three times. After each initiation the map
+     * is made empty by HMap.remove, HSet.remove (through entryset) and
+     * HIterator.remove (iterator of entryset).</p>
+     * <p><b>Pre-Condition</b>: map and ks are empty.</p>
+     * <p><b>Post-Condition</b>: map and ks are empty.</p>
+     * <p><b>Expected Results</b>: Each modification propagates correctly
+     * to the other objects. In particular, m.put and remove propagates correctly
+     * to ks, ks.remove propagates correctly to m, it.remove propagates
+     * correctly to m and it.</p>
+     */
+    @Test
+    public void IncreaseKeySetThenRemove()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkKeySet(m, ks);
+            checkIteration(ks);
+            assertEquals("Size should be " + (i + 1), i + 1, ks.size());
+        }
+        // Remove from map
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", m.containsKey(i));
+            assertTrue("Should be contained", m.containsValue("" + i));
+            m.remove(i);
+            checkKeySet(m, ks);
+            checkIteration(ks);
+        }
+        assertTrue("Should be empty", ks.isEmpty());
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkKeySet(m, ks);
+            checkIteration(ks);
+            assertEquals("Size should be " + (i + 1), i + 1, ks.size());
+        }
+        // Remove from es
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", ks.contains(i));
+            ks.remove(i);
+            checkKeySet(m, ks);
+            checkIteration(ks);
+        }
+        assertTrue("Should be empty", ks.isEmpty());
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkKeySet(m, ks);
+            checkIteration(ks);
+            assertEquals("Size should be " + (i + 1), i + 1, ks.size());
+        }
+        // Remove from es iterator
+        it = ks.iterator();
+        while (it.hasNext())
+        {
+            Object curr = it.next();
+            it.remove();
+            assertFalse("Should NOT be contained", m.containsKey(curr));
+            checkIteration(ks);
+            checkKeySet(m, ks);
+        }
+        assertTrue("Should be empty", ks.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests the behaviour of the map when
+     * trying to insert entries already in the map. Inserting
+     * the same entry twice or more should ignore the insertion,
+     * as the key is already present in the map.</p>
+     * <p><b>Test Case Design</b>: Tests behaviour of
+     * inserting cloned elements. After each put call and after
+     * the removal, checkKeySet and checkIteration are invoked
+     * to assert correct propagation.</p>
+     * <p><b>Test Description</b>: Tests tries to insert
+     * in the map the element in argv, g=g, a=a, t=t,
+     * t=t, i=i, n=n, i=i, where there are t and i as duplicated
+     * key. Therefore the map then contains g=g, a=a, t=t, i=i,
+     * n=n and have a size of 5. Therefore keyset contains
+     * g, a, t, i, n. Then entries are removed from the map,
+     * therefore are removed from the keySet too.</p>
+     * <p><b>Pre-Condition</b>: m and ks are empty</p>
+     * <p><b>Post-Condition</b>: m and ks are empty</p>
+     * <p><b>Expected Results</b>: argv elements are correctly inserted
+     * in the map and the cloned key are correctly ignored, therefore
+     * after insertion m.size() is 5. ks.containsAll(c) returns true.
+     * Then all elements are removed through m, so in the end m and ks
+     * are empty.</p>
+     */
+    @Test
+    public void DuplicateTest()
+    {
+        String argv[] = {"g", "a", "t", "t", "i", "n", "i"};
+        for (int i = 0; i < argv.length; i++)
+        {
+            m.put(argv[i], argv[i]);
+            checkKeySet(m, ks);
+            checkIteration(ks);
+        }
+        assertEquals("Size should be 5", 5, m.size());
+        for (int i = 0; i < argv.length; i++)
+            assertTrue(m.containsKey(argv[i]) && ks.contains(argv[i]) && m.containsValue(argv[i]));
+        
+        c.add("g");
+        c.add("a");
+        c.add("t");
+        c.add("i");
+        c.add("n");
+        assertTrue(ks.containsAll(c));
+        
+        m.remove(argv[0]);
+        m.remove(argv[1]);
+        m.remove(argv[2]);
+        m.remove(argv[4]);
+        m.remove(argv[5]);
+
+        assertFalse(ks.containsAll(c));
+
+        assertTrue(ks.isEmpty() && m.isEmpty());
+        checkKeySet(m, ks);
+        checkIteration(ks);
+    }
+
 
     /**
      * Checks if the keyset and the backing map contains the same informations.
@@ -1630,7 +1765,7 @@ public class TestKeySet
      * @param m the backing map
      * @param ks the keyset
      */
-    private void checkKeySet(HMap m, HSet ks)
+    public void checkKeySet(HMap m, HSet ks)
     {
         assertEquals("Map and KeySet are NOT coherent. Propagation went wrong.", m.size(), ks.size());
         HIterator it = ks.iterator();
@@ -1650,7 +1785,7 @@ public class TestKeySet
      * @param ks keyset to be checked
      * @param arr array to be checked
      */
-    private void checkToArray(HSet ks, Object[] arr)
+    public void checkToArray(HSet ks, Object[] arr)
     {
         assertEquals("The array and the set do NOT have the same elements.", ks.size(), arr.length);
         for (int i = 0; i < arr.length; i++)
@@ -1663,7 +1798,7 @@ public class TestKeySet
      * of iteration equals the actual size of the keyset.
      * @param es entryset to be checked
      */
-    private void checkIteration(HSet ks)
+    public void checkIteration(HSet ks)
     {
         HIterator it = ks.iterator();
         int count = 0;

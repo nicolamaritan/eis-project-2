@@ -567,7 +567,7 @@ public class TestValues
      * <p><b>Test Description</b>: map is initialized with {0="0" : 1000="1000"},
      * therefore v contains {"0":"1000"}.
      * Through v iterators iterates through the elements to assert that they both
-     * share the same informations about the map entriv. Then clear is invoked
+     * share the same informations about the map entries. Then clear is invoked
      * by the Values. Same initialization and iteration are done,
      * but this time clear is invoked by m.</p>
      * <p><b>Pre-Condition</b>: m and v are empty.</p>
@@ -1536,8 +1536,71 @@ public class TestValues
             assertTrue(vArr[i].size() == 0 && vArr[i].isEmpty() && m.isEmpty());
     }
 
+    /**
+     * <p><b>Summary</b>: Tests the correct propagation from HMap
+     * to values when an entry is modified through put:
+     * keys remains the same but the mapped value changes.</p>
+     * <p><b>Test Case Design</b>: Tests a feature of the put method
+     * for HMap, which is that when inserting an entry with a key
+     * already in the map, should return the old value and update
+     * the new mapping. Values should remain coherent with
+     * the backing HMap.</p>
+     * <p><b>Test Description</b>: the HMap is initiated
+     * through a for loop, where at each insertion with put
+     * the return value is asserted to null, as m was empty
+     * and thus there were no mappings.
+     * Then each entry is updated inserting, through put,
+     * a new entry with the same key but value shifted
+     * of bound. Each one of this put should return the old value.
+     * Finally each entry is checked to be correct through
+     * m.contains(i), m.containsValue(""+(bound+i)) and m.get(i).
+     * Also values content is checked to contain the element
+     * "i + 100" but to not contained the previously removed element
+     * "i". After each modification coherency is checked through
+     * checkIteration(v) andh checkValues(m, v).</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m contains {0="100":100="200"}</p>
+     * <p><b>Expected Results</b>: m.puts in the first loop
+     * return all null. m.puts in the second loop return all "i".
+     * m contains {0="100":100="200"}. Coherency is checked through
+     * checkValues and checkIteration after each modification.</p>
+     */
+    @Test
+    public void Put_Substitute1()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            assertNull("No previous mapping, should return null", m.put(i, "" + i));
+            checkIteration(v);
+            checkValues(m, v);
+        }
+        
+        for (int i = 0; i < bound; i++)
+        {
+            assertEquals("m.put should return the old value", "" + i, m.put(i, "" + (bound + i)));
+            checkIteration(v);
+            checkValues(m, v);
+        }
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", m.containsKey(i));
+            assertTrue("Should be contained", m.containsValue("" + (i + bound)));
+            assertTrue("Should be contained in value", v.contains("" + (i + bound)));
+            assertFalse("Should NOT be contained in value", v.contains("" + i));
+            assertEquals("Value not substitued correctly.", "" + (i + bound), m.get(i));
+            
+        }
+    }
 
-    private void checkValues(HMap m, HCollection v)
+    /**
+     * Checks if the values set and the backing map contains the same informations.
+     * Firstly they must have the same size, then each entry in the values
+     * must be contained in the map.
+     * @param m the backing map
+     * @param v the entrySet
+     */
+    public void checkValues(HMap m, HCollection v)
     {
         assertEquals("Map and Values are NOT coherent. Propagation went wrong.", m.size(), v.size());
         HIterator it = v.iterator();
@@ -1549,14 +1612,26 @@ public class TestValues
         }
     }
 
-    private void checkToArray(HCollection v, Object[] arr)
+    /**
+     * Checks if the values set and the array contains the same elements
+     * and their size equals.
+     * @param v entryset to be checked
+     * @param arr array to be checked
+     */
+    public void checkToArray(HCollection v, Object[] arr)
     {
         assertEquals("The array and the collection do NOT have the same elements.", v.size(), arr.length);
         for (int i = 0; i < arr.length; i++)
             assertTrue("The array and the collection do NOT have the same elements.", v.contains(arr[i]));
     }
 
-    private void checkIteration(HCollection v)
+    /**
+     * Checks if the elements returned by the iteration are
+     * coherent with the values's elements, and if the number
+     * of iteration equals the actual size of the value set.
+     * @param v entryset to be checked
+     */
+    public void checkIteration(HCollection v)
     {
         HIterator it = v.iterator();
         int count = 0;
