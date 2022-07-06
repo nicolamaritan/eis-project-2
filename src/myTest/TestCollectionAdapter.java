@@ -6,6 +6,30 @@ import static myTest.TestUtilities.*;
 import org.junit.*;
 import myAdapter.*;
 
+/**
+ * <p><b>Summary</b>: The test suite TestCollectionAdapter focuses on map methods, tests their correct
+ * behaviour in different case scenario. Each CollectionAdapter method is tested in different
+ * test cases. The first section of the test suite (Test cases assigned from the professor)
+ * contains the tests in the TestCollection.java and TestSet.java (which contained also tests
+ * for HCollection interfaced objects.)
+ * file assigned by the professor in the JUnit format, the second section of the test suite (Test cases ideated by me)
+ * contains the test cases ideated by me on each element of HCollection.
+ * Notation used in this test suite:
+ * <ul>
+ * <li>{x:y} = {x, ..., y} means elements from x (included) to y (excluded).</li>
+ * <li>{x, y, z} means 3 elements, which are x, y and z.</li>
+ * <li>{a:b, x, c:d} means elements from x (included) to y (excluded), then element
+ * x, then elements from c (included) to d (excluded).</li>
+ * </ul>
+ * 
+ * <p><b>Test Suite Design</b>: The test suite contains fine-grained test cases in order to
+ * easily individuate errors in HCollection methods and also coarse-grained test cases in order to
+ * test different methods interaction. That means that test cases include modification test, where
+ * the map structure is modified in different ways, and inspection test, where information are retrieved
+ * from the map to see if the informations are stored correctly, and tests where modifications and
+ * inspections are combined. In the test suite there are many test cases focusing on limit and special cases,
+ * invalid arguments and etc.</p>
+ */
 public class TestCollectionAdapter
 {
 	HCollection c = null, c2 = null;
