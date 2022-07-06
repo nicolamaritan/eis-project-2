@@ -1,68 +1,77 @@
 package myTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
-
+// Imports
+import static org.junit.Assert.*;
+import org.junit.*;
 import myAdapter.*;
 
-public class TestCollection {
-	
-	/**
-	 * @safe.precondition
-	 * @safe.postcondition
-	 * @safe.summary
-	 */
+public class TestCollection 
+{
 
-	HCollection head = new CollectionAdapter();
-	boolean h = head.add("Collection Adapter");
-	
-	HCollection param = new CollectionAdapter();
-	boolean aa = param.add("aaa");
-	boolean bb = param.add("bbb");
-	boolean cc = param.add("ccc");
-	
-	HCollection intersect = new CollectionAdapter();
-	boolean aaa = intersect.add("aaa");
-	boolean bbb = intersect.add("bbb");
-	boolean ccc = intersect.add("ccc");
-	
-	HCollection ct = new CollectionAdapter();
-	boolean first = ct.add("Collection Adapter");
-	boolean a = ct.add("aaa");
-	boolean b = ct.add("bbb");
-	boolean c = ct.add("ccc");
-	
+	HMap m = null;
+	HCollection head;
+	HCollection param = null;
+	HCollection intersect = null;
+	HCollection ct = null;
+	boolean a, aa, aaa;
+	boolean b, bb, bbb;
+	boolean c, cc, ccc;
+	boolean h;
+
 	/**
-     * <p><b>Summary</b>: add method test case.</p>
-     * <p><b>Test Case Design</b>: Checks if adding one element
-	 * through collection add returns true.</p>
-     * <p><b>Test Description</b>: add one string to collection.</p>
-     * <p><b>Pre-Condition</b>: ct is at its predefined state.</p>
-     * <p><b>Post-Condition</b>: ct has one more elem.</p>
-     * <p><b>Expected Results</b>: ris is true.</p>
-     */
-	@Test
-	public void add_o() {
-		boolean ris = ct.add("add(Object o) funziona");
-		assertTrue(ris);
+	 * Method invoke before each test for setup.
+	 */
+	@Before
+	public void Setup()
+	{
+		/*
+		 * Replicated the original initialization.
+		 */
+
+		head = new CollectionAdapter();
+		h = head.add("Collection Adapter");
+
+		m = new MapAdapter();
+		m.put("Collection Adapter", "Collection Adapter");
+		m.put("aaa", "aaa");
+		m.put("bbb", "bbb");
+		m.put("ccc", "ccc");
+		ct = m.values();
+
+		param = new CollectionAdapter();
+		param.add("aaa");
+		param.add("bbb");
+		param.add("ccc");
+		
+		intersect = new CollectionAdapter();
+		intersect.add("aaa");
+		intersect.add("bbb");
+		intersect.add("ccc");
+	}
+
+	@AfterClass
+	public static void AfterClassMethod()
+	{
+		System.out.println(TestCollection.class.getName() + " ended.");
+	}
+
+
+	/**
+	 * Method invoke before each test for cleanup.
+	 */
+	@After
+	public void Cleanup()
+	{
+		m = null;
+		ct = null;
+		param = null;
+		intersect = null;
+		head = null;
 	}
 	
-	/**
-     * <p><b>Summary</b>: addAll method test case.</p>
-     * <p><b>Test Case Design</b>: Checks if adding all element
-	 * through addAll returns true.</p>
-     * <p><b>Test Description</b>: add one collection.</p>
-     * <p><b>Pre-Condition</b>: ct is at its actual state.</p>
-     * <p><b>Post-Condition</b>: collection is added.</p>
-     * <p><b>Expected Results</b>: ris is true</p>
-     */
-	@Test
-	public void addAll_c() {
-		boolean ris = ct.addAll(param);
-		assertTrue(ris);
-	}
 	
+	// ------------------------------------------ Test cases assigned from the professor ------------------------------------------
+
 	/**
      * <p><b>Summary</b>: clear method test case.</p>
      * <p><b>Test Case Design</b>: Tests clear through clear method.</p>

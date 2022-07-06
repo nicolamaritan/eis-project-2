@@ -1,14 +1,9 @@
 package myTest;
 
+// Imports
 import static org.junit.Assert.*;
 import static myTest.TestUtilities.*;
-import java.util.*;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.junit.*;
 import myAdapter.*;
 
 public class TestSet
@@ -25,17 +20,33 @@ public class TestSet
 		System.out.println("Test Set");
 	}
 
+    /**
+	 * Method invoke before each test for setup.
+	 */
 	@Before
-	public void BeforeMethod()
+	public void Setup()
 	{
         m = new MapAdapter();
 	}
 
+	@AfterClass
+	public static void AfterClassMethod()
+	{
+		System.out.println(TestSet.class.getName() + " ended.");
+	}
+
+
+    /**
+	 * Method invoke before each test for cleanup.
+	 */
 	@After
-	public void AfterMethod()
+	public void Cleanup()
 	{
 		s = null;
+        s2 = null;
 		c = null;
+        m = null;
+        iter2 = null;
 	}
 
 	// ------------------------------------------ Test cases assigned from the professor ------------------------------------------

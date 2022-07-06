@@ -1,18 +1,10 @@
 package myTest;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
+// Imports
+import static org.junit.Assert.*;
 import static myTest.TestUtilities.*;
-
-import java.util.Arrays;
 import java.util.NoSuchElementException;
-
 import org.junit.*;
-
 import myAdapter.*;
 
 public class TestValues 
@@ -28,8 +20,11 @@ public class TestValues
         System.out.println(TestValues.class.getName() + " running.");
     }
 
+    /**
+	 * Method invoke before each test for setup.
+	 */
     @Before
-    public void BeforeMethod()
+    public void Setup()
     {
         m = new MapAdapter();
         m2 = new MapAdapter();
@@ -38,18 +33,24 @@ public class TestValues
         c = new CollectionAdapter();
     }
 
+    
     @AfterClass
     public static void AfterClassMethod()
     {
         System.out.println(TestValues.class.getName() + " ended.");
     }
 
+    /**
+	 * Method invoke before each test for cleanup.
+	 */
     @After
-    public void AfterMethod()
+    public void Cleanup()
     {
         m = null;
+        m2 = null;
         v = null;
         v2 = null;
+        it = null;
     }
     
     // ------------------------------------------ single method test case ------------------------------------------

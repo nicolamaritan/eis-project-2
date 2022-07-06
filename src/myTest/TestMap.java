@@ -7,10 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.NoSuchElementException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import myAdapter.*;
 
@@ -32,23 +29,34 @@ public class TestMap
 		System.out.println(TestMap.class.getName() + " running.");
 	}
 
+    /**
+	 * Method invoke before each test for setup.
+	 */
 	@Before
-	public void BeforeMethod()
+	public void Setup()
 	{
 		m = new MapAdapter();
 		m2 = new MapAdapter();
 	}
 
-	@BeforeClass
+	@AfterClass
 	public static void AfterClassMethod()
 	{
 		System.out.println(TestMap.class.getName() + " ended.");
 	}
 
+    /**
+	 * Method invoke before each test for cleanup.
+	 */
 	@After
-	public void AfterMethod()
+	public void Cleanup()
 	{
 		m = null;
+        m2 = null;
+        s1 = null;
+        ks = null;
+        iter = null;
+        c = null;
 	}
 	
     // -------------------- Test cases assigned from the professor --------------------

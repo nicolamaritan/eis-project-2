@@ -8,24 +8,7 @@ import myAdapter.*;
  */
 public class TestUtilities
 {
-    /**
-     * Returns an arrau containing integers starting at from (included) and
-     * ending at to (escluded). That means the array is empty if and only if
-     * from == to.
-     * @param from collection to be initialize
-     * @param to lower bound (included) of the list
-     * @return the array.
-     * @throws IllegalArgumentException if from {@literal >} to
-     */
-    public static Object[] getIntegerArray(int from, int to)
-    {
-        if (from > to)
-            throw new IllegalArgumentException();
-        Object[] arr = new Object[to - from];
-        for (int i = from; i < to; i++)
-            arr[i - from] = i;
-        return arr;
-    }
+
 
     /**
      * Initializes a collection with integers starting at from (included) and
