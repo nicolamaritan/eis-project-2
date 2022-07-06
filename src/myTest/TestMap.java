@@ -14,7 +14,19 @@ import myAdapter.*;
  * contains the test cases ideated by me on each element of HMap, excluding entrySet, keySet and values,
  * as they return a whole new HSet/HCollection to be tested apart from the methods of HMap.
  * At the end of this last section there are coarse-grained test cases, where multiple methods
- * of HMap are tested working together.</p>
+ * of HMap are tested working together.
+ * Notation used in this test suite:
+ * <ul>
+ * <li>{x:y} = {x, ..., y} means elements from x (included) to y (excluded).</li>
+ * <li>{x, y, z} means 3 elements, which are x, y and z.</li>
+ * <li>{a:b, x, c:d} means elements from x (included) to y (excluded), then element
+ * x, then elements from c (included) to d (excluded).</li>
+ * <li>x=y means an entry, where s is the key, and y is its mapped value.</li>
+ * <li>{x="x":y="y"} = {x="x", ..., y="y"} means entries, where the key is an element
+ * and the value is its string representation, from x (included) to y (excluded), offently used
+ * for map and entrysets.</li>
+ * </ul>
+ * 
  * <p><b>Test Suite Design</b>: The test suite contains fine-grained test cases in order to
  * easily individuate errors in HMap methods and also coarse-grained test cases in order to
  * test different methods interaction. That means that test cases include modification test, where
@@ -22,7 +34,8 @@ import myAdapter.*;
  * from the map to see if the informations are stored correctly, and tests where modifications and
  * inspections are combined. In the first section of the suite, propagation is tested
  * from the backing HMap to the KeySet/Values (and eventually their iterator) and viceversa, which is an important feature
- * of HMap.</p>
+ * of HMap. In the test suite there are many test cases focusing on limit and special cases,
+ * invalid arguments and etc.</p>
  */
 public class TestMap
 {
