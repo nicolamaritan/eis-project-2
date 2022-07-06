@@ -41,7 +41,7 @@ public class TestValues
     }
 
     /**
-	 * Method invoke before each test for cleanup.
+	 * Method invoke after each test for cleanup.
 	 */
     @After
     public void Cleanup()
@@ -1546,4 +1546,10 @@ public class TestValues
      * <p><b>Pre-Condition</b>:</p>
      * <p><b>Post-Condition</b>:</p>
      * <p><b>Expected Results</b>:</p>
+     */
+
+    /**
+     * <p><b>Summary</b>:</p>
+     * <p><b>Test Suite Design</b>:</p>
+     * 
      */

@@ -18,6 +18,12 @@ public class TestCollection
 	boolean c, cc, ccc;
 	boolean h;
 
+    @BeforeClass
+    public static void BeforeClassMethod()
+    {
+        System.out.println(TestCollection.class.getName() + " running.");
+    }
+
 	/**
 	 * Method invoke before each test for setup.
 	 */
@@ -55,9 +61,8 @@ public class TestCollection
 		System.out.println(TestCollection.class.getName() + " ended.");
 	}
 
-
 	/**
-	 * Method invoke before each test for cleanup.
+	 * Method invoke after each test for cleanup.
 	 */
 	@After
 	public void Cleanup()

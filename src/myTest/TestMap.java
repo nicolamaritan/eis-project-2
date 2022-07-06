@@ -1,16 +1,29 @@
 package myTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.NoSuchElementException;
-
+// Imports
+import static org.junit.Assert.*;
 import org.junit.*;
-
 import myAdapter.*;
 
+/**
+ * <p><b>Summary</b>: The test suite TestMap focuses on map methods, tests their correct
+ * behaviour in different case scenario. Each MapAdapter method is tested in different
+ * test cases. The first section of the test suite (Test cases assigned from the professor)
+ * contains the tests in the TestMap
+ * file assigned by the professor in the JUnit format, the second section of the test suite (Test cases ideated by me)
+ * contains the test cases ideated by me on each element of HMap, excluding entrySet, keySet and values,
+ * as they return a whole new HSet/HCollection to be tested apart from the methods of HMap.
+ * At the end of this last section there are coarse-grained test cases, where multiple methods
+ * of HMap are tested working together.</p>
+ * <p><b>Test Suite Design</b>: The test suite contains fine-grained test cases in order to
+ * easily individuate errors in HMap methods and also coarse-grained test cases in order to
+ * test different methods interaction. That means that test cases include modification test, where
+ * the map structure is modified in different ways, and inspection test, where information are retrieved
+ * from the map to see if the informations are stored correctly, and tests where modifications and
+ * inspections are combined. In the first section of the suite, propagation is tested
+ * from the backing HMap to the KeySet/Values (and eventually their iterator) and viceversa, which is an important feature
+ * of HMap.</p>
+ */
 public class TestMap
 {
 	int count = 0;
@@ -46,7 +59,7 @@ public class TestMap
 	}
 
     /**
-	 * Method invoke before each test for cleanup.
+	 * Method invoke after each test for cleanup.
 	 */
 	@After
 	public void Cleanup()
@@ -1451,4 +1464,10 @@ public class TestMap
      * <p><b>Pre-Condition</b>:</p>
      * <p><b>Post-Condition</b>:</p>
      * <p><b>Expected Results</b>:</p>
+     */
+
+    /**
+     * <p><b>Summary</b>:</p>
+     * <p><b>Test Suite Design</b>:</p>
+     * 
      */

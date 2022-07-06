@@ -18,12 +18,15 @@ public class TestCollectionAdapter
 	HCollection intersect = null;
 	HCollection ct = null;
 
-	@BeforeClass
-	public static void BeforeClassMethod()
-	{
-		System.out.println("Test Set");
-	}
+    @BeforeClass
+    public static void BeforeClassMethod()
+    {
+        System.out.println(TestCollectionAdapter.class.getName() + " running.");
+    }
 
+    /**
+	 * Method invoke before each test for setup.
+	 */
 	@Before
 	public void Setup()
 	{
@@ -55,6 +58,15 @@ public class TestCollectionAdapter
 	{
 		c = null;
         c2 = null;
+	}
+
+    /**
+	 * Method invoke after each test for cleanup.
+	 */
+    @AfterClass
+	public static void AfterClassMethod()
+	{
+		System.out.println(TestCollectionAdapter.class.getName() + " ended.");
 	}
 
 	// ------------------------------------------ Test cases assigned from the professor ------------------------------------------
@@ -561,14 +573,14 @@ public class TestCollectionAdapter
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: Collection is initialized, then different equals invoke are
      * asserted with different argumentc, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: Collection contains {0 : 1000}.</p>
+     * <p><b>Pre-Condition</b>: Collection contains {0 : 500}.</p>
      * <p><b>Post-Condition</b>: Collection is unchanged.</p>
      * <p><b>Expected Results</b>: The Collection is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To1000()
+    public void Equals_0To500()
     {
-        int to = 1000;
+        int to = 500;
         initHCollection(c, 0, to);
         assertEquals(true, c.equals(getIntegerHCollection(0, to)));
         assertEquals(true, c.equals(getIntegerHCollection(0, to)));   // Symmetric property
@@ -602,9 +614,9 @@ public class TestCollectionAdapter
      * <p><b>Test Case Design</b>: equals method should be reflective,
      * therefore x.equals(x) should always return true.</p>
      * <p><b>Test Description</b>: The test invokes c.equals(c) when
-     * c is empty, when it has 10 elements and when it has 1000 elements.</p>
+     * c is empty, when it has 10 elements and when it has 500 elements.</p>
      * <p><b>Pre-Condition</b>: collection is not null.</p>
-     * <p><b>Post-Condition</b>: collection has 1000 elements. </p>
+     * <p><b>Post-Condition</b>: collection has 500 elements. </p>
      * <p><b>Expected Results</b>: collection equals itself, therefore
      * reflective property is valid.</p>
      */
@@ -614,7 +626,7 @@ public class TestCollectionAdapter
         assertEquals("Reflective property is not met.", true, c.equals(c));    // collection is empty
         initHCollection(c, 0, 10);
         assertEquals("Reflective property is not met.", true, c.equals(c));    // collection is not empty, should return true anyways
-        initHCollection(c, 0, 1000);
+        initHCollection(c, 0, 500);
         assertEquals("Reflective property is not met.", true, c.equals(c));    // collection is not empty, should return true anyways
     }
 
@@ -625,14 +637,14 @@ public class TestCollectionAdapter
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).</p>
      * <p><b>Test Description</b>: The test invokes c.equals(s2) and s2.equals(s3)
      * and c.equals(s3)</p>
-     * <p><b>Pre-Condition</b>:  collections  contain {1 : 1000}.</p>
+     * <p><b>Pre-Condition</b>:  collections  contain {1 : 500}.</p>
      * <p><b>Post-Condition</b>:  collections  are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 1000;
+        int to = 500;
         initHCollection(c, 0, to);
         initHCollection(c2, 0, to);
         HCollection c3 = getIntegerHCollection(0, to);
@@ -1449,7 +1461,7 @@ public class TestCollectionAdapter
      * as the collection is being modified.</p>
      */
     @Test
-    public void RetainAll_1000()
+    public void RetainAll_500()
     {
         initHCollection(c, 1, 1000);
         initHCollection(c2, 300, 600);

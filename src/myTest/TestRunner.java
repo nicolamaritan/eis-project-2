@@ -3,7 +3,6 @@ package myTest;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-
 import java.util.List;
 
 /**
@@ -37,7 +36,10 @@ public class TestRunner
         System.out.println("TestRunner started. Starting test executions.");
         testResults = JUnitCore.runClasses(TestCollection.class,
                                            TestSet.class,
-                                           TestMap.class);
+                                           TestMap.class,
+                                           TestEntrySet.class,
+                                           TestKeySet.class,
+                                           TestCollectionAdapter.class);
 
         System.out.println("TestRunner ended. All the tests have been completed.");
 

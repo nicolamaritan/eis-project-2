@@ -14,11 +14,12 @@ public class TestSet
 	HIterator iter2 = null;
 	String[] argv = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
 
-	@BeforeClass
-	public static void BeforeClassMethod()
-	{
-		System.out.println("Test Set");
-	}
+
+    @BeforeClass
+    public static void BeforeClassMethod()
+    {
+        System.out.println(TestSet.class.getName() + " running.");
+    }
 
     /**
 	 * Method invoke before each test for setup.
@@ -37,7 +38,7 @@ public class TestSet
 
 
     /**
-	 * Method invoke before each test for cleanup.
+	 * Method invoke after each test for cleanup.
 	 */
 	@After
 	public void Cleanup()
