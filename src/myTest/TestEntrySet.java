@@ -275,20 +275,20 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i, "i") is contained in the entrySet, for i in (0,1000).
+     * (i, "i") is contained in the entrySet, for i in (0,500).
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
-     * <p><b>Pre-Condition</b>: es contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":500="500"}.</p>
      * <p><b>Post-Condition</b>: es is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns true</p>
      */
     @Test
-    public void Contains_0To1000()
+    public void Contains_0To500()
     {
-        int bound = 1000;
+        int bound = 500;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
@@ -301,22 +301,22 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i, "i + 1") is contained in the entrySet, for i in (0,1000).
+     * (i, "i + 1") is contained in the entrySet, for i in (0,500).
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).
-     * This is obviusly false for each i, as es contains {0="0":1000="1000"},
-     * and not {0="1":1000="1001"}.</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * This is obviusly false for each i, as es contains {0="0":500="500"},
+     * and not {0="1":500="501"}.</p>
+     * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
-     * <p><b>Pre-Condition</b>: es contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":500="500"}.</p>
      * <p><b>Post-Condition</b>: es is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To1000_DifferentValue()
+    public void Contains_0To500_DifferentValue()
     {
-        int bound = 1000;
+        int bound = 500;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
@@ -329,22 +329,22 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i + 1, "i") is contained in the entrySet, for i in (0,1000).
-     * This is obviusly false for each i, as es contains {0="0":1000="1000"},
-     * and not (1="0":1001="1000").
+     * (i + 1, "i") is contained in the entrySet, for i in (0,500).
+     * This is obviusly false for each i, as es contains {0="0":500="500"},
+     * and not (1="0":501="500").
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
-     * <p><b>Pre-Condition</b>: es contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":500="500"}.</p>
      * <p><b>Post-Condition</b>: es is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To1000_DifferentKey()
+    public void Contains_0To500_DifferentKey()
     {
-        int bound = 1000;
+        int bound = 500;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
@@ -536,9 +536,9 @@ public class TestEntrySet
      * therefore x.equals(x) should always return true. Propagation
      * map -> entryset is tested through initHMap.</p>
      * <p><b>Test Description</b>: The test invokes es.equals(es) when
-     * es is empty, when it has 10 elements and when it has 1000 elements.</p>
+     * es is empty, when it has 10 elements and when it has 500 elements.</p>
      * <p><b>Pre-Condition</b>: EntrySet is not null.</p>
-     * <p><b>Post-Condition</b>: EntrySet has 1000 elements. </p>
+     * <p><b>Post-Condition</b>: EntrySet has 500 elements. </p>
      * <p><b>Expected Results</b>: EntrySet equals itself, therefore
      * reflective property is valid.</p>
      */
@@ -548,7 +548,7 @@ public class TestEntrySet
         assertEquals("Reflective property is not met.", true, es.equals(es));    // EntrySet is empty
         TestUtilities.initHMap(m, 0, 10);
         assertEquals("Reflective property is not met.", true, es.equals(es));    // EntrySet is not empty, should return true anyways
-        TestUtilities.initHMap(m, 0, 1000);
+        TestUtilities.initHMap(m, 0, 500);
         assertEquals("Reflective property is not met.", true, es.equals(es));    // EntrySet is not empty, should return true anyways
     }
 
@@ -583,7 +583,7 @@ public class TestEntrySet
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of entrySet
      * and of map. Tests the backing map -> entrySet and viceversa, entrySet -> map.</p>
-     * <p><b>Test Description</b>: map is initialized with {0="0" : 1000="1000"}.
+     * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries. Then clear is invoked
      * by the entrySet. Same initialization and iteration are done,
@@ -596,7 +596,7 @@ public class TestEntrySet
     @Test
     public void Clear_Backing0()
     {
-        addToHMap(m, 0, 1000);
+        addToHMap(m, 0, 500);
         assertEquals(m.size(), es.size());
         checkEntrySet(m, es);
         checkIteration(es);
@@ -606,7 +606,7 @@ public class TestEntrySet
         assertTrue("Should both have size 0", (m.size() == es.size()) && es.size() == 0);
         assertTrue("Should be both empty", m.isEmpty() && es.isEmpty());
 
-        addToHMap(m, 0, 1000);
+        addToHMap(m, 0, 500);
         checkEntrySet(m, es);
         checkIteration(es);
         m.clear();  // Invoked from m this time
@@ -1376,21 +1376,21 @@ public class TestEntrySet
      * if the iterator iterated the right amount of times
      * (checks size coherence) and if after its last iteration
      * (if it happens, otherwise the first) has next.
-     * The iteration is checked 1000 times for 1000 different configurations
+     * The iteration is checked 500 times for 500 different configurations
      * of the HMap. Infact, m contains {0="0":i="i"} for
-     * each i in {0:1000}.</p>
+     * each i in {0:500}.</p>
      * <p><b>Pre-Condition</b>: entrySet and m are empty</p>
-     * <p><b>Post-Condition</b>: entrySet and m contain {0="0":1000="1000"}</p>
+     * <p><b>Post-Condition</b>: entrySet and m contain {0="0":500="500"}</p>
      * <p><b>Expected Results</b>: For each iteration, m containing {0="0":i="i"},
      * the iteration is tested through checkIteration. In particular,
-     * iterates i times, for each i in {0:1000}.
+     * iterates i times, for each i in {0:500}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
     public void ESIterator_Variable()
     {
-        int bound = 1000;
+        int bound = 500;
         for (int i = 1; i < bound; i++)
         {
             initHMap(m, 0, i);
@@ -1469,7 +1469,7 @@ public class TestEntrySet
      * therefore coherence and iteration must be check
      * to assure correct propagation iterator -> entryset -> map.</p>
      * <p><b>Test Description</b>: map and es initially contain
-     * {0="0":1000="1000"}. An iterator iterates through
+     * {0="0":500="500"}. An iterator iterates through
      * each element and after each next it invokes the remove
      * method, removing the just returned element.
      * Then checkEntrySet and checkIteration are invoke
@@ -1477,7 +1477,7 @@ public class TestEntrySet
      * After iterating through all elements, the iterator.hasNext
      * method must return false, and es and m should be both empty.</p>
      * <p><b>Pre-Condition</b>: map and es initially contain
-     * {0="0":1000="1000"}</p>
+     * {0="0":500="500"}</p>
      * <p><b>Post-Condition</b>: m and es are empty.</p>
      * <p><b>Expected Results</b>: Each remove invoke works right,
      * the element is removed correctly and through checkEntrySet(m, es)
@@ -1485,7 +1485,7 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ESIterator_0To100Remove()
+    public void ESIterator_0To500Remove()
     {
         initHMap(m, 0, 100);
         it = es.iterator();

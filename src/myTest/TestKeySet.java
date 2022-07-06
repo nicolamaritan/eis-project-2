@@ -281,21 +281,21 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i, "i") is contained in the KeySet, for i in (0,1000).
+     * (i, "i") is contained in the KeySet, for i in (0,500).
      * Propagation map -> KeySet is tested.</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the KeySet.</p>
-     * <p><b>Pre-Condition</b>: ks contains {0:1000}, m
-     * contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:500}, m
+     * contains {0="0":500="500"}.</p>
      * <p><b>Post-Condition</b>: ks is unchanged.
      * m is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns true</p>
      */
     @Test
-    public void Contains_0To1000()
+    public void Contains_0To500()
     {
-        int bound = 1000;
+        int bound = 500;
         addToHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             assertTrue("Should be contained", ks.contains(i));
@@ -304,21 +304,21 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if the key
-     * i + 1000 is contained in the KeySet, for i in (0,1000).
-     * This is obviusly false for each i, as ks contains {0:1000}.</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * i + 500 is contained in the KeySet, for i in (0,500).
+     * This is obviusly false for each i, as ks contains {0:500}.</p>
+     * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the KeySet.</p>
-     * <p><b>Pre-Condition</b>: ks contains {0:1000}, m
-     * contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:500}, m
+     * contains {0="0":500="500"}.</p>
      * <p><b>Post-Condition</b>: ks is unchanged.
      * m is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To1000_DifferentKey()
+    public void Contains_0To500_DifferentKey()
     {
-        int bound = 1000;
+        int bound = 500;
         addToHMap(m, 0, bound);
         checkKeySet(m, ks);
         for (int i = 0; i < bound; i++)
@@ -514,9 +514,9 @@ public class TestKeySet
      * therefore x.equals(x) should always return true. Propagation
      * map -> KeySet is tested through initHMap.</p>
      * <p><b>Test Description</b>: The test invokes ks.equals(ks) when
-     * ks is empty, when it has 10 elements and when it has 1000 elements.</p>
+     * ks is empty, when it has 10 elements and when it has 500 elements.</p>
      * <p><b>Pre-Condition</b>: KeySet is not null.</p>
-     * <p><b>Post-Condition</b>: KeySet has 1000 elements. </p>
+     * <p><b>Post-Condition</b>: KeySet has 500 elements. </p>
      * <p><b>Expected Results</b>: KeySet equals itself, therefore
      * reflective property is valid.</p>
      */
@@ -526,7 +526,7 @@ public class TestKeySet
         assertEquals("Reflective property is not met.", true, ks.equals(ks));    // KeySet is empty
         initHMap(m, 0, 10);
         assertEquals("Reflective property is not met.", true, ks.equals(ks));    // KeySet is not empty, should return true anyways
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, 500);
         assertEquals("Reflective property is not met.", true, ks.equals(ks));    // KeySet is not empty, should return true anyways
     }
 
@@ -561,8 +561,8 @@ public class TestKeySet
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of KeySet
      * and of map. Tests the backing map -> KeySet and viceversa, KeySet -> map.</p>
-     * <p><b>Test Description</b>: map is initialized with {0="0" : 1000="1000"},
-     * therefore ks contains {0:1000}.
+     * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"},
+     * therefore ks contains {0:500}.
      * Through ks iterators iterates through the elements to assert that they both
      * share the same informations about the map entries. Then clear is invoked
      * by the KeySet. Same initialization and iteration are done,
@@ -575,7 +575,7 @@ public class TestKeySet
     @Test
     public void Clear_Backing0()
     {
-        addToHMap(m, 0, 1000);
+        addToHMap(m, 0, 500);
         assertEquals(m.size(), ks.size());
         checkKeySet(m, ks);
         checkIteration(ks);
@@ -585,7 +585,7 @@ public class TestKeySet
         assertTrue("Should both have size 0", (m.size() == ks.size()) && ks.size() == 0);
         assertTrue("Should be both empty", m.isEmpty() && ks.isEmpty());
 
-        addToHMap(m, 0, 1000);
+        addToHMap(m, 0, 500);
         checkKeySet(m, ks);
         checkIteration(ks);
         m.clear();  // Invoked from m this time
@@ -746,10 +746,10 @@ public class TestKeySet
      * by checkKeySet. Test aims to show the correct propagation
      * of information.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
-     * from the map remove. The map is initiated with {0="0", 1000="1000"},
-     * therefore ks contains {0:1000}
+     * from the map remove. The map is initiated with {0="0", 500="500"},
+     * therefore ks contains {0:500}
      * and each element in map and KeySet is removed by map's remove.
-     * The map is initiated with {0="0", 1000="1000"},
+     * The map is initiated with {0="0", 500="500"},
      * and each element in map and KeySet is removed by KeySet's remove.
      * After each modification to the map, through checkKeySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.
@@ -764,7 +764,7 @@ public class TestKeySet
     @Test
     public void Remove_Backing0()
     {
-        int bound = 1000;
+        int bound = 500;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "i");
@@ -774,7 +774,7 @@ public class TestKeySet
             checkKeySet(m, ks);
             checkIteration(ks);
         }
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, 500);
         checkKeySet(m, ks);
         checkIteration(ks);
         for (int i = bound - 1; i >= 0; i--)
@@ -783,7 +783,7 @@ public class TestKeySet
             checkKeySet(m, ks);
             checkIteration(ks);
         }
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, 500);
         checkKeySet(m, ks);
         checkIteration(ks);
         for (int i = bound - 1; i >= 0; i--)
@@ -1172,8 +1172,8 @@ public class TestKeySet
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: m contains {0="0":1000="1000"}, therefore
-     * ks contains {0:1000}..</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":500="500"}, therefore
+     * ks contains {0:500}..</p>
      * <p><b>Post-Condition</b>: m and ks are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through ks.toArray is right and coherent. At the end ks and m are empty.
@@ -1182,10 +1182,10 @@ public class TestKeySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ToArray_0To1000()
+    public void ToArray_0To500()
     {
-        int bound = 1000;
-        initHMap(m, 0, 1000);
+        int bound = 500;
+        initHMap(m, 0, 500);
         for (int i = 0; i < bound; i += 2)
         {
             ks.remove(i);
@@ -1261,8 +1261,8 @@ public class TestKeySet
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: m contains {0="0":1000="1000"}, therefore
-     * ks contains {0:1000}.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":500="500"}, therefore
+     * ks contains {0:500}.</p>
      * <p><b>Post-Condition</b>: m and ks are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through ks.toArray is right and coherent. At the end ks and m are empty.
@@ -1271,11 +1271,11 @@ public class TestKeySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ToArrayArrayArg_0To1000()
+    public void ToArrayArrayArg_0To500()
     {
-        int bound = 1000;
+        int bound = 500;
         
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, 500);
         for (int i = 0; i < bound; i += 2)
         {
             ks.remove(i);
@@ -1355,15 +1355,15 @@ public class TestKeySet
      * if the iterator iterated the right amount of times
      * (checks size coherence) and if after its last iteration
      * (if it happens, otherwise the first) has next.
-     * The iteration is checked 1000 times for 1000 different configurations
+     * The iteration is checked 500 times for 500 different configurations
      * of the HMap. Infact, m contains {0="0":i="i"} for
-     * each i in {0:1000}, therefore ks contanis {0:i}.</p>
+     * each i in {0:500}, therefore ks contanis {0:i}.</p>
      * <p><b>Pre-Condition</b>: KeySet and m are empty</p>
-     * <p><b>Post-Condition</b>: m contain {0="0":1000="1000"}, therefore
+     * <p><b>Post-Condition</b>: m contain {0="0":500="500"}, therefore
      * ks contanis {0:i}</p>
      * <p><b>Expected Results</b>: For each iteration, m containing {0="0":i="i"},
      * the iteration is tested through checkIteration. In particular,
-     * iterates i times, for each i in {0:1000}.
+     * iterates i times, for each i in {0:500}.
      * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
      */
@@ -1452,7 +1452,7 @@ public class TestKeySet
      * therefore coherence and iteration must be check
      * to assure correct propagation iterator -> KeySet -> map.</p>
      * <p><b>Test Description</b>: map and ks initially contain
-     * {0="0":1000="1000"}. An iterator iterates through
+     * {0="0":100="100"}. An iterator iterates through
      * each element and after each next it invokes the remove
      * method, removing the just returned element.
      * Then checkKeySet and checkIteration are invoke
@@ -1460,7 +1460,7 @@ public class TestKeySet
      * After iterating through all elements, the iterator.hasNext
      * method must return false, and ks and m should be both empty.</p>
      * <p><b>Pre-Condition</b>: map contains
-     * {0="0":1000="1000"}, therefore ks contains {0:1000}</p>
+     * {0="0":100="100"}, therefore ks contains {0:100}</p>
      * <p><b>Post-Condition</b>: m and ks are empty.</p>
      * <p><b>Expected Results</b>: Each remove invoke works right,
      * the element is removed correctly and through checkKeySet(m, es)
