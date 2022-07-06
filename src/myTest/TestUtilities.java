@@ -31,8 +31,8 @@ public class TestUtilities
      * Initializes a collection with integers starting at from (included) and
      * ending at to (escluded).
      * @param coll collection to be initialize
-     * @param from lower bound (included) of the list
-     * @param to upper bound (escluded) of the list
+     * @param from lower bound (included) of the collection
+     * @param to upper bound (escluded) of the collection
      * @throws NullPointerException if coll is null
      * @throws IllegalArgumentException if from {@literal >} to
      */
@@ -54,8 +54,8 @@ public class TestUtilities
      * starting at from (included) and
      * ending at to (escluded).
      * @param m map to be initialize
-     * @param from lower bound (included) of the list
-     * @param to upper bound (escluded) of the list
+     * @param from lower bound (included) of the map
+     * @param to upper bound (escluded) of the map
      * @throws NullPointerException if coll is null
      * @throws IllegalArgumentException if from {@literal >} to
      */
@@ -98,11 +98,11 @@ public class TestUtilities
      * Adds at the end of the collection the integers starting at from (included) and
      * ending at to (escluded).
      * @param coll collection where to append new elements
-     * @param from lower bound (included) of the list
-     * @param to upper bound (escluded) of the list
+     * @param from lower bound (included) of the collection
+     * @param to upper bound (escluded) of the collection
      * @throws IllegalArgumentException if from {@literal >} to
      */
-    public static void addToCollection(HCollection coll, int from, int to)
+    public static void addToHCollection(HCollection coll, int from, int to)
     {
         if (coll == null)
             throw new NullPointerException();
@@ -117,8 +117,8 @@ public class TestUtilities
      * Adds at the end of the collection the integers starting at from (included) and
      * ending at to (escluded).
      * @param coll collection where to append new elements
-     * @param from lower bound (included) of the list
-     * @param to upper bound (escluded) of the list
+     * @param from lower bound (included) of the map
+     * @param to upper bound (escluded) of the map
      * @throws IllegalArgumentException if from {@literal >} to
      */
     public static void addToHMap(HMap m, int from, int to)
