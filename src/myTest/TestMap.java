@@ -9,7 +9,7 @@ import myAdapter.*;
  * <p><b>Summary</b>: The test suite TestMap focuses on map methods, tests their correct
  * behaviour in different case scenario. Each MapAdapter method is tested in different
  * test cases. The first section of the test suite (Test cases assigned from the professor)
- * contains the tests in the TestMap
+ * contains the tests in the TestMap.java
  * file assigned by the professor in the JUnit format, the second section of the test suite (Test cases ideated by me)
  * contains the test cases ideated by me on each element of HMap, excluding entrySet, keySet and values,
  * as they return a whole new HSet/HCollection to be tested apart from the methods of HMap.

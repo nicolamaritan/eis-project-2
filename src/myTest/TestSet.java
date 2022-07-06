@@ -6,6 +6,35 @@ import static myTest.TestUtilities.*;
 import org.junit.*;
 import myAdapter.*;
 
+/**
+ * <p><b>Summary</b>: The test suite TestSet focuses on the HCollection returned from value()
+ * method of HMap, and HSet returned from keySet() method of HMap, tests their correct
+ * behaviour in different case scenario. Each HSet/HCollection method is tested in different
+ * test cases.
+ * The test suite contains the tests in the TestSet.java
+ * file assigned by the professor in the JUnit format. The original tests
+ * inserted elements directly inserted elements in the set through add(Object) method,
+ * but the HMap interfaces states that the HSet/HCollection returned from value() cannot use
+ * add or addAll. Therefore the original test (contained in TestSet.java given by the professor)
+ * has being recreated inserting an entry
+ * with adeguate value to the map, in other to indirectly "insert" that element in
+ * the set.
+ * Notation used in this test suite:
+ * <ul>
+ * <li>x=y means an entry, where s is the key, and y is its mapped value.</li>
+ * </ul>
+ * 
+ * <p><b>Test Suite Design</b>: Test cases include modification test, where
+ * the map structure is modified in different ways, and inspection test, where information are retrieved
+ * from the map to see if the informations are stored correctly, and tests where modifications and
+ * inspections are combined.
+ * The kind of test cases in this test suite are:
+ * <ul>
+ * <li>ClonesAcceptanceTest, where the object behaviour is tested inserting clones.</li>
+ * <li>CheckContentTest, where the object content is checked</li>
+ * <li>IteratorRemovalTest, where the object is emptied through HIterator.remove()</li>
+ * </ul>
+ */
 public class TestSet
 {
 	HSet s = null, s2 = null;
