@@ -1,10 +1,9 @@
 package myTest;
 
 import static org.junit.Assert.*;
+import org.junit.*;
 import static myTest.TestUtilities.*;
 import java.util.NoSuchElementException;
-import org.junit.*;
-
 import myAdapter.*;
 
 public class TestEntrySet 
@@ -176,7 +175,7 @@ public class TestEntrySet
      * the entryset.</p>
      * <p><b>Pre-Condition</b>: The entryset is empty.</p>
      * <p><b>Post-Condition</b>: The entryset has 3 elements ({0, 1, 2}).</p>
-     * <p><b>Expected Results</b>: The size method returns 3 ad the
+     * <p><b>Expected Results</b>: The size method returns 3 as the
      * entryset contains 3 elements and the isEmpty
      * method returns false. Map initialization keeps coherence.</p>
      */
@@ -566,6 +565,8 @@ public class TestEntrySet
         checkEntrySet(m, es);
         checkIteration(es);
         es.clear();
+        checkEntrySet(m, es);
+        checkIteration(es);
         assertTrue("Should both have size 0", (m.size() == es.size()) && es.size() == 0);
         assertTrue("Should be both empty", m.isEmpty() && es.isEmpty());
 
@@ -573,6 +574,8 @@ public class TestEntrySet
         checkEntrySet(m, es);
         checkIteration(es);
         m.clear();  // Invoked from m this time
+        checkEntrySet(m, es);
+        checkIteration(es);
         assertTrue("Should both have size 0", (m.size() == es.size()) && es.size() == 0);
         assertTrue("Should be both empty", m.isEmpty() && es.isEmpty());
     }
@@ -583,8 +586,9 @@ public class TestEntrySet
      * and map when they both are empty, which is a limit case (obviusly the limit case is that
      * they are empty, not that they have the same size, as it is trivial).</p>
      * <p><b>Test Description</b>: clear is invoked by m and they are checked through checkEntrySet,
-     * and checkIteration
-     * same then but clear is invoked by the entrySet and checkIteration.</p>
+     * and checkIteration.
+     * Same then but clear is invoked by the entrySet and they are checked through checkEntrySet,
+     * and checkIteration.</p>
      * <p><b>Pre-Condition</b>: m and es are empty</p>
      * <p><b>Post-Condition</b>: m and es are empty</p>
      * <p><b>Expected Results</b>: clear propagates successfully from map to entrySet
@@ -1016,7 +1020,7 @@ public class TestEntrySet
      * <p><b>Post-Condition</b>: The set contains {300="300" : 600="600"}, c contains
      * {300="300" : 600="600"}.</p>
      * <p><b>Expected Results</b>: The arrays are equal, therefore set contains {300="300" : 600="600"}. retainAll returns true
-     * as the set is being modified. Coherence is checked after retainAll invoke.
+     * as the set is being modified. Coherence is checked after each retainAll invoke.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
      */
@@ -1046,7 +1050,7 @@ public class TestEntrySet
      * <p><b>Pre-Condition</b>: The set contains {1="1":20="20"}.</p>
      * <p><b>Post-Condition</b>: The set is empty.</p>
      * <p><b>Expected Results</b>: The set is empty, retainAll returns true
-     * because the set changes. Coherence is checked after retainAll invoke.
+     * because the set changes. Coherence is checked after each retainAll invoke.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
      */
