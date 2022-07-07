@@ -3,13 +3,11 @@ package myTest;
 import myAdapter.*;
 
 /**
- * Class with static methods used during TDD to initialize and create
+ * Class with static methods used during Test Driven Development to initialize and create
  * HMap and other objects samples quickly.
  */
 public class TestUtilities
 {
-
-
     /**
      * Initializes a collection with integers starting at from (included) and
      * ending at to (escluded).
@@ -129,9 +127,12 @@ public class TestUtilities
      * @param key
      * @param value
      * @return the aforementioned Entry.
+     * @throws NullPointerException if key is null or value is null
      */
     public static HMap.Entry getEntry(Object key, Object value)
     {
+        if (key == null || value == null)
+            throw new NullPointerException();
         HMap m = new MapAdapter();
         m.put(key, value);
         HSet es = m.entrySet();
@@ -196,6 +197,13 @@ public class TestUtilities
         return m.values();
     }
 
+    /**
+     * Returns a HCollection instance containing the elements
+     * in the array.
+     * @param arr array containing the elements to be added to
+     * the HCollection
+     * @return the aforementioned HCollection instance
+     */
     public static HCollection getHCollection(Object[] arr)
     {
         if (arr == null)
@@ -207,6 +215,10 @@ public class TestUtilities
         return m.values();
     }
 
+    /**
+     * Returns an empty HCollection instance. 
+     * @return an empty HCollection instance.
+     */
     public static HCollection getEmptyHCollection()
     {
         return getHCollection(new Object[]{});
@@ -270,6 +282,9 @@ public class TestUtilities
      */
     public static HSet getEntryHSet(int from, int to)
     {
+        if (from > to)
+            throw new IllegalArgumentException();
+
         HSet c = new SetAdapter();
         for (int i = from; i < to; i++)
         {
