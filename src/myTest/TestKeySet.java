@@ -1390,6 +1390,27 @@ public class TestKeySet
         assertEquals("Should be empty", 0, m.size());
     }
 
+    /**
+     * <p><b>Summary</b>: toArray method test case.
+     * Test took by TestValues.java tests assigned by the professor.</p>
+     * <p><b>Test Case Design</b>: Tests entryset toArray with a single element.</p>
+     * <p><b>Test Description</b>: size is true if lenght is 1, content
+	 * is true if a[0] equals the Collection Adapter.</p>
+     * <p><b>Pre-Condition</b>: head has at least 1 element.</p>
+     * <p><b>Post-Condition</b>: a is an array containing head elements.</p>
+     * <p><b>Expected Results</b>:size AND content are true.</p>
+     */
+	@Test
+	public void to_array_a() {
+		Object[] a = new Object[10];
+        m.put("Collection Adapter", "Random value");
+        HSet head = m.keySet();
+		a = head.toArray(a);
+		boolean size = (a.length == 1);
+		boolean content = (a[0].equals("Collection Adapter"));
+		assertTrue(size && content);
+	}
+
     // ------------------------------------------ iterator method and KeySetIterator ------------------------------------------
     
     /**

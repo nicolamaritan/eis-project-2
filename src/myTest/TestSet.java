@@ -34,6 +34,8 @@ import myAdapter.*;
  * <li>CheckContentTest, where the object content is checked</li>
  * <li>IteratorRemovalTest, where the object is emptied through HIterator.remove()</li>
  * </ul>
+ * Prints are kept from the original file, as it helped during the Test Driven Development
+ * at looking for errors and fixing them.
  */
 public class TestSet
 {

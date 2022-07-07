@@ -2,9 +2,6 @@ package myTest;
 
 // Imports
 import static org.junit.Assert.*;
-
-import java.util.Arrays;
-
 import org.junit.*;
 import myAdapter.*;
 import static myTest.TestUtilities.*;
@@ -294,9 +291,9 @@ public class TestCollection
      * <p><b>Summary</b>: toArray method test case.</p>
      * <p><b>Test Case Design</b>: Tests toArray with a single element.</p>
      * <p><b>Test Description</b>: size is true if lenght is 1, content
-	 * is true if temp[0] equals "Collection Adapter".</p>
+	 * is true if a[0] equals "Collection Adapter".</p>
      * <p><b>Pre-Condition</b>: head has at least 1 element.</p>
-     * <p><b>Post-Condition</b>: temp is an array containing head elements.</p>
+     * <p><b>Post-Condition</b>: a is an array containing head elements.</p>
      * <p><b>Expected Results</b>:size AND content are true.</p>
      */
 	@Test
@@ -305,7 +302,6 @@ public class TestCollection
 		a = head.toArray(a);
 		boolean size = (a.length == 1);
 		boolean content = (a[0].equals("Collection Adapter"));
-		System.out.println(Arrays.toString(a));
 		assertTrue(size && content);
 	}
 }

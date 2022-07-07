@@ -36,7 +36,9 @@ import myAdapter.*;
  * inspections are combined. In the first section of the suite, propagation is tested
  * from the backing HMap to the KeySet/Values (and eventually their iterator) and viceversa, which is an important feature
  * of HMap. In the test suite there are many test cases focusing on limit and special cases,
- * invalid arguments and etc.</p>
+ * invalid arguments and etc.
+ * Prints are kept from the original file, as it helped during the Test Driven Development
+ * at looking for errors and fixing them.</p>
  */
 public class TestMap
 {
