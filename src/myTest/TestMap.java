@@ -182,8 +182,9 @@ public class TestMap
     /**
      * <p><b>Summary</b>: Tests the content of the map after initialization.</p>
      * <p><b>Test Case Design</b>: Asserting toString() to be equal to some
-     * string is not reliable as the HMap is not ordered, meaning that
-     * it is not possible predict HMap internal order/toString() output. Therefore, to
+     * string is not reliable as
+     * it is not possible predict HMap internal order/toString() output
+     * (if not with iterators). Therefore, to
      * test its content, the test iterates through argv[i], asserting
      * the map to contains the right elements.
      * Original output is mantained to help checking consistency
@@ -1501,10 +1502,15 @@ public class TestMap
 		assertEquals("{1=One}", m.toString());
 	}
 
-/* 	*
+    /**
      * <p><b>Summary</b>: toString method test case.</p>
      * <p><b>Test Case Design</b>: Tests toString method on a
-	 * map containing {0="0":100:"100"}.</p>
+	 * map containing {0="0":100:"100"}. The toString method
+     * is tested with m.keySet().iterator() iterating through
+     * its elements, as the HMap interface states:
+     * "The <i>order</i> of a map is defined as
+     * the order in which the iterators on the map's collection views return their
+     * elements."</p>
      * <p><b>Test Description</b>: Created the expected
      * string through iteration, then compares it with
      * toString return.</p>
@@ -1512,7 +1518,7 @@ public class TestMap
      * <p><b>Post-Condition</b>: m contains {0="0":100:"100"}.</p>
      * <p><b>Expected Results</b>: m.toString returns the expected
      * string.</p>
-     
+     */ 
 	@Test
 	public void ToString_0To100()
 	{
@@ -1531,7 +1537,7 @@ public class TestMap
 
         assertEquals(expected, m.toString());
 	}
-    */
+    
 
     // ------------------------------------------ equals method ------------------------------------------
 
