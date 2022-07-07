@@ -1051,7 +1051,7 @@ public class TestKeySet
     public void RetainAll_12345()
     {
         initHMap(m, 1, 6);
-        TestUtilities.initHCollection(c, 3, 6);
+        c = getIntegerHCollection(3, 6);
         assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
         assertTrue("set should contain {3, 4, 5}.", ks.equals(TestUtilities.getIntegerHSet(3, 6)));
         checkKeySet(m, ks);
@@ -1115,7 +1115,7 @@ public class TestKeySet
     public void RetainAll_1000()
     {
         initHMap(m, 1, 1000);
-        TestUtilities.initHCollection(c, 300, 600);
+        c = getIntegerHCollection(300, 600);
         ks.retainAll(c);
         assertEquals("The sets should match.", TestUtilities.getIntegerHSet(300, 600), ks);
         checkKeySet(m, ks);
@@ -1146,7 +1146,6 @@ public class TestKeySet
     {
         initHMap(m, 1, 21);
         c = getIntegerHCollection(21, 24);
-        //TestUtilities.initHCollection(c, 21, 24);
 
         assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
         assertEquals("The set should be empty.", 0, ks.size());

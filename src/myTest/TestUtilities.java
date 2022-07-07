@@ -190,7 +190,10 @@ public class TestUtilities
      */
     public static HCollection getIntegerHCollection(int from, int to)
     {
-        return getIntegerHSet(from, to);
+        HMap m = new MapAdapter();
+        for (int i = from; i < to; i++)
+            m.put(i, i);
+        return m.values();
     }
 
     /**
