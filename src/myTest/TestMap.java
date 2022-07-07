@@ -114,7 +114,8 @@ public class TestMap
 	 * except pippo=pippo and their size is 4. Finally the pippo=pippo entry is reinserted
 	 * through map, implying its presence in keySet. They both have size 5.
 	 * Lastly asserts that m and ks have the same size after all removal/insertions and
-	 * the difference in size from stage 0 to stage 1 is 1.
+	 * the difference in size from stage 0 to stage 1 is 1
+     * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1 must be true).
      * Hence the propagation from map to keySet works correctly.</p>
      */
 	@Test
@@ -179,27 +180,42 @@ public class TestMap
 	}
 
     /**
-     * <p><b>Summary</b>: Tests the method toString after initialization.</p>
-     * <p><b>Test Case Design</b>: Tests the method toString.</p>
+     * <p><b>Summary</b>: Tests the content of the map after initialization.</p>
+     * <p><b>Test Case Design</b>: Asserting toString() to be equal to some
+     * string is not reliable as the HMap is not ordered, meaning that
+     * it is not possible predict HMap internal order/toString() output. Therefore, to
+     * test its content, the test iterates through argv[i], asserting
+     * the map to contains the right elements.
+     * Original output is mantained to help checking consistency
+     * during development.</p>
      * <p><b>Test Description</b>: Initialize the map with argv keys and
-	 * values, then invoke toString.</p>
+	 * values, asserts its size to be 5, then checks its content. For each element elem in argv,
+     * it contains the key elem, it contains the value elem, and m.get(eleme)
+     * equals elem.</p>
      * <p><b>Pre-Condition</b>: map contains argv keys and values,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
      * gambatek=gambatek.</p>
      * <p><b>Post-Condition</b>: map contains argv keys and values,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
-     * gambatek=gambatek. map is unchanged, as toString does NOT modify the
-     * map.</p>
-     * <p><b>Expected Results</b>: m.toString returns
-	 * {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}.
-	 * Note that map encloses entries with {}.</p>
+     * gambatek=gambatek. map is unchanged</p>
+     * <p><b>Expected Results</b>: map contains argv keys and values,
+     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
+     * gambatek=gambatek, as the size is asserted to be 5 and
+     * iterating through argv, each element is asserted to be stored
+     * correctly. The map is unchanged</p>
      */
 	@Test
-	public void TestToString()
+	public void TestContent()
 	{
 		argvInitialize(m);
-		System.out.println("Map.toString() ? " + m);
-		assertEquals("Map.toString() ? {pluto=pluto, gambatek=gambatek, ciccio=ciccio, qui=qui, pippo=pippo}", "Map.toString() ? " + m.toString());
+		assertEquals("Size should be 5", m.size(), 5);
+        System.out.println("Map.toString() ? " + m);
+        for (int i = 0; i < argv.length; i++)
+        {
+            assertTrue(m.containsKey(argv[i]));
+            assertTrue(m.containsValue(argv[i]));
+            assertEquals(argv[i], m.get(argv[i]));
+        }
 	}
 
     /**
@@ -217,17 +233,24 @@ public class TestMap
 	 * Then the keySet s1 is created. KeySet iterator iterates through the set
 	 * and asserts that the next key returned is equal to the element of the same
 	 * key in the map (in fact pippo=pippo, qui=qui, ecc).
-	 * Next the key pippo is removed from the KeySet, thus affecting the backing
+	 * Next the key pippo is removed from the KeySet (s1.remove(argv[0])), thus affecting the backing
 	 * map (it removes pippo=pippo from it). KeySet iterator iterates through the set
 	 * and asserts that the next key returned is equal to the element of the same
 	 * key in the map (in fact pluto=pluto, qui=qui, ecc).
-	 * Then the entry carrozza=carrozza is inserted through the map,
-	 * thus affecting s1. Then the key carrozza is removed from s1, thus
+	 * Then the entry carrozza=carrozza is inserted through the map (m.put("carrozza", "carrozza")),
+	 * thus affecting s1. Then the key carrozza is removed from s1 (s1.remove("carrozza")), thus
 	 * affecting the backing Map.</p>
      * <p><b>Pre-Condition</b>: map contains argv keys and values.</p>
      * <p><b>Post-Condition</b>: pippo=pippo is removed.</p>
      * <p><b>Expected Results</b>: backing Map is correctly affected by changes
-	 * in keySet. At the end sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size() is
+	 * in keySet.
+     * After initialization map size is 5 and contains argv as key and m.get(argv[i])
+     * equals argv[i]. The keyset's size is 5 and contains argv elements.
+     * After pippo removal, map size and keyset size is 4, therefore s1.contains(argv[0])
+     * returns false, while s1.contains(argv[i]) with i != 0 returns true. Then the
+     * entry carrozza=carrozza is inserted, set is checked to be coherent, then carrozza
+     * is removed.
+     * At the end sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size() is
 	 * false, which means that map size at stage 2 is different from final map size AND
 	 * keySet size at stage 2 is different from final keySet size AND keySet and map have the
 	 * same final size.
@@ -302,7 +325,7 @@ public class TestMap
 		m.put("carrozza", "carrozza");
 		
 		System.out.println(m + " " + m.size());
-		assertEquals("{pluto=pluto, gambatek=gambatek, carrozza=carrozza, ciccio=ciccio, qui=qui} 5", m + " " + m.size());
+		assertEquals("Size should be 5.", 5, m.size());
 
 		iter = s1.iterator();
 		count = s1.size()+2;
@@ -315,12 +338,10 @@ public class TestMap
 		}
 		
 		System.out.println("\n" + s1);
-		assertEquals("[pluto, gambatek, carrozza, ciccio, qui]", s1.toString());
 
 		sm2 = m.size();
 		ss2 = s1.size();
 
-		// s1.remove("carrozza");
 		System.out.println("Removed carrozza from keyset");
 		assertEquals("Should be removed.", true, s1.remove("carrozza"));
 
@@ -342,12 +363,12 @@ public class TestMap
      * is tested in this test, by modifying the map from a keyset iterator.</p>
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * s1 the KeySet is created. pippo=pippo is removed from the map.
-	 * Then iterates through the keySet creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
-	 * and removing each element after each next. Therefore the Map is then empty.</p>
+	 * Then iterates through the keySet asserting the returned element to be contained in the keyset
+	 * and removing each element after each next, asserting them to be NOT
+     * contained in the keyset. Therefore the Map is then empty.</p>
      * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
      * <p><b>Post-Condition</b>: The map is empty.</p>
-     * <p><b>Expected Results</b>: The created string during iteration is
-	 * "pluto 3; gambatek 2; ciccio 1; qui 0; ". The map is empty after
+     * <p><b>Expected Results</b>: Contains assertion pass. The map is empty after
 	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
@@ -366,11 +387,13 @@ public class TestMap
 		while(iter.hasNext() && count-- >= 0)
 		{
 			Object k = iter.next();
+            assertTrue("Should be present", s1.contains(k));
 			iter.remove();
-			temp += (k + " " + m.size() + "; ");
+            assertFalse("Should be just removed", s1.contains(k));
+            System.out.println(k + " " + m.size() + "; ");
+			//temp += (k + " " + m.size() + "; ");
 		}
 
-		assertEquals("pluto 3; gambatek 2; ciccio 1; qui 0; ", temp);
 		assertEquals("[]", s1.toString());
 		System.out.println("\n" + s1);
 
@@ -388,7 +411,8 @@ public class TestMap
      * <p><b>Test Description</b>: clear method is invoked on the map.
 	 * Then argv keys and values are inserted in the map. pippo=pippo is
 	 * inserted twice, but map only accept unique keys.
-	 * values is created and iterates through the set to created the temp string.</p>
+	 * values is created and iterates through the set and each
+     * returned object is asserted to be contained in the set.</p>
      * <p><b>Pre-Condition</b>: map contains argv values and keys,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
      * gambatek=gambatek.</p>
@@ -474,10 +498,11 @@ public class TestMap
 		while(iter.hasNext()&&count-->= 0)
         {
             Object next = iter.next();
-			temp += next + "; ";
+            assertTrue(c.contains(next));
+			//temp += next + "; ";
 			System.out.print(next + "; ");
         }
-		assertEquals("pluto; gambatek; ciccio; qui; ", temp);
+		//assertEquals("pluto; gambatek; ciccio; qui; ", temp);
 		//System.out.print(iter.next() + "; ");
 		System.out.println("\n" + c);
 		
@@ -536,6 +561,12 @@ public class TestMap
 		assertTrue("", m.size() == c.size() && m.size() == 0);	
 	}
 
+    /**
+     * Initiate the map with the elements in argv as key
+     * and value, in order to recreate the test in a
+     * no-JUnit format assigned by the professor in TestMap.java. 
+     * @param m
+     */
 	private void argvInitialize(HMap m)
 	{
 		for(int i=0;i<argv.length;i++)
@@ -1212,7 +1243,7 @@ public class TestMap
      * <p><b>Expected Results</b>: NullPointerException thrown.</p>
      */
     @Test(expected = java.lang.NullPointerException.class)
-    public void putAll_NullCollection_NPE()
+    public void PutAll_NullCollection_NPE()
     {
         m.putAll(null);
     }
@@ -1229,7 +1260,7 @@ public class TestMap
      * <p><b>Expected Results</b>: Map is still empty.</p>
      */
     @Test
-    public void putAll_EmptyCollection_False()
+    public void PutAll_EmptyCollection_False()
     {
 		m.putAll(m2);
         assertEquals("The Map should be empty.", true, m.isEmpty());
@@ -1248,10 +1279,11 @@ public class TestMap
      * <p><b>Pre-Condition</b>: Map is empty, m2 has {1="1", 2="2", 3="3"}.</p>
      * <p><b>Post-Condition</b>: Map and m2 both contain {1="1", 2="2", 3="3"}. In particular,
      * m2 is unchanged.</p>
-     * <p><b>Expected Results</b>: Map contains the added elements {1="1", 2="2", 3="3"} and its size is 3.</p>
+     * <p><b>Expected Results</b>: Map contains the added elements {1="1", 2="2", 3="3"},
+     * as the putAll(m2) method inserted all m2 mapping to m, and its size is 3.</p>
      */
     @Test
-    public void putAll_FromEmptyTo123()
+    public void PutAll_FromEmptyTo123()
     {
         TestUtilities.initHMap(m2, 1, 4);
 
@@ -1273,16 +1305,17 @@ public class TestMap
      * adds through putAll method the elements {3="3", 4="4", 5="5"}.</p>
      * <p><b>Pre-Condition</b>: Map contains {1="1", 2="2", 3="3"}}.</p>
      * <p><b>Post-Condition</b>: Map contains {1="1":6="6"}.</p>
-     * <p><b>Expected Results</b>: Map contains the added elements {1="1":6="6"}.</p>
+     * <p><b>Expected Results</b>: Map contains the added elements {1="1":6="6"}
+     * through m.putAll(m2).</p>
      */
     @Test
-    public void putAll_From123to12345()
+    public void PutAll_From123to12345()
     {
-        TestUtilities.initHMap(m, 1, 4);
+        initHMap(m, 1, 4);
         m.remove(3);
-        TestUtilities.initHMap(m2, 3, 6);
+        initHMap(m2, 3, 6);
         m.putAll(m2);
-        assertEquals("The Map should be equal.", true, m.equals(TestUtilities.getIntegerMapAdapter(1, 6)));
+        assertEquals("The Map should be equal.", true, m.equals(getIntegerMapAdapter(1, 6)));
     }
 
     /**
@@ -1292,18 +1325,18 @@ public class TestMap
      * <p><b>Test Case Design</b>: The test considers the case
      * scenario of large input. From the Sommerville: "Force computation results to be
      * too large or too small."</p>
-     * <p><b>Test Description</b>: Numbers from 1 to 100 are inserted in coll, then putAll
-     * method is invoked with coll as argument.</p>
-     * <p><b>Pre-Condition</b>: The Map is empty, coll contains aforementioed numbers.</p>
-     * <p><b>Post-Condition</b>: The Map contains number from 0 to 100.</p>
+     * <p><b>Test Description</b>: Numbers from 1 to 100 are inserted in coll, then putAll(m2)
+     * method is invoked with m2 as argument. m2 contains {0="0":100="100"}.</p>
+     * <p><b>Pre-Condition</b>: The Map is empty, m2 contains aforementioed entries.</p>
+     * <p><b>Post-Condition</b>: The Map contains {0="0":100="100"} as m2.</p>
      * <p><b>Expected Results</b>: Entries i="i" entries are stored correctly,
 	 * with i from 0 to 100.
      * The Map size is 100.
      */
     @Test
-    public void putAll_0to100()
+    public void PutAll_0to100()
     {
-        TestUtilities.initHMap(m2, 0, 100);
+        initHMap(m2, 0, 100);
 		m.putAll(m2);
         assertEquals("Size should be 100.",100, m.size());
 		for (int i = 0; i < 100; i++)
@@ -1318,10 +1351,11 @@ public class TestMap
 	 * in a limit case, which is an empty map, which
 	 * obviusly does not contain the key.</p>
      * <p><b>Test Description</b>: remove is invoked with 0
-	 * key.</p>
+	 * key, which has not mapping in the map.</p>
      * <p><b>Pre-Condition</b>: m is empty.</p>
      * <p><b>Post-Condition</b>: m is unchanged.</p>
-     * <p><b>Expected Results</b>: remove returns null and equals
+     * <p><b>Expected Results</b>: remove returns null as the
+     * key has no mapping in the map and equals
 	 * to empty map.</p>
      */
 	@Test
@@ -1336,11 +1370,12 @@ public class TestMap
      * <p><b>Test Case Design</b>: Tests the remove method
 	 * in a case where the map does not contain the key.</p>
      * <p><b>Test Description</b>: remove is invoked with 20
-	 * key.</p>
+	 * key, which is has not mapping in the map.</p>
      * <p><b>Pre-Condition</b>: m contains {0="0":10="10"}.</p>
      * <p><b>Post-Condition</b>: m is unchanged.</p>
-     * <p><b>Expected Results</b>: remove returns null and map
-	 * contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: remove returns null as the
+     * key 20 had no mapping in the map and map
+	 * contains {0="0":10="10"}, therefore it is unchanged.</p>
      */
 	@Test
 	public void Remove_NotInMap()
@@ -1417,7 +1452,7 @@ public class TestMap
 		assertEquals("{1=One}", m.toString());
 	}
 
-	/**
+/* 	*
      * <p><b>Summary</b>: toString method test case.</p>
      * <p><b>Test Case Design</b>: Tests toString method on a
 	 * map containing {0="0":100:"100"}.</p>
@@ -1428,7 +1463,7 @@ public class TestMap
      * <p><b>Post-Condition</b>: m contains {0="0":100:"100"}.</p>
      * <p><b>Expected Results</b>: m.toString returns the expected
      * string.</p>
-     */
+     
 	@Test
 	public void ToString_0To100()
 	{
@@ -1447,6 +1482,7 @@ public class TestMap
 
         assertEquals(expected, m.toString());
 	}
+    */
 
     // ------------------------------------------ equals method ------------------------------------------
 
@@ -1457,14 +1493,14 @@ public class TestMap
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: Map is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: Map contains {0="0" : 1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: Map contains {0="0" : 500="500"}.</p>
      * <p><b>Post-Condition</b>: Map is unchanged.</p>
      * <p><b>Expected Results</b>: The Map is unchanged and symmetric property is valid.</p>
      */
     @Test
     public void Equals_0To10()
     {
-        int to = 1000;
+        int to = 500;
         TestUtilities.initHMap(m, 0, to);
         assertEquals(true, m.equals(TestUtilities.getIntegerMapAdapter(0, to)));
         assertEquals(true, TestUtilities.getIntegerMapAdapter(0, to).equals(m));   // Symmetric property
@@ -1498,9 +1534,9 @@ public class TestMap
      * <p><b>Test Case Design</b>: equals method should be reflective,
      * therefore x.equals(x) should always return true.</p>
      * <p><b>Test Description</b>: The test invokes m.equals(m) when
-     * m is empty, when it has 10 elements and when it has 1000 elements.</p>
+     * m is empty, when it has 10 elements and when it has 500 elements.</p>
      * <p><b>Pre-Condition</b>: Map is not null.</p>
-     * <p><b>Post-Condition</b>: Map has 1000 elements. </p>
+     * <p><b>Post-Condition</b>: Map has 500 elements. </p>
      * <p><b>Expected Results</b>: Map equals itself, therefore
      * reflective property is valid.</p>
      */
@@ -1510,7 +1546,7 @@ public class TestMap
         assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is empty
         TestUtilities.initHMap(m, 0, 10);
         assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
-        TestUtilities.initHMap(m, 0, 1000);
+        TestUtilities.initHMap(m, 0, 500);
         assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
     }
 
@@ -1521,14 +1557,14 @@ public class TestMap
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).</p>
      * <p><b>Test Description</b>: The test invokes m.equals(m2) and m2.equals(m3)
      * and m.equals(m3)</p>
-     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 500="500"}.</p>
      * <p><b>Post-Condition</b>: Maps are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 1000;
+        int to = 500;
         TestUtilities.initHMap(m, 0, to);
         TestUtilities.initHMap(m2, 0, to);
         HMap m3 = TestUtilities.getIntegerMapAdapter(0, to);
