@@ -65,7 +65,7 @@ public class TestValues
         m2 = new MapAdapter();
         v = m.values();
         v2 = m2.values();
-        c = new CollectionAdapter();
+        c = getEmptyHCollection();
     }
 
     
@@ -410,12 +410,11 @@ public class TestValues
         addToHMap(m, 0, 11);
 
         // {1 as key}
-        c.add("1");
+        c = getHCollection(new Object[]{"1"});
         assertTrue("The Values contains 1=1.", v.containsAll(c));
         
         // {10 as key}
-        c = new CollectionAdapter();
-        c.add("10");
+        c = getHCollection(new Object[]{"10"});
         assertTrue("The Values contains 10=10.", v.containsAll(c));
 
         // {3, 4, 5 as values}
@@ -423,10 +422,7 @@ public class TestValues
         assertTrue("The Values contains 3=3, 4=4 and 5=5.", v.containsAll(c));
 
         // {1, 5, 10}
-        c = new CollectionAdapter();
-        c.add("1");
-        c.add("5");
-        c.add("10");
+        c = getHCollection(new Object[]{"1", "5", "10"});
         assertTrue("The Values contains 1, 5 and 10.", v.containsAll(c));
     }
 
@@ -456,14 +452,10 @@ public class TestValues
     {
         addToHMap(m, 0, 11);
 
-        c.add("11");
+        c = getHCollection(new Object[]{"11"});
         assertEquals("11=11 is not contained.", false, v.containsAll(c));
 
-        c = new CollectionAdapter();
-        c.add("3");
-        c.add("4");
-        c.add("5");
-        c.add("12");   // Single element not present
+        c = getHCollection(new Object[]{"3", "4", "5", "12"});
         assertFalse("3, 4 and 5 are contained. 12 is not contained.", v.containsAll(c));
     }
 
@@ -1039,8 +1031,7 @@ public class TestValues
     public void RetainAll_23()
     {
         initHMap(m, 1, 10);
-        c.add("2");
-        c.add("3");
+        c = getHCollection(new Object[]{"2", "3"});
         assertTrue("The set has changed, it should return true.", v.retainAll(c));
         assertTrue("set should contain {2, 3}.", v.equals(TestUtilities.getStringHCollection(2, 4)));
         checkValues(m, v);
@@ -1128,11 +1119,7 @@ public class TestValues
     public void RetainAll_DuplicatesColl()
     {
         initHMap(m, 0, 20);
-        for (int i = 4; i < 7; i++)
-        {
-            c.add(""+i);
-            c.add(""+i);
-        }
+        c = getHCollection(new Object[]{"4", "4", "5", "5", "6", "6"});
         assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
         assertTrue("The arrays should match.", TestUtilities.getStringHCollection(4, 7).equals(v));
     }
@@ -1780,11 +1767,7 @@ public class TestValues
         for (int i = 0; i < argv.length; i++)
             assertTrue("Insertion went wrong.", m.containsKey(i) && v.contains(argv[i]) && m.containsValue(argv[i]));
         
-        c.add("g");
-        c.add("a");
-        c.add("t");
-        c.add("i");
-        c.add("n");
+        c = getHCollection(new Object[]{"g", "a", "t", "i", "n"});
         assertTrue("Should be contained.", v.containsAll(c));
         
         m.remove(0);

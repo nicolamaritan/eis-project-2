@@ -62,7 +62,7 @@ public class TestEntrySet
         m2 = new MapAdapter();
         es = m.entrySet();
         es2 = m2.entrySet();
-        c = new CollectionAdapter();
+        c = getEmptyHCollection();
     }
 
     @AfterClass
@@ -436,23 +436,21 @@ public class TestEntrySet
         TestUtilities.addToHMap(m, 0, 11);
 
         // {1="1"}
-        c.add(TestUtilities.getEntry(1, "1"));
+        c = getHCollection(new Object[]{getEntry(1, "1")});
         assertTrue("The entryset contains 1=1.", es.containsAll(c));
         
         // {10="10"}
-        c = new CollectionAdapter();
-        c.add(TestUtilities.getEntry(10, "10"));
+        c = getHCollection(new Object[]{getEntry(10, "10")});
         assertTrue("The entryset contains 10=10.", es.containsAll(c));
 
         // {3="3", 4="4", 5="5"}
         c = getEntryHCollection(3, 6);
         assertTrue("The entryset contains 3=3, 4=4 and 5=5.", es.containsAll(c));
 
-        // {1, 5, 10}
-        c = new CollectionAdapter();
-        c.add(TestUtilities.getEntry(1, "1"));
-        c.add(TestUtilities.getEntry(5, "5"));
-        c.add(TestUtilities.getEntry(10, "10"));
+        // {1="1", 5="5", 10="10"}
+        c = getHCollection(new Object[]{getEntry(1, "1"),
+                                        getEntry(5, "5"),
+                                        getEntry(10, "10")});
         assertTrue("The entryset contains 1, 5 and 10.", es.containsAll(c));
     }
 
@@ -478,14 +476,13 @@ public class TestEntrySet
     {
         addToHMap(m, 0, 11);
 
-        c.add(getEntry(11, "11"));
+        c = getHCollection(new Object[]{getEntry(11, "11")});
         assertFalse("11=11 is not contained.", es.containsAll(c));
 
-        c = new CollectionAdapter();
-        c.add(getEntry(3, "3"));
-        c.add(getEntry(4, "4"));
-        c.add(getEntry(5, "5"));
-        c.add(getEntry(12, "12"));   // Single element not present
+        c = getHCollection(new Object[]{getEntry(3, "3"),
+                                        getEntry(4, "4"),
+                                        getEntry(5, "5"),
+                                        getEntry(12, "12")});
         assertFalse("3=3, 4=4 and 5=5 are contained. 12=12 is not contained.", es.containsAll(c));
     }
 
@@ -1109,8 +1106,7 @@ public class TestEntrySet
     public void RetainAll_23()
     {
         initHMap(m, 1, 10);
-        c.add(getEntry(2, "2"));
-        c.add(getEntry(3, "3"));
+        c = getHCollection(new Object[]{getEntry(2, "2"), getEntry(3, "3")});
         assertTrue("The set has changed, it should return true.", es.retainAll(c));
         assertTrue("set should contain {2=2, 3=3}.", es.equals(getEntryHSet(2, 4)));
         checkEntrySet(m, es);
@@ -1206,11 +1202,12 @@ public class TestEntrySet
     public void RetainAll_DuplicatesColl()
     {
         initHMap(m, 0, 20);
-        for (int i = 4; i < 7; i++)
-        {
-            c.add(getEntry(i, ""+i));
-            c.add(getEntry(i, ""+i));
-        }
+        c = getHCollection(new Object[]{getEntry(4, "4"),
+                                        getEntry(4, "4"),
+                                        getEntry(5, "5"),
+                                        getEntry(5, "5"),
+                                        getEntry(6, "6"),
+                                        getEntry(6, "6"),});
         assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
         assertEquals("The arrays should match.", getEntryHSet(4, 7), es);
         checkEntrySet(m, es);

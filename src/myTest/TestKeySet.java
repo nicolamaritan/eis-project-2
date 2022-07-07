@@ -61,7 +61,7 @@ public class TestKeySet
         m2 = new MapAdapter();
         ks = m.keySet();
         ks2 = m2.keySet();
-        c = new CollectionAdapter();
+        c = getEmptyHCollection();
     }
 
     @AfterClass
@@ -383,6 +383,7 @@ public class TestKeySet
     @Test
     public void ContainsAll_BothEmpty_False()
     {
+        c = getEmptyHCollection();
         assertEquals("The method should return true because the collection is empty.", true, ks.containsAll(c)); 
     }
     
@@ -407,23 +408,19 @@ public class TestKeySet
         addToHMap(m, 0, 11);
 
         // {1 as key}
-        c.add(1);
+        c = getHCollection(new Object[]{1});
         assertTrue("The KeySet contains 1=1.", ks.containsAll(c));
         
         // {10 as key}
-        c = new CollectionAdapter();
-        c.add(10);
+        c = getHCollection(new Object[]{10});
         assertTrue("The KeySet contains 10=10.", ks.containsAll(c));
 
         // {3, 4, 5 as keys}
         c = getIntegerHCollection(3, 6);
         assertTrue("The KeySet contains 3=3, 4=4 and 5=5.", ks.containsAll(c));
 
-        // {1, 5, 10}
-        c = new CollectionAdapter();
-        c.add(1);
-        c.add(5);
-        c.add(10);
+        // {1, 5, 10 as keys}
+        c = getHCollection(new Object[]{1, 5, 10});
         assertTrue("The KeySet contains 1, 5 and 10.", ks.containsAll(c));
     }
 
@@ -453,14 +450,10 @@ public class TestKeySet
     {
         addToHMap(m, 0, 11);
 
-        c.add(11);
+        c = getHCollection(new Object[]{11});
         assertEquals("11=11 is not contained.", false, ks.containsAll(c));
 
-        c = new CollectionAdapter();
-        c.add(3);
-        c.add(4);
-        c.add(5);
-        c.add(12);   // Single element not present
+        c = getHCollection(new Object[]{3, 4, 5, 12});
         assertFalse("3, 4 and 5 are contained. 12 is not contained.", ks.containsAll(c));
     }
 
@@ -1082,8 +1075,7 @@ public class TestKeySet
     public void RetainAll_23()
     {
         initHMap(m, 1, 10);
-        c.add(2);
-        c.add(3);
+        c = getHCollection(new Object[]{2, 3});
         assertTrue("The set has changed, it should return true.", ks.retainAll(c));
         assertTrue("set should contain {2, 3}.", ks.equals(TestUtilities.getIntegerHSet(2, 4)));
         checkKeySet(m, ks);
@@ -1180,11 +1172,7 @@ public class TestKeySet
     public void RetainAll_DuplicatesColl()
     {
         initHMap(m, 0, 20);
-        for (int i = 4; i < 7; i++)
-        {
-            c.add(i);
-            c.add(i);
-        }
+        c = getHCollection(new Object[]{4, 4, 5, 5, 6, 6});
         assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
         assertEquals("The arrays should match.", TestUtilities.getIntegerHSet(4, 7), ks);
         checkKeySet(m, ks);
@@ -1838,11 +1826,7 @@ public class TestKeySet
         for (int i = 0; i < argv.length; i++)
             assertTrue(m.containsKey(argv[i]) && ks.contains(argv[i]) && m.containsValue(argv[i]));
         
-        c.add("g");
-        c.add("a");
-        c.add("t");
-        c.add("i");
-        c.add("n");
+        c = getHCollection(new Object[]{"g", "a", "t", "i", "n"});
         assertTrue(ks.containsAll(c));
         
         m.remove(argv[0]);

@@ -39,8 +39,7 @@ public class TestRunner
                                            TestMap.class,
                                            TestEntrySet.class,
                                            TestKeySet.class,
-                                           TestValues.class,
-                                           TestCollectionAdapter.class);
+                                           TestValues.class);
 
         System.out.println("TestRunner ended. All the tests have been completed.");
 

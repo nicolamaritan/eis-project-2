@@ -196,6 +196,22 @@ public class TestUtilities
         return m.values();
     }
 
+    public static HCollection getHCollection(Object[] arr)
+    {
+        if (arr == null)
+            throw new NullPointerException();
+
+        HMap m = new MapAdapter();
+        for (int i = 0; i < arr.length; i++)
+            m.put(i, arr[i]);
+        return m.values();
+    }
+
+    public static HCollection getEmptyHCollection()
+    {
+        return getHCollection(new Object[]{});
+    }
+
     /**
      * Returns an HCollection containing string representation of integers starting at from (included) and
      * ending at to (excluded).
@@ -208,12 +224,13 @@ public class TestUtilities
     public static HCollection getStringHCollection(int from, int to)
     {
         if (from > to)
-        throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
 
-        CollectionAdapter s = new CollectionAdapter();
+        //CollectionAdapter s = new CollectionAdapter();
+        HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
-            s.add(""+i);
-        return s;
+            m.put(i, ""+i);
+        return m.values();
     }
 
     /**
@@ -228,13 +245,17 @@ public class TestUtilities
      */
     public static HCollection getEntryHCollection(int from, int to)
     {
-        HCollection c = new CollectionAdapter();
+        if (from > to)
+            throw new IllegalArgumentException();
+        //HCollection c = new CollectionAdapter();
+        HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
         {
             HMap.Entry e = TestUtilities.getEntry(i, "" + i);
-            c.add(e);
+            //c.add(e);
+            m.put(i, e);
         }
-        return c;
+        return m.values();
     }
 
     /**

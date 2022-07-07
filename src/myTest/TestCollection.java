@@ -2,8 +2,12 @@ package myTest;
 
 // Imports
 import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
 import org.junit.*;
 import myAdapter.*;
+import static myTest.TestUtilities.*;
 
 
 /**
@@ -58,8 +62,9 @@ public class TestCollection
 		 * Replicated the original initialization.
 		 */
 
-		head = new CollectionAdapter();
-		h = head.add("Collection Adapter");
+		/*head = new CollectionAdapter();
+		h = head.add("Collection Adapter");*/
+		head = getHCollection(new Object[]{"Collection Adapter"});
 
 		m = new MapAdapter();
 		m.put("Collection Adapter", "Collection Adapter");
@@ -68,15 +73,19 @@ public class TestCollection
 		m.put("ccc", "ccc");
 		ct = m.values();
 
-		param = new CollectionAdapter();
+		/*param = new CollectionAdapter();
 		param.add("aaa");
 		param.add("bbb");
 		param.add("ccc");
+		*/
+		param = getHCollection(new Object[]{"aaa", "bbb", "ccc"});
 		
-		intersect = new CollectionAdapter();
+		/*intersect = new CollectionAdapter();
 		intersect.add("aaa");
 		intersect.add("bbb");
 		intersect.add("ccc");
+		*/
+		intersect = getHCollection(new Object[]{"aaa", "bbb", "ccc"});
 	}
 
 	@AfterClass
@@ -157,11 +166,13 @@ public class TestCollection
      */
 	@Test
 	public void equals_o() {
-		CollectionAdapter temp = new CollectionAdapter();
+		/*CollectionAdapter temp = new CollectionAdapter();
 		temp.add("Collection Adapter");
 		temp.add("aaa");
 		temp.add("bbb");
 		temp.add("ccc");
+		*/
+		HCollection temp = getHCollection(new Object[]{"Collection Adapter", "aaa", "bbb", "ccc"});
 		
 		boolean ris = ct.equals(temp);
 		assertTrue(ris);
@@ -294,6 +305,7 @@ public class TestCollection
 		a = head.toArray(a);
 		boolean size = (a.length == 1);
 		boolean content = (a[0].equals("Collection Adapter"));
+		System.out.println(Arrays.toString(a));
 		assertTrue(size && content);
 	}
 }
