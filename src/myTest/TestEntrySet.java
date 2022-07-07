@@ -275,20 +275,20 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i, "i") is contained in the entrySet, for i in (0,500).
+     * (i, "i") is contained in the entrySet, for i in (0,100).
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).</p>
-     * <p><b>Test Description</b>: contains is invoked 500 times
+     * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
-     * <p><b>Pre-Condition</b>: es contains {0="0":500="500"}.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":100="100"}.</p>
      * <p><b>Post-Condition</b>: es is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns true</p>
      */
     @Test
-    public void Contains_0To500()
+    public void Contains_0To100()
     {
-        int bound = 500;
+        int bound = 100;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
@@ -1376,21 +1376,21 @@ public class TestEntrySet
      * if the iterator iterated the right amount of times
      * (checks size coherence) and if after its last iteration
      * (if it happens, otherwise the first) has next.
-     * The iteration is checked 500 times for 500 different configurations
+     * The iteration is checked 100 times for 100 different configurations
      * of the HMap. Infact, m contains {0="0":i="i"} for
-     * each i in {0:500}.</p>
+     * each i in {0:100}.</p>
      * <p><b>Pre-Condition</b>: entrySet and m are empty</p>
-     * <p><b>Post-Condition</b>: entrySet and m contain {0="0":500="500"}</p>
+     * <p><b>Post-Condition</b>: entrySet and m contain {0="0":100="100"}</p>
      * <p><b>Expected Results</b>: For each iteration, m containing {0="0":i="i"},
      * the iteration is tested through checkIteration. In particular,
-     * iterates i times, for each i in {0:500}.
+     * iterates i times, for each i in {0:100}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
     public void ESIterator_Variable()
     {
-        int bound = 500;
+        int bound = 100;
         for (int i = 1; i < bound; i++)
         {
             initHMap(m, 0, i);
@@ -1469,7 +1469,7 @@ public class TestEntrySet
      * therefore coherence and iteration must be check
      * to assure correct propagation iterator -> entryset -> map.</p>
      * <p><b>Test Description</b>: map and es initially contain
-     * {0="0":500="500"}. An iterator iterates through
+     * {0="0":100="100"}. An iterator iterates through
      * each element and after each next it invokes the remove
      * method, removing the just returned element.
      * Then checkEntrySet and checkIteration are invoke
@@ -1477,7 +1477,7 @@ public class TestEntrySet
      * After iterating through all elements, the iterator.hasNext
      * method must return false, and es and m should be both empty.</p>
      * <p><b>Pre-Condition</b>: map and es initially contain
-     * {0="0":500="500"}</p>
+     * {0="0":100="100"}</p>
      * <p><b>Post-Condition</b>: m and es are empty.</p>
      * <p><b>Expected Results</b>: Each remove invoke works right,
      * the element is removed correctly and through checkEntrySet(m, es)
@@ -1485,7 +1485,7 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ESIterator_0To500Remove()
+    public void ESIterator_0To100Remove()
     {
         initHMap(m, 0, 100);
         it = es.iterator();
@@ -1635,6 +1635,113 @@ public class TestEntrySet
         }
         for (int i = 0; i < bound; i++)
             assertTrue(esArr[i].size() == 0 && esArr[i].isEmpty() && m.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests the propagation of HMap.Entry.changeValue
+     * from the entry to the map and to the entrySet.</p>
+     * <p><b>Test Case Design</b>: It is possible to directly
+     * access one entry of a map through entryValue. Even though
+     * it is not possible to directly modify a key, as it would not
+     * mantain coherence in the HMap structure, it is possible
+     * to modify a value through setValue(). This feature of HMap.Entry
+     * is tested.</p>
+     * <p><b>Test Description</b>: m is initialized with {0="0":50="50}.
+     * Then through the entryset iterator, each entry is obtained and
+     * explicitly casted to HMap.Entry. Then e.setValue(bound) is invoked,
+     * meaning that now each entry has the value of "50".
+     * Then the test reiterate through the map to check if the key
+     * i is mapped to the value "50", for each i in (0, 50).</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":50="50}.</p>
+     * <p><b>Post-Condition</b>: m contains {0="50":50="50} (each
+     * entry's value is "50").</p>
+     * <p><b>Expected Results</b>: HMap.Entry.setValue() propagates
+     * changes correctly to the backing map. m contains {0="50":50="50} (each
+     * entry's value is "50").</p>
+     */
+    @Test
+    public void ChangeMapValues0()
+    {
+        int bound = 50;
+        initHMap(m, 0, bound);
+        it = es.iterator();
+        while (it.hasNext())
+        {
+            HMap.Entry e = (HMap.Entry)it.next();
+            e.setValue("" + bound);
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", m.containsKey(i));
+            assertEquals("Should be " + bound, m.get(i), ""+bound);
+        }
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests the propagation of HMap.Entry.changeValue
+     * from the entry to the map and to the entrySet.</p>
+     * <p><b>Test Case Design</b>: It is possible to directly
+     * access one entry of a map through entryValue. Even though
+     * it is not possible to directly modify a key, as it would not
+     * mantain coherence in the HMap structure, it is possible
+     * to modify a value through setValue(). This feature of HMap.Entry
+     * is tested.</p>
+     * <p><b>Test Description</b>: m is initialized with {ciao=Random value,
+     * forza!=Random value, per favore=Random value, grazie=Random value}.
+     * Then through the entryset iterator, each entry is obtained and
+     * explicitly casted to HMap.Entry. Then each entry is modified in
+     * order to obtain correct mapping between arg_k and arg_v.
+     * Then the test reiterate through the map to check if each key
+     * is mapped to the correct value.</p>
+     * <p><b>Pre-Condition</b>: m contains {ciao=Random value,
+     * forza!=Random value, per favore=Random value, grazie=Random value}.</p>
+     * <p><b>Post-Condition</b>: m contains {ciao=saluto,
+     * forza!=esortazione, per favore=richiesta, grazie=ringraziamento}.</p>
+     * <p><b>Expected Results</b>: HMap.Entry.setValue() propagates
+     * changes correctly to the backing map. m contains {ciao=saluto,
+     * forza!=esortazione, per favore=richiesta, grazie=ringraziamento}.</p>
+     */
+    @Test
+    public void ChangeMapValues1()
+    {
+        String arg_k[] = {"ciao", "forza!", "per favore", "grazie"};
+        String arg_v[] = {"saluto", "esortazione", "richiesta", "ringraziamento"};
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            m.put(arg_k[i], "Random value");
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+        it = es.iterator();
+        while (it.hasNext())
+        {
+            HMap.Entry e = (HMap.Entry)it.next();
+            switch ((String)e.getKey())
+            {
+                case "ciao":
+                    e.setValue(arg_v[0]);
+                    break;
+                case "forza!":
+                    e.setValue(arg_v[1]);
+                    break;
+                case "per favore":
+                    e.setValue(arg_v[2]);
+                    break;
+                case "grazie":
+                    e.setValue(arg_v[3]);
+                    break;
+            }
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            assertTrue("Should be contained", m.containsKey(arg_k[i]));
+            assertTrue("setValue did not work", m.containsValue(arg_v[i]));
+            assertEquals("setValue did not work.", arg_v[i], m.get(arg_k[i]));
+        }
     }
 
     /**

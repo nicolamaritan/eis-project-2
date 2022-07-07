@@ -421,6 +421,7 @@ public class MapAdapter implements HMap
         {
             Object oldValue = this.value;
             this.value = value;
+            ht.put(this.key, this.value);   // Substitution in the backing HMap, correct propagation
             return oldValue;
         }
 
