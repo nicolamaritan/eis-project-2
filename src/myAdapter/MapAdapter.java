@@ -697,6 +697,9 @@ public class MapAdapter implements HMap
          */
         public boolean retainAll(HCollection c)
         {
+            if (c == null)
+                throw new NullPointerException();
+
             boolean modified = false;
             HIterator it = this.iterator();
             while (it.hasNext())
@@ -1169,6 +1172,8 @@ public class MapAdapter implements HMap
          */
         public boolean retainAll(HCollection c)
         {
+            if (c == null)
+                throw new NullPointerException();
             boolean modified = false;
             HIterator it = this.iterator();
             while (it.hasNext())
@@ -1637,6 +1642,8 @@ public class MapAdapter implements HMap
          */
         public boolean retainAll(HCollection coll)
         {
+            if (coll == null)
+                throw new NullPointerException();
             boolean modified = false;
             HIterator it = this.iterator();
             while (it.hasNext())

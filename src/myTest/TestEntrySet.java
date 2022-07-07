@@ -861,7 +861,7 @@ public class TestEntrySet
         checkIteration(es);
     }
 
-    // -------------------- removeAll method --------------------
+    // ------------------------------------------removeAll method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: removeAll method test case. The test aim
@@ -951,7 +951,7 @@ public class TestEntrySet
         es.removeAll(null);
     }
 
-    // -------------------- retainAll method --------------------
+    // ------------------------------------------ retainAll method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: retainAll method test case. The test aim
@@ -1217,8 +1217,41 @@ public class TestEntrySet
         checkIteration(es);
     }
 
+    /**
+     * <p><b>Summary</b>: retainAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests retainAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: es.retainAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es is empty</p>
+     * <p><b>Post-Condition</b>: es is empty</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RetainAll_EmptyNull()
+    {
+        es.retainAll(null);
+    }
 
-    // -------------------- toArray() method --------------------
+    /**
+     * <p><b>Summary</b>: retainAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests retainAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: es.retainAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RetainAll_NotEmptyNull()
+    {
+        initHMap(m, 0, 10);
+        es.retainAll(null);
+    }
+
+
+    // ------------------------------------------ toArray() method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: toArray method test case.</p>

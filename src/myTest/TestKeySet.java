@@ -1191,6 +1191,39 @@ public class TestKeySet
         checkIteration(ks);
     }
 
+    /**
+     * <p><b>Summary</b>: retainAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests retainAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: ks.retainAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks is empty</p>
+     * <p><b>Post-Condition</b>: ks is empty</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RetainAll_EmptyNull()
+    {
+        ks.retainAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests retainAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: ks.retainAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RetainAll_NotEmptyNull()
+    {
+        initHMap(m, 0, 10);
+        ks.retainAll(null);
+    }
+
     // ------------------------------------------ toArray method ------------------------------------------
 
     /**
