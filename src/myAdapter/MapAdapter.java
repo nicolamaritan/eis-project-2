@@ -244,7 +244,7 @@ public class MapAdapter implements HMap
         HIterator it = tEntrySet.iterator();
         while (it.hasNext())
         {
-            Entry entry = (Entry)it.next();
+            Entry entry = (Entry)it.next(); // Adds one by one each entry
             this.put(entry.getKey(), entry.getValue());
         }
     }
@@ -317,8 +317,8 @@ public class MapAdapter implements HMap
     public String toString()
     {
         HSet es = this.entrySet();
-        String res = es.toString();
-        res = res.substring(1, res.length() - 1);
+        String res = es.toString(); 
+        res = res.substring(1, res.length() - 1); // Trims first and last char
         res += "}";
         res = "{" + res;
         return res;
@@ -339,11 +339,13 @@ public class MapAdapter implements HMap
     @Override
     public boolean equals(Object o)
     {
+        // If not HMap return false
         if (!(o instanceof HMap) || o == null)
             return false;
         
         HMap oMap = (HMap)o;
 
+        // If size not equal return false
         if (this.size() != oMap.size())
             return false;
 
@@ -352,6 +354,7 @@ public class MapAdapter implements HMap
 
         while (ksIt.hasNext())
         {
+            // Must contain the key and the mappin should be equal
             Object k = ksIt.next();
             if (!oMap.containsKey(k))
                 return false;
@@ -380,10 +383,11 @@ public class MapAdapter implements HMap
             
             Entry oEntry = (Entry)o;
 
+            // Both key and value should equal
             return (this.getKey()==null ?
             oEntry.getKey()==null : this.getKey().equals(oEntry.getKey()))  &&
-           (this.getValue()==null ?
-           oEntry.getValue()==null : this.getValue().equals(oEntry.getValue()));
+            (this.getValue()==null ?
+            oEntry.getValue()==null : this.getValue().equals(oEntry.getValue()));
         }
 
         /**
@@ -421,7 +425,7 @@ public class MapAdapter implements HMap
         {
             Object oldValue = this.value;
             this.value = value;
-            ht.put(this.key, this.value);   // Substitution in the backing HMap, correct propagation
+            ht.put(this.key, this.value);   // Substitution in the backing HMap, propagation
             return oldValue;
         }
 
@@ -586,6 +590,19 @@ public class MapAdapter implements HMap
             return true;
         }
     
+        /**
+         * Returns the hash code value for this set.  The hash code of a set is
+         * defined to be the sum of the hash codes of the elements in the set,
+         * where the hash code of a {@code null} element is defined to be zero.
+         * This ensures that {@code s1.equals(s2)} implies that
+         * {@code s1.hashCode()==s2.hashCode()} for any two sets {@code s1}
+         * and {@code s2}, as required by the general contract of
+         * {@link Object#hashCode}.
+         *
+         * @return the hash code value for this set
+         * @see Object#equals(Object)
+         * @see Set#equals(Object)
+         */
         @Override
         public int hashCode()
         {
@@ -1725,6 +1742,13 @@ public class MapAdapter implements HMap
             return true;
         }
 
+        /**
+         * Counts the number of element in coll.
+         * @param coll collection to be checked
+         * @param element object to be count
+         * @return the number of occurencies of element
+         * in coll
+         */
         private int count(HCollection coll, Object element)
         {
             if (!coll.contains(element))
@@ -1799,11 +1823,24 @@ public class MapAdapter implements HMap
                 values = ht.elements();
             }
 
+            /**
+             * Returns true if the iteration has more elements. (In other
+             * words, returns true if next would return an element
+             * rather than throwing an exception.)
+             *
+             * @return true if the iterator has more elements.
+             */
             public boolean hasNext()
             {
                 return values.hasMoreElements();
             }
 
+            /**
+             * Returns the next element in the iteration.
+             *
+             * @return the next element in the iteration.
+             * @exception java.util.NoSuchElementException iteration has no more elements.
+             */
             public Object next()
             {
                 if (!this.hasNext())
