@@ -1320,7 +1320,7 @@ public class TestMap
 
     /**
      * <p><b>Summary</b>: putAll method test case.
-     * The method thest the insertion of a large number
+     * The method test the insertion of a large number
      * of elements through putAll.</p>
      * <p><b>Test Case Design</b>: The test considers the case
      * scenario of large input. From the Sommerville: "Force computation results to be
@@ -1341,6 +1341,55 @@ public class TestMap
         assertEquals("Size should be 100.",100, m.size());
 		for (int i = 0; i < 100; i++)
 			assertEquals("" + i, m.get(i));
+    }
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.
+     * The method tests putAll behaviour when inserting
+     * mapping of keys already in the map.</p>
+     * <p><b>Test Case Design</b>: From the HMap interface:
+     * "The effect of this call is equivalent to that of calling put(k, v)
+     * on this map once for each mapping from key k to value v in the specified map."
+     * That means that if a key is already present, the new mapping
+     * overrides the old one. This feature is tested with 100
+     * entries.</p>
+     * <p><b>Test Description</b>: m is firstly initiated with the entries
+     * {0="0":100="100"}, and its content is checked through assertTrue(m.containsKey(i));
+     * assertTrue(m.containsValue("" + i));
+     * assertEquals("" + i, m.get(i));.
+     * The m2 is initialized with {0="100":100="200"}, with the
+     * values shifted by 100 respect to keys. then m.putAll(m2)
+     * is invoked and m content is checked through assertTrue(m.containsKey(i));
+     * assertTrue(m.containsValue("" + (i+bound)));
+     * assertEquals("" + (i+bound), m.get(i));</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100="100}, m2 contains {0="100":100="200"}.</p>
+     * <p><b>Post-Condition</b>: Both maps contains {0="100":100="200"}.</p>
+     * <p><b>Expected Results</b>: m.putAll(m2) overrides all previous mapping in m,
+     * therefore m finally contains {0="100":100="200"}.</p>
+     */
+    @Test
+    public void PutAll_0To100Duplicated()
+    {
+        int bound = 100;
+        initHMap(m, 0, bound);
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue(m.containsKey(i));
+            assertTrue(m.containsValue("" + i));
+            assertEquals("" + i, m.get(i));
+        }
+        // m2 initialization
+        for (int i = 0; i < bound; i++)
+            m2.put(i, "" + (i + bound));
+        
+        m.putAll(m2);
+
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue(m.containsKey(i));
+            assertTrue(m.containsValue("" + (i + bound)));
+            assertEquals("" + (i + bound), m.get(i));
+        }
     }
 
 	// ------------------------------------------ remove method ------------------------------------------
