@@ -216,7 +216,8 @@ public class TestValues
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 3 size and not being empty. Propagation
-     * map -> Values is tested.</p>
+     * map -> Values is tested. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the Values.</p>
      * <p><b>Pre-Condition</b>: The Values is empty.</p>
@@ -242,7 +243,8 @@ public class TestValues
      * The Values is modiefied before the asserts.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 345 size and not being empty. Propagation
-     * map -> Values is tested.</p>
+     * map -> Values is tested. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the Values.</p>
      * <p><b>Pre-Condition</b>: The Values is empty.</p>
@@ -552,14 +554,14 @@ public class TestValues
      * Propagation map -> Values is tested.</p>
      * <p><b>Test Description</b>: The test invokes v.equals(v2) and v2.equals(Values3)
      * and v.equals(v3)</p>
-     * <p><b>Pre-Condition</b>: Values contain {"1" : "2000"}.</p>
+     * <p><b>Pre-Condition</b>: Values contain {"1" : "500"}.</p>
      * <p><b>Post-Condition</b>: Values are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 2000;
+        int to = 500;
         addToHMap(m, 0, to);
         addToHMap(m2, 0, to);
         HCollection v3 = getIntegerMapAdapter(0, to).values();
@@ -574,7 +576,9 @@ public class TestValues
     /**
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of Values
-     * and of map. Tests the backing map -> Values and viceversa, Values -> map.</p>
+     * and of map. Tests the backing map -> Values and viceversa, Values -> map.
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"},
      * therefore v contains {"0":"500"}.
      * Through v iterators iterates through the elements to assert that they both
@@ -607,7 +611,9 @@ public class TestValues
      * <p><b>Summary</b>: clear method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of Values
      * and map when they both are empty, which is a limit case (obviusly the limit case is that
-     * they are empty, not that they have the same size, as it is trivial).</p>
+     * they are empty, not that they have the same size, as it is trivial).
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: clear is invoked by m and they are checked through checkValues,
      * same then but clear is invoked by the Values.</p>
      * <p><b>Pre-Condition</b>: m and v are empty</p>
@@ -620,8 +626,10 @@ public class TestValues
     {
         m.clear();
         checkValues(m, v);
+        checkIteration(v);
         v.clear();
         checkValues(m, v);
+        checkIteration(v);
     }
     
     // ------------------------------------------ hashCode method ------------------------------------------
@@ -709,7 +717,9 @@ public class TestValues
      * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its Values and checv their consistency in propagation.
-     * They both are empty, which is a limit case.</p>
+     * They both are empty, which is a limit case.
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and collection
      * are checked, remove is invoked by Values and m and collection are checked again.</p>
      * <p><b>Pre-Condition</b>: m and v are empty.</p>
@@ -723,8 +733,10 @@ public class TestValues
     {
         assertNull(m.remove("Random Key"));
         checkValues(m, v);
+        checkIteration(v);
         assertFalse(v.remove("Random Object"));
         checkValues(m, v);
+        checkIteration(v);
     }
 
     /**
@@ -732,7 +744,8 @@ public class TestValues
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its Values and checv their consistency in propagation.
      * Map contains 10 elements, and arguments are values/entries not
-     * in the map/collection.</p>
+     * in the map/collection. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and collection
      * are checked, remove is invoked by Values and m and collection are checked again.</p>
      * <p><b>Pre-Condition</b>: m contains {0="0", 10="10"},
@@ -748,8 +761,10 @@ public class TestValues
         addToHMap(m, 0, 10);
         m.remove("Not in map Key");
         checkValues(m, v);
+        checkIteration(v);
         v.remove("Not in Values Entry");
         checkValues(m, v);
+        checkIteration(v);
     }
 
     /**
@@ -759,7 +774,8 @@ public class TestValues
      * <p><b>Test Case Design</b>: After each removals and
      * modification to map and collection's structures are checked
      * by checkValues. Test aims to show the correct propagation
-     * of information.</p>
+     * of information. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
      * from the map remove. The map is initiated with {0="0", 500="500"},
      * therefore v contains {"0":"500"}
@@ -781,24 +797,31 @@ public class TestValues
         {
             m.put(i, "" + i);
             checkValues(m, v);
+            checkIteration(v);
             m.remove(i);
             checkValues(m, v);
+            checkIteration(v);
         }
         initHMap(m, 0, bound);
         checkValues(m, v);
+        checkIteration(v);
         for (int i = bound - 1; i >= 0; i--)
         {
             m.remove(i);
             checkValues(m, v);
+            checkIteration(v);
         }
         initHMap(m, 0, bound);
         checkValues(m, v);
+        checkIteration(v);
         for (int i = bound - 1; i >= 0; i--)
         {
             v.remove(i);
             checkValues(m, v);
+            checkIteration(v);
         }
         checkValues(m, v);
+        checkIteration(v);
     }
 
     // ------------------------------------------ removeAll method ------------------------------------------
@@ -813,7 +836,8 @@ public class TestValues
      * The collection keeps changing during execution. Note that
      * different sizes are tested, as first the size of v is smaller
      * than the size of c, while then the size of v is bigger than the
-     * size of c.</p>
+     * size of c. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the Values contains 
      * {"0":"i"}, for each i in (0,600)
@@ -840,6 +864,7 @@ public class TestValues
             initHMap(m, 0, i);
             v.removeAll(c);
             checkValues(m, v);
+            checkIteration(v);
 
             if (i <= secondBound)
             {
@@ -897,7 +922,9 @@ public class TestValues
      * the coherence is checked through checkValues. Tests right
      * propagation from the entry collection to the map. Retaining all entries
      * from the Values implies retaining all the entries in the map.
-     * The collection keeps changing during execution.</p>
+     * The collection keeps changing during execution.
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"}
      * and the Values contains {"0":"i"}, for each i in (0,1000)
@@ -924,6 +951,7 @@ public class TestValues
             initHMap(m, 0, i);
             v.retainAll(c);
             checkValues(m, v);
+            checkIteration(v);
 
             if (i <= secondBound)
                 assertTrue("Both should have size " + i, m.size() == v.size() && m.size() == i);
@@ -938,7 +966,9 @@ public class TestValues
      * therefore the values should became the empty set, since mainteining
      * only the "empty" subset means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument.</p>
+     * an empty collection as an argument.
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The values removes all but "empty", so
      * it empties. In fact initially it contains the values {"1", "2", "3"}</p>
      * <p><b>Pre-Condition</b>: The values contains the values {"1", "2", "3"}.</p>
@@ -955,6 +985,7 @@ public class TestValues
         assertEquals("set should be empty.", 0, v.size());
         assertEquals("coll should be empty.", 0, c.size());
         checkValues(m, v);
+        checkIteration(v);
     }
 
     /**
@@ -984,7 +1015,9 @@ public class TestValues
      * The test calls retainAll with a collection containing
      * few elements.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input. Testing a typical case.</p>
+     * input. Testing a typical case.
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The values initially contains numbers in string
      * representation
      * from 1 to 5 included. retainAll is called with a collection
@@ -1006,6 +1039,7 @@ public class TestValues
         assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
         assertTrue("set should contain {3, 4, 5}.", v.equals(TestUtilities.getStringHCollection(3, 6)));
         checkValues(m, v);
+        checkIteration(v);
     }
 
     /**
@@ -1013,7 +1047,8 @@ public class TestValues
      * The test calls retainAll with a collection containing
      * few elements. Testing a typical case.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input.</p>
+     * input. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The values initially contains numbers
      * from 1 to 9 included. retainAll is called with a collection
      * containing {"2", "3"}, therefore the values should contain the values
@@ -1035,6 +1070,7 @@ public class TestValues
         assertTrue("The set has changed, it should return true.", v.retainAll(c));
         assertTrue("set should contain {2, 3}.", v.equals(TestUtilities.getStringHCollection(2, 4)));
         checkValues(m, v);
+        checkIteration(v);
     }
 
     /**
@@ -1042,7 +1078,8 @@ public class TestValues
      * The test calls retainAll with a collection containing
      * many elements. Testing a typical case with a large input.</p>
      * <p><b>Test Case Design</b>:  The retainAll method is tested with large
-     * input. The case is still a common case.</p>
+     * input. The case is still a common case. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The set initially contains numbers
      * from 1 to 999 included in string representation. retainAll is called with a collection
      * containing {"300", ..., "599"}, therefore the set should contain
@@ -1064,6 +1101,7 @@ public class TestValues
         v.retainAll(c);
         assertTrue("The sets should match.", v.equals(getStringHCollection(300, 600)));
         checkValues(m, v);
+        checkIteration(v);
     }
 
 	/**
@@ -1073,7 +1111,8 @@ public class TestValues
      * therefore the values should became the empty set, since mainteining
      * only a subset not contained in the set means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty intersection of values and c.</p>
+     * an empty intersection of values and c. checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The values removes all but "empty", so
      * it empties. In fact initially it contains {"1", ..., "20"}</p>
      * <p><b>Pre-Condition</b>: The values contains {"1", ..., "20"}.</p>
@@ -1091,6 +1130,7 @@ public class TestValues
         assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
         assertEquals("The set should be empty.", 0, v.size());
         checkValues(m, v);
+        checkIteration(v);
     }
 
     /**
@@ -1102,7 +1142,7 @@ public class TestValues
      * <p><b>Test Case Design</b>: c can contain duplicated element, and
      * this should not change retainAll behaviour. At the end of
      * retainAll execution every element not contained in coll
-     * must be removed.</p>
+     * must be removed. </p>
      * <p><b>Test Description</b>: values contains {"1", ..., "19"}. c contains
      * {"4", "4", "5", "5", "6", "6"}. retainAll is called, so the set should contain
      * {"4", "5", "6"}.</p>
@@ -1427,7 +1467,9 @@ public class TestValues
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> Values -> map.</p>
+     * to assure correct propagation iterator -> Values -> map.
+     * checkValues(m, es) and checkIteration(es)
+     * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: map and v initially contain
      * {0="0":100="100"}. An iterator iterates through
      * each element and after each next it invokes the remove

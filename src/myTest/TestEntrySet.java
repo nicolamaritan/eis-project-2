@@ -1575,7 +1575,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Tests the iterator's remove
      * method behaviour when the entryset contains {0="0" : 10="10"}.
      * For the first remove a next is invoked before, which must work
-     * normally. The iteration is check through checkIterarion, and the
+     * normally. The iteration is check through checkIteration, and the
      * map - entryset coherence is checked through checkEntrySet.
      * The second remove is not backed by a next call:
      * a remove
