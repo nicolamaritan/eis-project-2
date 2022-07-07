@@ -284,21 +284,21 @@ public class TestValues
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i, "i") is contained in the Values, for i in (0,1000).
+     * (i, "i") is contained in the Values, for i in (0,100).
      * Propagation map -> Values is tested.</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the Values.</p>
-     * <p><b>Pre-Condition</b>: v contains {"0":"1000"}, m
-     * contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"100"}, m
+     * contains {0="0":100="100"}.</p>
      * <p><b>Post-Condition</b>: v is unchanged.
      * m is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns true</p>
      */
     @Test
-    public void Contains_0To1000()
+    public void Contains_0To100()
     {
-        int bound = 1000;
+        int bound = 100;
         addToHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             assertTrue("Should be contained", v.contains(""+i));
@@ -307,21 +307,21 @@ public class TestValues
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if the key
-     * i + 1000 is contained in the Values, for i in (0,1000).
-     * This is obviusly false for each i, as v contains {"0":"1000"}.</p>
-     * <p><b>Test Description</b>: contains is invoked 1000 times
+     * i + 100 is contained in the Values, for i in (0,100).
+     * This is obviusly false for each i, as v contains {"0":"100"}.</p>
+     * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the Values.</p>
-     * <p><b>Pre-Condition</b>: v contains {"0":"1000"}, m
-     * contains {0="0":1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"100"}, m
+     * contains {0="0":100="100"}.</p>
      * <p><b>Post-Condition</b>: v is unchanged.
      * m is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To1000_DifferentKey()
+    public void Contains_0To100_DifferentKey()
     {
-        int bound = 1000;
+        int bound = 100;
         addToHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             assertFalse("Should NOT be contained", v.contains(i + bound));
@@ -528,9 +528,9 @@ public class TestValues
      * therefore x.equals(x) should always return true. Propagation
      * map -> Values is tested through initHMap.</p>
      * <p><b>Test Description</b>: The test invokes v.equals(v) when
-     * v is empty, when it has 10 elements and when it has 1000 elements.</p>
+     * v is empty, when it has 10 elements and when it has 100 elements.</p>
      * <p><b>Pre-Condition</b>: Values is not null.</p>
-     * <p><b>Post-Condition</b>: Values has 1000 elements. </p>
+     * <p><b>Post-Condition</b>: Values has 100 elements. </p>
      * <p><b>Expected Results</b>: Values equals itself, therefore
      * reflective property is valid.</p>
      */
@@ -540,7 +540,7 @@ public class TestValues
         assertEquals("Reflective property is not met.", true, v.equals(v));    // Values is empty
         initHMap(m, 0, 10);
         assertEquals("Reflective property is not met.", true, v.equals(v));    // Values is not empty, should return true anyways
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, 100);
         assertEquals("Reflective property is not met.", true, v.equals(v));    // Values is not empty, should return true anyways
     }
 
@@ -575,8 +575,8 @@ public class TestValues
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of Values
      * and of map. Tests the backing map -> Values and viceversa, Values -> map.</p>
-     * <p><b>Test Description</b>: map is initialized with {0="0" : 1000="1000"},
-     * therefore v contains {"0":"1000"}.
+     * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"},
+     * therefore v contains {"0":"500"}.
      * Through v iterators iterates through the elements to assert that they both
      * share the same informations about the map entries. Then clear is invoked
      * by the Values. Same initialization and iteration are done,
@@ -589,14 +589,14 @@ public class TestValues
     @Test
     public void Clear_Backing0()
     {
-        addToHMap(m, 0, 1000);
+        addToHMap(m, 0, 500);
         assertEquals(m.size(), v.size());
         checkValues(m, v);
         v.clear();
         assertTrue("Should both have size 0", (m.size() == v.size()) && v.size() == 0);
         assertTrue("Should be both empty", m.isEmpty() && v.isEmpty());
 
-        addToHMap(m, 0, 1000);
+        addToHMap(m, 0, 500);
         checkValues(m, v);
         m.clear();  // Invoked from m this time
         assertTrue("Should both have size 0", (m.size() == v.size()) && v.size() == 0);
@@ -761,10 +761,10 @@ public class TestValues
      * by checkValues. Test aims to show the correct propagation
      * of information.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
-     * from the map remove. The map is initiated with {0="0", 1000="1000"},
-     * therefore v contains {"0":"1000"}
+     * from the map remove. The map is initiated with {0="0", 500="500"},
+     * therefore v contains {"0":"500"}
      * and each element in map and Values is removed by map's remove.
-     * The map is initiated with {0="0": 1000="1000"},
+     * The map is initiated with {0="0": 500="500"},
      * and each element in map and Values is removed by Values's remove.
      * </p>
      * <p><b>Pre-Condition</b>: map and collection are empty.</p>
@@ -776,7 +776,7 @@ public class TestValues
     @Test
     public void Remove_Backing0()
     {
-        int bound = 1000;
+        int bound = 500;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "" + i);
@@ -784,14 +784,14 @@ public class TestValues
             m.remove(i);
             checkValues(m, v);
         }
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, bound);
         checkValues(m, v);
         for (int i = bound - 1; i >= 0; i--)
         {
             m.remove(i);
             checkValues(m, v);
         }
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, bound);
         checkValues(m, v);
         for (int i = bound - 1; i >= 0; i--)
         {
@@ -816,7 +816,7 @@ public class TestValues
      * size of c.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the Values contains 
-     * {"0":"i"}, for each i in (0,1000)
+     * {"0":"i"}, for each i in (0,600)
      * (Note that empty map/Values limit case is being tested). Then
      * v.removeAll(c) is invoked and coherence is check through checkValues.
      * Then the test asserts that m and v have the right size and isEmpty
@@ -824,7 +824,7 @@ public class TestValues
      * <p><b>Pre-Condition</b>: c contains {0="0":500="500"}, m and v are
      * empty.</p>
      * <p><b>Post-Condition</b>: c is unchanged, m contains
-     * {500="500":1000="1000"}, while v contains {500:1000}.</p>
+     * {500="500":600="600"}, while v contains {500:600}.</p>
      * <p><b>Expected Results</b>: Each removal is correctly propagated
      * from map to Values and from Values to map. In particular,
      * they still contains coherent informations.</p>
@@ -832,7 +832,7 @@ public class TestValues
     @Test
     public void RemoveAll_Backing0()
     {
-        int bound = 1000;
+        int bound = 600;
         int secondBound = 500;
         c = getStringHCollection(0, secondBound);
         for (int i = 0; i < bound; i++)
@@ -1429,7 +1429,7 @@ public class TestValues
      * therefore coherence and iteration must be check
      * to assure correct propagation iterator -> Values -> map.</p>
      * <p><b>Test Description</b>: map and v initially contain
-     * {0="0":1000="1000"}. An iterator iterates through
+     * {0="0":100="100"}. An iterator iterates through
      * each element and after each next it invokes the remove
      * method, removing the just returned element.
      * Then checkValues and checkIteration are invoke
@@ -1437,7 +1437,7 @@ public class TestValues
      * After iterating through all elements, the iterator.hasNext
      * method must return false, and v and m should be both empty.</p>
      * <p><b>Pre-Condition</b>: map contains
-     * {0="0":1000="1000"}, therefore v contains {"0":"1000"}</p>
+     * {0="0":100="100"}, therefore v contains {"0":"100"}</p>
      * <p><b>Post-Condition</b>: m and v are empty.</p>
      * <p><b>Expected Results</b>: Each remove invoke worv right,
      * the element is removed correctly and checkValues and checkIteration
@@ -1481,7 +1481,7 @@ public class TestValues
      * therefore it removes 90 entries, as the iterator starts iterating
      * the map and v have 900 elements.</p>
      * <p><b>Pre-Condition</b>: m and v are empty.</p>
-     * <p><b>Post-Condition</b>: m and v contains 810 entriv.</p>
+     * <p><b>Post-Condition</b>: m and v contains 810 entries.</p>
      * <p><b>Expected Results</b>: Each removal from map and v propagates
      * the changes correctly to the other structure. checkValues and checkIteration
      * are invoked to check coherence and that iteration worv correctly.</p>
