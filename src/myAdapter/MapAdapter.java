@@ -821,7 +821,9 @@ public class MapAdapter implements HMap
         {
             if (a.length < this.size())
                 throw new IllegalArgumentException();
+                
             int i = 0;
+            Object[] ret = new Object[this.size()];
             for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
             {
                 MapAdapterEntry entry = new MapAdapterEntry();
@@ -829,8 +831,9 @@ public class MapAdapter implements HMap
                 entry.key = currentKey;
                 entry.value = ht.get(currentKey);
                 a[i] = entry;
+                ret[i] = entry;
             }
-            return a;
+            return ret;
         }
     
         public String toString()
@@ -1288,9 +1291,14 @@ public class MapAdapter implements HMap
             if (a.length < this.size())
                 throw new IllegalArgumentException();
             int i = 0;
+            Object[] ret = new Object[this.size()];
             for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
-                a[i] = e.nextElement();
-            return a;
+            {
+                Object next = e.nextElement();
+                a[i] = next;
+                ret[i] = next;
+            }
+            return ret;
         }
     
         public String toString()
