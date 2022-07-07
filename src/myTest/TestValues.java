@@ -1473,15 +1473,15 @@ public class TestValues
      * check map - Values coherence and iterator's iteration
      * working correctly. Tests map -> Values propagation and
      * iterator -> Values -> map propagation.</p>
-     * <p><b>Test Description</b>: m is filled with entries {0="0":1000="1000"}.
+     * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
      * are removed from the map through map.remove method. That means that 100 entries
      * are removed from m and v. Then while the iterator's has next,
      * it removes 1 element through iterator.remove each 10 elements,
-     * therefore it removes 90 entries, as the iterator starts iterating
-     * the map and v have 900 elements.</p>
+     * therefore it removes 9 entries, as the iterator starts iterating
+     * the map and v have 90 elements.</p>
      * <p><b>Pre-Condition</b>: m and v are empty.</p>
-     * <p><b>Post-Condition</b>: m and v contains 810 entries.</p>
+     * <p><b>Post-Condition</b>: m and v contains 81 entries.</p>
      * <p><b>Expected Results</b>: Each removal from map and v propagates
      * the changes correctly to the other structure. checkValues and checkIteration
      * are invoked to check coherence and that iteration worv correctly.</p>
@@ -1489,7 +1489,7 @@ public class TestValues
     @Test
     public void RemoveIteratorEsMap()
     {
-        int bound = 1000;
+        int bound = 100;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "" + i);
@@ -1503,7 +1503,7 @@ public class TestValues
             checkValues(m, v);
             checkIteration(v);
         }
-        assertTrue("100 should be removed", (initSize - m.size()) == 100 && m.size() == v.size());
+        assertTrue("10 should be removed", (initSize - m.size()) == 10 && m.size() == v.size());
         it = v.iterator();
         while (it.hasNext())
         {
@@ -1517,8 +1517,8 @@ public class TestValues
             checkValues(m, v);
             checkIteration(v); 
         }
-        assertTrue("190 should be removed", (initSize - m.size()) == 190 && m.size() == v.size());
-        assertTrue("Should be size 810", m.size() == v.size() && m.size() == 810);
+        assertTrue("190 should be removed", (initSize - m.size()) == 19 && m.size() == v.size());
+        assertTrue("Should be size 81", m.size() == v.size() && m.size() == 81);
     }
 
     /**

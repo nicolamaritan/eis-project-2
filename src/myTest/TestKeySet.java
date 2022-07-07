@@ -54,8 +54,11 @@ public class TestKeySet
         System.out.println(TestKeySet.class.getName() + " running.");
     }
 
+    /**
+	 * Method invoke before each test for setup.
+	 */
     @Before
-    public void BeforeMethod()
+    public void Setup()
     {
         m = new MapAdapter();
         m2 = new MapAdapter();
@@ -70,11 +73,18 @@ public class TestKeySet
         System.out.println(TestKeySet.class.getName() + " ended.");
     }
 
+    /**
+	 * Method invoke after each test for cleanup.
+	 */
     @After
-    public void AfterMethod()
+    public void Cleanup()
     {
-        m = new MapAdapter();
-        ks = m.keySet();
+        m = null;
+        m2 = null;
+        ks = null;
+        ks2 = null;
+        c = null;
+        it = null;
     }
     
     // ------------------------------------------ single method test case ------------------------------------------
@@ -1610,15 +1620,15 @@ public class TestKeySet
      * check map - KeySet coherence and iterator's iteration
      * working correctly. Tests map -> KeySet propagation and
      * iterator -> KeySet -> map propagation.</p>
-     * <p><b>Test Description</b>: m is filled with entries {0="0":1000="1000"}.
+     * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
-     * are removed from the map through map.remove method. That means that 100 entries
+     * are removed from the map through map.remove method. That means that 10 entries
      * are removed from m and ks. Then while the iterator's has next,
      * it removes 1 element through iterator.remove each 10 elements,
-     * therefore it removes 90 entries, as the iterator starts iterating
-     * the map and ks have 900 elements.</p>
+     * therefore it removes 9 entries, as the iterator starts iterating
+     * the map and ks have 90 elements.</p>
      * <p><b>Pre-Condition</b>: m and ks are empty.</p>
-     * <p><b>Post-Condition</b>: m and ks contains 810 entriks.</p>
+     * <p><b>Post-Condition</b>: m and ks contains 81 entriks.</p>
      * <p><b>Expected Results</b>: Each removal from map and ks propagates
      * the changes correctly to the other structure. checkKeySet and checkIteration
      * are invoked to check coherence and that iteration works correctly.</p>
@@ -1626,7 +1636,7 @@ public class TestKeySet
     @Test
     public void RemoveIteratorEsMap()
     {
-        int bound = 1000;
+        int bound = 100;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "" + i);
@@ -1640,7 +1650,7 @@ public class TestKeySet
             checkKeySet(m, ks);
             checkIteration(ks);
         }
-        assertTrue("100 should be removed", (initSize - m.size()) == 100 && m.size() == ks.size());
+        assertTrue("10 should be removed", (initSize - m.size()) == 10 && m.size() == ks.size());
         it = ks.iterator();
         while (it.hasNext())
         {
@@ -1654,8 +1664,8 @@ public class TestKeySet
             checkKeySet(m, ks);
             checkIteration(ks); 
         }
-        assertTrue("190 should be removed", (initSize - m.size()) == 190 && m.size() == ks.size());
-        assertTrue("Should be size 810", m.size() == ks.size() && m.size() == 810);
+        assertTrue("190 should be removed", (initSize - m.size()) == 19 && m.size() == ks.size());
+        assertTrue("Should be size 81", m.size() == ks.size() && m.size() == 81);
     }
 
     /**
