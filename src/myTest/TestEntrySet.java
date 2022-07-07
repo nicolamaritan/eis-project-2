@@ -1171,7 +1171,7 @@ public class TestEntrySet
     public void RetainAll_ToEmpty()
     {
         initHMap(m, 1, 20);
-        TestUtilities.initHCollection(c, 20, 24);
+        c = getIntegerHCollection(20, 24);
 
         assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
         assertEquals("The set should be empty.", 0, es.size());

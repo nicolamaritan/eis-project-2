@@ -1145,7 +1145,8 @@ public class TestKeySet
     public void RetainAll_ToEmpty()
     {
         initHMap(m, 1, 21);
-        TestUtilities.initHCollection(c, 21, 24);
+        c = getIntegerHCollection(21, 24);
+        //TestUtilities.initHCollection(c, 21, 24);
 
         assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
         assertEquals("The set should be empty.", 0, ks.size());

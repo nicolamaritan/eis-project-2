@@ -1,8 +1,12 @@
 package myAdapter;
 
-public class CollectionAdapter implements HCollection   // HCollection implementation is redundant as HList extends HCollection
+/**
+ * CollectionAdapter is used to create objects with HCollection
+ * interface during testing.
+ */
+public class CollectionAdapter implements HCollection
 {
-    // ListAdapter is a Object Adapter.
+    // CollectionAdapter is a Object Adapter.
     private Vector vector;
 
     /**
@@ -14,10 +18,10 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns the number of elements in this list. If this list contains more than
+     * Returns the number of elements in this collection. If this collection contains more than
      * Integer.MAX_VALUE elements, returns Integer.MAX_VALUE.
      *
-     * @return the number of elements in this list.
+     * @return the number of elements in this collection.
      */
     public int size()
     {
@@ -26,9 +30,9 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns true if this list contains no elements.
+     * Returns true if this collection contains no elements.
      *
-     * @return true if this list contains no elements.
+     * @return true if this collection contains no elements.
      */
     public boolean isEmpty()
     {
@@ -38,12 +42,12 @@ public class CollectionAdapter implements HCollection   // HCollection implement
 
      /**
      *
-     * Returns true if this list contains the specified element. More formally,
-     * returns true if and only if this list contains at least one element e such
+     * Returns true if this collection contains the specified element. More formally,
+     * returns true if and only if this collection contains at least one element e such
      * that (o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e)).
      *
-     * @param o element whose presence in this list is to be tested.
-     * @return true if this list contains the specified element.
+     * @param o element whose presence in this collection is to be tested.
+     * @return true if this collection contains the specified element.
      */
     public boolean contains(Object o)
     {
@@ -52,15 +56,15 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns an iterator over the elements in this list in proper sequence.
+     * Returns an iterator over the elements in this collection in proper sequence.
      * 
      * The iterator is a fail-fast iterator, that means that any modification to
-     * the list through ListAdapter methods and not throgh the iterator ones will
+     * the collection through CollectionAdapter methods and not throgh the iterator ones will
      * invalidate the iterator. Every iterator's method then throws
      * {@code HConcurrentModificationException}
      * @see HConcurrentModificationException
      *
-     * @return an iterator over the elements in this list in proper sequence.
+     * @return an iterator over the elements in this collection in proper sequence.
      */
     public HIterator iterator()
     {
@@ -68,12 +72,12 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper
+     * Returns an array containing all of the elements in this collection in proper
      * sequence starting from index from (included) to index to
      * (excluded).
      * @param from lower bound index (included).
      * @param to upper bound index (escluded)
-     * @return an array containing the ListAdapter elements from from index to
+     * @return an array containing the CollectionAdapter elements from from index to
      * to index.
      */
     private Object[] toArray(int from, int to)
@@ -87,10 +91,10 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper
+     * Returns an array containing all of the elements in this collection in proper
      * sequence. Obeys the general contract of the Collection.toArray method.
      *
-     * @return an array containing all of the elements in this list in proper
+     * @return an array containing all of the elements in this collection in proper
      *         sequence.
      */
     public Object[] toArray()
@@ -99,14 +103,14 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper
-     * sequence. If arrayTarget is not big enough to hold ListAdapter's elements
+     * Returns an array containing all of the elements in this collection in proper
+     * sequence. If arrayTarget is not big enough to hold CollectionAdapter's elements
      * the method throws HIllegalArgumentException.
      *
-     * @param arrayTarget the array into which the elements of this list are to be
+     * @param arrayTarget the array into which the elements of this collection are to be
      *                    stored, if it is big enough; otherwise, a new array of the
      *                    same runtime type is allocated for this purpose.
-     * @return an array containing the elements of this list.
+     * @return an array containing the elements of this collection.
      *
      * @throws NullPointerException if the specified array is null.
      * @throws HIllegalArgumentException if arrayTarget.size() {@literal <} this.size().
@@ -115,7 +119,7 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     {
         if (arrayTarget == null)
             throw new NullPointerException();
-        // If c is smaller than the list throw HIAE
+        // If c is smaller than the collection throw HIAE
         if (arrayTarget.length < size())
             throw new HIllegalArgumentException();
         
@@ -130,11 +134,11 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Appends the specified element to the end of this list (optional operation).
+     * Appends the specified element to the end of this collection (optional operation).
      * <p>
      *
      *
-     * @param a element to be appended to this list.
+     * @param a element to be appended to this collection.
      * @return true (as per the general contract of the Collection.add method).
      *
      */
@@ -145,13 +149,13 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Removes the first occurrence in this list of the specified element (optional
-     * operation). If this list does not contain the element, it is unchanged. More
+     * Removes the first occurrence in this collection of the specified element (optional
+     * operation). If this collection does not contain the element, it is unchanged. More
      * formally, removes the element with the lowest index i such that (o==null ?
      * get(i)==null : o.equals(get(i))) (if such an element exists).
      *
-     * @param o element to be removed from this list, if present.
-     * @return true if this list contained the specified element.
+     * @param o element to be removed from this collection, if present.
+     * @return true if this collection contained the specified element.
      */
     public boolean remove(Object o)
     {
@@ -160,11 +164,11 @@ public class CollectionAdapter implements HCollection   // HCollection implement
 
     /**
      *
-     * Returns true if this list contains all of the elements of the specified
+     * Returns true if this collection contains all of the elements of the specified
      * collection.
      *
-     * @param c collection to be checked for containment in this list.
-     * @return true if this list contains all of the elements of the specified
+     * @param c collection to be checked for containment in this collection.
+     * @return true if this collection contains all of the elements of the specified
      *         collection.
      * @throws NullPointerException if the specified collection is null.
      * @see #contains(Object)
@@ -179,7 +183,7 @@ public class CollectionAdapter implements HCollection   // HCollection implement
             return true;
 
         /*
-            If this list is empty and c is not, then any element in c is not
+            If this collection is empty and c is not, then any element in c is not
             contained in this.
         */
         if (isEmpty())
@@ -199,22 +203,22 @@ public class CollectionAdapter implements HCollection   // HCollection implement
 
     /**
      * Appends all of the elements in the specified collection to the end of
-     * this list, in the order that they are returned by the
+     * this collection, in the order that they are returned by the
      * specified collection's Iterator.  The behavior of this operation is
      * undefined if the specified collection is modified while the operation
      * is in progress.  (This implies that the behavior of this call is
-     * undefined if the specified collection is this list, and this
-     * list is nonempty.)
+     * undefined if the specified collection is this collection, and this
+     * collection is nonempty.)
      *
-     * @param c collection containing elements to be added to this list
-     * @return true if this list changed as a result of the call
+     * @param c collection containing elements to be added to this collection
+     * @return true if this collection changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      */
     public boolean addAll(HCollection c)
     {
         if (c == null)
             throw new NullPointerException();
-        // If it is empty the list will not change.
+        // If it is empty the collection will not change.
         if (c.isEmpty())
             return false;
 
@@ -231,11 +235,11 @@ public class CollectionAdapter implements HCollection   // HCollection implement
 
 
     /**
-     * Removes from this list all of its elements that are contained in the
+     * Removes from this collection all of its elements that are contained in the
      * specified collection.
      *
-     * @param c collection containing elements to be removed from this list
-     * @return true if this list changed as a result of the call
+     * @param c collection containing elements to be removed from this collection
+     * @return true if this collection changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      * @see HCollection#contains(Object)
      */
@@ -244,11 +248,11 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         if (c == null)
             throw new NullPointerException();
 
-        // Removing empty and from empty does not change the list, therefore returns false
+        // Removing empty and from empty does not change the collection, therefore returns false
         if (isEmpty() || c.isEmpty())
             return false;
             
-        boolean listChanged = false;    // Contains true <-> the list has changed
+        boolean collectionChanged = false;    // Contains true <-> the collection has changed
         HIterator iterator = c.iterator();
         while (iterator.hasNext())
         {
@@ -258,21 +262,21 @@ public class CollectionAdapter implements HCollection   // HCollection implement
             while (contains(current))
             {
                 vector.removeElement(current);
-                // If the element has been removed listChanged becomes true
-                listChanged = true;
+                // If the element has been removed collectionChanged becomes true
+                collectionChanged = true;
             }
         }
 
-        return listChanged;
+        return collectionChanged;
     }
 
     /**
-     * Retains only the elements in this list that are contained in the
-     * specified collection. In other words, removes from this list all
+     * Retains only the elements in this collection that are contained in the
+     * specified collection. In other words, removes from this collection all
      * of its elements that are not contained in the specified collection.
      *
-     * @param c collection containing elements to be retained in this list
-     * @return true if this list changed as a result of the call
+     * @param c collection containing elements to be retained in this collection
+     * @return true if this collection changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      * @see HCollection#contains(Object)
      */
@@ -285,14 +289,14 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         if (isEmpty())
             return false;
 
-        // The list is not empty at this point
+        // The collection is not empty at this point
         if (c.isEmpty())
         {
             // None of the elements in this must remain, so call clear method
             clear();
             return true;
         }
-        // Copy contains an initial copy of the list
+        // Copy contains an initial copy of the collection
         HCollection copy = new CollectionAdapter();
         HIterator it = this.iterator();
         while (it.hasNext())
@@ -301,14 +305,14 @@ public class CollectionAdapter implements HCollection   // HCollection implement
             copy.add(element);
         }
         
-        // Remove from the copy the elements in the list to be retained
+        // Remove from the copy the elements in the collection to be retained
         copy.removeAll(c);
         // Remove all the other elements
         return removeAll(copy);
     }
 
     /**
-     * Removes all of the elements from this list.  The list will
+     * Removes all of the elements from this collection.  The collection will
      * be empty after this call returns.
      */
     public void clear()
@@ -335,10 +339,10 @@ public class CollectionAdapter implements HCollection   // HCollection implement
          * The general contract for the Object.equals method states that equals
          * must be symmetric (in other words, a.equals(b) if and only if
          * b.equals(a)). The contracts for List.equals and
-         * Set.equals state that lists are only equal to other lists, and sets
+         * Set.equals state that collections are only equal to other collections, and sets
          * to other sets. Thus, a custom equals method for a collection class
          * that implements neither the List nor Set interface must
-         * return false when this collection is compared to any list or set.
+         * return false when this collection is compared to any collection or set.
          * (By the same logic, it is not possible to write a class that correctly
          * implements both the Set and List interfaces.)
          *
@@ -388,14 +392,14 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         }
 
     /**
-     * Returns the hash code value for this list.  The hash code of a list
+     * Returns the hash code value for this collection.  The hash code of a collection
      * is defined to be the result of vector.hashCode().
-     * This ensures that list1.equals(list2) implies that
-     * ist1.hashCode()==list2.hashCode() for any two lists,
-     * list1 and list2, as required by the general
+     * This ensures that collection1.equals(collection2) implies that
+     * ist1.hashCode()==collection2.hashCode() for any two collections,
+     * collection1 and collection2, as required by the general
      * contract of {@link Object#hashCode}.
      *
-     * @return the hash code value for this list
+     * @return the hash code value for this collection
      * @see Object#equals(Object)
      * @see #equals(Object)
      */
@@ -405,7 +409,7 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     }
 
     /**
-     * Returns a string representation of the list.
+     * Returns a string representation of the collection.
      * @return string representation of the object.
      */
     public String toString()
@@ -420,12 +424,12 @@ public class CollectionAdapter implements HCollection   // HCollection implement
     {
         /*
             The modification count variable is used to implement
-            a fail fast iterator. Whenever the ListAdapter is changed
+            a fail fast iterator. Whenever the CollectionAdapter is changed
             through its methods the counter increments by 1.
             An iterator instance stores a similar variable.
             When an iterator method is called it checks if the modification
-            count of the ListAdapter and its one are the same. If not,
-            the iterator cannot iterate on the list anymore as an
+            count of the CollectionAdapter and its one are the same. If not,
+            the iterator cannot iterate on the collection anymore as an
             external (from iterator's point of view) modification
             as occurred.
         */
@@ -433,21 +437,21 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         private int previousPointedIndex;
 
         /**
-         * Constructs a ListAdapterIterator pointing at the first element
-         * of the list, if it exists.
+         * Constructs a CollectionAdapterIterator pointing at the first element
+         * of the collection, if it exists.
          */
         public CollectionAdapterIterator()
         {
         }
 
         /**
-         * Returns true if this list iterator has more elements when
-         * traversing the list in the forward direction. (In other words,
+         * Returns true if this collection iterator has more elements when
+         * traversing the collection in the forward direction. (In other words,
          * returns true if next would return an element rather
          * than throwing an exception.)
          *
-         * @return true if the list iterator has more elements when
-         *         traversing the list in the forward direction
+         * @return true if the collection iterator has more elements when
+         *         traversing the collection in the forward direction
          */
         public boolean hasNext()
         {
@@ -455,13 +459,13 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         }
 
         /**
-         * Returns the next element in the list and advances the cursor position.
-         * This method may be called repeatedly to iterate through the list,
+         * Returns the next element in the collection and advances the cursor position.
+         * This method may be called repeatedly to iterate through the collection,
          * or intermixed with calls to previous to go back and forth.
          * (Note that alternating calls to next and previous
          * will return the same element repeatedly.)
          *
-         * @return the next element in the list
+         * @return the next element in the collection
          * @throws NoSuchElementException if the iteration has no next element
          */
         public Object next()
@@ -476,7 +480,7 @@ public class CollectionAdapter implements HCollection   // HCollection implement
         }
 
         /**
-         * Removes from the list the last element that was returned by next
+         * Removes from the collection the last element that was returned by next
          * or previous (optional operation).  This call can
          * only be made once per call to next or previous.
          * It can be made only if add has not been

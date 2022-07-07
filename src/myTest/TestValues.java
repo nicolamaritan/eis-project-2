@@ -1666,6 +1666,143 @@ public class TestValues
     }
 
     /**
+     * <p><b>Summary</b>: Tests the correct propagation from the backing map
+     * to values and viceversa, by adding and removing dinamically
+     * elements.</p>
+     * <p><b>Test Case Design</b>: Adding one element to the values is not
+     * possible, but it is possible adding one entry to the map, so that
+     * the values contains the key of the inserted entries. After each insertion
+     * through HMap.put() checkValues(m, v) and checkIteration(v) are
+     * invoked to check correct propagation.</p>
+     * <p><b>Test Description</b>: The map is initiated with entries
+     * {0="0":100="100"} three times. After each initiation the map
+     * is made empty by HMap.remove, HCollection.remove (through values) and
+     * HIterator.remove (iterator of values).</p>
+     * <p><b>Pre-Condition</b>: map and v are empty.</p>
+     * <p><b>Post-Condition</b>: map and v are empty.</p>
+     * <p><b>Expected Results</b>: Each modification propagates correctly
+     * to the other objects. In particular, m.put and remove propagates correctly
+     * to v, v.remove propagates correctly to m, it.remove propagates
+     * correctly to m and it.</p>
+     */
+    @Test
+    public void IncreaseKeySetThenRemove()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkValues(m, v);;
+            checkIteration(v);
+            assertEquals("Size should be " + (i + 1), i + 1, v.size());
+        }
+        // Remove from map
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", m.containsKey(i));
+            assertTrue("Should be contained", m.containsValue("" + i));
+            m.remove(i);
+            checkValues(m, v);
+            checkIteration(v);
+        }
+        assertTrue("Should be empty", v.isEmpty());
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkValues(m, v);
+            checkIteration(v);
+            assertEquals("Size should be " + (i + 1), i + 1, v.size());
+        }
+        // Remove from es
+        for (int i = 0; i < bound; i++)
+        {
+            assertTrue("Should be contained", v.contains(""+i));
+            v.remove(""+i);
+            checkValues(m, v);
+            checkIteration(v);
+        }
+        assertTrue("Should be empty", v.isEmpty());
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "" + i);
+            checkValues(m, v);
+            checkIteration(v);
+            assertEquals("Size should be " + (i + 1), i + 1, v.size());
+        }
+        // Remove from es iterator
+        it = v.iterator();
+        while (it.hasNext())
+        {
+            Object curr = it.next();
+            it.remove();
+            assertFalse("Should NOT be contained", m.containsValue(curr));
+            checkIteration(v);
+            checkValues(m, v);;
+        }
+        assertTrue("Should be empty", v.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests the behaviour of the map when
+     * trying to insert entries already in the map. Inserting
+     * the same entry twice or more should ignore the insertion,
+     * as the key is already present in the map. Values, instead,
+     * can be cloned: there can be two entries in the map
+     * with different keys but same values.</p>
+     * <p><b>Test Case Design</b>: Tests behaviour of
+     * inserting cloned elements. After each put call and after
+     * the removal, checkValues and checkIteration are invoked
+     * to assert correct propagation.</p>
+     * <p><b>Test Description</b>: Tests tries to insert
+     * in the map the element in argv, 0=g, 1=a, 2=t,
+     * 3=t, 4=i, 5=n, 6=i. Therefore keyset contains
+     * g, a, t, t, i, n, i. Then entries are removed from the map,
+     * therefore are removed from the values collection too.</p>
+     * <p><b>Pre-Condition</b>: m and v are empty</p>
+     * <p><b>Post-Condition</b>: m contains 3=t, 6=i, v contains {t, i}.</p>
+     * <p><b>Expected Results</b>: argv elements are correctly inserted
+     * in the map, therefore
+     * after insertion m.size() is 7. v.containsAll(c) returns true.
+     * Then 5 elements are removed through m, so in the end m and v
+     * contains 2 elements. contains 3=t, 6=i, v contains {t, i}.</p>
+     */
+    @Test
+    public void DuplicateTest()
+    {
+        String argv[] = {"g", "a", "t", "t", "i", "n", "i"};
+        for (int i = 0; i < argv.length; i++)
+        {
+            m.put(i, argv[i]);
+            checkValues(m, v);
+            checkIteration(v);
+        }
+        assertEquals("Size should be 5", 7, m.size());
+        for (int i = 0; i < argv.length; i++)
+            assertTrue("Insertion went wrong.", m.containsKey(i) && v.contains(argv[i]) && m.containsValue(argv[i]));
+        
+        c.add("g");
+        c.add("a");
+        c.add("t");
+        c.add("i");
+        c.add("n");
+        assertTrue("Should be contained.", v.containsAll(c));
+        
+        m.remove(0);
+        m.remove(1);
+        m.remove(2);
+        m.remove(4);
+        m.remove(5);
+
+        assertFalse(v.containsAll(c));
+
+        assertTrue("v and m should not be empty.", !v.isEmpty() && !m.isEmpty());
+        assertTrue("Final size should be 2", v.size() == m.size() && v.size() == 2);
+        assertTrue("Both t and i should be contained", v.contains("t") && v.contains("i"));
+        checkValues(m, v);
+        checkIteration(v);
+    }
+
+    /**
      * Checks if the values set and the backing map contains the same informations.
      * Firstly they must have the same size, then each entry in the values
      * must be contained in the map.
