@@ -873,18 +873,18 @@ public class TestMap
      * <p><b>Test Case Design</b>: Tests the limit case of
      * invoking the method in map with a big size. Values contained
      * are duplicated, therefore the method must still work correctly.</p>
-     * <p><b>Test Description</b>: {0=0, 5000=5000} are 
+     * <p><b>Test Description</b>: {0=0, 500=500} are 
      * checked to be in the map or not.</p>
-     * <p><b>Pre-Condition</b>: map contains {0=0, 10000=10000}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0=0, 100=100}.</p>
      * <p><b>Post-Condition</b>: map is unchanged.</p>
-     * <p><b>Expected Results</b>: {0 : 1000} values are contained,
+     * <p><b>Expected Results</b>: {0 : 100} values are contained,
      * the others no.</p>
      */
     @Test
-    public void ContainsValue_0To10000Duplicates()
+    public void ContainsValue_0To100Duplicates()
     {
-        int bound = 1000;
-        int bound2 = 5000;
+        int bound = 100;
+        int bound2 = 500;
         TestUtilities.initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             m.put(i + bound, i);
@@ -935,15 +935,15 @@ public class TestMap
      * <p><b>Test Case Design</b>: Tests get behaviour when the
      * map contains a big number of element.</p>
      * <p><b>Test Description</b>: get is invoked with keys
-     * from 1000 to 2000.</p>
-     * <p><b>Pre-Condition</b>: m contains {0=0:1000=1000}</p>
+     * from 100 to 200.</p>
+     * <p><b>Pre-Condition</b>: m contains {0=0:100=100}</p>
      * <p><b>Post-Condition</b>: m is unchanged</p>
      * <p><b>Expected Results</b>: each get returns null.</p>
      */
     @Test
     public void Get_0To1000NotInMap()
     {
-        int bound = 1000;
+        int bound = 100;
         TestUtilities.initHMap(m, 0, bound);
         for (int i = bound; i < 2* bound; i++)
             assertNull("Should be null", m.get(i));
@@ -970,15 +970,15 @@ public class TestMap
      * <p><b>Test Case Design</b>: Tests get behaviour when the
      * map contains a big number of element.</p>
      * <p><b>Test Description</b>: get is invoked with keys
-     * from 0 to 1000.</p>
-     * <p><b>Pre-Condition</b>: m contains {0=0:1000=1000}</p>
+     * from 0 to 100.</p>
+     * <p><b>Pre-Condition</b>: m contains {0=0:100=100}</p>
      * <p><b>Post-Condition</b>: m is unchanged</p>
      * <p><b>Expected Results</b>: each get returns i in string form.</p>
      */
     @Test
     public void Get_0To1000()
     {
-        int bound = 1000;
+        int bound = 100;
         TestUtilities.initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             assertEquals("Should return " + i, "" + i, m.get(i));
@@ -1077,14 +1077,14 @@ public class TestMap
      * <p><b>Test Description</b>: put is invoked with
 	 * key i and the string "i" for each iteration.</p>
      * <p><b>Pre-Condition</b>: m is empty.</p>
-     * <p><b>Post-Condition</b>: m contains {0="0" : 1000="1000"}</p>
-     * <p><b>Expected Results</b>: m.get(i)="i" for each i in (0:1000) and its
-	 * size is 1000, therefore puts works correctly.</p>
+     * <p><b>Post-Condition</b>: m contains {0="0" : 100="100"}</p>
+     * <p><b>Expected Results</b>: m.get(i)="i" for each i in (0:100) and its
+	 * size is 100, therefore puts works correctly.</p>
      */
 	@Test
-	public void Put_0To1000()
+	public void Put_0To100()
 	{
-		int bound = 1000;
+		int bound = 100;
 		for (int i = 0; i < bound; i++)
 			m.put(i, "" + i);
 		assertEquals("Size should be " + bound, bound, m.size());
@@ -1109,14 +1109,14 @@ public class TestMap
 	 * key i and the string "i + 1000" for each iteration, thus
      * replacing the old entries.</p>
      * <p><b>Pre-Condition</b>: m is empty.</p>
-     * <p><b>Post-Condition</b>: m contains {0="1000" : 1000="2000"}</p>
-     * <p><b>Expected Results</b>: m.get(i)="i + 1000" for each i in (0:1000) and its
-	 * size is 1000, therefore puts works correctly, even replacing entries.</p>
+     * <p><b>Post-Condition</b>: m contains {0="100" : 100="200"}</p>
+     * <p><b>Expected Results</b>: m.get(i)="i + 100" for each i in (0:100) and its
+	 * size is 100, therefore puts works correctly, even replacing entries.</p>
      */
 	@Test
 	public void Put_0To1000DuplicatesKey()
 	{
-		int bound = 1000;
+		int bound = 100;
         // For loop twice
 		for (int i = 0; i < bound; i++)
 			assertNull("There should not be previous mapping.", m.put(i, "" + i));
@@ -1341,7 +1341,7 @@ public class TestMap
     @Test
     public void PutAll_FromEmptyTo123()
     {
-        TestUtilities.initHMap(m2, 1, 4);
+        initHMap(m2, 1, 4);
 
         m.putAll(m2);
         assertEquals("Should return 1.", "1", m.get(1));
@@ -1392,10 +1392,11 @@ public class TestMap
     @Test
     public void PutAll_0to100()
     {
-        initHMap(m2, 0, 100);
+        int bound = 100;
+        initHMap(m2, 0, bound);
 		m.putAll(m2);
         assertEquals("Size should be 100.",100, m.size());
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < bound; i++)
 			assertEquals("" + i, m.get(i));
     }
 
@@ -1603,14 +1604,14 @@ public class TestMap
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: Map is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: Map contains {0="0" : 500="500"}.</p>
+     * <p><b>Pre-Condition</b>: Map contains {0="0" : 100="100"}.</p>
      * <p><b>Post-Condition</b>: Map is unchanged.</p>
      * <p><b>Expected Results</b>: The Map is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To10()
+    public void Equals_0To100()
     {
-        int to = 500;
+        int to = 100;
         TestUtilities.initHMap(m, 0, to);
         assertEquals(true, m.equals(TestUtilities.getIntegerMapAdapter(0, to)));
         assertEquals(true, TestUtilities.getIntegerMapAdapter(0, to).equals(m));   // Symmetric property
@@ -1644,9 +1645,9 @@ public class TestMap
      * <p><b>Test Case Design</b>: equals method should be reflective,
      * therefore x.equals(x) should always return true.</p>
      * <p><b>Test Description</b>: The test invokes m.equals(m) when
-     * m is empty, when it has 10 elements and when it has 500 elements.</p>
+     * m is empty, when it has 10 elements and when it has 100 elements.</p>
      * <p><b>Pre-Condition</b>: Map is not null.</p>
-     * <p><b>Post-Condition</b>: Map has 500 elements. </p>
+     * <p><b>Post-Condition</b>: Map has 100 elements. </p>
      * <p><b>Expected Results</b>: Map equals itself, therefore
      * reflective property is valid.</p>
      */
@@ -1656,7 +1657,7 @@ public class TestMap
         assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is empty
         TestUtilities.initHMap(m, 0, 10);
         assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
-        TestUtilities.initHMap(m, 0, 500);
+        TestUtilities.initHMap(m, 0, 100);
         assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
     }
 
@@ -1667,14 +1668,14 @@ public class TestMap
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).</p>
      * <p><b>Test Description</b>: The test invokes m.equals(m2) and m2.equals(m3)
      * and m.equals(m3)</p>
-     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 500="500"}.</p>
+     * <p><b>Pre-Condition</b>: Maps contain {0="0" : 100="100"}.</p>
      * <p><b>Post-Condition</b>: Maps are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 500;
+        int to = 100;
         TestUtilities.initHMap(m, 0, to);
         TestUtilities.initHMap(m2, 0, to);
         HMap m3 = TestUtilities.getIntegerMapAdapter(0, to);

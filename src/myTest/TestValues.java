@@ -487,15 +487,15 @@ public class TestValues
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: Values is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: map contains {0="0" : 2000="2000"},
-     * therefore v contains {"0":"2000"}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0="0" : 200="200"},
+     * therefore v contains {"0":"200"}.</p>
      * <p><b>Post-Condition</b>: Values is unchanged.</p>
      * <p><b>Expected Results</b>: The Values is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To2000()
+    public void Equals_0To200()
     {
-        int to = 2000;
+        int to = 200;
         addToHMap(m, 0, to);
         assertEquals(true, v.equals(getIntegerMapAdapter(0, to).values()));
         assertEquals(true, getIntegerMapAdapter(0, to).values().equals(v));   // Symmetric property
@@ -554,14 +554,14 @@ public class TestValues
      * Propagation map -> Values is tested.</p>
      * <p><b>Test Description</b>: The test invokes v.equals(v2) and v2.equals(Values3)
      * and v.equals(v3)</p>
-     * <p><b>Pre-Condition</b>: Values contain {"1" : "500"}.</p>
+     * <p><b>Pre-Condition</b>: Values contain {"1" : "200"}.</p>
      * <p><b>Post-Condition</b>: Values are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 500;
+        int to = 200;
         addToHMap(m, 0, to);
         addToHMap(m2, 0, to);
         HCollection v3 = getIntegerMapAdapter(0, to).values();
@@ -777,10 +777,10 @@ public class TestValues
      * of information. checkValues(m, es) and checkIteration(es)
      * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
-     * from the map remove. The map is initiated with {0="0", 500="500"},
-     * therefore v contains {"0":"500"}
+     * from the map remove. The map is initiated with {0="0", 100="100"},
+     * therefore v contains {"0":"100"}
      * and each element in map and Values is removed by map's remove.
-     * The map is initiated with {0="0": 500="500"},
+     * The map is initiated with {0="0": 100="100"},
      * and each element in map and Values is removed by Values's remove.
      * </p>
      * <p><b>Pre-Condition</b>: map and collection are empty.</p>
@@ -792,7 +792,7 @@ public class TestValues
     @Test
     public void Remove_Backing0()
     {
-        int bound = 500;
+        int bound = 100;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "" + i);
@@ -927,7 +927,7 @@ public class TestValues
      * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"}
-     * and the Values contains {"0":"i"}, for each i in (0,1000)
+     * and the Values contains {"0":"i"}, for each i in (0,600)
      * (Note that empty map/Values limit case is being tested). Then
      * v.retainAll(c) is invoked and coherence is check through checkValues.
      * Then the test asserts that m and v have the right size and isEmpty
@@ -943,7 +943,7 @@ public class TestValues
     @Test
     public void RetainAll_Backing0()
     {
-        int bound = 1000;
+        int bound = 600;
         int secondBound = 500;
         c = getStringHCollection(0, secondBound);
         for (int i = 0; i < bound; i++)
@@ -1084,7 +1084,7 @@ public class TestValues
      * from 1 to 999 included in string representation. retainAll is called with a collection
      * containing {"300", ..., "599"}, therefore the set should contain
      * {"300", "599"}.</p>
-     * <p><b>Pre-Condition</b>: The values contains {"1", ..., "999"}, c contains
+     * <p><b>Pre-Condition</b>: The values contains {"1", ..., "699"}, c contains
      * {"300", ..., "599"}.</p>
      * <p><b>Post-Condition</b>: The values contains {"300", ..., "599"}, c contains
      * {"300", ..., "599"}.</p>
@@ -1094,9 +1094,9 @@ public class TestValues
      * checkvalues</p>
      */
     @Test
-    public void RetainAll_1000()
+    public void RetainAll_700()
     {
-        initHMap(m, 1, 1000);
+        initHMap(m, 1, 700);
         c = getStringHCollection(300, 600);
         v.retainAll(c);
         assertTrue("The sets should match.", v.equals(getStringHCollection(300, 600)));
@@ -1212,17 +1212,17 @@ public class TestValues
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: m contains {0="0":1000="1000"}, therefore
-     * v contains {"0":"1000"}.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100="100"}, therefore
+     * v contains {"0":"100"}.</p>
      * <p><b>Post-Condition</b>: m and v are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through v.toArray is right and coherent. At the end v and m are empty.</p>
      */
     @Test
-    public void ToArray_0To1000()
+    public void ToArray_0To100()
     {
-        int bound = 1000;
-        initHMap(m, 0, 1000);
+        int bound = 100;
+        initHMap(m, 0, 100);
         for (int i = 0; i < bound; i += 2)
         {
             v.remove(""+i);
@@ -1288,8 +1288,8 @@ public class TestValues
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: m contains {0="0":1000="1000"}, therefore
-     * v contains {"0":"1000"}.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100="100"}, therefore
+     * v contains {"0":"100"}.</p>
      * <p><b>Post-Condition</b>: m and v are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through v.toArray is right and coherent. At the end v and m are empty.</p>
@@ -1297,9 +1297,9 @@ public class TestValues
     @Test
     public void ToArrayArrayArg_0To1000()
     {
-        int bound = 1000;
+        int bound = 100;
         
-        initHMap(m, 0, 1000);
+        initHMap(m, 0, bound);
         for (int i = 0; i < bound; i += 2)
         {
             v.remove(""+i);
@@ -1388,7 +1388,7 @@ public class TestValues
     @Test
     public void ESIterator_Variable()
     {
-        int bound = 1000;
+        int bound = 100;
         for (int i = 1; i < bound; i++)
         {
             initHMap(m, 0, i);
@@ -1573,7 +1573,7 @@ public class TestValues
      * inserting entries through initHMap and removing them, through
      * simple remove method. This is a more general case than the
      * single Values.</p>
-     * <p><b>Test Description</b>: esArr contains 100 the Values
+     * <p><b>Test Description</b>: esArr contains 80 the Values
      * generated by the map. After map initialization, each Values
      * is checked through checkValues, checkIteration and checkToArray.
      * First is tested propagation from the Valuess to the map.
@@ -1594,7 +1594,7 @@ public class TestValues
     @Test
     public void MultipleValuess()
     {
-        int bound = 100;
+        int bound = 80;
         HCollection[] vArr = new HCollection[bound];
         for (int i = 0; i < bound; i++)
         vArr[i] = m.values();
