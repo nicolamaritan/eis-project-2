@@ -123,7 +123,13 @@ public class TestUtilities
     }
 
     /**
-     * Returns an HMap.Entry of key key and value value
+     * Returns an HMap.Entry of key key and value value. As the
+     * HMap.Entry states: "The only way to obtain a reference to a map
+     * entry is from the iterator of this collection-view.", which is
+     * the way the method gets the Entry. Note that the entry is for
+     * check purpouse only (testing containsAll, removeAll, retainAll
+     * methods of the entrySet returned from HMap), as it is impossible
+     * to directly insert an HMap.Entry to an entryset. 
      * @param key
      * @param value
      * @return the aforementioned Entry.

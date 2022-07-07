@@ -1876,11 +1876,15 @@ public class TestKeySet
 
     /**
      * Checks if the keyset and the backing map contains the same informations.
+     * This method asserts correct propagation from HMap to its
+     * keySet and from keySet to HMap, therefore it is invoked
+     * whenever it is necessary to check correct propagation.
      * Firstly they must have the same size, then each key in the keyset must
      * be contained in the map and also the mapped key must
      * be contained in the map. Finally, the entryset should contain the
      * entry (key, value) obtained by the test.
-     * which means that they share the same elements.
+     * which means that they share the same elements. If this method fails the propagation
+     * did not work correctly. Other wise, the propagation worked correctly.
      * @param m the backing map
      * @param ks the keyset
      */
@@ -1915,7 +1919,12 @@ public class TestKeySet
      * Checks if the elements returned by the iteration are
      * coherent with the keyset's elements, and if the number
      * of iteration equals the actual size of the keyset.
-     * @param es entryset to be checked
+     * This method asserts correct propagation from HMap to its
+     * keySet and from keySet to HMap, therefore it is invoked
+     * whenever it is necessary to check correct propagation.
+     * If this method fails the propagation
+     * did not work correctly. Other wise, the propagation worked correctly.
+     * @param es keyset to be checked
      */
     public void checkIteration(HSet ks)
     {

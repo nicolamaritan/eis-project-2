@@ -189,7 +189,7 @@ public class TestEntrySet
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 1 size and not being empty. Propagation
-     * map -> entryset is tested. checkEntrySet and checkIteration
+     * map -> entryset is tested. checkEntrySet(m, es) and checkIteration(es)
      * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Pre-Condition</b>: The entryset contains 1 element.</p>
      * <p><b>Post-Condition</b>: The entryset contains 1 element.</p>
@@ -215,7 +215,8 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 3 size and not being empty. Propagation
      * map -> entryset is tested, as the map is modified
-     * through addToHMap(m, 0, 3).</p>
+     * through addToHMap(m, 0, 3). checkEntrySet(m, es) and checkIteration(es)
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the entryset.</p>
      * <p><b>Pre-Condition</b>: The entryset is empty.</p>
@@ -229,6 +230,7 @@ public class TestEntrySet
     {
         TestUtilities.addToHMap(m, 0, 3);
         checkEntrySet(m, es);
+        checkIteration(es);
         assertEquals("entryset with 3 elements does not have size of 3.", 3, es.size());
         assertEquals("isEmpty did not returned false.", false, es.isEmpty());
     }
@@ -242,7 +244,8 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 345 size and not being empty. Propagation
      * map -> entryset is tested, as the entryset is modified
-     * through addToHMap(m, 0, 345).</p>
+     * through addToHMap(m, 0, 345). checkEntrySet(m, es) and checkIteration(es)
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the entryset.</p>
      * <p><b>Pre-Condition</b>: The entryset is empty.</p>
@@ -255,6 +258,7 @@ public class TestEntrySet
     {
         TestUtilities.addToHMap(m, 0, 345);
         checkEntrySet(m, es);
+        checkIteration(es);
         assertEquals("entryset with 345 elements does not have size of 345.", 345, es.size());
         assertEquals("isEmpty did not returned false.", false, es.isEmpty());
     }
@@ -286,7 +290,8 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Tests if each entry of type
      * (i, "i") is contained in the entrySet, for i in (0,100).
      * Propagation map -> entryset is tested, as map is modified
-     * through addToHMap(m, 0, bound).</p>
+     * through addToHMap(m, 0, bound). checkEntrySet(m, es) and checkIteration(es)
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
@@ -300,6 +305,7 @@ public class TestEntrySet
         int bound = 100;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
+        checkIteration(es);
         for (int i = 0; i < bound; i++)
         {
             HMap.Entry e = getEntry(i, "" + i);
@@ -314,7 +320,8 @@ public class TestEntrySet
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).
      * This is obviusly false for each i, as es contains {0="0":100="100"},
-     * and not {0="1":100="101"}.</p>
+     * and not {0="1":100="101"}. checkEntrySet(m, es) and checkIteration(es)
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
@@ -328,6 +335,7 @@ public class TestEntrySet
         int bound = 100;
         addToHMap(m, 0, bound);
         checkEntrySet(m, es);
+        checkIteration(es);
         for (int i = 0; i < bound; i++)
         {
             HMap.Entry e = getEntry(i, "" + i + 1);   // value does NOT match
@@ -342,7 +350,8 @@ public class TestEntrySet
      * This is obviusly false for each i, as es contains {0="0":100="100"},
      * and not (1="0":101="100").
      * Propagation map -> entryset is tested, as map is modified
-     * through addToHMap(m, 0, bound).</p>
+     * through addToHMap(m, 0, bound). checkEntrySet(m, es) and checkIteration(es)
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
@@ -356,6 +365,7 @@ public class TestEntrySet
         int bound = 100;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
+        checkIteration(es);
         for (int i = 0; i < bound; i++)
         {
             HMap.Entry e = getEntry(i + 1, "" + i);   // value does NOT match
@@ -587,8 +597,7 @@ public class TestEntrySet
      * Propagation map -> entryset is tested.</p>
      * <p><b>Test Description</b>: The test invokes es.equals(es2) and es2.equals(EntrySet3)
      * and es.equals(es3)</p>
-     * <p><b>Pre-Condition</b>: EntrySets contain {1="1" : 500="500
-     * "}.</p>
+     * <p><b>Pre-Condition</b>: EntrySets contain {1="1" : 500="500"}.</p>
      * <p><b>Post-Condition</b>: EntrySets are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
@@ -648,7 +657,9 @@ public class TestEntrySet
      * <p><b>Summary</b>: clear method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of entrySet
      * and map when they both are empty, which is a limit case (obviusly the limit case is that
-     * they are empty, not that they have the same size, as it is trivial).</p>
+     * they are empty, not that they have the same size, as it is trivial).
+     * checkEntrySet(m, es) and checkIteration(es)
+     * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: clear is invoked by m and they are checked through checkEntrySet,
      * and checkIteration.
      * Same then but clear is invoked by the entrySet and they are checked through checkEntrySet,
@@ -910,6 +921,7 @@ public class TestEntrySet
             initHMap(m, 0, i);
             es.removeAll(c);
             checkEntrySet(m, es);
+            checkIteration(es);
 
             if (i <= secondBound)
             {
@@ -996,6 +1008,7 @@ public class TestEntrySet
             initHMap(m, 0, i);
             es.retainAll(c);
             checkEntrySet(m, es);
+            checkIteration(es);
 
             if (i <= secondBound)
                 assertTrue("Both should have size 0", m.size() == es.size() && m.size() == i);
@@ -1883,9 +1896,13 @@ public class TestEntrySet
 
     /**
      * Checks if the entrySet and the backing map contains the same informations.
+     * This method asserts correct propagation from HMap to its
+     * entrySet and from entrySet to HMap, therefore it is invoked
+     * whenever it is necessary to check correct propagation.
      * Firstly they must have the same size, then each entry in the entrySet
      * must be contained in the map and its value should mach m.get(e.getKey()),
-     * which means that they share the same elements.
+     * which means that they share the same elements. If this method fails the propagation
+     * did not work correctly. Other wise, the propagation worked correctly.
      * @param m the backing map
      * @param es the entrySet
      */
@@ -1919,6 +1936,11 @@ public class TestEntrySet
      * Checks if the elements returned by the iteration are
      * coherent with the entryset's elements, and if the number
      * of iteration equals the actual size of the entrySet.
+     * This method asserts correct propagation from HMap to its
+     * entrySet and from entrySet to HMap, therefore it is invoked
+     * whenever it is necessary to check correct propagation.
+     * If this method fails the propagation
+     * did not work correctly. Other wise, the propagation worked correctly.
      * @param es entryset to be checked
      */
     public void checkIteration(HSet es)

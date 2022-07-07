@@ -1787,10 +1787,14 @@ public class TestValues
 
     /**
      * Checks if the values set and the backing map contains the same informations.
+     * This method asserts correct propagation from HMap to its
+     * entrySet and from values to HMap, therefore it is invoked
+     * whenever it is necessary to check correct propagation.
      * Firstly they must have the same size, then each entry in the values
-     * must be contained in the map.
+     * must be contained in the map. If this method fails the propagation
+     * did not work correctly. Other wise, the propagation worked correctly.
      * @param m the backing map
-     * @param v the entrySet
+     * @param v the values collection
      */
     public void checkValues(HMap m, HCollection v)
     {
@@ -1821,7 +1825,12 @@ public class TestValues
      * Checks if the elements returned by the iteration are
      * coherent with the values's elements, and if the number
      * of iteration equals the actual size of the value set.
-     * @param v entryset to be checked
+     * This method asserts correct propagation from HMap to its
+     * entrySet and from values to HMap, therefore it is invoked
+     * whenever it is necessary to check correct propagation.
+     * If this method fails the propagation
+     * did not work correctly. Other wise, the propagation worked correctly.
+     * @param v values collection to be checked
      */
     public void checkIteration(HCollection v)
     {

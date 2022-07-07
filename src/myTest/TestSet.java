@@ -357,7 +357,6 @@ public class TestSet
 	@Test
 	public void ValuesCollectionClonesAcceptanceTest()
 	{
-        
         c = m.values();
 		assertEquals(0, c.size());
 		iterate(c.iterator());
