@@ -327,6 +327,25 @@ public class TestValues
             assertFalse("Should NOT be contained", v.contains(i + bound));
     }
 
+    /**
+     * <p><b>Summary</b>: contains method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: v.contains(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: v contains {0:10}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void Contains_Null()
+    {
+        initHMap(m, 0, 10);
+        v.contains(null);
+    }
+
+    // ------------------------------------------ containsAll method ------------------------------------------
+
 
     /**
      * <p><b>Summary</b>: containsAll method test case.
@@ -679,6 +698,23 @@ public class TestValues
     // ------------------------------------------ remove method ------------------------------------------
     /**
      * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: v.remove(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Post-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void Remove_Null()
+    {
+        initHMap(m, 0, 10);
+        v.remove(null);
+    }
+    
+    /**
+     * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its Values and checv their consistency in propagation.
      * They both are empty, which is a limit case.</p>
@@ -782,7 +818,10 @@ public class TestValues
      * the coherence is checked through checkValues. Tests right
      * propagation from the entry collection to the map. Removing all entries
      * from the Values implies removing all the entries in the map.
-     * The collection keeps changing during execution.</p>
+     * The collection keeps changing during execution. Note that
+     * different sizes are tested, as first the size of v is smaller
+     * than the size of c, while then the size of v is bigger than the
+     * size of c.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the Values contains 
      * {"0":"i"}, for each i in (0,1000)
@@ -821,6 +860,39 @@ public class TestValues
                 assertTrue("Both should not be empty", v.isEmpty() == m.isEmpty() && !v.isEmpty());
             }
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: v.removeAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v is empty</p>
+     * <p><b>Post-Condition</b>: v is empty</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RemoveAll_EmptyNull()
+    {
+        v.removeAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: v.removeAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: v contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RemoveAll_NotEmptyNull()
+    {
+        initHMap(m, 0, 10);
+        v.removeAll(null);
     }
 
     // ------------------------------------------ retainAll method ------------------------------------------

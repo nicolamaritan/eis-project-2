@@ -641,6 +641,9 @@ public class MapAdapter implements HMap
          */
         public boolean remove(Object o)
         {
+            if (o == null)
+                throw new NullPointerException();
+
             if (!(o instanceof Entry))
                 return false;
             Entry oEntry = (Entry)o;
@@ -1113,6 +1116,8 @@ public class MapAdapter implements HMap
          */
         public boolean remove(Object o)
         {
+            if (o == null)
+                throw new NullPointerException();
             if (!this.contains(o))
                 return false;
             ht.remove(o);
@@ -1535,6 +1540,9 @@ public class MapAdapter implements HMap
          */
         public boolean remove(Object obj)
         {
+            if (obj == null)
+                throw new NullPointerException();
+
             for (Enumeration keys = ht.keys(); keys.hasMoreElements();)
             {
                 Object key = keys.nextElement();

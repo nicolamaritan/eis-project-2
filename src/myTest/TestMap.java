@@ -1229,6 +1229,61 @@ public class TestMap
         }
     }
 
+    /**
+     * <p><b>Summary</b>: put method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of
+     * an invalid argument, as the MapAdapter does not
+     * accept null keys/values in put.</p>
+     * <p><b>Test Description</b>: m.put(null, "Random value");
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty</p>
+     * <p><b>Post-Condition</b>: m is still empty, exception
+     * has been thrown.</p>
+     * <p><b>Expected Results</b>: NPE has been thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Put_NullKey()
+    {
+        m.put(null, "Random value");
+    }
+
+    /**
+     * <p><b>Summary</b>: put method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of
+     * an invalid argument, as the MapAdapter does not
+     * accept null keys/values in put.</p>
+     * <p><b>Test Description</b>: m.put("Random key", null);
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty</p>
+     * <p><b>Post-Condition</b>: m is still empty, exception
+     * has been thrown.</p>
+     * <p><b>Expected Results</b>: NPE has been thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Put_NullValue()
+    {
+        m.put("Random key", null);
+    }
+
+    /**
+     * <p><b>Summary</b>: put method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of
+     * an invalid argument, as the MapAdapter does not
+     * accept null keys/values in put.</p>
+     * <p><b>Test Description</b>: m.put(null, null);
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty</p>
+     * <p><b>Post-Condition</b>: m is still empty, exception
+     * has been thrown.</p>
+     * <p><b>Expected Results</b>: NPE has been thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Put_NullBoth()
+    {
+        m.put(null, null);
+    }
+
+
 	// ------------------------------------------ putAll method ------------------------------------------
 
     /**

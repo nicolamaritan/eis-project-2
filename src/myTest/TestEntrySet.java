@@ -293,7 +293,7 @@ public class TestEntrySet
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
         {
-            HMap.Entry e = TestUtilities.getEntry(i, "" + i);
+            HMap.Entry e = getEntry(i, "" + i);
             assertTrue("Should be contained", es.contains(e));
         }
     }
@@ -301,27 +301,27 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i, "i + 1") is contained in the entrySet, for i in (0,500).
+     * (i, "i + 1") is contained in the entrySet, for i in (0,100).
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).
-     * This is obviusly false for each i, as es contains {0="0":500="500"},
-     * and not {0="1":500="501"}.</p>
-     * <p><b>Test Description</b>: contains is invoked 500 times
+     * This is obviusly false for each i, as es contains {0="0":100="100"},
+     * and not {0="1":100="101"}.</p>
+     * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
-     * <p><b>Pre-Condition</b>: es contains {0="0":500="500"}.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":100="100"}.</p>
      * <p><b>Post-Condition</b>: es is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To500_DifferentValue()
+    public void Contains_0To100_DifferentValue()
     {
-        int bound = 500;
-        TestUtilities.addToHMap(m, 0, bound);
+        int bound = 100;
+        addToHMap(m, 0, bound);
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
         {
-            HMap.Entry e = TestUtilities.getEntry(i, "" + i + 1);   // value does NOT match
+            HMap.Entry e = getEntry(i, "" + i + 1);   // value does NOT match
             assertFalse("Should NOT be contained", es.contains(e));
         }
     }
@@ -329,22 +329,22 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
-     * (i + 1, "i") is contained in the entrySet, for i in (0,500).
-     * This is obviusly false for each i, as es contains {0="0":500="500"},
-     * and not (1="0":501="500").
+     * (i + 1, "i") is contained in the entrySet, for i in (0,100).
+     * This is obviusly false for each i, as es contains {0="0":100="100"},
+     * and not (1="0":101="100").
      * Propagation map -> entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).</p>
-     * <p><b>Test Description</b>: contains is invoked 500 times
+     * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the entrySet.</p>
-     * <p><b>Pre-Condition</b>: es contains {0="0":500="500"}.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":100="100"}.</p>
      * <p><b>Post-Condition</b>: es is unchanged.</p>
      * <p><b>Expected Results</b>: each contains returns false</p>
      */
     @Test
-    public void Contains_0To500_DifferentKey()
+    public void Contains_0To100_DifferentKey()
     {
-        int bound = 500;
+        int bound = 100;
         TestUtilities.addToHMap(m, 0, bound);
         checkEntrySet(m, es);
         for (int i = 0; i < bound; i++)
@@ -355,23 +355,43 @@ public class TestEntrySet
     }
 
     /**
+     * <p><b>Summary</b>: contains method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: es.contains(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void Contains_Null()
+    {
+        initHMap(m, 0, 10);
+        es.contains(null);
+    }
+
+    // ------------------------------------------ containsAll method ------------------------------------------
+
+    /**
      * <p><b>Summary</b>: containsAll method test case.
      * The method tests if an empty entryset contains the elements
      * of another collection, which is obviusly false.</p>
      * <p><b>Test Case Design</b>: The test case tests the limit case of
      * checking an empty entryset containing something.</p>
-     * <p><b>Test Description</b>: The collection contains 1, 2 and 3.
+     * <p><b>Test Description</b>: The collection contains 1="1",
+     * 2="2" and 3="3" entries.
      * The containsAll method obviously should return false for
      * any coll's content as the entryset is empty.</p>
      * <p><b>Pre-Condition</b>: The entryset is empty.</p>
      * <p><b>Post-Condition</b>: The entryset is still empty.</p>
-     * <p><b>Expected Results</b>: The containsAll method return false.</p>
+     * <p><b>Expected Results</b>: The containsAll(c) method return false.</p>
      */
     @Test
     public void ContainsAll_Empty_False()
     {
         c = getEntryHCollection(1, 4);
-        assertEquals("The method should return false because the entryset is empty.", false, es.containsAll(c)); 
+        assertFalse("The method should return false because the entryset is empty.", es.containsAll(c)); 
     }
 
    /**
@@ -388,12 +408,12 @@ public class TestEntrySet
      * subset of every set.</p>
      * <p><b>Pre-Condition</b>: The entryset is empty.</p>
      * <p><b>Post-Condition</b>: The entryset is empty.</p>
-     * <p><b>Expected Results</b>: The containsAll method return true.</p>
+     * <p><b>Expected Results</b>: The containsAll(c) method return true.</p>
      */
     @Test
     public void ContainsAll_BothEmpty_False()
     {
-        assertEquals("The method should return true because the collection is empty.", true, es.containsAll(c)); 
+        assertTrue("The method should return true because the collection is empty.", es.containsAll(c)); 
     }
     
     /**
@@ -407,7 +427,8 @@ public class TestEntrySet
      * {1="1"}, {10="10"}, {3="3", 4="4", 5="5"}, {1="1", 5="5", 10="10"}.</p>
      * <p><b>Pre-Condition</b>: The entryset contains {0="0":10="10"}.</p>
      * <p><b>Post-Condition</b>: The entryset contains {0="0":10="10"}.</p>
-     * <p><b>Expected Results</b>: Every containsAll calls return true.</p>
+     * <p><b>Expected Results</b>: Every containsAll calls return true,
+     * for each c configuration tested.</p>
      */
     @Test
     public void ContainsAll_1to11_True()
@@ -416,23 +437,23 @@ public class TestEntrySet
 
         // {1="1"}
         c.add(TestUtilities.getEntry(1, "1"));
-        assertEquals("The entryset contains 1=1.", true, es.containsAll(c));
+        assertTrue("The entryset contains 1=1.", es.containsAll(c));
         
         // {10="10"}
         c = new CollectionAdapter();
         c.add(TestUtilities.getEntry(10, "10"));
-        assertEquals("The entryset contains 10=10.", true, es.containsAll(c));
+        assertTrue("The entryset contains 10=10.", es.containsAll(c));
 
         // {3="3", 4="4", 5="5"}
         c = getEntryHCollection(3, 6);
-        assertEquals("The entryset contains 3=3, 4=4 and 5=5.", true, es.containsAll(c));
+        assertTrue("The entryset contains 3=3, 4=4 and 5=5.", es.containsAll(c));
 
         // {1, 5, 10}
         c = new CollectionAdapter();
         c.add(TestUtilities.getEntry(1, "1"));
         c.add(TestUtilities.getEntry(5, "5"));
         c.add(TestUtilities.getEntry(10, "10"));
-        assertEquals("The entryset contains 1, 5 and 10.", true, es.containsAll(c));
+        assertTrue("The entryset contains 1, 5 and 10.", es.containsAll(c));
     }
 
     /**
@@ -458,7 +479,7 @@ public class TestEntrySet
         addToHMap(m, 0, 11);
 
         c.add(getEntry(11, "11"));
-        assertEquals("11=11 is not contained.", false, es.containsAll(c));
+        assertFalse("11=11 is not contained.", es.containsAll(c));
 
         c = new CollectionAdapter();
         c.add(getEntry(3, "3"));
@@ -494,14 +515,14 @@ public class TestEntrySet
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: EntrySet is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: EntrySet contains {0="0" : 2000="2000"}.</p>
+     * <p><b>Pre-Condition</b>: EntrySet contains {0="0" : 500="500"}.</p>
      * <p><b>Post-Condition</b>: EntrySet is unchanged.</p>
      * <p><b>Expected Results</b>: The EntrySet is unchanged and symmetric property is valid.</p>
      */
     @Test
     public void Equals_0To10()
     {
-        int to = 2000;
+        int to = 500;
         TestUtilities.addToHMap(m, 0, to);
         assertEquals(true, es.equals(getIntegerMapAdapter(0, to).entrySet()));
         assertEquals(true, getIntegerMapAdapter(0, to).entrySet().equals(es));   // Symmetric property
@@ -560,14 +581,15 @@ public class TestEntrySet
      * Propagation map -> entryset is tested.</p>
      * <p><b>Test Description</b>: The test invokes es.equals(es2) and es2.equals(EntrySet3)
      * and es.equals(es3)</p>
-     * <p><b>Pre-Condition</b>: EntrySets contain {1 : 2000}.</p>
+     * <p><b>Pre-Condition</b>: EntrySets contain {1="1" : 500="500
+     * "}.</p>
      * <p><b>Post-Condition</b>: EntrySets are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 2000;
+        int to = 500;
         addToHMap(m, 0, to);
         addToHMap(m2, 0, to);
         HSet es3 = getIntegerMapAdapter(0, to).entrySet();
@@ -636,9 +658,11 @@ public class TestEntrySet
         m.clear();
         checkEntrySet(m, es);
         checkIteration(es);
+        assertTrue("They should be both empty", m.size() == 0 && es.size() == m.size());
         es.clear();
         checkEntrySet(m, es);
         checkIteration(es);
+        assertTrue("They should be both empty", m.size() == 0 && es.size() == m.size());
     }
     
 
@@ -665,49 +689,66 @@ public class TestEntrySet
     public void HashCode_Mixed()
     {
         // Empty map case
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         // One element case
         m.put(1, "1");
         m2.put(1, "1");
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         TestUtilities.initHMap(m, -100, 100);
         TestUtilities.initHMap(m2, -100, 100);
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         es.remove((Object)0);
         es2.remove((Object)0);
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         m.put(101, "101");
         m2.put(101, "101");
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         TestUtilities.addToHMap(m, 500, 1000);
         TestUtilities.addToHMap(m2, 500, 1000);
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         HMap t = TestUtilities.getIntegerMapAdapter(-1000, -900);
         m.putAll(t);
         m2.putAll(t);
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         TestUtilities.initHMap(t, 5000, 6000);
         m.putAll(t);
         m2.putAll(t);
-        assertEquals("maps should be equal.", true, es.equals(es2));
+        assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
     }
 
     // ------------------------------------------ remove method ------------------------------------------
+    /**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: es.remove(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void Remove_Null()
+    {
+        initHMap(m, 0, 10);
+        es.remove(null);
+    }
+    
     /**
      * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
@@ -719,8 +760,8 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: m and es are empty.</p>
      * <p><b>Post-Condition</b>: m and es are unchanged.</p>
-     * <p><b>Expected Results</b>: m.remove returns null object,
-     * while es.remove returns false. map and es pass the check
+     * <p><b>Expected Results</b>: m.remove returns null,
+     * while es.remove returns false. Map and es pass the check
      * after each remove invoke.</p>
      */
     @Test
@@ -746,8 +787,8 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: m and es contains {0="0", 10="10"}.</p>
      * <p><b>Post-Condition</b>: m and es are unchanged.</p>
-     * <p><b>Expected Results</b>: m.remove returns null object,
-     * while es.remove returns false. map and es pass the check
+     * <p><b>Expected Results</b>: m.remove returns null,
+     * while es.remove returns false. Map and es pass the check
      * after each remove invoke.</p>
      */
     @Test
@@ -830,7 +871,10 @@ public class TestEntrySet
      * the coherence is checked through checkEntrySet. Tests right
      * propagation from the entry set to the map. Removing all entries
      * from the entrySet implies removing all the entries in the map.
-     * The collection keeps changing during execution.</p>
+     * The collection keeps changing during execution. Note that
+     * different sizes are tested, as first the size of es is smaller
+     * than the size of c, while then the size of es is bigger than the
+     * size of c.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map and entrySet contain {0="0" : i="i"}, for each i in (0,1000)
      * (Note that empty map/entrySet limit case is being tested). Then
@@ -872,6 +916,39 @@ public class TestEntrySet
                 assertTrue("Both should not be empty", es.isEmpty() == m.isEmpty() && !es.isEmpty());
             }
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: es.removeAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es is empty</p>
+     * <p><b>Post-Condition</b>: es is empty</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RemoveAll_EmptyNull()
+    {
+        es.removeAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: es.removeAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RemoveAll_NotEmptyNull()
+    {
+        initHMap(m, 0, 10);
+        es.removeAll(null);
     }
 
     // -------------------- retainAll method --------------------

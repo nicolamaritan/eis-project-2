@@ -325,6 +325,24 @@ public class TestKeySet
             assertFalse("Should NOT be contained", ks.contains(i + bound));
     }
 
+    /**
+     * <p><b>Summary</b>: contains method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: ks.contains(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void Contains_Null()
+    {
+        initHMap(m, 0, 10);
+        ks.contains(null);
+    }
+
+    // ------------------------------------------ containsAll method ------------------------------------------
 
     /**
      * <p><b>Summary</b>: containsAll method test case.
@@ -684,6 +702,23 @@ public class TestKeySet
     // ------------------------------------------ remove method ------------------------------------------
     /**
      * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests remove behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: ks.remove(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void Remove_Null()
+    {
+        initHMap(m, 0, 10);
+        ks.remove(null);
+    }
+    
+    /**
+     * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its KeySet and checks their consistency in propagation.
      * They both are empty, which is a limit case.</p>
@@ -805,7 +840,10 @@ public class TestKeySet
      * the coherence is checked through checkKeySet. Tests right
      * propagation from the entry set to the map. Removing all entries
      * from the KeySet implies removing all the entries in the map.
-     * The collection keeps changing during execution.</p>
+     * The collection keeps changing during execution. Note that
+     * different sizes are tested, as first the size of ks is smaller
+     * than the size of c, while then the size of ks is bigger than the
+     * size of c.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the keyset contains 
      * {0:i}, for each i in (0,1000)
@@ -849,6 +887,39 @@ public class TestKeySet
                 assertTrue("Both should not be empty", ks.isEmpty() == m.isEmpty() && !ks.isEmpty());
             }
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: ks.removeAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks is empty</p>
+     * <p><b>Post-Condition</b>: ks is empty</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RemoveAll_EmptyNull()
+    {
+        ks.removeAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: ks.removeAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RemoveAll_NotEmptyNull()
+    {
+        initHMap(m, 0, 10);
+        ks.removeAll(null);
     }
 
     // ------------------------------------------ retainAll method ------------------------------------------
