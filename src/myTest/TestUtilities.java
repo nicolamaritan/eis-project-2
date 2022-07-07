@@ -154,10 +154,10 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
-        SetAdapter s = new SetAdapter();
+        HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
-            s.add(i);
-        return s;
+            m.put(i, i);
+        return m.keySet();
     }
 
     /**
@@ -174,10 +174,10 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
-        SetAdapter s = new SetAdapter();
+        HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
-            s.add(""+i);
-        return s;
+            m.put(""+i, i);
+        return m.keySet();
     }
 
     /**
@@ -285,12 +285,12 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
-        HSet c = new SetAdapter();
+        HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
         {
             HMap.Entry e = TestUtilities.getEntry(i, "" + i);
-            c.add(e);
+            m.put(e, e);
         }
-        return c;
+        return m.keySet();
     }
 }

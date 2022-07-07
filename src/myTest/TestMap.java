@@ -386,7 +386,6 @@ public class TestMap
 		iter = s1.iterator();
 		count = s1.size()+2;
 
-		String temp = "";
 		while(iter.hasNext() && count-- >= 0)
 		{
 			Object k = iter.next();
@@ -394,7 +393,6 @@ public class TestMap
 			iter.remove();
             assertFalse("Should be just removed", s1.contains(k));
             System.out.println(k + " " + m.size() + "; ");
-			//temp += (k + " " + m.size() + "; ");
 		}
 
 		assertEquals("[]", s1.toString());
