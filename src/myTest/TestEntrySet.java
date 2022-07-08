@@ -2175,9 +2175,9 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: Tests the correct propagation
      * from a map and all its views and viceversa. In this test
-     * there are one view for each type:
-     * one returned by entrySet(), one returned by
-     * keySet(), and the last one returned by values().</p>
+     * there are multiple views for each type:
+     * returned by entrySet(), returned by
+     * keySet(), and returned by values().</p>
      * <p><b>Test Case Design</b>: Tests correct propagation
      * between ALL views and the map. After each modification,
      * each view and map are asserted to be correct and coherent
@@ -2186,17 +2186,25 @@ public class TestEntrySet
      * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
      * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
      * and TestValues.checkToArray(v, v.toArray()).</p>
-     * <p><b>Test Description</b>: m is initialized with {0="0":20="20"},
-     * therefore es contains {0="0":20="20"}, ks contains {0:20},
-     * v contains {"0":"20"}. After each insertion all the views and the map
+     * <p><b>Test Description</b>:
+     * 20 views are returned from entrySet(), keySet() and values().
+     * In the ith iteration, if i%3 equals 0 then the ith view is an entrySet,
+     * if i%3 equals 1 then the ith view is a keySet, if i%3 equals 2
+     * then the ith view is a values collection.
+     * m is initialized with {0="0":20="20"},
+     * therefore each entrySet contains {0="0":20="20"}, each keySet contains {0:20},
+     * each values collection contains {"0":"20"}. After each insertion all the views and the map
      * are tested with afore mentioned check methods. Then one element
      * is removed from a view one at a time, until the map and all
-     * the views are empty. Like the insertion, after each removal
+     * the views are empty. In particular, if it is an entrySet it has to
+     * remove an entry, if it is an keySet it has to remove a key,
+     * if it is a values collection it has to remove a value.
+     * Like the insertion, after each removal
      * all the views and the map are tested with afore mentioned check methods.
      * At the and the HMap and all its views are empty.</p>
      * <p><b>Pre-Condition</b>: m is initialized with {0="0":20="20"},
-     * therefore es contains {0="0":20="20"}, ks contains {0:20},
-     * v contains {"0":"20"}.</p>
+     * therefore each entryset contains {0="0":20="20"}, each keyset contains {0:20},
+     * each values collection contains {"0":"20"}.</p>
      * <p><b>Post-Condition</b>: The HMap and all its views are empty.</p>
      * <p><b>Expected Results</b>: The HMap and all its views are empty.
      * Each modification correctly propagates to the other involved
@@ -2208,6 +2216,7 @@ public class TestEntrySet
         int bound = 20;
 
         HCollection[] views = new HCollection[bound];
+        // Views instantiation
         for (int i = 0; i < bound; i++)
         {
             switch (i % 3)
@@ -2228,6 +2237,7 @@ public class TestEntrySet
         {
             m.put(i, ""+i);
 
+            // Test ALL views
             for (int j = 0; j < bound; j++)
             {
                 switch(j % 3)
@@ -2253,21 +2263,23 @@ public class TestEntrySet
 
         for (int i = 0; i < bound; i++)
         {
+            // Remove the ith element
             switch (i % 3)
             {
-                case 0:
+                case 0: // Then it is an entrySet
                     views[i].remove(getEntry(i, ""+i));
                     break;
-                case 1:
+                case 1: // Then it is a keySet
                     views[i].remove(i);
                     break;
-                case 2:
-                    views[i].remove(""+i);
+                case 2: // Then it is a values collection
+                    views[i].remove(""+i);  
                     break;
             }
+
+            // Test ALL views
             for (int j = 0; j < bound; j++)
             {
-                // HSets
                 switch(j % 3)
                 {
                     case 0:
@@ -2295,6 +2307,7 @@ public class TestEntrySet
         {
             m.put(i, ""+i);
 
+            // Test ALL views
             for (int j = 0; j < bound; j++)
             {
                 switch(j % 3)
@@ -2319,8 +2332,9 @@ public class TestEntrySet
         }
         for (int i = 0; i < bound; i++)
         {
-            m.remove(i);
+            m.remove(i);    // Removes from the map
 
+            // Test ALL views
             for (int j = 0; j < bound; j++)
             {
                 switch(j % 3)
