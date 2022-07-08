@@ -873,7 +873,7 @@ public class TestMap
      * <p><b>Expected Results</b>: each get returns null.</p>
      */
     @Test
-    public void Get_0To1000NotInMap()
+    public void Get_0To100NotInMap()
     {
         int bound = 100;
         TestUtilities.initHMap(m, 0, bound);
@@ -908,7 +908,7 @@ public class TestMap
      * <p><b>Expected Results</b>: each get returns i in string form.</p>
      */
     @Test
-    public void Get_0To1000()
+    public void Get_0To100()
     {
         int bound = 100;
         TestUtilities.initHMap(m, 0, bound);
@@ -1546,6 +1546,7 @@ public class TestMap
     {
         m.put(1, 3);
         assertEquals(3, m.remove(1));
+        assertTrue("Should be empty", m.isEmpty());
     }
 
 	/**
