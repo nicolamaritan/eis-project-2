@@ -1504,6 +1504,37 @@ public class TestEntrySet
 		boolean content = (a[0].equals(getEntry("Collection", "Adapter")));
 		assertTrue(size && content);
 	}
+    
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked with a null argument.</p>
+     * <p><b>Test Description</b>: es.toArray(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es is empty.</p>
+     * <p><b>Post-Condition</b>: es is empty.</p>
+     * <p><b>Expected Results</b>: NullPointerException is being thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ToArrayArrayArg_NullEmpty()
+    {
+        es.toArray(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked with a null argument.</p>
+     * <p><b>Test Description</b>: es.toArray(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NullPointerException is being thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ToArrayArrayArg_Null0To10()
+    {
+        initHMap(m, 0, 10);
+        es.toArray(null);
+    }
 
     // ------------------------------------------ iterator method and EntrySetIterator ------------------------------------------
     

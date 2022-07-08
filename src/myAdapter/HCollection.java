@@ -69,6 +69,8 @@ public interface HCollection {
      *
      * @param obj element whose presence in this collection is to be tested.
      * @return true if this collection contains the specified element
+     * @throws NullPointerException if the specified element is null and
+     * this collection does not support null elements
      */
     boolean contains(Object obj);
 
@@ -171,9 +173,10 @@ public interface HCollection {
      *
      * @param obj element whose presence in this collection is to be ensured.
      * @return true if this collection changed as a result of the call
+     * @throws NullPointerException if the specified element is null and
+     * this collection does not support null elements
      */
     boolean add(Object obj);
-
     /**
      * Removes a single instance of the specified element from this collection, if
      * it is present (optional operation). More formally, removes an element e such
@@ -184,6 +187,8 @@ public interface HCollection {
      *
      * @param obj element to be removed from this collection, if present.
      * @return true if this collection changed as a result of the call
+     * @throws NullPointerException if the specified element is null and
+     * this collection does not support null elements
      */
     boolean remove(Object obj);
 
@@ -210,6 +215,9 @@ public interface HCollection {
      *
      * @param coll elements to be inserted into this collection.
      * @return true if this collection changed as a result of the call
+     * @throws NullPointerException  if the specified collection contains
+     * one or more null elements and this collection does not support null
+     * elements, or if the specified collection is null.
      * @see #add(Object)
      */
     boolean addAll(HCollection coll);
