@@ -2052,6 +2052,303 @@ public class TestEntrySet
     }
 
     /**
+     * <p><b>Summary</b>: Tests the correct propagation
+     * from a map and all its views and viceversa. In this test
+     * there are one view for each type:
+     * one returned by entrySet(), one returned by
+     * keySet(), and the last one returned by values().</p>
+     * <p><b>Test Case Design</b>: Tests correct propagation
+     * between ALL views and the map. After each modification,
+     * each view and map are asserted to be correct and coherent
+     * through TestEntrySet.checkEntrySet(m, es), TestKeySet.checkKeySet(m, ks),
+     * TestValues.checkValues(m, v), TestEntrySet.checkIteration(es),
+     * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
+     * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
+     * and TestValues.checkToArray(v, v.toArray()).</p>
+     * <p><b>Test Description</b>: m is initialized with {0="0":20="20"},
+     * therefore es contains {0="0":20="20"}, ks contains {0:20},
+     * v contains {"0":"20"}. After each insertion all the views and the map
+     * are tested with afore mentioned check methods. Then one element
+     * is removed from a view one at a time, until the map and all
+     * the views are empty. Like the insertion, after each removal
+     * all the views and the map are tested with afore mentioned check methods.
+     * At the and the HMap and all its views are empty.</p>
+     * <p><b>Pre-Condition</b>: m is initialized with {0="0":20="20"},
+     * therefore es contains {0="0":20="20"}, ks contains {0:20},
+     * v contains {"0":"20"}.</p>
+     * <p><b>Post-Condition</b>: The HMap and all its views are empty.</p>
+     * <p><b>Expected Results</b>: The HMap and all its views are empty.
+     * Each modification correctly propagates to the other involved
+     * objects, therefore propagation works correctly.</p>
+     */
+    @Test
+    public void MultipleViews0()
+    {
+        HSet ks = m.keySet();
+        HCollection v = m.values();
+
+        int bound = 20;
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, ""+i);
+
+            TestEntrySet.checkEntrySet(m, es);
+            TestKeySet.checkKeySet(m, ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkIteration(es);
+            TestKeySet.checkIteration(ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkToArray(es, es.toArray());
+            TestKeySet.checkToArray(ks, ks.toArray());
+            TestValues.checkToArray(v, v.toArray());
+        }
+
+        for (int i = 0; i < bound; i++)
+        {
+            switch (i % 3)
+            {
+                case 0:
+                    es.remove(getEntry(i, ""+i));
+                    break;
+                case 1:
+                    ks.remove(i);
+                    break;
+                case 2:
+                    v.remove(""+i);
+                    break;
+            }
+            TestEntrySet.checkEntrySet(m, es);
+            TestKeySet.checkKeySet(m, ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkIteration(es);
+            TestKeySet.checkIteration(ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkToArray(es, es.toArray());
+            TestKeySet.checkToArray(ks, ks.toArray());
+            TestValues.checkToArray(v, v.toArray());
+        }
+
+        assertTrue("ALL size should be equal.", m.size() == es.size() && es.size() == ks.size() && ks.size() == v.size());
+        assertTrue("Should be empty.", m.size() == 0);
+
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, ""+i);
+
+            TestEntrySet.checkEntrySet(m, es);
+            TestKeySet.checkKeySet(m, ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkIteration(es);
+            TestKeySet.checkIteration(ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkToArray(es, es.toArray());
+            TestKeySet.checkToArray(ks, ks.toArray());
+            TestValues.checkToArray(v, v.toArray());
+        }
+        for (int i = 0; i < bound; i++)
+        {
+            m.remove(i);
+
+            TestEntrySet.checkEntrySet(m, es);
+            TestKeySet.checkKeySet(m, ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkIteration(es);
+            TestKeySet.checkIteration(ks);
+            TestValues.checkValues(m, v);
+
+            TestEntrySet.checkToArray(es, es.toArray());
+            TestKeySet.checkToArray(ks, ks.toArray());
+            TestValues.checkToArray(v, v.toArray());
+        }
+        assertTrue("ALL size should be equal.", m.size() == es.size() && es.size() == ks.size() && ks.size() == v.size());
+        assertTrue("Should be empty.", m.size() == 0);
+        
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests the correct propagation
+     * from a map and all its views and viceversa. In this test
+     * there are one view for each type:
+     * one returned by entrySet(), one returned by
+     * keySet(), and the last one returned by values().</p>
+     * <p><b>Test Case Design</b>: Tests correct propagation
+     * between ALL views and the map. After each modification,
+     * each view and map are asserted to be correct and coherent
+     * through TestEntrySet.checkEntrySet(m, es), TestKeySet.checkKeySet(m, ks),
+     * TestValues.checkValues(m, v), TestEntrySet.checkIteration(es),
+     * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
+     * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
+     * and TestValues.checkToArray(v, v.toArray()).</p>
+     * <p><b>Test Description</b>: m is initialized with {0="0":20="20"},
+     * therefore es contains {0="0":20="20"}, ks contains {0:20},
+     * v contains {"0":"20"}. After each insertion all the views and the map
+     * are tested with afore mentioned check methods. Then one element
+     * is removed from a view one at a time, until the map and all
+     * the views are empty. Like the insertion, after each removal
+     * all the views and the map are tested with afore mentioned check methods.
+     * At the and the HMap and all its views are empty.</p>
+     * <p><b>Pre-Condition</b>: m is initialized with {0="0":20="20"},
+     * therefore es contains {0="0":20="20"}, ks contains {0:20},
+     * v contains {"0":"20"}.</p>
+     * <p><b>Post-Condition</b>: The HMap and all its views are empty.</p>
+     * <p><b>Expected Results</b>: The HMap and all its views are empty.
+     * Each modification correctly propagates to the other involved
+     * objects, therefore propagation works correctly.</p>
+     */
+    @Test
+    public void MultipleViews1()
+    {
+        int bound = 20;
+
+        HCollection[] views = new HCollection[bound];
+        for (int i = 0; i < bound; i++)
+        {
+            switch (i % 3)
+            {
+                case 0:
+                    views[i] = m.entrySet();
+                    break;
+                case 1:
+                    views[i] = m.keySet();
+                    break;
+                case 2:
+                    views[i] = m.values();
+                    break;
+            }
+        }
+
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, ""+i);
+
+            for (int j = 0; j < bound; j++)
+            {
+                switch(j % 3)
+                {
+                    case 0:
+                        TestEntrySet.checkEntrySet(m, (HSet)views[j]);
+                        TestEntrySet.checkIteration((HSet)views[j]);
+                        TestEntrySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 1:
+                        TestKeySet.checkKeySet(m, (HSet)views[j]);
+                        TestKeySet.checkIteration((HSet)views[j]);
+                        TestKeySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 2:
+                        TestValues.checkValues(m, views[j]);
+                        TestValues.checkIteration(views[j]);
+                        TestValues.checkToArray(views[j], views[j].toArray());
+                        break;
+                }
+            }
+        }
+
+        for (int i = 0; i < bound; i++)
+        {
+            switch (i % 3)
+            {
+                case 0:
+                    views[i].remove(getEntry(i, ""+i));
+                    break;
+                case 1:
+                    views[i].remove(i);
+                    break;
+                case 2:
+                    views[i].remove(""+i);
+                    break;
+            }
+            for (int j = 0; j < bound; j++)
+            {
+                // HSets
+                switch(j % 3)
+                {
+                    case 0:
+                        TestEntrySet.checkEntrySet(m, (HSet)views[j]);
+                        TestEntrySet.checkIteration((HSet)views[j]);
+                        TestEntrySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 1:
+                        TestKeySet.checkKeySet(m, (HSet)views[j]);
+                        TestKeySet.checkIteration((HSet)views[j]);
+                        TestKeySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 2:
+                        TestValues.checkValues(m, views[j]);
+                        TestValues.checkIteration(views[j]);
+                        TestValues.checkToArray(views[j], views[j].toArray());
+                        break;
+                }
+            }
+        }
+
+        assertTrue("Should be empty.", m.size() == 0);
+        
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, ""+i);
+
+            for (int j = 0; j < bound; j++)
+            {
+                switch(j % 3)
+                {
+                    case 0:
+                        TestEntrySet.checkEntrySet(m, (HSet)views[j]);
+                        TestEntrySet.checkIteration((HSet)views[j]);
+                        TestEntrySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 1:
+                        TestKeySet.checkKeySet(m, (HSet)views[j]);
+                        TestKeySet.checkIteration((HSet)views[j]);
+                        TestKeySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 2:
+                        TestValues.checkValues(m, views[j]);
+                        TestValues.checkIteration(views[j]);
+                        TestValues.checkToArray(views[j], views[j].toArray());
+                        break;
+                }
+            }
+        }
+        for (int i = 0; i < bound; i++)
+        {
+            m.remove(i);
+
+            for (int j = 0; j < bound; j++)
+            {
+                switch(j % 3)
+                {
+                    case 0:
+                        TestEntrySet.checkEntrySet(m, (HSet)views[j]);
+                        TestEntrySet.checkIteration((HSet)views[j]);
+                        TestEntrySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 1:
+                        TestKeySet.checkKeySet(m, (HSet)views[j]);
+                        TestKeySet.checkIteration((HSet)views[j]);
+                        TestKeySet.checkToArray((HSet)views[j], views[j].toArray());
+                        break;
+                    case 2:
+                        TestValues.checkValues(m, views[j]);
+                        TestValues.checkIteration(views[j]);
+                        TestValues.checkToArray(views[j], views[j].toArray());
+                        break;
+                }
+            }
+        }
+
+        assertTrue("Should be empty.", m.size() == 0);
+        
+    }
+
+    /**
      * Checks if the entrySet and the backing map contains the same informations.
      * This method asserts correct propagation from HMap to its
      * entrySet and from entrySet to HMap, therefore it is invoked
