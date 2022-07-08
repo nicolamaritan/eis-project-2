@@ -91,12 +91,33 @@ public class TestKeySet
     // ------------------------------------------ single method test case ------------------------------------------
 
     // ------------------------------------------ add method ------------------------------------------
+    
+    /**
+     * <p><b>Summary</b>: add method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks is empty.</p>
+     * <p><b>Post-Condition</b>: ks is empty.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
     @Test (expected = UnsupportedOperationException.class)
     public void Add_UOE()
     {
         ks.add(1);
     }
 
+    /**
+     * <p><b>Summary</b>: add method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: addAll is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks is empty.</p>
+     * <p><b>Post-Condition</b>: ks is empty.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
     // ------------------------------------------ addAll method ------------------------------------------
     @Test (expected = UnsupportedOperationException.class)
     public void AddAll_UOE()
