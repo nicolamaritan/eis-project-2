@@ -1835,7 +1835,41 @@ public class TestMap
         assertEquals("Maps should be equal.", true, m2.equals(m3));
         assertEquals("Transitive property is not met.",true, m.equals(m3));
     }
+
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method, when
+     * invoked with a null argument, should just
+     * return false.</p>
+     * <p><b>Test Description</b>: m.equals(null)
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty</p>
+     * <p><b>Post-Condition</b>: m is empty</p>
+     * <p><b>Expected Results</b>: m.equals(null) returns false.</p>
+     */
+    @Test
+    public void Equals_NullEmpty()
+    {
+        assertFalse(m.equals(null));
+    }
 	
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method, when
+     * invoked with a null argument, should just
+     * return false.</p>
+     * <p><b>Test Description</b>: m.equals(null)
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: m.equals(null) returns false.</p>
+     */
+    @Test
+    public void Equals_NullNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        assertFalse(m.equals(null));
+    }
 }
 
     /**

@@ -615,6 +615,41 @@ public class TestEntrySet
         assertEquals("Transitive property is not met.",true, es.equals(es3));
     }
 
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method, when
+     * invoked with a null argument, should just
+     * return false.</p>
+     * <p><b>Test Description</b>: es.equals(null)
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: es is empty</p>
+     * <p><b>Post-Condition</b>: es is empty</p>
+     * <p><b>Expected Results</b>: es.equals(null) returns false.</p>
+     */
+    @Test
+    public void Equals_NullEmpty()
+    {
+        assertFalse(es.equals(null));
+    }
+	
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method, when
+     * invoked with a null argument, should just
+     * return false.</p>
+     * <p><b>Test Description</b>: es.equals(null)
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: es.equals(null) returns false.</p>
+     */
+    @Test
+    public void Equals_NullNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        assertFalse(m.equals(null));
+    }
+
     // ------------------------------------------ clear method ------------------------------------------
 
     /**

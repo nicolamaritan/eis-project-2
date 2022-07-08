@@ -576,7 +576,7 @@ public class MapAdapter implements HMap
         public boolean equals(Object o)
         {
             // false if o is not a HSet
-            if (!(o instanceof HSet))
+            if (!(o instanceof HSet) || o == null)
                 return false;
             HSet oSet = (HSet)o;
             
@@ -1055,7 +1055,7 @@ public class MapAdapter implements HMap
         public boolean equals(Object o)
         {
             // false if o is not a HSet
-            if (!(o instanceof HSet))
+            if (!(o instanceof HSet) || o == null)
                 return false;
             HSet oSet = (HSet)o;
             
@@ -1740,7 +1740,7 @@ public class MapAdapter implements HMap
         public boolean equals(Object o)
         {
             // false if o is not a HCollection
-            if (!(o instanceof HCollection))
+            if (!(o instanceof HCollection) || o == null)
                 return false;
             HCollection oCollection = (HCollection)o;
             

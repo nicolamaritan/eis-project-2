@@ -571,6 +571,41 @@ public class TestValues
         assertEquals("Transitive property is not met.",true, v.equals(v3));
     }
 
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method, when
+     * invoked with a null argument, should just
+     * return false.</p>
+     * <p><b>Test Description</b>: v.equals(null)
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: v is empty</p>
+     * <p><b>Post-Condition</b>: v is empty</p>
+     * <p><b>Expected Results</b>: v.equals(null) returns false.</p>
+     */
+    @Test
+    public void Equals_NullEmpty()
+    {
+        assertFalse(v.equals(null));
+    }
+	
+    /**
+     * <p><b>Summary</b>: equals method test case.</p>
+     * <p><b>Test Case Design</b>: equals method, when
+     * invoked with a null argument, should just
+     * return false.</p>
+     * <p><b>Test Description</b>: v.equals(null)
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Post-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Expected Results</b>: v.equals(null) returns false.</p>
+     */
+    @Test
+    public void Equals_NullNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        assertFalse(v.equals(null));
+    }
+
     // ------------------------------------------ clear method ------------------------------------------
 
     /**
@@ -645,8 +680,8 @@ public class TestValues
      * <p><b>Test Description</b>: Different configurations have been tested. In mathematical symbols, considering the values:
      * empty, {1}, {-100:100}, {-100:100}/{0}, {-100:101}/{0}, {-100:100, 500:1000}/{0},
      * {-100:100, 500:1000} U {-1000:-900}/({0} ), {-100:100, 500:1000, 5000:6000}  U {-1000:-900}/({0})</p>
-     * <p><b>Pre-Condition</b>: Valuess have same hashCode and they are equal.</p>
-     * <p><b>Post-Condition</b>: Valuess have same hashCode and they are equal.</p>
+     * <p><b>Pre-Condition</b>: Values have same hashCode and they are equal.</p>
+     * <p><b>Post-Condition</b>: Values have same hashCode and they are equal.</p>
      * <p><b>Expected Results</b>: Valuess have same hashCode and they are equal.</p>
      */
     @Test
