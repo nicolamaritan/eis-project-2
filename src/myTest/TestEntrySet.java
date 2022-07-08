@@ -523,6 +523,23 @@ public class TestEntrySet
         es.containsAll(null);
     }
     
+    /**
+     * <p><b>Summary</b>: containsAll method test case.
+     * The test case tries to call containsAll with a null
+     * collection on an entryset.</p>
+     * <p><b>Test Case Design</b>: Tests the method with null arguments, which is a special
+     * case of invalid argument.</p>
+     * <p><b>Test Description</b>: Calls method with null collection.</p>
+     * <p><b>Pre-Condition</b>: entryset contains {0="0":10="10"}, coll is null.</p>
+     * <p><b>Post-Condition</b>: entryset contains {0="0":10="10"}, coll is null.</p>
+     * <p><b>Expected Results</b>: NullPointerException thrown.</p>
+     */    
+    @Test(expected = java.lang.NullPointerException.class)
+    public void ContainsAll_NullCollection_NPE_NotEmpty()
+    {
+        initHMap(m, 0, 10);
+        es.containsAll(null);
+    }
     // ------------------------------------------ equals method ------------------------------------------
 
     /**
@@ -970,6 +987,79 @@ public class TestEntrySet
                 assertTrue("Both should not be empty", es.isEmpty() == m.isEmpty() && !es.isEmpty());
             }
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.
+     * Tests removeAll method correct behaviour
+     * and propagation from map to entryset and
+     * viceversa. Coherence is also checked through
+     * checkEntrySet(m, es) and checkIteration(es).</p>
+     * <p><b>Test Case Design</b>: Tests removeAll method with
+     * entryset HSet. Correct propagation is tested in both ways.
+     * </p>
+     * <p><b>Test Description</b>: m contains the
+     * entries A=a, B=b, C=c, D=d, D2=d. The HCollection
+     * c is initialized with A=a, C=c, D=d. That means,
+     * invoking es.removeAll(c) will remove A=a, C=c, D=d.
+     * The test asserts that afore mentioned entries are
+     * removed, while the remaining ones are still in the
+     * HMap and in the entryset.</p>
+     * <p><b>Pre-Condition</b>: m contains A=a, B=b, C=c, D=d, D2=d
+     * es contains A=a, B=b, C=c, D=d, D2=d.</p>
+     * <p><b>Post-Condition</b>: m contains B=b, D2=d,
+     * es contains B=b, D2=d.</p>
+     * <p><b>Expected Results</b>: m contains B=b, D2=d,
+     * es contains B=b, D2=d.
+     * Propagation works correctly from map to entryset and
+     * from entryset to map.</p>
+     */
+    @Test
+    public void RemoveAll_Backing1()
+    {
+        String[] arg_k = {"A", "B", "C", "D", "D2"};
+        String[] arg_v = {"a", "b", "c", "d", "d"};
+        
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            m.put(arg_k[i], arg_v[i]);
+            checkEntrySet(m, es);
+            checkIteration(es);
+        }
+
+        c = getHCollection(new Object[]{getEntry("A", "a"),
+                                        getEntry("C", "c"),
+                                        getEntry("D", "d")});
+        
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            assertTrue("Should be contained", es.contains(getEntry(arg_k[i], arg_v[i])));
+            assertTrue("Should be contained", m.containsKey(arg_k[i]) && m.containsValue(arg_v[i]));
+            assertTrue(m.get(arg_k[i]).equals(arg_v[i]));
+        }
+
+        assertTrue("Should be removed", es.removeAll(c));
+        assertTrue(m.size() == es.size() && m.size() == 2);
+
+        assertFalse("Should NOT be contained", es.contains(getEntry("A", "a")));
+        assertTrue("Should NOT be contained", !m.containsKey("A") && !m.containsValue("a"));
+        assertNull("Should be null", m.get("A"));
+
+        assertTrue("Should be contained", es.contains(getEntry("B", "b")));
+        assertTrue("Should be contained", m.containsKey("B") && m.containsValue("b"));
+        assertTrue("Should match", m.get("B").equals("b"));
+
+        assertFalse("Should NOT be contained", es.contains(getEntry("C", "c")));
+        assertTrue("Should NOT be contained", !m.containsKey("C") && !m.containsValue("c"));
+        assertNull("Should be null", m.get("C"));
+
+        assertFalse("Should NOT be contained", es.contains(getEntry("D", "d")));
+        assertTrue("Should NOT be contained", !m.containsKey("D") && m.containsValue("d"));
+        assertNull("Should be null", m.get("D"));
+
+        assertTrue("Should be contained", es.contains(getEntry("D2", "d")));
+        assertTrue("Should be contained", m.containsKey("D2") && m.containsValue("d"));
+        assertTrue("Should match", m.get("D2").equals("d"));  
     }
 
     /**

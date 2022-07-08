@@ -478,6 +478,23 @@ public class TestValues
         v.containsAll(null);
     }
     
+    /**
+     * <p><b>Summary</b>: containsAll method test case.
+     * The test case tries to call containsAll with a null
+     * collection on an values.</p>
+     * <p><b>Test Case Design</b>: Tests the method with null arguments, which is a special
+     * case of invalid argument.</p>
+     * <p><b>Test Description</b>: Calls method with null collection.</p>
+     * <p><b>Pre-Condition</b>: values contains {0:10}, coll is null.</p>
+     * <p><b>Post-Condition</b>: values contains {0:10}, coll is null.</p>
+     * <p><b>Expected Results</b>: NullPointerException thrown.</p>
+     */    
+    @Test(expected = java.lang.NullPointerException.class)
+    public void ContainsAll_NullCollection_NPE_NotEmpty()
+    {
+        initHMap(m, 0, 10);
+        v.containsAll(null);
+    }
     // ------------------------------------------ equals method ------------------------------------------
 
     /**
@@ -947,6 +964,80 @@ public class TestValues
         v.removeAll(null);
     }
 
+    /**
+     * <p><b>Summary</b>: removeAll method test case.
+     * Tests removeAll method correct behaviour
+     * and propagation from map to keySet and
+     * viceversa. Coherence is also checked through
+     * checkValues(m, es) and checkIteration(es).</p>
+     * <p><b>Test Case Design</b>: Tests removeAll method with
+     * values HCollection. Correct propagation is tested in both ways.
+     * </p>
+     * <p><b>Test Description</b>: m contains the
+     * entries A=a, B=b, C=c, D=d, D2=d. The HCollection
+     * c is initialized with a, c and c. That means,
+     * invoking es.removeAll(c) will remove A=a, C=c, D=d AND D2=d:
+     * it will remove both d's in values, therefore will
+     * remove the whole entry from the HMap for propagation.
+     * The test asserts that afore mentioned entries are
+     * removed, while the remaining ones are still in the
+     * HMap and in the keySet.</p>
+     * <p><b>Pre-Condition</b>: m contains A=a, B=b, C=c, D=d, D2=d,
+     * ks contains A, B, C, D, D2.</p>
+     * <p><b>Post-Condition</b>: m contains B=b, ks contains B.</p>
+     * <p><b>Expected Results</b>: m contains B=b, D2=d.
+     * ks contains B.
+     * Propagation works correctly from map to keySet and
+     * from keySet to map.</p>
+     */
+    @Test
+    public void RemoveAll_Backing1()
+    {
+        String[] arg_k = {"A", "B", "C", "D", "D2"};
+        String[] arg_v = {"a", "b", "c", "d", "d"};
+        
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            m.put(arg_k[i], arg_v[i]);
+            checkValues(m, v);
+            checkIteration(v);
+        }
+
+        c = getHCollection(new Object[]{"a", "c", "d"});
+        
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            assertTrue("Should be contained", v.contains(arg_v[i]));
+            assertTrue("Should be contained", m.containsKey(arg_k[i]) && m.containsValue(arg_v[i]));
+            assertTrue(m.get(arg_k[i]).equals(arg_v[i]));
+        }
+
+        
+        assertTrue("Should be removed", v.removeAll(c));
+
+        System.out.println(v);
+
+        assertTrue(m.size() == v.size() && m.size() == 1);
+
+        assertFalse("Should NOT be contained", v.contains("a"));
+        assertTrue("Should NOT be contained", !m.containsKey("A") && !m.containsValue("a"));
+        assertNull("Should be null", m.get("A"));
+
+        assertTrue("Should be contained", v.contains("b"));
+        assertTrue("Should be contained", m.containsKey("B") && m.containsValue("b"));
+        assertTrue("Should match", m.get("B").equals("b"));
+
+        assertFalse("Should NOT be contained", v.contains("c"));
+        assertTrue("Should NOT be contained", !m.containsKey("C") && !m.containsValue("c"));
+        assertNull("Should be null", m.get("C"));
+
+        assertFalse("Should NOT be contained", v.contains("d"));
+        assertTrue("Should NOT be contained", !m.containsKey("D") && !m.containsValue("d"));
+        assertNull("Should be null", m.get("D"));
+        assertTrue("Should be contained", !m.containsKey("D2") && !m.containsValue("d"));
+        assertNull("Should match", m.get("D2"));  
+    }
+
     // ------------------------------------------ retainAll method ------------------------------------------
 
     /**
@@ -1198,6 +1289,40 @@ public class TestValues
         assertEquals("The set has changed, it should return true.", true, v.retainAll(c));
         assertTrue("The arrays should match.", TestUtilities.getStringHCollection(4, 7).equals(v));
     }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests retainAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: v.retainAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v is empty</p>
+     * <p><b>Post-Condition</b>: v is empty</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RetainAll_EmptyNull()
+    {
+        v.retainAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests retainAll behaviour
+     * when the passed argument is null. The method should throw
+     * NullPointerException.</p>
+     * <p><b>Test Description</b>: v.retainAll(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: v contains {0:10}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test(expected = NullPointerException.class)
+    public void RetainAll_NotEmptyNull()
+    {
+        initHMap(m, 0, 10);
+        v.retainAll(null);
+    }
+
     // ------------------------------------------ toArray method ------------------------------------------
 
     /**

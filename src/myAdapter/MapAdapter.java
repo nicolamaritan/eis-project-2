@@ -1657,8 +1657,11 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object element = it.next();
-                if (this.remove(element))
+                while (this.contains(element))  // Could be more than 1 as it is HCollection
+                {
+                    this.remove(element);
                     modified = true;
+                }
             }
             return modified;
         }
