@@ -2079,7 +2079,7 @@ public class TestKeySet
      * @param m the backing map
      * @param ks the keyset
      */
-    public void checkKeySet(HMap m, HSet ks)
+    public static void checkKeySet(HMap m, HSet ks)
     {
         assertEquals("Map and KeySet are NOT coherent. Propagation went wrong.", m.size(), ks.size());
         HIterator it = ks.iterator();
@@ -2099,7 +2099,7 @@ public class TestKeySet
      * @param ks keyset to be checked
      * @param arr array to be checked
      */
-    public void checkToArray(HSet ks, Object[] arr)
+    public static void checkToArray(HSet ks, Object[] arr)
     {
         assertEquals("The array and the set do NOT have the same elements.", ks.size(), arr.length);
         for (int i = 0; i < arr.length; i++)
@@ -2117,7 +2117,7 @@ public class TestKeySet
      * did not work correctly. Other wise, the propagation worked correctly.
      * @param es keyset to be checked
      */
-    public void checkIteration(HSet ks)
+    public static void checkIteration(HSet ks)
     {
         HIterator it = ks.iterator();
         int count = 0;

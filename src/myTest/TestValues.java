@@ -2154,7 +2154,7 @@ public class TestValues
      * @param m the backing map
      * @param v the values collection
      */
-    public void checkValues(HMap m, HCollection v)
+    public static void checkValues(HMap m, HCollection v)
     {
         assertEquals("Map and Values are NOT coherent. Propagation went wrong.", m.size(), v.size());
         HIterator it = v.iterator();
@@ -2172,7 +2172,7 @@ public class TestValues
      * @param v entryset to be checked
      * @param arr array to be checked
      */
-    public void checkToArray(HCollection v, Object[] arr)
+    public static void checkToArray(HCollection v, Object[] arr)
     {
         assertEquals("The array and the collection do NOT have the same elements.", v.size(), arr.length);
         for (int i = 0; i < arr.length; i++)
@@ -2190,7 +2190,7 @@ public class TestValues
      * did not work correctly. Other wise, the propagation worked correctly.
      * @param v values collection to be checked
      */
-    public void checkIteration(HCollection v)
+    public static void checkIteration(HCollection v)
     {
         HIterator it = v.iterator();
         int count = 0;

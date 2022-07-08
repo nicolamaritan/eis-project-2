@@ -2063,7 +2063,7 @@ public class TestEntrySet
      * @param m the backing map
      * @param es the entrySet
      */
-    public void checkEntrySet(HMap m, HSet es)
+    public static void checkEntrySet(HMap m, HSet es)
     {
         assertEquals("Map and EntrySet are NOT coherent. Propagation went wrong.", m.size(), es.size());
         HIterator it = es.iterator();
@@ -2082,7 +2082,7 @@ public class TestEntrySet
      * @param es entryset to be checked
      * @param arr array to be checked
      */
-    public void checkToArray(HSet es, Object[] arr)
+    public static void checkToArray(HSet es, Object[] arr)
     {
         assertEquals("The array and the set do NOT have the same elements.", es.size(), arr.length);
         for (int i = 0; i < arr.length; i++)
@@ -2100,7 +2100,7 @@ public class TestEntrySet
      * did not work correctly. Other wise, the propagation worked correctly.
      * @param es entryset to be checked
      */
-    public void checkIteration(HSet es)
+    public static void checkIteration(HSet es)
     {
         HIterator it = es.iterator();
         int count = 0;
