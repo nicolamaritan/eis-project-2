@@ -105,7 +105,7 @@ public class TestCollection
 	}
 	
 	
-	// ------------------------------------------ Test cases assigned from the professor ------------------------------------------
+	// ------------------------------------------ Test cases assigned by the professor ------------------------------------------
 
 	/**
      * <p><b>Summary</b>: clear method test case.</p>

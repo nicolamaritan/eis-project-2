@@ -9,7 +9,7 @@ import myAdapter.*;
 /**
  * <p><b>Summary</b>: The test suite TestMap focuses on map methods, tests their correct
  * behaviour in different case scenario. Each MapAdapter method is tested in different
- * test cases. The first section of the test suite (Test cases assigned from the professor)
+ * test cases. The first section of the test suite (Test cases assigned by the professor)
  * contains the tests in the TestMap.java
  * file assigned by the professor in the JUnit format, the second section of the test suite (Test cases ideated by me)
  * contains the test cases ideated by me on each element of HMap, excluding entrySet, keySet and values,
@@ -90,7 +90,7 @@ public class TestMap
         c = null;
 	}
 	
-    // -------------------- Test cases assigned from the professor --------------------
+    // -------------------- Test cases assigned by the professor --------------------
 
 	/**
      * <p><b>Summary</b>: Tests the propagation of changes from the backing map
@@ -194,7 +194,9 @@ public class TestMap
      * Original output is mantained to help checking consistency
      * during development.</p>
      * <p><b>Test Description</b>: Initialize the map with argv keys and
-	 * values, asserts its size to be 5, then checks its content. For each element elem in argv,
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format),
+     * asserts its size to be 5, then checks its content. For each element elem in argv,
      * it contains the key elem, it contains the value elem, and m.get(eleme)
      * equals elem.</p>
      * <p><b>Pre-Condition</b>: map contains argv keys and values,
@@ -210,7 +212,7 @@ public class TestMap
      * correctly. The map is unchanged</p>
      */
 	@Test
-	public void TestContent()
+	public void TestContent1()
 	{
 		argvInitialize(m);
 		assertEquals("Size should be 5", m.size(), 5);
@@ -348,20 +350,20 @@ public class TestMap
 		ss2 = s1.size();
 
 		System.out.println("Removed carrozza from keyset");
-		assertEquals("Should be removed.", true, s1.remove("carrozza"));
+		assertTrue("Should be removed.", s1.remove("carrozza"));
 
 		System.out.println("set size=" + s1.size() + "; map size=" + m.size());
 		assertEquals("set size=4; map size=4", "set size=" + s1.size() + "; map size=" + m.size());
-		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", false, sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size());
-		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", true, (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
+		assertFalse("\n*** map NON propaga modifiche a keyset ***\n", sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size());
+		assertTrue("\n*** map NON propaga modifiche a keyset ***\n", (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1));
 	}
 
     /**
      * <p><b>Summary</b>: Tests emptying the map through keySet'iterator.
 	 * KeySet's iterator removes obviusly affects the KeySet, which affects the
-	 * map. Tests method remove, size, keySet of map, hasNext, next, remove of
+	 * map. Tests methods remove, size, keySet of map, hasNext, next, remove of
 	 * KeySet iterator.</p>
-     * <p><b>Test Case Design</b>: The tests focuses on map changes through
+     * <p><b>Test Case Design</b>: The test focuses on map changes through
 	 * keySet's iterator. The changes on KeySet should affect the backing map.
      * In this case scenario propagation from the logical point of view
      * is: iterator -> keyset -> map. Therefore this kind of propagation
@@ -373,7 +375,8 @@ public class TestMap
      * contained in the keyset. Therefore the Map is then empty.</p>
      * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
      * <p><b>Post-Condition</b>: The map is empty.</p>
-     * <p><b>Expected Results</b>: Contains assertion pass. The map is empty after
+     * <p><b>Expected Results</b>: Contains assertion pass (the object is contained
+     * before removal, the object is not contained after removal). The map is empty after
 	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
@@ -531,12 +534,13 @@ public class TestMap
      * is tested in this test, by modifying the map from a value iterator.</p>
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * c the value is created. pippo=pippo is removed from the map.
-	 * Then iterates through the value creating the string "pluto 3; gambatek 2; ciccio 1; qui 0; ",
+	 * Then iterates through the values
 	 * and removing each element after each next. Therefore the Map is then empty.</p>
      * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
      * <p><b>Post-Condition</b>: The map is empty.</p>
-     * <p><b>Expected Results</b>: The created string during iteration is
-	 * "pluto 3; gambatek 2; ciccio 1; qui 0; ". The map is empty after
+     * <p><b>Expected Results</b>:  Contains assertion pass (the object is contained
+     * before removal, the object is not contained after removal)
+     * The map is empty after
 	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
@@ -550,15 +554,16 @@ public class TestMap
 		System.out.println("\nemptying by values iterator");
 		iter = c.iterator();
 		count = c.size()+2;
-		String temp = "";
+
 		while(iter.hasNext()&&count-->=0)
 		{
             Object next = iter.next();
+            assertTrue("Should be present", c.contains(next));
 			System.out.print(next + "; ");
-			temp += next + "; ";
 			iter.remove();
+            assertFalse("Should be just removed", c.contains(next));
 		}
-		assertEquals("pluto; gambatek; ciccio; qui; ", temp);
+
 		System.out.println("\nmap " + m.size() + "; collection " + c.size());
 		assertEquals("map 0; collection 0", "map " + m.size() + "; collection " + c.size());
 		assertTrue("", m.size() == c.size() && m.size() == 0);	

@@ -81,7 +81,7 @@ public class TestSet
         iter2 = null;
 	}
 
-	// ------------------------------------------ Test cases assigned from the professor ------------------------------------------
+	// ------------------------------------------ Test cases assigned by the professor ------------------------------------------
 
 	/**
      * <p><b>Summary</b>: Tests the behaviour of the entrySet of a map
