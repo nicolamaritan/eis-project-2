@@ -626,14 +626,14 @@ public class TestMap
      * clear invoke on a map containing 10 entries.</p>
      * <p><b>Test Description</b>: map contains 10 entries. clear method
      * is invoked.</p>
-     * <p><b>Pre-Condition</b>: map contains {1=1:10=10}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0="0":10="10"}.</p>
      * <p><b>Post-Condition</b>: map is empty.</p>
      * <p><b>Expected Results</b>: isEmpty returns true and size is 0.</p>
      */
     @Test
     public void Clear_On1To10()
     {
-        TestUtilities.getIntegerMapAdapter(0, 10);
+        initHMap(m, 0, 10);
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
         assertEquals("Size should be 0", 0, m.size());
@@ -642,18 +642,18 @@ public class TestMap
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
      * <p><b>Test Case Design</b>: Tests the case of a
-     * clear invoke on a map containing 10000 entries, which is a
+     * clear invoke on a map containing 1000 entries, which is a
      * case with a big number of elements.</p>
-     * <p><b>Test Description</b>: map contains 10000 entries. clear method
+     * <p><b>Test Description</b>: map contains 1000 entries. clear method
      * is invoked.</p>
-     * <p><b>Pre-Condition</b>: map contains {1=1:10000=10000}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0="0":1000="1000"}.</p>
      * <p><b>Post-Condition</b>: map is empty.</p>
      * <p><b>Expected Results</b>: isEmpty returns true and size is 0.</p>
      */
     @Test
-    public void Clear_On1To10000()
+    public void Clear_On1To1000()
     {
-        TestUtilities.getIntegerMapAdapter(0, 10000);
+        initHMap(m, 0, 1000);
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
         assertEquals("Size should be 0", 0, m.size());
@@ -662,18 +662,18 @@ public class TestMap
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
      * <p><b>Test Case Design</b>: Tests the size after each insertion
-     * 10000 times. Big HMap size is tested.</p>
+     * 1000 times. Big HMap size is tested.</p>
      * <p><b>Test Description</b>: An entry is inserted onece per
-     * iteration for 10000 times, size is asserted to be i.
+     * iteration for 1000 times, size is asserted to be i.
      * After the for loop clear is invoked and the map must be
      * empty.</p>
      * <p><b>Pre-Condition</b>: map is empty.</p>
      * <p><b>Post-Condition</b>: map is empty.</p>
-     * <p><b>Expected Results</b>: m size is i for i in (0:10000), where
+     * <p><b>Expected Results</b>: m size is i for i in (0:1000), where
      * at each iteration an entry is inserted. m is empty after clear.</p>
      */
     @Test
-    public void ClearSize_From0To10000()
+    public void ClearSize_From0To1000()
     {
         int bound = 10000;
         for (int i = 0; i < bound; i++)
@@ -758,19 +758,19 @@ public class TestMap
      * <p><b>Summary</b>: containsKey method test case.</p>
      * <p><b>Test Case Design</b>: Tests the limit case of
      * invoking the method in map with a big size.</p>
-     * <p><b>Test Description</b>: {0=0, 100000=100000} are 
+     * <p><b>Test Description</b>: {0=0, 1000=1000} are 
      * checked to be in the map or not.</p>
-     * <p><b>Pre-Condition</b>: map contains {0=0, 10000=10000}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0=0, 100=100}.</p>
      * <p><b>Post-Condition</b>: map is unchanged.</p>
-     * <p><b>Expected Results</b>: {0 : 10000} keys are contained,
+     * <p><b>Expected Results</b>: {0 : 100} keys are contained,
      * the others no.</p>
      */
     @Test
-    public void ContainsKey_0To10000()
+    public void ContainsKey_0To1000()
     {
-        int bound = 10000;
-        int bound2 = 100000;
-        TestUtilities.initHMap(m, 0, bound);
+        int bound = 100;
+        int bound2 = 1000;
+        initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             assertTrue("Should contain.", m.containsKey(i));
         for (int i = bound; i < bound2; i++)
@@ -850,19 +850,19 @@ public class TestMap
      * <p><b>Summary</b>: containsValue method test case.</p>
      * <p><b>Test Case Design</b>: Tests the limit case of
      * invoking the method in map with a big size.</p>
-     * <p><b>Test Description</b>: {0=0, 100000=100000} are 
+     * <p><b>Test Description</b>: {0=0, 1000=1000} are 
      * checked to be in the map or not.</p>
-     * <p><b>Pre-Condition</b>: map contains {0=0, 10000=10000}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0=0, 100=100}.</p>
      * <p><b>Post-Condition</b>: map is unchanged.</p>
-     * <p><b>Expected Results</b>: {0 : 10000} values are contained,
+     * <p><b>Expected Results</b>: {0 : 100} values are contained,
      * the others no.</p>
      */
     @Test
     public void ContainsValue_0To10000()
     {
-        int bound = 10000;
-        int bound2 = 100000;
-        TestUtilities.initHMap(m, 0, bound);
+        int bound = 100;
+        int bound2 = 1000;
+        initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
             assertTrue("Should contain.", m.containsValue(""+i));
         for (int i = bound; i < bound2; i++)
@@ -1166,7 +1166,7 @@ public class TestMap
 	 * size is 100, therefore puts works correctly, even replacing entries.</p>
      */
 	@Test
-	public void Put_0To1000DuplicatesKey()
+	public void Put_0To100DuplicatesKey()
 	{
 		int bound = 100;
         // For loop twice
@@ -1428,7 +1428,7 @@ public class TestMap
     public void PutAll_EmptyCollection_False()
     {
 		m.putAll(m2);
-        assertEquals("The Map should be empty.", true, m.isEmpty());
+        assertTrue("The Map should be empty.", m.isEmpty());
 		assertEquals(0, m.size());
     }
 
@@ -1480,7 +1480,7 @@ public class TestMap
         m.remove(3);
         initHMap(m2, 3, 6);
         m.putAll(m2);
-        assertEquals("The Map should be equal.", true, m.equals(getIntegerMapAdapter(1, 6)));
+        assertTrue("The Map should be equal.", m.equals(getIntegerMapAdapter(1, 6)));
     }
 
     /**
@@ -1577,7 +1577,7 @@ public class TestMap
 	public void Remove_Empty()
 	{
 		assertNull("Should be null", m.remove(0));
-		assertEquals(new MapAdapter(), m);
+		assertEquals("Should equal to empty map", new MapAdapter(), m);
 	}
 
 	/**
@@ -1595,9 +1595,9 @@ public class TestMap
 	@Test
 	public void Remove_NotInMap()
 	{
-		TestUtilities.initHMap(m, 0, 10);
+		initHMap(m, 0, 10);
 		assertNull("Should be null", m.remove(20));
-		assertEquals(TestUtilities.getIntegerMapAdapter(0, 10), m);
+		assertEquals("Should be equal", getIntegerMapAdapter(0, 10), m);
 	}
 
 	/**
@@ -1621,7 +1621,7 @@ public class TestMap
 	public void Remove_0To100()
 	{
 		int bound = 100;
-		TestUtilities.initHMap(m, 0, bound);
+		initHMap(m, 0, bound);
 		for (int i = 0; i < bound; i++)
 		{
 			String iStr = "" + i;
@@ -1690,7 +1690,7 @@ public class TestMap
 	@Test
 	public void ToString_Empty()
 	{
-		assertEquals("{}", m.toString());
+		assertEquals("Empty map toString should return {}", "{}", m.toString());
 	}
 
 	/**
@@ -1706,7 +1706,7 @@ public class TestMap
 	public void ToString_OneElement()
 	{
 		m.put(1, "One");
-		assertEquals("{1=One}", m.toString());
+		assertEquals("This one element - map toString should return {1=One}", "{1=One}", m.toString());
 	}
 
     /**
@@ -1742,7 +1742,7 @@ public class TestMap
 		}
 		expected += "}";
 
-        assertEquals(expected, m.toString());
+        assertEquals("Should return the expected string", expected, m.toString());
 	}
     
 

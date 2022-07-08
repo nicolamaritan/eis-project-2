@@ -201,7 +201,7 @@ public class TestKeySet
      * method returns true.</p>
      */
     @Test
-    public void Size_Empty_0()
+    public void Size_Empty()
     {
         assertEquals("Empty KeySet does not have size of zero.", 0, ks.size());
         assertTrue("isEmpty did not returned true.", ks.isEmpty());
@@ -224,7 +224,7 @@ public class TestKeySet
      * method returns false. checkKeySet and checkIteration tests pass.</p>
      */
     @Test
-    public void Size_OneElement_1()
+    public void Size_OneElement()
     {
         m.put(1, "1");
         checkKeySet(m, ks);
@@ -252,7 +252,7 @@ public class TestKeySet
      * method returns false. checkKeySet and checkIteration tests pass.</p>
      */
     @Test
-    public void Size_ThreeElements_3()
+    public void Size_ThreeElements()
     {
         addToHMap(m, 0, 3);
         checkKeySet(m, ks);
@@ -280,7 +280,7 @@ public class TestKeySet
      * method returns false. checkKeySet and checkIteration tests pass.</p>
      */
     @Test
-    public void Size_345Elements_345()
+    public void Size_345Elements()
     {
         addToHMap(m, 0, 345);
         checkKeySet(m, ks);
@@ -397,7 +397,7 @@ public class TestKeySet
      * <p><b>Expected Results</b>: The containsAll method return false.</p>
      */
     @Test
-    public void ContainsAll_Empty_False()
+    public void ContainsAll_Empty()
     {
         c = getIntegerHCollection(1, 4);
         assertFalse("The method should return false because the KeySet is empty.", ks.containsAll(c)); 
@@ -420,7 +420,7 @@ public class TestKeySet
      * <p><b>Expected Results</b>: The containsAll method return true.</p>
      */
     @Test
-    public void ContainsAll_BothEmpty_False()
+    public void ContainsAll_BothEmpty()
     {
         c = getEmptyHCollection();
         assertEquals("The method should return true because the collection is empty.", true, ks.containsAll(c)); 
@@ -435,14 +435,14 @@ public class TestKeySet
      * <p><b>Test Description</b>: In the test containsAll is called with the
      * collection containing
      * {1}, {10}, {3, 4, 5}, {1, 5, 10}.</p>
-     * <p><b>Pre-Condition</b>: The KeySet contains {0:10}, the map
-     * contains {0="0":10="10"}.</p>
-     * <p><b>Post-Condition</b>: The KeySet contains {0:10}, the map
-     * contains {0="0":10="10"}.</p>
+     * <p><b>Pre-Condition</b>: The KeySet contains {0:11}, the map
+     * contains {0="0":11="11"}.</p>
+     * <p><b>Post-Condition</b>: The KeySet contains {0:11}, the map
+     * contains {0="0":11="11"}.</p>
      * <p><b>Expected Results</b>: Every containsAll calls return true.</p>
      */
     @Test
-    public void ContainsAll_1to11_True()
+    public void ContainsAll_0to11_True()
     {
         addToHMap(m, 0, 11);
 
@@ -476,10 +476,10 @@ public class TestKeySet
      * KeySet. The second one takes as argument a collection containing element
      * in the KeySet e one not contained in the KeySet: therefore, the call
      * must return false as one of the collection is not contained.</p>
-     * <p><b>Pre-Condition</b>: The KeySet contains {0:10}, the map
-     * contains {0="0":10="10"}.</p>
-     * <p><b>Post-Condition</b>: The KeySet contains {0:10}, the map
-     * contains {0="0":10="10"}.</p>
+     * <p><b>Pre-Condition</b>: The KeySet contains {0:11}, the map
+     * contains {0="0":11="11"}.</p>
+     * <p><b>Post-Condition</b>: The KeySet contains {0:11}, the map
+     * contains {0="0":11="11"}.</p>
      * <p><b>Expected Results</b>: All containsAll calls return true,
      * last containsAll returns false as 12 is not contained
      * in the keyset.</p>
@@ -540,14 +540,14 @@ public class TestKeySet
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: KeySet is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: KeySet contains {0="0" : 2000="2000"}.</p>
+     * <p><b>Pre-Condition</b>: KeySet contains {0="0" : 1000="1000"}.</p>
      * <p><b>Post-Condition</b>: KeySet is unchanged.</p>
      * <p><b>Expected Results</b>: The KeySet is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To2000()
+    public void Equals_0To1000()
     {
-        int to = 2000;
+        int to = 1000;
         addToHMap(m, 0, to);
         assertEquals(true, ks.equals(getIntegerMapAdapter(0, to).keySet()));
         assertEquals(true, getIntegerMapAdapter(0, to).keySet().equals(ks));   // Symmetric property
@@ -606,14 +606,14 @@ public class TestKeySet
      * Propagation map -> KeySet is tested.</p>
      * <p><b>Test Description</b>: The test invokes ks.equals(ks2) and ks2.equals(KeySet3)
      * and ks.equals(ks3)</p>
-     * <p><b>Pre-Condition</b>: KeySets contain {1 : 2000}.</p>
+     * <p><b>Pre-Condition</b>: KeySets contain {1 : 1000}.</p>
      * <p><b>Post-Condition</b>: KeySets are unchanged. </p>
      * <p><b>Expected Results</b>: Equals has transitive property.</p>
      */
     @Test
     public void Equals_Transitive()
     {
-        int to = 2000;
+        int to = 1000;
         addToHMap(m, 0, to);
         addToHMap(m2, 0, to);
         HSet ks3 = getIntegerMapAdapter(0, to).keySet();

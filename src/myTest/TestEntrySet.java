@@ -198,7 +198,7 @@ public class TestEntrySet
      * method returns true.</p>
      */
     @Test
-    public void Size_Empty_0()
+    public void Size_Empty()
     {
         assertEquals("Empty entryset does not have size of zero.", 0, es.size());
         assertTrue("isEmpty did not returned true.", es.isEmpty());
@@ -220,7 +220,7 @@ public class TestEntrySet
      * method returns false.</p>
      */
     @Test
-    public void Size_OneElement_1()
+    public void Size_OneElement()
     {
         m.put(1, "1");
         checkEntrySet(m, es);
@@ -248,7 +248,7 @@ public class TestEntrySet
      * method returns false. Map initialization keeps coherence.</p>
      */
     @Test
-    public void Size_ThreeElements_3()
+    public void Size_ThreeElements()
     {
         TestUtilities.addToHMap(m, 0, 3);
         checkEntrySet(m, es);
@@ -276,7 +276,7 @@ public class TestEntrySet
      * method returns false. Map initialization keeps coherence.</p>
      */
     @Test
-    public void Size_345Elements_345()
+    public void Size_345Elements()
     {
         TestUtilities.addToHMap(m, 0, 345);
         checkEntrySet(m, es);
@@ -472,7 +472,7 @@ public class TestEntrySet
      * for each c configuration tested.</p>
      */
     @Test
-    public void ContainsAll_1to11_True()
+    public void ContainsAll_0to11_True()
     {
         TestUtilities.addToHMap(m, 0, 11);
 
@@ -513,7 +513,7 @@ public class TestEntrySet
      * <p><b>Expected Results</b>: All containsAll calls return true.</p>
      */
     @Test
-    public void ContainsAll_1to11_False()
+    public void ContainsAll_0to11_False()
     {
         addToHMap(m, 0, 11);
 
@@ -903,9 +903,9 @@ public class TestEntrySet
      * by checkEntrySet. Test aims to show the correct propagation
      * of information.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
-     * from the map remove. The map is initiated with {0="0", 500="500"},
+     * from the map remove. The map is initiated with {0="0", 200="200"},
      * and each element in map and entrySet is removed by map's remove.
-     * The map is initiated with {0="0", 500="500"},
+     * The map is initiated with {0="0", 200="200"},
      * and each element in map and entrySet is removed by entrySet's remove.
      * After each modification to the map, through checkEntrySet(m, es) and checkIteration(es)
      * asserts that they both
@@ -921,7 +921,7 @@ public class TestEntrySet
     @Test
     public void Remove_Backing0()
     {
-        int bound = 500;
+        int bound = 200;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "i");
@@ -931,7 +931,7 @@ public class TestEntrySet
             checkEntrySet(m, es);
             checkIteration(es);
         }
-        initHMap(m, 0, 500);
+        initHMap(m, 0, bound);
         checkEntrySet(m, es);
         checkIteration(es);
         for (int i = bound - 1; i >= 0; i--)
@@ -939,7 +939,7 @@ public class TestEntrySet
             m.remove(i);
             checkEntrySet(m, es);
         }
-        initHMap(m, 0, 500);
+        initHMap(m, 0, bound);
         checkEntrySet(m, es);
         checkIteration(es);
         for (int i = bound - 1; i >= 0; i--)
@@ -966,8 +966,8 @@ public class TestEntrySet
      * different sizes are tested, as first the size of es is smaller
      * than the size of c, while then the size of es is bigger than the
      * size of c.</p>
-     * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
-     * while map and entrySet contain {0="0" : i="i"}, for each i in (0,1000)
+     * <p><b>Test Description</b>: The collection contains {0="0":200="200"},
+     * while map and entrySet contain {0="0" : i="i"}, for each i in (0,500)
      * (Note that empty map/entrySet limit case is being tested). Then
      * es.removeAll(c) is invoked and coherence is check through checkEntrySet.
      * Then the test asserts that m and es have the right size and isEmpty
@@ -975,10 +975,10 @@ public class TestEntrySet
      * set, coherence is checked, through checkEntrySet(m, es) and checkIteration(es)
      * asserts that they both
      * share the same informations about the map entries.</p>
-     * <p><b>Pre-Condition</b>: c contains {0="0":500="500"}, m and es are
+     * <p><b>Pre-Condition</b>: c contains {0="0":200="200"}, m and es are
      * empty.</p>
      * <p><b>Post-Condition</b>: c is unchanged, m and es contain
-     * {500="500":1000="1000"}.</p>
+     * {200="200":500="500"}.</p>
      * <p><b>Expected Results</b>: Each removal is correctly propagated
      * from map to entrySet and from entrySet to map. Through checkEntrySet(m, es)
      * and checkIteration(es) asserts that they both
@@ -987,8 +987,8 @@ public class TestEntrySet
     @Test
     public void RemoveAll_Backing0()
     {
-        int bound = 1000;
-        int secondBound = 500;
+        int bound = 500;
+        int secondBound = 200;
         c = getEntryHCollection(0, secondBound);
         for (int i = 0; i < bound; i++)
         {
@@ -1127,18 +1127,18 @@ public class TestEntrySet
      * propagation from the entry set to the map. Retaining all entries
      * from the entrySet implies retaining all the entries in the map.
      * The collection keeps changing during execution.</p>
-     * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
-     * while map and entrySet contain {0="0" : i="i"}, for each i in (0,1000)
+     * <p><b>Test Description</b>: The collection contains {0="0":200="200"},
+     * while map and entrySet contain {0="0" : i="i"}, for each i in (0,500)
      * (Note that empty map/entrySet limit case is being tested). Then
      * es.retainAll(c) is invoked and coherence is checked through checkEntrySet(m, es)
      * and checkIteration(es), asserting that they both
      * share the same informations about the map entries.
      * Then the test asserts that m and es have the right size and isEmpty
      * returns the right value.</p>
-     * <p><b>Pre-Condition</b>: c contains {0="0":500="500"}, m and es are
+     * <p><b>Pre-Condition</b>: c contains {0="0":200="200"}, m and es are
      * empty.</p>
      * <p><b>Post-Condition</b>: c is unchanged, m and es contain
-     * {0="0":500="500"}.</p>
+     * {0="0":200="200"}.</p>
      * <p><b>Expected Results</b>: Each retainAll is correctly propagated
      * from map to entrySet and from entrySet to map. Through checkEntrySet(m, es)
      * and checkIteration(es) asserts that they both
@@ -1147,8 +1147,8 @@ public class TestEntrySet
     @Test
     public void RetainAll_Backing0()
     {
-        int bound = 1000;
-        int secondBound = 500;
+        int bound = 500;
+        int secondBound = 200;
         c = getEntryHCollection(0, secondBound);
         for (int i = 0; i < bound; i++)
         {
@@ -1160,7 +1160,7 @@ public class TestEntrySet
             if (i <= secondBound)
                 assertTrue("Both should have size 0", m.size() == es.size() && m.size() == i);
             else
-                assertTrue("Both should have size 500", m.size() == es.size() && m.size() == 500);
+                assertTrue("Both should have size 200", m.size() == es.size() && m.size() == 200);
         }
     }
 
@@ -1470,7 +1470,7 @@ public class TestEntrySet
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: m and es contain {0="0":500="500"}.</p>
+     * <p><b>Pre-Condition</b>: m and es contain {0="0":200="200"}.</p>
      * <p><b>Post-Condition</b>: m and es are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through es.toArray is right and coherent. At the end es and m are empty.
@@ -1479,10 +1479,10 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ToArray_0To500()
+    public void ToArray_0To200()
     {
-        int bound = 500;
-        initHMap(m, 0, 500);
+        int bound = 200;
+        initHMap(m, 0, bound);
         for (int i = 0; i < bound; i += 2)
         {
             es.remove(getEntry(i, "" + i));
@@ -1559,7 +1559,7 @@ public class TestEntrySet
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
      * generated array in all of this cases is right.</p>
-     * <p><b>Pre-Condition</b>: m and es contain {0="0":500="500"}.</p>
+     * <p><b>Pre-Condition</b>: m and es contain {0="0":200="200"}.</p>
      * <p><b>Post-Condition</b>: m and es are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through es.toArray is right and coherent. At the end es and m are empty.
@@ -1568,11 +1568,11 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ToArrayArrayArg_0To500()
+    public void ToArrayArrayArg_0To200()
     {
-        int bound = 500;
+        int bound = 200;
         
-        initHMap(m, 0, 500);
+        initHMap(m, 0, bound);
         for (int i = 0; i < bound; i += 2)
         {
             es.remove(getEntry(i, "" + i));
