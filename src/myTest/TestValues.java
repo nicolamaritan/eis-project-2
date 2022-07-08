@@ -1038,6 +1038,76 @@ public class TestValues
         assertNull("Should match", m.get("D2"));  
     }
 
+    /**
+     * <p><b>Summary</b>: removeAll method test case.
+     * Tests removeAll when the invoking object contains
+     * duplicated objects (which is possible for an instance
+     * of interface HCollection as the HCollection returned
+     * from HMap.values()).</p>
+     * <p><b>Test Case Design</b>: removeAll should remove
+     * every instance in the invoking object contained in the
+     * HCollection argument. That is, if v contains two "Random string"
+     * and the Object "Random string" is contained in c, both
+     * istances of "Random string" in v should be removed. This feature
+     * is tested in this test. checkIteration(v) and checkValues(m, v)
+     * are invoked to assert correct propagation and check coherency.</p>
+     * <p><b>Test Description</b>: c is initialized with {0, 1, 2, 5, 7}.
+     * m is initialized with {0=1,1=1,2=1,3=2,4=2,5=2,6=3,7=3,8=3,
+     * ...,21=7,22=7,23=7} (keys that way in order to insert the entries,
+     * not important in this test), therefore
+     * v contains {1,1,1,2,2,2,...,7,7,7}. v.removeAll(c) removes
+     * all the object in c from v, therefore v finally contains
+     * {3,3,3,4,4,4,6,6,6} and its size is 9.</p>
+     * <p><b>Pre-Condition</b>: c contains {0, 1, 2, 5, 7},
+     * m contains {0=1,1=1,2=1,3=2,4=2,5=2,6=3,7=3,8=3,...,21=7,22=7,23=7},
+     * v contains {1,1,1,2,2,2,...,7,7,7}.</p>
+     * <p><b>Post-Condition</b>: m contains {6=3,7=3,8=3,
+     * 9=4,10=4,11=4,15=6,16=6,17=6}, v contains {3,3,3,4,4,4,6,6,6}.
+     * c is unchanged.</p>
+     * <p><b>Expected Results</b>: m contains {6=3,7=3,8=3,
+     * 9=4,10=4,11=4,15=6,16=6,17=6}, v contains {3,3,3,4,4,4,6,6,6}.
+     * removeAll works correctly and propagation worked correctly.
+     * checkIteration(v) and checkValues(m, v)
+     * assert correct propagation and check coherency.
+     * </p>
+     */
+    @Test
+    public void RemoveAll_Duplicates0()
+    {
+        c = getHCollection(new Object[]{0, 1, 2, 5, 7});
+        int keyCounter = 0;
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                m.put(keyCounter, i);
+                checkIteration(v);
+                checkValues(m, v); 
+                keyCounter++;
+            }
+        }
+
+        assertTrue("Should be modified", v.removeAll(c));
+        checkIteration(v);
+        checkValues(m, v);
+
+        for (int i = 0; i < 8; i++)
+        {
+            // If it is in c <=> it is removed
+            if (c.contains(i))
+            {
+                assertFalse("Should NOT be contained", v.contains(i));
+                assertFalse("Should NOT be contained", m.containsValue(i));
+            }
+            else
+            {
+                assertTrue("Should be contained", v.contains(i));
+                assertTrue("Should be contained", m.containsValue(i));
+            }
+        }
+        assertTrue("Size should be 9", m.size() == v.size() && v.size() == 9);
+    }
+
     // ------------------------------------------ retainAll method ------------------------------------------
 
     /**
