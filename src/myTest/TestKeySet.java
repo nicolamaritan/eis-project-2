@@ -1490,6 +1490,37 @@ public class TestKeySet
 		assertTrue(size && content);
 	}
 
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked with a null argument.</p>
+     * <p><b>Test Description</b>: ks.toArray(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks is empty.</p>
+     * <p><b>Post-Condition</b>: ks is empty.</p>
+     * <p><b>Expected Results</b>: NullPointerException is being thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ToArrayArrayArg_NullEmpty()
+    {
+        ks.toArray(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked with a null argument.</p>
+     * <p><b>Test Description</b>: ks.toArray(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Expected Results</b>: NullPointerException is being thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ToArrayArrayArg_Null0To10()
+    {
+        initHMap(m, 0, 10);
+        ks.toArray(null);
+    }
+
     // ------------------------------------------ iterator method and KeySetIterator ------------------------------------------
     
     /**

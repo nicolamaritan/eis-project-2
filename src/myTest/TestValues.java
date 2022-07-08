@@ -1330,7 +1330,7 @@ public class TestValues
      * through v.toArray is right and coherent. At the end v and m are empty.</p>
      */
     @Test
-    public void ToArrayArrayArg_0To1000()
+    public void ToArrayArrayArg_0To100()
     {
         int bound = 100;
         
@@ -1351,6 +1351,37 @@ public class TestValues
         }
         assertEquals("Should be empty", 0, v.size());
         assertEquals("Should be empty", 0, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked with a null argument.</p>
+     * <p><b>Test Description</b>: v.toArray(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v is empty.</p>
+     * <p><b>Post-Condition</b>: v is empty.</p>
+     * <p><b>Expected Results</b>: NullPointerException is being thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ToArrayArrayArg_NullEmpty()
+    {
+        v.toArray(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked with a null argument.</p>
+     * <p><b>Test Description</b>: v.toArray(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Post-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Expected Results</b>: NullPointerException is being thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ToArrayArrayArg_Null0To10()
+    {
+        initHMap(m, 0, 10);
+        v.toArray(null);
     }
 
     // ------------------------------------------ iterator method and ValuesIterator ------------------------------------------
