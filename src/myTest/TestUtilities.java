@@ -9,28 +9,6 @@ import myAdapter.*;
 public class TestUtilities
 {
     /**
-     * Initializes a collection with integers starting at from (included) and
-     * ending at to (escluded).
-     * @param coll collection to be initialize
-     * @param from lower bound (included) of the collection
-     * @param to upper bound (escluded) of the collection
-     * @throws NullPointerException if coll is null
-     * @throws IllegalArgumentException if from {@literal >} to
-     */
-    public static void initHCollection(HCollection coll, int from, int to)
-    {
-        if (coll == null)
-            throw new NullPointerException();
-        if (from > to)
-            throw new IllegalArgumentException();
-
-        coll.clear();
-
-        for (int i = 0; i < to - from; i++)
-            coll.add(i + from);
-    }
-
-    /**
      * Initializes a map with integers keys and string values
      * starting at from (included) and
      * ending at to (escluded).
@@ -72,26 +50,6 @@ public class TestUtilities
         for (int i = from; i < to; i++)
             m.put(i, "" + i);
         return m;
-    }
-
-
-    /**
-     * Adds at the end of the collection the integers starting at from (included) and
-     * ending at to (escluded).
-     * @param coll collection where to append new elements
-     * @param from lower bound (included) of the collection
-     * @param to upper bound (escluded) of the collection
-     * @throws IllegalArgumentException if from {@literal >} to
-     */
-    public static void addToHCollection(HCollection coll, int from, int to)
-    {
-        if (coll == null)
-            throw new NullPointerException();
-        if (from > to)
-            throw new IllegalArgumentException();
-
-        for (int i = 0; i < to - from; i++)
-            coll.add(i + from);
     }
 
         /**

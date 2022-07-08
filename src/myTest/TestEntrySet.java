@@ -1,5 +1,6 @@
 package myTest;
 
+// Imports
 import static org.junit.Assert.*;
 import org.junit.*;
 import static myTest.TestUtilities.*;

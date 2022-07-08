@@ -1,5 +1,6 @@
 package myTest;
 
+// Imports
 import static org.junit.Assert.*;
 import org.junit.*;
 import static myTest.TestUtilities.*;
@@ -13,7 +14,7 @@ import myAdapter.*;
  * test cases. In each test case it is made sure of the right behaviour of HSet respect
  * to its elements and that changes from the HSet to the backing map and viceversa
  * are propagated correctly, which is an important feature of the HSet returned from
- * entrySet() method. In this field key methods are checkEntrySet and checkIteration,
+ * entrySet() method. In this field key methods are checkKeySet and checkIteration,
  * which check coherence between the HSet and the backing HMap: if one of these methods
  * fails, that means that something went wrong during propagation of changes, otherwise.
  * changes propagated correctly.
@@ -37,7 +38,7 @@ import myAdapter.*;
  * inspections are combined. In the test suite there are many test cases focusing on limit and special cases,
  * invalid arguments and etc.
  * Special attention is paid to backing: after almost each modification, through the HSet returned
- * from entrySet() or through the backing map, checkEntrySet() and checkIteration() are invoked
+ * from entrySet() or through the backing map, checkKeySet() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HSet cannot
  * contain duplicated, as the backing HMap cannot contain elements with the same key.</p>
  */

@@ -14,7 +14,7 @@ import myAdapter.*;
  * test cases. In each test case it is made sure of the right behaviour of HCollection respect
  * to its elements and that changes from the HCollection to the backing map and viceversa
  * are propagated correctly, which is an important feature of the HCollection returned from
- * entrySet() method. In this field key methods are checkEntrySet and checkIteration,
+ * entrySet() method. In this field key methods are checkValues and checkIteration,
  * which check coherence between the HCollection and the backing HMap: if one of these methods
  * fails, that means that something went wrong during propagation of changes, otherwise.
  * changes propagated correctly.
@@ -38,7 +38,7 @@ import myAdapter.*;
  * inspections are combined. In the test suite there are many test cases focusing on limit and special cases,
  * invalid arguments and etc.
  * Special attention is paid to backing: after almost each modification, through the HCollection returned
- * from entrySet() or through the backing map, checkEntrySet() and checkIteration() are invoked
+ * from entrySet() or through the backing map, checkValues() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HCollection can
  * actually contain clones, as the presence of a duplicated value in a HMap is prohibited.</p>
  */
@@ -1773,10 +1773,10 @@ public class TestValues
 
     /**
      * <p><b>Summary</b>: Tests the behaviour of the map when
-     * trying to insert entries already in the map. Inserting
+     * trying to insert entries with a value already in the map. Inserting
      * the same entry twice or more should ignore the insertion,
-     * as the key is already present in the map. Values, instead,
-     * can be cloned: there can be two entries in the map
+     * as the key is already present in the map. In Values, instead,
+     * there can be clones: there can be two entries in the map
      * with different keys but same values.</p>
      * <p><b>Test Case Design</b>: Tests behaviour of
      * inserting cloned elements. After each put call and after
@@ -1796,7 +1796,7 @@ public class TestValues
      * contains 2 elements. contains 3=t, 6=i, v contains {t, i}.</p>
      */
     @Test
-    public void DuplicateTest()
+    public void DuplicateTest0()
     {
         String argv[] = {"g", "a", "t", "t", "i", "n", "i"};
         for (int i = 0; i < argv.length; i++)
@@ -1825,6 +1825,61 @@ public class TestValues
         assertTrue("Both t and i should be contained", v.contains("t") && v.contains("i"));
         checkValues(m, v);
         checkIteration(v);
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests the behaviour of the map when
+     * trying to insert entries with a value already in the map. Inserting
+     * the same entry twice or more should ignore the insertion,
+     * as the key is already present in the map. In Values, instead,
+     * there can be clones: there can be two entries in the map
+     * with different keys but same values.</p>
+     * <p><b>Test Case Design</b>: Tests behaviour of
+     * inserting cloned elements. After each put call and after
+     * the removal, checkValues and checkIteration are invoked
+     * to assert correct propagation.</p>
+     * <p><b>Test Description</b>: 100 entries of type i="Value"
+     * for i in (0, 100) are inserted in the map, therefore
+     * the values collection, for correct propagation, should contain
+     * 100 "Value" string, as it can contain cloned elements.
+     * Then each "Value" is removed through the values collection,
+     * asserting at iteration i that v.size() returns 100-i-1, and that
+     * there was correct propagation through checkValues(m, v) and
+     * checkIteration(v). At the end both the map and the values
+     * collection should be empty. </p>
+     * <p><b>Pre-Condition</b>: m and v are empty</p>
+     * <p><b>Post-Condition</b>: m and v are empty.</p>
+     * <p><b>Expected Results</b>: Propagation works correctly and
+     * values can contain duplicated elements. v and m sizes are
+     * correct during the test. Value is contained in the value collection
+     * and in the map as value before removal. After the removal Value
+     * is not contained neither in map as value or in v. Both m and v
+     * are empty.</p>
+     */
+    @Test
+    public void DuplicateTest1()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            m.put(i, "Value");
+            checkValues(m, v);
+            checkIteration(v);
+        }
+        assertEquals("Propagation went wrong.", v.size(), m.size());
+        assertEquals("Size should be "+ bound, bound, m.size());
+        assertTrue("Value should be contained in v and m", v.contains("Value") && m.containsValue("Value"));
+        for (int i = 0; i < bound; i++)
+        {
+            v.remove("Value");
+            checkValues(m, v);
+            checkIteration(v);
+            if (i < bound - 1)
+                assertTrue("Should be still contained", v.contains("Value"));
+            assertTrue("Propagation went wrong", bound - i - 1 == m.size() && m.size() == v.size());
+        }
+        assertTrue("Value should NOT be contained in v and m", !v.contains("Value") && !m.containsValue("Value"));
+        assertTrue(m.size() == v.size() && m.size() == 0 && m.isEmpty() && v.isEmpty());
     }
 
     /**

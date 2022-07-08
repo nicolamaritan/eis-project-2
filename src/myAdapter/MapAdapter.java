@@ -165,13 +165,27 @@ public class MapAdapter implements HMap
     }
 
     /**
-     * Returns the hash code value for this Map as per the definition in the
-     * Map interface.
+     * Returns the hash code value for this map.  The hash code of a map is
+     * defined to be the sum of the hash codes of each entry in the map's
+     * {@code entrySet()} view.  This ensures that {@code m1.equals(m2)}
+     * implies that {@code m1.hashCode()==m2.hashCode()} for any two maps
+     * {@code m1} and {@code m2}, as required by the general contract of
+     * {@link Object#hashCode}.
+     *
+     * @return the hash code value for this map
+     * @see Map.Entry#hashCode()
+     * @see Object#equals(Object)
+     * @see #equals(Object)
      */
     @Override
     public int hashCode()
     {
-        return ht.hashCode();
+        HSet es = this.entrySet();
+        HIterator it = es.iterator();
+        int hc = 0;
+        while (it.hasNext())
+            hc += it.next().hashCode();
+        return hc;
     }
 
     /**
