@@ -1,13 +1,14 @@
 package myAdapter;
 
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
  * An object that maps keys to values. A map cannot contain duplicate keys;
  * each key can map to at most one value.
  *
- * <p>This implementation is an adapter, where the adaptee is Hashtable.
+ * <p>This implementation is an object adapter, where the adaptee is Hashtable.
  *
  * <p>The {@code HMap} interface provides three <i>collection views</i>, which
  * allow a map's contents to be viewed as a set of keys, collection of values,
@@ -34,9 +35,9 @@ import java.util.NoSuchElementException;
  * <p>This implementation prohibits null keys and
  * values. Attempting to insert a null key or value throws  {@code NullPointerException}.
  * More generally,
- * attempting an operation on an ineligible key or value whose completion
- * would not result in the insertion of an ineligible element into the map may
- * throw an exception or it may succeed, at the option of the implementation.
+ * attempting an operation on a null key or value whose completion
+ * would not result in the insertion of an null element into the map
+ * and throws {@code NullPointerException}.
  *
  *
  * @author Nicola Maritan
@@ -59,10 +60,11 @@ public class MapAdapter implements HMap
     /**
      * Constructor with a single argument of type {@code HMap},
      * which creates a new map with the same key-value mappings as its argument.
-     * @param t HMap wich contains entries for initialization
+     * @param t HMap wich contains the entries for initialization
      */
     public MapAdapter(HMap t)
     {
+        this();
         putAll(t);
     }
 
@@ -85,9 +87,7 @@ public class MapAdapter implements HMap
      * @param key key whose presence in this map is to be tested
      * @return {@code true} if this map contains a mapping for the specified
      *         key
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
      * @throws NullPointerException if the specified key is null
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
      */
     public boolean containsKey(Object key)
     {
@@ -105,9 +105,9 @@ public class MapAdapter implements HMap
      * @param value value whose presence in this map is to be tested
      * @return {@code true} if this map maps one or more keys to the
      *         specified value
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
+     *
      * @throws NullPointerException if the specified value is null
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
+     *
      */
     public boolean containsValue(Object value)
     {
@@ -123,20 +123,14 @@ public class MapAdapter implements HMap
      * then this method returns {@code v}; otherwise
      * it returns {@code null}.  (There can be at most one such mapping.)
      *
-     * <p>If this map permits null values, then a return value of
-     * {@code null} does not <i>necessarily</i> indicate that the map
-     * contains no mapping for the key; it's also possible that the map
-     * explicitly maps the key to {@code null}.  The {@link #containsKey
-     * containsKey} operation may be used to distinguish these two cases.
-     *
      * @param key the key whose associated value is to be returned
      * @return the value to which the specified key is mapped, or
      *         {@code null} if this map contains no mapping for the key
      * @throws ClassCastException if the key is of an inappropriate type for
      *         this map
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
+     *
      * @throws NullPointerException if the specified key is null
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
+     *
      */
     public Object get(Object key)
     {
@@ -156,7 +150,7 @@ public class MapAdapter implements HMap
      * {@code Set.remove}, {@code removeAll}, {@code retainAll} and
      * {@code clear} operations.  It does not support the
      * {@code add} or {@code addAll} operations.
-     *
+
      * @return a set view of the mappings contained in this map
      */
     public HSet entrySet()
@@ -230,9 +224,6 @@ public class MapAdapter implements HMap
      * @param value value to be associated with the specified key
      * @return the previous value associated with {@code key}, or
      *         {@code null} if there was no mapping for {@code key}.
-     *         (A {@code null} return can also indicate that the map
-     *         previously associated {@code null} with {@code key},
-     *         if the implementation supports {@code null} values.)
      * @throws NullPointerException if the specified key or value
      */
     public Object put(Object key, Object value)
@@ -272,10 +263,6 @@ public class MapAdapter implements HMap
      * <p>Returns the value to which this map previously associated the key,
      * or {@code null} if the map contained no mapping for the key.
      *
-     * <p>If this map permits null values, then a return value of
-     * {@code null} does not <i>necessarily</i> indicate that the map
-     * contained no mapping for the key; it's also possible that the map
-     * explicitly mapped the key to {@code null}.
      *
      * <p>The map will not contain a mapping for the specified key once the
      * call returns.
@@ -284,7 +271,7 @@ public class MapAdapter implements HMap
      * @return the previous value associated with {@code key}, or
      *         {@code null} if there was no mapping for {@code key}.
      * @throws NullPointerException if the specified key is null
-     * (<a href="{@docRoot}/java.base/java/util/Collection.html#optional-restrictions">optional</a>)
+     *
      */
     public Object remove(Object key)
     {
@@ -353,31 +340,20 @@ public class MapAdapter implements HMap
     @Override
     public boolean equals(Object o)
     {
+        
         // If not HMap return false
         if (!(o instanceof HMap) || o == null)
             return false;
         
         HMap oMap = (HMap)o;
 
-        // If size not equal return false
-        if (this.size() != oMap.size())
-            return false;
-
-        HSet ks = this.keySet();
-        HIterator ksIt = ks.iterator();
-
-        while (ksIt.hasNext())
-        {
-            // Must contain the key and the mappin should be equal
-            Object k = ksIt.next();
-            if (!oMap.containsKey(k))
-                return false;
-            if (oMap.get(k) == null && this.get(k) != null)
-                return false;
-            if (!oMap.get(k).equals(this.get(k)))
-                return false;
-        }
-        return true;
+        // As stated in the method description:
+        /*
+         * More formally, two maps {@code m1} and
+         * {@code m2} represent the same mappings if
+         * {@code m1.entrySet().equals(m2.entrySet())}
+         */
+        return this.entrySet().equals(oMap.entrySet());
     }
 
     /**
@@ -411,7 +387,7 @@ public class MapAdapter implements HMap
          */
         public Object getKey(){return key;}
 
-            /**
+        /**
          * Returns the value corresponding to this entry.  If the mapping
          * has been removed from the backing map (by the iterator's
          * {@code remove} operation), the results of this call are undefined.
@@ -420,6 +396,22 @@ public class MapAdapter implements HMap
          */
         public Object getValue(){return value;}
 
+        /**
+         * Returns the hash code value for this map entry.  The hash code
+         * of a map entry {@code e} is defined to be: <pre>
+         *     (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
+         *     (e.getValue()==null ? 0 : e.getValue().hashCode())
+         * </pre>
+         * This ensures that {@code e1.equals(e2)} implies that
+         * {@code e1.hashCode()==e2.hashCode()} for any two Entries
+         * {@code e1} and {@code e2}, as required by the general
+         * contract of {@code Object.hashCode}.
+         *
+         * @return the hash code value for this map entry
+         * @see Object#hashCode()
+         * @see Object#equals(Object)
+         * @see #equals(Object)
+         */
         public int hashCode()
         {
             return (getKey()==null ? 0 : getKey().hashCode()) ^
@@ -486,6 +478,7 @@ public class MapAdapter implements HMap
          * @return {@code true} if this set did not already contain the specified
          *         element
          * @throws UnsupportedOperationException as the operation is not supported
+         * @see HMap#entrySet()
          */
         public boolean add(Object o)
         {
@@ -504,6 +497,7 @@ public class MapAdapter implements HMap
          * @return {@code true} if this set changed as a result of the call
          *
          * @throws UnsupportedOperationException as the operation is not supported
+         * @see HMap#entrySet()
          * @see #add(Object)
          */
         public boolean addAll(HCollection c)
@@ -530,9 +524,9 @@ public class MapAdapter implements HMap
          * @return {@code true} if this set contains the specified element
          * @throws ClassCastException if the type of the specified element
          *         is incompatible with this set
-         * (<a href="Collection.html#optional-restrictions">optional</a>)
+         * 
          * @throws NullPointerException if the specified element is null
-         * (<a href="Collection.html#optional-restrictions">optional</a>)
+         * 
          */
         public boolean contains(Object o)
         {
@@ -563,7 +557,6 @@ public class MapAdapter implements HMap
          *         specified collection
          * @throws NullPointerException if the specified collection contains one
          *         or more null elements
-         * (<a href="Collection.html#optional-restrictions">optional</a>),
          *         or if the specified collection is null
          * @see    #contains(Object)
          */
@@ -970,6 +963,7 @@ public class MapAdapter implements HMap
          * @return {@code true} if this set did not already contain the specified
          *         element
          * @throws UnsupportedOperationException as the operation is not supported
+         * @see HMap#keySet()
          */
         public boolean add(Object o)
         {
@@ -988,6 +982,7 @@ public class MapAdapter implements HMap
          * @return {@code true} if this set changed as a result of the call
          *
          * @throws UnsupportedOperationException as the operation is not supported
+         * @see HMap#keySet()
          * @see #add(Object)
          */
         public boolean addAll(HCollection c)
@@ -1013,7 +1008,7 @@ public class MapAdapter implements HMap
          * @param o element whose presence in this set is to be tested
          * @return {@code true} if this set contains the specified element
          * @throws NullPointerException if the specified element is null
-         * (<a href="Collection.html#optional-restrictions">optional</a>)
+         * 
          */
         public boolean contains(Object o)
         {
@@ -1029,9 +1024,7 @@ public class MapAdapter implements HMap
          * @return {@code true} if this set contains all of the elements of the
          *         specified collection
          * @throws NullPointerException if the specified collection contains one
-         *         or more null elements and this set does not permit null
-         *         elements
-         * (<a href="Collection.html#optional-restrictions">optional</a>),
+         *         or more null elements
          *         or if the specified collection is null
          * @see    #contains(Object)
          */
@@ -1146,10 +1139,9 @@ public class MapAdapter implements HMap
          *
          * @param o object to be removed from this set, if present
          * @return {@code true} if this set contained the specified element
-         * (<a href="Collection.html#optional-restrictions">optional</a>)
-         * @throws NullPointerException if the specified element is null and this
-         *         set does not permit null elements
-         * (<a href="Collection.html#optional-restrictions">optional</a>)
+         * 
+         * @throws NullPointerException if the specified element is null
+         * 
          */
         public boolean remove(Object o)
         {
@@ -1171,7 +1163,6 @@ public class MapAdapter implements HMap
          * @param  c collection containing elements to be removed from this set
          * @return {@code true} if this set changed as a result of the call
          * @throws NullPointerException if this set contains a null element
-         *         (<a href="Collection.html#optional-restrictions">optional</a>),
          *         or if the specified collection is null
          * @see #remove(Object)
          * @see #contains(Object)
@@ -1200,7 +1191,6 @@ public class MapAdapter implements HMap
          * @param  c collection containing elements to be retained in this set
          * @return {@code true} if this set changed as a result of the call
          * @throws NullPointerException if this set contains a null element
-         *         (<a href="Collection.html#optional-restrictions">optional</a>),
          *         or if the specified collection is null
          * @see #remove(Object)
          */
@@ -1570,6 +1560,7 @@ public class MapAdapter implements HMap
          * @param obj element whose presence in this collection is to be ensured.
          * @return true if this collection changed as a result of the call
          * @throws UnsupportedOperationException as the operation is not supported
+         * @see HMap#values()
          */
         public boolean add(Object obj)
         {
@@ -1639,6 +1630,7 @@ public class MapAdapter implements HMap
          * @return true if this collection changed as a result of the call
          * @throws UnsupportedOperationException as the operation is not supported
          * @see #add(Object)
+         * @see HMap#values()
          */
         public boolean addAll(HCollection coll)
         {

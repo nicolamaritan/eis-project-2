@@ -36,7 +36,9 @@ import myAdapter.*;
  * inspections are combined. In the first section of the suite, propagation is tested
  * from the backing HMap to the KeySet/Values (and eventually their iterator) and viceversa, which is an important feature
  * of HMap. In the test suite there are many test cases focusing on limit and special cases,
- * invalid arguments and etc.
+ * invalid arguments and etc. Note that the in the map often contains entries where the key is an
+ * integer i and value is the string representation of that integer "i". That is for testing
+ * purpouse, to test the most general case possible.
  * Prints are kept from the original file, as it helped during the Test Driven Development
  * at looking for errors and fixing them.</p>
  */
@@ -611,7 +613,7 @@ public class TestMap
     @Test
     public void Clear_OneElement()
     {
-        m.put(1 + "", 1);
+        m.put(1, 1);
         assertEquals(1, m.size());
         m.clear();
         assertTrue("Should be empty.", m.isEmpty());
@@ -660,7 +662,7 @@ public class TestMap
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>
      * <p><b>Test Case Design</b>: Tests the size after each insertion
-     * 10000 times.</p>
+     * 10000 times. Big HMap size is tested.</p>
      * <p><b>Test Description</b>: An entry is inserted onece per
      * iteration for 10000 times, size is asserted to be i.
      * After the for loop clear is invoked and the map must be
@@ -984,6 +986,56 @@ public class TestMap
             assertEquals("Should return " + i, "" + i, m.get(i));
     }
 
+    /**
+     * <p><b>Summary</b>: get method test case.</p>
+     * <p><b>Test Case Design</b>: Tests get behaviour when the
+     * map is empty and m.get is invoked with null argument.</p>
+     * <p><b>Test Description</b>: get with null key as an argument,
+     * therefore NPE is thrown.</p>
+     * <p><b>Pre-Condition</b>: m is empty</p>
+     * <p><b>Post-Condition</b>: m is unchanged</p>
+     * <p><b>Expected Results</b>: NullPointerException is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Get_EmptyNull()
+    {
+        m.get(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: get method test case.</p>
+     * <p><b>Test Case Design</b>: Tests get behaviour when the
+     * map contains 1 entry and m.get is invoked with null argument.</p>
+     * <p><b>Test Description</b>: get with null key as an argument,
+     * therefore NPE is thrown.</p>
+     * <p><b>Pre-Condition</b>: m contains 1=1</p>
+     * <p><b>Post-Condition</b>: m is unchanged</p>
+     * <p><b>Expected Results</b>: NullPointerException is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Get_OneElementNull()
+    {
+        m.put(1, 1);
+        m.get(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: get method test case.</p>
+     * <p><b>Test Case Design</b>: Tests get behaviour when the
+     * map contains {0="0":100="100"} and m.get is invoked with null argument.</p>
+     * <p><b>Test Description</b>: get with null key as an argument,
+     * therefore NPE is thrown.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":100="100"}</p>
+     * <p><b>Post-Condition</b>: m is unchanged</p>
+     * <p><b>Expected Results</b>: NullPointerException is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Get_0To100Null()
+    {
+        initHMap(m, 0, 100);
+        m.get(null);
+    }
+
 	// ------------------------------------------ hashCode method ------------------------------------------
 
     /**
@@ -1283,6 +1335,63 @@ public class TestMap
         m.put(null, null);
     }
 
+    /**
+     * <p><b>Summary</b>: put method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of
+     * an invalid argument, as the MapAdapter does not
+     * accept null keys/values in put.</p>
+     * <p><b>Test Description</b>: m.put(null, "Random value");
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":10="10}</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":10="10}, exception
+     * has been thrown.</p>
+     * <p><b>Expected Results</b>: NPE has been thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Put_NullKeyNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        m.put(null, "Random value");
+    }
+
+    /**
+     * <p><b>Summary</b>: put method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of
+     * an invalid argument, as the MapAdapter does not
+     * accept null keys/values in put.</p>
+     * <p><b>Test Description</b>: m.put("Random key", null);
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":10="10}</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":10="10}, exception
+     * has been thrown.</p>
+     * <p><b>Expected Results</b>: NPE has been thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Put_NullValueNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        m.put("Random key", null);
+    }
+
+    /**
+     * <p><b>Summary</b>: put method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the case of
+     * an invalid argument, as the MapAdapter does not
+     * accept null keys/values in put.</p>
+     * <p><b>Test Description</b>: m.put(null, null);
+     * is invoked.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":10="10}</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":10="10}, exception
+     * has been thrown.</p>
+     * <p><b>Expected Results</b>: NPE has been thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Put_NullBothNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        m.put(null, null);
+    }
+
 
 	// ------------------------------------------ putAll method ------------------------------------------
 
@@ -1525,6 +1634,48 @@ public class TestMap
 		assertTrue("Map should be empty.", m.isEmpty());
 
 	}
+
+    /**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: remove method is tested
+     * when the argument is null, which should
+     * cause NullPointerException to be thrown.</p>
+     * <p><b>Test Description</b>: m.remove(null) is invoked.
+     * NullPointerException has been
+     * thrown.</p>
+     * <p><b>Pre-Condition</b>: m is empty</p>
+     * <p><b>Post-Condition</b>: m is empty</p>
+     * <p><b>Expected Results</b>: NullPointerException has been
+     * thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Remove_NullEmpty()
+    {
+        m.remove(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: remove method is tested
+     * when the argument is null, which should
+     * cause NullPointerException to be thrown.</p>
+     * <p><b>Test Description</b>: m.remove(null) is invoked.
+     * NullPointerException has been
+     * thrown.</p>
+     * <p><b>Pre-Condition</b>: m contains {0="0":10="10}</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":10="10}</p>
+     * <p><b>Expected Results</b>: NullPointerException has been
+     * thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void Remove_NullNotEmpty()
+    {
+        initHMap(m, 0, 10);
+        m.remove(null);
+    }
+
+
+// ------------------------------------------ toString method ------------------------------------------
 
 	/**
      * <p><b>Summary</b>: toString method test case.</p>

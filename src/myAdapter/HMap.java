@@ -362,7 +362,7 @@ public interface HMap
      * the {@code setValue} operation on the map entry.
      *
      * @see Map#entrySet()
-     * @since 1.2
+     * @since 1.0
      */
     interface Entry
     {
