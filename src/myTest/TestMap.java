@@ -52,6 +52,7 @@ public class TestMap
 	HIterator iter = null;
 	HCollection c = null;
 
+    int sm0, sm1, sm2, ss0, ss1, ss2;
 	String[] argv = {"pippo", "pluto", "qui", "ciccio", "gambatek"};
 
 	@BeforeClass
@@ -66,6 +67,7 @@ public class TestMap
 	@Before
 	public void Setup()
 	{
+        sm0 = sm1 = sm2 = ss0 = ss1 = ss2 = 0;
 		m = new MapAdapter();
 		m2 = new MapAdapter();
 	}
@@ -88,6 +90,7 @@ public class TestMap
         ks = null;
         iter = null;
         c = null;
+        sm0 = sm1 = sm2 = ss0 = ss1 = ss2 = 0;
 	}
 	
     // -------------------- Test cases assigned by the professor --------------------
@@ -126,58 +129,29 @@ public class TestMap
 	public void TestPropagationFromMapToKeySet()
 	{
 		argvInitialize(m);
-		int sm0, sm1, sm2, ss0, ss1, ss2;
 		
 		System.out.println("Test propagation from map to keyset");
 		ks = m.keySet();
-
 		System.out.println(m + " " + m.size());
-		for (String str : argv)
-		{
-			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals("Returned value should be " + str, str, m.get(str));
-		}
-		assertEquals(5, m.size());
-
-		System.out.println(ks + " " + ks.size());
-		for (String str : argv)
-			assertTrue("Should contain argv key", ks.contains(str));
-		assertEquals("Size should be 5", 5, ks.size());
-		
+        System.out.println(ks + " " + ks.size());
+		assertEquals("Size should be 5", 5, m.size());
+        assertEquals("Size should be 5", 5, ks.size());
 		sm0 = m.size();
 		ss0 = ks.size();
 		m.remove(argv[0]);
 		sm1 = m.size();
 		ss1 = ks.size();
-
 		System.out.println("Entry removed: " + m + " " + m.size());
 		for (int i = 1; i < argv.length; i++)
-		{
-			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
-			assertEquals(argv[i], m.get(argv[i]));
-		}
-		assertEquals(4, m.size());
-
-		System.out.println(ks + " " + ks.size());
-		for (int i = 1; i < argv.length; i++)
-			assertTrue("Should contain argv key", ks.contains(argv[i]));
-		assertEquals("Size should be 4", 4, ks.size());
-		
+		assertEquals("Size should be 4", 4, m.size());
+		System.out.println(ks + " " + ks.size());	
 		m.put(argv[0], argv[0]);
 		sm2 = m.size();
 		ss2 = ks.size();
 
 		System.out.println("Entry restored: " + m + " " + m.size());
-		for (String str : argv)
-		{
-			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals("Returned value should be " + str, str, m.get(str));
-		}
 		assertEquals("Size should be 5", 5, m.size());
-
 		System.out.println(ks + " " + ks.size());
-		for (String str : argv)
-			assertTrue("Should contain argv key", ks.contains(str));
 		assertEquals("Size should be 5", 5, ks.size());
 
 		assertTrue("\n*** map NON propaga modifiche a keyset ***\n", sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
@@ -255,8 +229,7 @@ public class TestMap
 	 * in keySet.
      * After initialization map size is 5 and contains argv as key and m.get(argv[i])
      * equals argv[i]. The keyset's size is 5 and contains argv elements.
-     * After pippo removal, map size and keyset size is 4, therefore s1.contains(argv[0])
-     * returns false, while s1.contains(argv[i]) with i != 0 returns true. Then the
+     * After pippo removal, map size and keyset size is 4. Then the
      * entry carrozza=carrozza is inserted, set is checked to be coherent, then carrozza
      * is removed.
      * At the end sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size() is
@@ -272,16 +245,8 @@ public class TestMap
 	public void TestKeySetAndBacking()
 	{
 		argvInitialize(m);
-		int sm0, sm1, sm2, ss0, ss1, ss2;
 		System.out.println("Test keyset and backing");
-
 		System.out.println(m + " " + m.size());
-		for (String str : argv)
-		{
-			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals("Returned value should be " + str, str, m.get(str));
-		}
-		assertEquals("Size should be 5", 5, m.size());
 
 		s1 = m.keySet();
 		sm0 = m.size();
@@ -294,25 +259,16 @@ public class TestMap
 			Object k = iter.next();
 			
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
-			assertEquals(true, k.equals(m.get(k)));
+			assertTrue("Elements should match", k.equals(m.get(k)));
 		}
 
-		System.out.println("\n" + s1);
-		for (String str : argv)
-			assertTrue("Should contain argv key", s1.contains(str));
-		assertEquals("Size should be 5", 5, s1.size());
-		
+		System.out.println("\n" + s1);	
 		s1.remove(argv[0]);
 
 		sm1 = m.size();
 		ss1 = s1.size();
 
 	    System.out.println(m + " " + m.size());
-		for (int i = 1; i < argv.length; i++)
-		{
-			assertTrue("Should contain argv key.", m.containsKey(argv[i]));
-			assertEquals("Returned value should be " + argv[i], argv[i], m.get(argv[i]));
-		}
 		assertEquals("Size should be 4", 4, m.size());
 
 		iter = s1.iterator();
@@ -322,17 +278,12 @@ public class TestMap
 			Object k = iter.next();
 
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
-			assertTrue(k.equals(m.get(k)));
+			assertTrue("Elements should match", k.equals(m.get(k)));
 		}
 
 	    System.out.println("\n" + s1);
-		assertFalse("Should NOT contain", s1.contains(argv[0]));
-		for (int i = 1; i < argv.length; i++)
-			assertTrue("Should contain.", s1.contains(argv[i]));
-
 		System.out.println("Inserisco nella mappa e controllo il set");
 		m.put("carrozza", "carrozza");
-		
 		System.out.println(m + " " + m.size());
 		assertEquals("Size should be 5.", 5, m.size());
 
@@ -343,7 +294,7 @@ public class TestMap
 			Object k = iter.next();
 			
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
-			assertEquals(true, k.equals(m.get(k)));
+			assertTrue("Elements should match", k.equals(m.get(k)));
 		}
 		
 		System.out.println("\n" + s1);
@@ -424,8 +375,11 @@ public class TestMap
      * clear method is invoked on the map.
 	 * Then argv keys and values are inserted in the map. pippo=pippo is
 	 * inserted twice, but map only accept unique keys.
-	 * values is created and iterates through the set and each
-     * returned object is asserted to be contained in the set.</p>
+	 * values is created. m and argv are asserted to have the
+     * same size. Iteration prints c's elements separated by
+     * a semicolon. Then pippo value is removed, therefore
+     * the map now has a size of 4. Iteration prints c's elements separated by
+     * a semicolon.</p>
      * <p><b>Pre-Condition</b>: map contains argv values and keys,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
      * gambatek=gambatek.</p>
@@ -436,9 +390,8 @@ public class TestMap
      * the map is empty).
 	 * After inserting argv keys and values and pippo=pippo m.size is equal to argv.size,
 	 * as the second pippo=pippo insertion is not valid (map only accepts unique keys). m is checked to
-	 * contain all argv keys and values and its size is 5. temp then is equal to
-	 * "pluto; gambatek; ciccio; qui; pippo; ". pippo is removed from values,
-	 * temp is "pluto; gambatek; ciccio; qui; "
+	 * contain all argv keys and values and its size is 5.
+     * pippo is removed from values,
 	 * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1) is true, which means
 	 * the sizes of map and values equals in each stage, and the difference in size
 	 * from stage 0 and 1 is 1.</p>
@@ -446,7 +399,6 @@ public class TestMap
 	@Test
 	public void ResetMapContentAndTestValues()
 	{
-		int sm0, sm1, sm2, ss0, ss1, ss2;
 		System.out.println("reset map content and test values");
 		m.clear();
 		
@@ -462,14 +414,7 @@ public class TestMap
 		assertFalse("*** map.put malfunction ***", m.size() != argv.length);
 
 		System.out.println("after " + m + " " + m.size());
-		for (String str : argv)
-		{
-			assertTrue("Should contain argv key.", m.containsKey(str));
-			assertEquals("Returned value should be " + str, str, m.get(str));
-		}
-		assertEquals(5, m.size());
-		
-
+		assertEquals("Size should be 5", 5, m.size());
 		c = m.values();
 
 		sm0 = m.size();
@@ -477,18 +422,8 @@ public class TestMap
 
 		iter = c.iterator();
 		count = c.size() +2;
-		String temp = "";
 		while(iter.hasNext() && count-- >= 0)
-        {
-            Object next = iter.next();
-			temp += next + "; ";
-			System.out.print(next + "; ");
-        }
-
-
-		assertEquals("pluto; gambatek; ciccio; qui; pippo; ", temp);
-		for (String str : argv)
-			assertTrue("Should be contained.", c.contains(str));
+            System.out.print(iter.next() + "; ");
 		System.out.println("\n" + c);
 
 		c.remove(argv[0]);
@@ -497,31 +432,14 @@ public class TestMap
 		ss1 = c.size();
 
 		System.out.println(m + " " + m.size());
-		for (int i = 1; i < argv.length; i++)
-		{
-			assertTrue("Should contain argv key", m.containsKey(argv[i]));
-			assertEquals("Returned value should be " + argv[i], m.get(argv[i]), argv[i]);
-		}
 		assertEquals("Size should be 4", 4, m.size());
 
 		iter = c.iterator();
 		count = c.size()+2;
-
-		temp = "";
 		while(iter.hasNext()&&count-->= 0)
-        {
-            Object next = iter.next();
-            assertTrue(c.contains(next));
-			//temp += next + "; ";
-			System.out.print(next + "; ");
-        }
-		//assertEquals("pluto; gambatek; ciccio; qui; ", temp);
-		//System.out.print(iter.next() + "; ");
+            System.out.println("\n" + c);
+
 		System.out.println("\n" + c);
-		
-		assertFalse("Should NOT be contained", c.contains(argv[0]));
-		for (int i = 1; i < argv.length; i++)
-			assertTrue("Should be contained", c.contains(argv[i]));
 
 		sm2 = m.size();
 		ss2 = c.size();
@@ -573,7 +491,7 @@ public class TestMap
 
 		System.out.println("\nmap " + m.size() + "; collection " + c.size());
 		assertEquals("map 0; collection 0", "map " + m.size() + "; collection " + c.size());
-		assertTrue("", m.size() == c.size() && m.size() == 0);	
+		assertTrue("\n*** values iterator removal NON propaga modifiche a map ***\n", m.size() == c.size() && m.size() == 0);	
 	}
 
     /**
@@ -1614,6 +1532,24 @@ public class TestMap
 
 	/**
      * <p><b>Summary</b>: remove method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the remove method
+	 * in a case where the map does contain the key.</p>
+     * <p><b>Test Description</b>: remove is invoked with 1
+	 * key, which is has already mapping in the map.</p>
+     * <p><b>Pre-Condition</b>: m contains {1=3}.</p>
+     * <p><b>Post-Condition</b>: m is empty.</p>
+     * <p><b>Expected Results</b>: remove returns 3 as the
+     * key 1 was mapped to 3 before removal.</p>
+     */
+    @Test
+    public void Remove_Return()
+    {
+        m.put(1, 3);
+        assertEquals(3, m.remove(1));
+    }
+
+	/**
+     * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method
 	 * with cases of size from 0 to 100. After each remove
 	 * each assertions are being made. Tests a big input size
@@ -1630,7 +1566,7 @@ public class TestMap
 	 * decremented by one. m is empty.</p>
      */
 	@Test
-	public void Remove_0To100()
+	public void Remove_0To100Return()
 	{
 		int bound = 100;
 		initHMap(m, 0, bound);
