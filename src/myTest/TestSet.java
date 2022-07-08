@@ -94,8 +94,12 @@ public class TestSet
 	 * elements are added when clones or not.</p>
      * <p><b>Test Description</b>: iterates through the set.
 	 * pippo=pippo is added to the map, tries to add pippo=pippo once again
-	 * but it is already present. Adds the remaining elements to the map, asserts
-	 * size to be i and iterate for each remaining element.</p>
+	 * but it is already present. Adds the remaining elements to the map
+	 * and iterate for each remaining element.
+	 * In each iteration it tries to put new entry argv[i]=argv[i],
+	 * prints true if a new element is inserted, false if it was already
+	 * present in the keySet (key already in the map) and iterates through
+	 * its elements.</p>
      * <p><b>Pre-Condition</b>: Set is empty.</p>
      * <p><b>Post-Condition</b>: Set contains argv elements in the form
      * of argv[i]=argv[i].</p>
@@ -112,22 +116,14 @@ public class TestSet
 		assertEquals(0, s.size());
 		iterate(s.iterator());
 
-		//assertTrue(s.add(argv[0]));
-		//assertFalse(s.add(argv[1]));
-
-        m.put(argv[0], argv[0]);
-        m.put(argv[1], argv[1]);
-
-		for(int i=2;i<argv.length;i++)
+		System.out.print(s.size() + " ");
+		iterate(s.iterator());
+		for(int i=0;i<argv.length;i++)
 		{
-			boolean res = !s.contains(getEntry(argv[i], argv[i]));
-            m.put(argv[i], argv[i]);
-
+			// True if new insertion
+			boolean res = m.put(argv[i], argv[i]) == null;
 			System.out.println(argv[i] + " " + res);
 			System.out.print(s.size() + " ");
-
-			assertTrue(res);
-			assertEquals(i, s.size());
 			iterate(s.iterator());
 		}
 		assertEquals("\n*** set wronlgy accepts clones ***\n", argv.length - 1, s.size());
@@ -138,11 +134,14 @@ public class TestSet
 	 * the elements in argv as keys and values, [pluto=pippo, ciccio=ciccio, qui=qui,
      * paperino=paperino, pippo=pippo].</p>
      * <p><b>Test Case Design</b>: Tests the content of the set. As the element
-	 * in a set are not ordered, unlike in Hset, printing
+	 * in a set are not ordered, printing
 	 * a string representation of the object to test its content
 	 * is not reliable, therefore it is better looping through the elements in
 	 * some way to test their presence in the set.</p>
-     * <p><b>Test Description</b>: Removes the element in argv in entry form
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Removes the element in argv in entry form
      * (key, value) one by one, asserting them to be contained.
 	 * If they are the same elements, at each iteration the element must be
 	 * in the set and its size should be  greater than zero (it should not
@@ -180,7 +179,10 @@ public class TestSet
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
 	 * method from the set. The test case emoves elements until the set is empty,
 	 * therefore s.size() should return 0 in the last assertion.</p>
-     * <p><b>Test Description</b>: Set is Initialized with argv elements.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Set is Initialized with argv elements.
 	 * Iterates through set and after each next it removes the element,
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
 	 * iterator is invoked to test correct iteration.</p>
@@ -238,23 +240,13 @@ public class TestSet
 		assertEquals(0, s.size());
 		iterate(s.iterator());
 
-		//assertTrue(s.add(argv[0]));
-		//assertFalse(s.add(argv[1]));
-
-        m.put(argv[0], argv[0]);
-        m.put(argv[1], argv[1]);
-
-		for(int i=2;i<argv.length;i++)
+		for(int i=0;i<argv.length;i++)
 		{
-            // Check if modification have been made
-			boolean res = !s.contains(argv[i]);
-            m.put(argv[i], argv[i]);
+			// True if new insertion
+			boolean res = m.put(argv[i], argv[i]) == null;
 
 			System.out.println(argv[i] + " " + res);
 			System.out.print(s.size() + " ");
-
-			assertTrue(res);
-			assertEquals(i, s.size());
 			iterate(s.iterator());
 		}
 		assertEquals("\n*** set wronlgy accepts clones ***\n", argv.length - 1, s.size());
@@ -270,7 +262,10 @@ public class TestSet
 	 * a string representation of the object to test its content
 	 * is not reliable, therefore it is better looping through the elements in
 	 * some way to test their presence in the set.</p>
-     * <p><b>Test Description</b>: Removes the element in argv in key form
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Removes the element in argv in key form
      * one by one, asserting them to be contained.
 	 * If they are the same elements, at each iteration the element must be
 	 * in the set and its size should be  greater than zero (it should not
@@ -307,7 +302,10 @@ public class TestSet
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
 	 * method from the set. The test case emoves elements until the set is empty,
 	 * therefore s.size() should return 0 in the last assertion.</p>
-     * <p><b>Test Description</b>: Set is Initialized with argv elements.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Set is Initialized with argv elements.
 	 * Iterates through set and after each next it removes the element,
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
 	 * iterator is invoked to test correct iteration.</p>
@@ -338,13 +336,16 @@ public class TestSet
 
 	/**
      * <p><b>Summary</b>: Tests the behaviour of the values HSet of a map
-	 * when inserting cloned value to the map. size, add and itertator of SetAdapter
+	 * when inserting cloned value to the map. size, iterator of SetAdapter
 	 * are tested.</p>
      * <p><b>Test Case Design</b>: HCollection interface does not
 	 * specify clones presence. In a collection clones are accepted. In the test
 	 * elements are added when clones or not. Propagation from values to map
      * and viceversa are tested.</p>
-     * <p><b>Test Description</b>: iterates through the set.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Iterates through the set.
 	 * pippo value is added from the map, tries to add pippo value once again
 	 * even if it is already present. Adds the remaining elements as value, asserts
 	 * size to be i and iterate for each remaining element.</p>
@@ -362,19 +363,17 @@ public class TestSet
 		iterate(c.iterator());
 		
         // Out of the loop because manual key
-        m.put("Random key", argv[0]);   // The important thing is that the key will be unique
+        m.put("Random key", argv[0]);   // The important thing is that the key will be unique, only values HCollection is tested
 
 		for(int i=1;i<argv.length;i++)
 		{
             // Check if modification have been made
             int initSize = c.size();
             m.put(argv[i], argv[i]);
-			boolean res = initSize - c.size() < 0 ? true : false;
+			boolean res = c.size() - initSize == 1;
 
 			System.out.println(argv[i] + " " + res);
 			System.out.print(c.size() + " ");
-			assertTrue(res);
-			assertEquals(i + 1, c.size());
 			iterate(c.iterator());
 		}
 		assertFalse("\n*** collection refuses clones ***\n", c.size() == argv.length - 1);
@@ -388,7 +387,10 @@ public class TestSet
 	 * a string representation of the object to test its content
 	 * is not reliable, therefore it is better looping through the elements in
 	 * some way to test their presence in the collection.</p>
-     * <p><b>Test Description</b>: Removes the element in argv one by one.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Removes the element in argv one by one.
 	 * If they are the same elements, at each iteration the element must be
 	 * in the set and its size should be  greater than zero (it should not
 	 * be empty). If the for loop finish and the final size is zero,
@@ -407,7 +409,7 @@ public class TestSet
 	{
 		argvInitialize(m);
         // Out of the loop because manual key
-        m.put("Random key", argv[0]); 
+        m.put("Random key", argv[0]);	// The important thing is that the key will be unique, only values HCollection is tested
 
         c = m.values();
 
@@ -429,7 +431,10 @@ public class TestSet
      * <p><b>Test Case Design</b>: Iterator's remove should work and remove
 	 * method from the Collection. The test case emoves elements until the Collection is empty,
 	 * therefore s.size() should return 0 in the last assertion.</p>
-     * <p><b>Test Description</b>: Collection is Initialized with argv elements.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+	 * Collection is Initialized with argv elements.
 	 * Iterates through Collection and after each next it removes the element,
 	 * decrementing i. i starts from 6. At each iteration iterate with a new
 	 * iterator is invoked to test correct iteration.</p>

@@ -180,7 +180,7 @@ public class TestMap
 			assertTrue("Should contain argv key", ks.contains(str));
 		assertEquals("Size should be 5", 5, ks.size());
 
-		assertEquals("\n*** map NON propaga modifiche a keyset ***\n", true, sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
+		assertTrue("\n*** map NON propaga modifiche a keyset ***\n", sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
 	}
 
     /**
@@ -235,7 +235,9 @@ public class TestMap
 	 * affects the backing HMap. Therefore
 	 * this test focuses on the propagation of different changes
 	 * from the KeySet to the backing HMap.</p>
-     * <p><b>Test Description</b>: map is initialized with argv values and keys, then
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format), then
 	 * their presence is tested with contains method, its size is 5.
 	 * Then the keySet s1 is created. KeySet iterator iterates through the set
 	 * and asserts that the next key returned is equal to the element of the same
@@ -320,7 +322,7 @@ public class TestMap
 			Object k = iter.next();
 
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
-			assertEquals(true, k.equals(m.get(k)));
+			assertTrue(k.equals(m.get(k)));
 		}
 
 	    System.out.println("\n" + s1);
@@ -368,7 +370,9 @@ public class TestMap
      * In this case scenario propagation from the logical point of view
      * is: iterator -> keyset -> map. Therefore this kind of propagation
      * is tested in this test, by modifying the map from a keyset iterator.</p>
-     * <p><b>Test Description</b>: m is initialized with argv keys and values.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
 	 * s1 the KeySet is created. pippo=pippo is removed from the map.
 	 * Then iterates through the keySet asserting the returned element to be contained in the keyset
 	 * and removing each element after each next, asserting them to be NOT
@@ -403,7 +407,7 @@ public class TestMap
 		assertEquals("[]", s1.toString());
 		System.out.println("\n" + s1);
 
-		assertEquals("\n*** keyset iterator removal does not work ***\n", true, m.size() == s1.size() && m.size() == 0);
+		assertTrue("\n*** keyset iterator removal does not work ***\n", m.size() == s1.size() && m.size() == 0);
 	}
 
     /**
@@ -414,7 +418,10 @@ public class TestMap
      * <p><b>Test Case Design</b>: After clearing the map with clear,
 	 * tests changes propagation from values to map. Infact, HMap interface
 	 * states that changes in values set propagate to the backing map.</p>
-     * <p><b>Test Description</b>: clear method is invoked on the map.
+     * <p><b>Test Description</b>: Initialize the map with argv keys and
+	 * values (recreates the previous test's situation, as the original
+     * file TestMap.java was not formatted in the JUnit format).
+     * clear method is invoked on the map.
 	 * Then argv keys and values are inserted in the map. pippo=pippo is
 	 * inserted twice, but map only accept unique keys.
 	 * values is created and iterates through the set and each
