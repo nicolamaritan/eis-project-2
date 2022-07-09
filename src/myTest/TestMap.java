@@ -788,7 +788,7 @@ public class TestMap
      * the others no.</p>
      */
     @Test
-    public void ContainsValue_0To10000()
+    public void ContainsValue_0To1000()
     {
         int bound = 100;
         int bound2 = 1000;
@@ -986,45 +986,45 @@ public class TestMap
     public void HashCode_Mixed()
     {
         // Empty map case
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         // One element case
         m.put(1, "1");
         m2.put(1, "1");
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         TestUtilities.initHMap(m, -100, 100);
         TestUtilities.initHMap(m2, -100, 100);
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         m.remove((Object)0);
         m2.remove((Object)0);
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         m.put(101, "101");
         m2.put(101, "101");
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         TestUtilities.addToHMap(m, 500, 1000);
         TestUtilities.addToHMap(m2, 500, 1000);
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         HMap t = TestUtilities.getIntegerMapAdapter(-1000, -900);
         m.putAll(t);
         m2.putAll(t);
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
         TestUtilities.initHMap(t, 5000, 6000);
         m.putAll(t);
         m2.putAll(t);
-        assertEquals("maps should be equal.", true, m.equals(m2));
+        assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
     }
@@ -1713,10 +1713,10 @@ public class TestMap
     {
         int to = 100;
         TestUtilities.initHMap(m, 0, to);
-        assertEquals(true, m.equals(TestUtilities.getIntegerMapAdapter(0, to)));
-        assertEquals(true, TestUtilities.getIntegerMapAdapter(0, to).equals(m));   // Symmetric property
-        assertEquals(false, m.equals(TestUtilities.getIntegerMapAdapter(0, to + 15)));  // bigger Map returns false
-        assertEquals(false, m.equals(TestUtilities.getIntegerMapAdapter(0, 5)));  // smaller Map returns false
+        assertTrue("Should equal", m.equals(TestUtilities.getIntegerMapAdapter(0, to)));
+        assertTrue("Should equal", TestUtilities.getIntegerMapAdapter(0, to).equals(m));   // Symmetric property
+        assertFalse("Should NOT equal", m.equals(TestUtilities.getIntegerMapAdapter(0, to + 15)));  // bigger Map returns false
+        assertFalse("Should NOT equal", m.equals(TestUtilities.getIntegerMapAdapter(0, 5)));  // smaller Map returns false
     }
 
     
@@ -1735,8 +1735,8 @@ public class TestMap
     @Test
     public void Equals_Empty_True()
     {
-        assertEquals("Two empty Maps should equals.", true, m.equals(m2));
-        assertEquals("Two empty Maps should equals.", true, m2.equals(m));
+        assertTrue("Two empty Maps should equals.", m.equals(m2));
+        assertTrue("Two empty Maps should equals.", m2.equals(m));
     }
 
     /**
@@ -1754,11 +1754,11 @@ public class TestMap
     @Test
     public void Equals_Reflective()
     {
-        assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is empty
+        assertTrue("Reflective property is not met.", m.equals(m));    // Map is empty
         TestUtilities.initHMap(m, 0, 10);
-        assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
+        assertTrue("Reflective property is not met.", m.equals(m));    // Map is not empty, should return true anyways
         TestUtilities.initHMap(m, 0, 100);
-        assertEquals("Reflective property is not met.", true, m.equals(m));    // Map is not empty, should return true anyways
+        assertTrue("Reflective property is not met.", m.equals(m));    // Map is not empty, should return true anyways
     }
 
     /**
@@ -1780,9 +1780,9 @@ public class TestMap
         TestUtilities.initHMap(m2, 0, to);
         HMap m3 = TestUtilities.getIntegerMapAdapter(0, to);
 
-        assertEquals("Maps should be equal.", true, m.equals(m2));
-        assertEquals("Maps should be equal.", true, m2.equals(m3));
-        assertEquals("Transitive property is not met.",true, m.equals(m3));
+        assertTrue("Maps should be equal.", m.equals(m2));
+        assertTrue("Maps should be equal.", m2.equals(m3));
+        assertTrue("Transitive property is not met.", m.equals(m3));
     }
 
     /**
@@ -1818,6 +1818,46 @@ public class TestMap
     {
         initHMap(m, 0, 10);
         assertFalse(m.equals(null));
+    }
+
+    // ------------------------------------------ Coarse grained tests ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: Tests general insertions and inspections
+     * on a map.</p>
+     * <p><b>Test Case Design</b>: Map is modified through different
+     * actions (insertions/removals) and its content is inspected.</p>
+     * <p><b>Test Description</b>: Each pair of element is put in the
+     * map</p>
+     * <p><b>Pre-Condition</b>:</p>
+     * <p><b>Post-Condition</b>:</p>
+     * <p><b>Expected Results</b>:</p>
+     */
+    @Test
+    public void MapInsertionsAndInspections0()
+    {
+        String[] arg_k = {"Under", "Break", "Life", "Money", "Ma"};
+        String[] arg_v = {"Pressure", "Free", "Mars", "Money", "Baker"};
+        int size = arg_k.length;
+
+        for (int i = 0; i < size; i++)
+        {
+            assertFalse("Not contained yet", m.containsKey(arg_k[i]));
+            assertNull("Should null", m.put(arg_k[i], arg_v[i]));
+            assertTrue("Should be contained", m.containsKey(arg_k[i]));
+            assertEquals("Size should be 1", 1, m.size());
+            assertEquals("Should equal", arg_v[i], m.remove(arg_k[i]));
+            assertFalse("Not contained yet", m.containsKey(arg_k[i]));
+            assertEquals("Size should be 0", 0, m.size());
+        }
+
+        for (int i = 0; i < size; i++)
+            assertNull("Should be null", m.put(arg_k[i], arg_v[i]));
+        assertEquals("Should equal", "Free", m.remove("Break"));
+        assertNull("Should be null", m.remove("Killer"));
+        assertEquals("Should equal", "Mars", m.remove("Life"));
+
+        assertEquals("Two removed, should be 3", 3, m.size());
     }
 }
 
