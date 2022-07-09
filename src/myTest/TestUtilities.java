@@ -11,7 +11,7 @@ public class TestUtilities
     /**
      * Initializes a map with integers keys and string values
      * starting at from (included) and
-     * ending at to (escluded).
+     * ending at to (escluded). The map contains {to="to":from="from"}.
      * @param m map to be initialize
      * @param from lower bound (included) of the map
      * @param to upper bound (escluded) of the map
@@ -34,7 +34,7 @@ public class TestUtilities
     /**
      * Returns an HMap containing integers starting at from (included) and
      * ending at to (escluded), where the string integer is the key and integer is the value
-     * of the entry.
+     * of the entry. The returned map contains {to="to":from="from"}.
      * @param from lower bound (included) of the map
      * @param to upper bound (escluded) of the map
      * @return an HMap from (included) and
@@ -97,6 +97,8 @@ public class TestUtilities
     {
         if (key == null || value == null)
             throw new NullPointerException();
+        
+        // Returns the next object returned by an iterator of an entrySet containing that entry
         HMap m = new MapAdapter();
         m.put(key, value);
         HSet es = m.entrySet();
@@ -118,6 +120,7 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
+        // Uses ad-hoc HMap.keySet() as there is no other HCollection implementation
         HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
             m.put(i, i);
@@ -155,6 +158,7 @@ public class TestUtilities
      */
     public static HCollection getIntegerHCollection(int from, int to)
     {
+        // Uses ad-hoc HMap.values() as there is no other HCollection implementation
         HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
             m.put(i, i);
@@ -173,6 +177,7 @@ public class TestUtilities
         if (arr == null)
             throw new NullPointerException();
 
+        // Uses ad-hoc HMap.values() as there is no other HCollection implementation
         HMap m = new MapAdapter();
         for (int i = 0; i < arr.length; i++)
             m.put(i, arr[i]);
@@ -202,7 +207,7 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
-        //CollectionAdapter s = new CollectionAdapter();
+        // Uses ad-hoc HMap.values() as there is no other HCollection implementation
         HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
             m.put(i, ""+i);
@@ -223,12 +228,12 @@ public class TestUtilities
     {
         if (from > to)
             throw new IllegalArgumentException();
-        //HCollection c = new CollectionAdapter();
+        
+        // Uses ad-hoc HMap.values() as there is no other HCollection implementation
         HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
         {
             HMap.Entry e = TestUtilities.getEntry(i, "" + i);
-            //c.add(e);
             m.put(i, e);
         }
         return m.values();
@@ -249,6 +254,7 @@ public class TestUtilities
         if (from > to)
             throw new IllegalArgumentException();
 
+        // Uses ad-hoc HMap.keySet() as there is no other HSet implementation
         HMap m = new MapAdapter();
         for (int i = from; i < to; i++)
         {

@@ -216,7 +216,8 @@ public class TestKeySet
      * a size call and expected 1 size and not being empty. Propagation
      * map -> KeySet is tested, as the keySet is modified
      * through m.put(1, "1"). checkKeySet and checkIteration
-     * are invoked to test KeySet - map coherence and the iteration.</p>
+     * are invoked to test KeySet - map coherence and the iteration.
+     * Tests correct propagation.</p>
      * <p><b>Pre-Condition</b>: The KeySet contains 1, map contains {1="1"}.</p>
      * <p><b>Post-Condition</b>: The KeySet contains 1 map contains {1="1"}.</p>
      * <p><b>Expected Results</b>: The size method returns 1 as the
@@ -230,7 +231,7 @@ public class TestKeySet
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("Empty KeySet does not have size of one.", 1, ks.size());
-        assertEquals("isEmpty did not returned false.", false, ks.isEmpty());
+        assertFalse("isEmpty did not returned false.", ks.isEmpty());
     }
 
     /**

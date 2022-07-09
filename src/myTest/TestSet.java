@@ -98,8 +98,9 @@ public class TestSet
 	 * and iterate for each remaining element.
 	 * In each iteration it tries to put new entry argv[i]=argv[i],
 	 * prints true if a new element is inserted, false if it was already
-	 * present in the keySet (key already in the map) and iterates through
-	 * its elements.</p>
+	 * present in the map (entry already in the map) and iterates through
+	 * its elements through a new iterator
+	 * (iterate(s.iterator())).</p>
      * <p><b>Pre-Condition</b>: Set is empty.</p>
      * <p><b>Post-Condition</b>: Set contains argv elements in the form
      * of argv[i]=argv[i].</p>
@@ -149,7 +150,8 @@ public class TestSet
 	 * size is zero, the elements are the same and the
 	 * sets contains the right elements.
 	 * The sets is then restored.</p>
-     * <p><b>Pre-Condition</b>: s contains argv=argv (key, value) elements.</p>
+     * <p><b>Pre-Condition</b>: s contains argv[i]=argv[i] (key, value) elements,
+	 * for each i in (1, argv.lenght).</p>
      * <p><b>Post-Condition</b>: s in unchanged.</p>
      * <p><b>Expected Results</b>: At each iteration isEmpty returns false
 	 * and contains returns true, therefore set contains the argv elements
@@ -183,9 +185,9 @@ public class TestSet
 	 * values (recreates the previous test's situation, as the original
      * file TestMap.java was not formatted in the JUnit format).
 	 * Set is Initialized with argv elements.
-	 * Iterates through set and after each next it removes the element,
+	 * Iterates through set and after each next it removes the element (iter2.remove()),
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
-	 * iterator is invoked to test correct iteration.</p>
+	 * iterator is invoked to test correct iteration (iterate(s.iterator())).</p>
      * <p><b>Pre-Condition</b>: set contains argv elements.</p>
      * <p><b>Post-Condition</b>: set is empty, as it has been emptied
 	 * by iterator's remove.</p>
@@ -223,8 +225,13 @@ public class TestSet
      * <p><b>Test Description</b>: iterates through the set.
 	 * pippo=pippo is added to the map, tries to add pippo=pippo once again
 	 * but it is already present. Note that the key is already
-     * present in the keyset as key. Adds the remaining elements to the map, asserts
-	 * size to be i and iterate for each remaining element.</p>
+     * present in the keyset as key. Adds the remaining elements to the map
+	 * and iterate for each remaining element.
+	 * In each iteration it tries to put new entry argv[i]=argv[i],
+	 * prints true if a new element is inserted, false if it was already
+	 * present in the keySet (key already in the map) and iterates through
+	 * its elements through a new iterator
+	 * (iterate(s.iterator())).</p>
      * <p><b>Pre-Condition</b>: Set is empty.</p>
      * <p><b>Post-Condition</b>: Set contains argv elements only once.</p>
      * <p><b>Expected Results</b>: First pippo=pippo insertion returns true,
@@ -265,7 +272,7 @@ public class TestSet
      * <p><b>Test Description</b>: Initialize the map with argv keys and
 	 * values (recreates the previous test's situation, as the original
      * file TestMap.java was not formatted in the JUnit format).
-	 * Removes the element in argv in key form
+	 * Removes the element in argv as key
      * one by one, asserting them to be contained.
 	 * If they are the same elements, at each iteration the element must be
 	 * in the set and its size should be  greater than zero (it should not
@@ -277,7 +284,7 @@ public class TestSet
      * <p><b>Post-Condition</b>: s in unchanged.</p>
      * <p><b>Expected Results</b>: At each iteration isEmpty returns false
 	 * and contains returns true, therefore set contains the argv elements
-     * in key form, pluto, ciccio, qui, paperino, pippo.</p>
+     * as keys, pluto, ciccio, qui, paperino, pippo.</p>
      */
 	@Test
 	public void KeySetCheckContentTest()
@@ -308,7 +315,7 @@ public class TestSet
 	 * Set is Initialized with argv elements.
 	 * Iterates through set and after each next it removes the element,
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
-	 * iterator is invoked to test correct iteration.</p>
+	 * iterator is invoked to test correct iteration (iterate(s.iterator())).</p>
      * <p><b>Pre-Condition</b>: set contains argv elements.</p>
      * <p><b>Post-Condition</b>: set is empty, as it has been emptied
 	 * by iterator's remove.</p>
@@ -347,8 +354,13 @@ public class TestSet
      * file TestMap.java was not formatted in the JUnit format).
 	 * Iterates through the set.
 	 * pippo value is added from the map, tries to add pippo value once again
-	 * even if it is already present. Adds the remaining elements as value, asserts
-	 * size to be i and iterate for each remaining element.</p>
+	 * even if it is already present. Adds the remaining elements as value
+	 * and iterate for each remaining element.
+	 * In each iteration it tries to put new entry argv[i]=argv[i],
+	 * prints true if a new element is inserted, false if no insertion
+	 * was made and iterates through
+	 * its elements through a new iterator
+	 * (iterate(s.iterator())).</p>
      * <p><b>Pre-Condition</b>: Set is empty.</p>
      * <p><b>Post-Condition</b>: Set contains argv elements.</p>
      * <p><b>Expected Results</b>: First pippo insertion returns true,
@@ -437,7 +449,7 @@ public class TestSet
 	 * Collection is Initialized with argv elements.
 	 * Iterates through Collection and after each next it removes the element,
 	 * decrementing i. i starts from 6. At each iteration iterate with a new
-	 * iterator is invoked to test correct iteration.</p>
+	 * iterator is invoked to test correct iteration (iterate(c.iterator())).</p>
      * <p><b>Pre-Condition</b>: Collection contains argv elements.</p>
      * <p><b>Post-Condition</b>: Collection is empty, as it has been emptied
 	 * by iterator's remove.</p>

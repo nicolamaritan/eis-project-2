@@ -325,7 +325,7 @@ public class TestEntrySet
     public void Contains_0To100()
     {
         int bound = 100;
-        TestUtilities.addToHMap(m, 0, bound);
+        initHMap(m, 0, bound);
         checkEntrySet(m, es);
         checkIteration(es);
         for (int i = 0; i < bound; i++)
@@ -578,11 +578,11 @@ public class TestEntrySet
     public void Equals_0To10()
     {
         int to = 500;
-        TestUtilities.addToHMap(m, 0, to);
-        assertEquals(true, es.equals(getIntegerMapAdapter(0, to).entrySet()));
-        assertEquals(true, getIntegerMapAdapter(0, to).entrySet().equals(es));   // Symmetric property
-        assertEquals(false, es.equals(getIntegerMapAdapter(0, to + 15).entrySet()));  // bigger EntrySet returns false
-        assertEquals(false, es.equals(getIntegerMapAdapter(0, 5).entrySet()));  // smaller EntrySet returns false
+        initHMap(m, 0, to);
+        assertTrue("Should equals", es.equals(getIntegerMapAdapter(0, to).entrySet()));
+        assertTrue("Should equals", getIntegerMapAdapter(0, to).entrySet().equals(es));   // Symmetric property
+        assertFalse("Should NOT equals", es.equals(getIntegerMapAdapter(0, to + 15).entrySet()));  // bigger EntrySet returns false
+        assertFalse("Should NOT equals", es.equals(getIntegerMapAdapter(0, 5).entrySet()));  // smaller EntrySet returns false
     }
 
     
@@ -601,8 +601,8 @@ public class TestEntrySet
     @Test
     public void Equals_Empty_True()
     {
-        assertEquals("Two empty EntrySets should equals.", true, es.equals(es2));
-        assertEquals("Two empty EntrySets should equals.", true, es2.equals(es));
+        assertTrue("Two empty EntrySets should equals.", es.equals(es2));
+        assertTrue("Two empty EntrySets should equals.", es2.equals(es));
     }
 
     /**
@@ -621,11 +621,11 @@ public class TestEntrySet
     @Test
     public void Equals_Reflective()
     {
-        assertEquals("Reflective property is not met.", true, es.equals(es));    // EntrySet is empty
+        assertTrue("Reflective property is not met.", es.equals(es));    // EntrySet is empty
         TestUtilities.initHMap(m, 0, 10);
-        assertEquals("Reflective property is not met.", true, es.equals(es));    // EntrySet is not empty, should return true anyways
+        assertTrue("Reflective property is not met.", es.equals(es));    // EntrySet is not empty, should return true anyways
         TestUtilities.initHMap(m, 0, 500);
-        assertEquals("Reflective property is not met.", true, es.equals(es));    // EntrySet is not empty, should return true anyways
+        assertTrue("Reflective property is not met.", es.equals(es));    // EntrySet is not empty, should return true anyways
     }
 
     /**
@@ -648,9 +648,9 @@ public class TestEntrySet
         addToHMap(m2, 0, to);
         HSet es3 = getIntegerMapAdapter(0, to).entrySet();
 
-        assertEquals("EntrySets should be equal.", true, es.equals(es2));
-        assertEquals("EntrySets should be equal.", true, es2.equals(es3));
-        assertEquals("Transitive property is not met.",true, es.equals(es3));
+        assertTrue("EntrySets should be equal.", es.equals(es2));
+        assertTrue("EntrySets should be equal.", es2.equals(es3));
+        assertTrue("Transitive property is not met.", es.equals(es3));
     }
 
     /**
@@ -789,8 +789,8 @@ public class TestEntrySet
         assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
-        TestUtilities.initHMap(m, -100, 100);
-        TestUtilities.initHMap(m2, -100, 100);
+        initHMap(m, -100, 100);
+        initHMap(m2, -100, 100);
         assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
@@ -804,18 +804,18 @@ public class TestEntrySet
         assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
-        TestUtilities.addToHMap(m, 500, 1000);
-        TestUtilities.addToHMap(m2, 500, 1000);
+        addToHMap(m, 500, 1000);
+        addToHMap(m2, 500, 1000);
         assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
-        HMap t = TestUtilities.getIntegerMapAdapter(-1000, -900);
+        HMap t = getIntegerMapAdapter(-1000, -900);
         m.putAll(t);
         m2.putAll(t);
         assertTrue("maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
-        TestUtilities.initHMap(t, 5000, 6000);
+        initHMap(t, 5000, 6000);
         m.putAll(t);
         m2.putAll(t);
         assertTrue("maps should be equal.", es.equals(es2));
@@ -1170,7 +1170,7 @@ public class TestEntrySet
      * therefore the set should became the empty set, since mainteining
      * only the "empty" subset means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument.</p>
+     * an empty collection as an argument. Tests correct propagation.</p>
      * <p><b>Test Description</b>: The set removes all but "empty", so
      * it empties. In fact initially it contains {1="1", 2="2", 3="3"}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
@@ -1185,9 +1185,9 @@ public class TestEntrySet
     public void RetainAll_Empty_True()
     {
         initHMap(m, 1, 4);
-        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
-        assertEquals("set should be empty.", 0, es.size());
-        assertEquals("coll should be empty.", 0, c.size());
+        assertTrue("The set has changed, it should return true.", es.retainAll(c));
+        assertEquals("Set should be empty.", 0, es.size());
+        assertEquals("Coll should be empty.", 0, c.size());
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1201,7 +1201,7 @@ public class TestEntrySet
      * RetainAll_Empty_True test case, the set is already empty, therefore
      * the method returns false.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument and an empty set.</p>
+     * an empty collection as an argument and an empty set. Tests correct propagation.</p>
      * <p><b>Test Description</b>: The set removes all but "empty", so
      * it empties. Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
@@ -1215,7 +1215,7 @@ public class TestEntrySet
     @Test
     public void RetainAll_Empty_False()
     {
-        assertEquals("The set has not changed, it should return false.", false, es.retainAll(c));
+        assertFalse("The set has not changed, it should return false.", es.retainAll(c));
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1225,7 +1225,7 @@ public class TestEntrySet
      * The test calls retainAll with a collection containing
      * few elements.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input. Testing a typical case.</p>
+     * input. Testing a typical case. Tests correct propagation.</p>
      * <p><b>Test Description</b>: The set initially contains entries integer - string
      * from 1 to 5 included. retainAll is called with a collection
      * containing {3=3, 4=4, 5=5}, therefore the set should contain
@@ -1245,8 +1245,8 @@ public class TestEntrySet
     {
         initHMap(m, 1, 6);
         c = getEntryHCollection(3, 6);
-        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
-        assertTrue("set should contain {3=3, 4=4, 5=5}.", es.equals(getEntryHSet(3, 6)));
+        assertTrue("The set has changed, it should return true.", es.retainAll(c));
+        assertTrue("Set should contain {3=3, 4=4, 5=5}.", es.equals(getEntryHSet(3, 6)));
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1256,7 +1256,7 @@ public class TestEntrySet
      * The test calls retainAll with a collection containing
      * few elements. Testing a typical case.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input.</p>
+     * input. Tests correct propagation.</p>
      * <p><b>Test Description</b>: The set initially contains entries integer - string
      * from 1 to 9 included. retainAll is called with a collection
      * containing {2="2", 3="3"}, therefore the set should contain
@@ -1277,7 +1277,7 @@ public class TestEntrySet
         initHMap(m, 1, 10);
         c = getHCollection(new Object[]{getEntry(2, "2"), getEntry(3, "3")});
         assertTrue("The set has changed, it should return true.", es.retainAll(c));
-        assertTrue("set should contain {2=2, 3=3}.", es.equals(getEntryHSet(2, 4)));
+        assertTrue("Set should contain {2=2, 3=3}.", es.equals(getEntryHSet(2, 4)));
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1286,8 +1286,8 @@ public class TestEntrySet
      * <p><b>Summary</b>: retainAll method test case.
      * The test calls retainAll with a collection containing
      * many elements. Testing a typical case with a large input.</p>
-     * <p><b>Test Case Design</b>:  The retainAll method is tested with large
-     * input. The case is still a common case.</p>
+     * <p><b>Test Case Design</b>: The retainAll method is tested with large
+     * input. The case is still a common case. Tests correct propagation.</p>
      * <p><b>Test Description</b>: The set initially contains entries integer - string
      * from 1 to 999 included. retainAll is called with a collection
      * containing {300="300" : 600="600"}, therefore the set should contain
@@ -1297,7 +1297,7 @@ public class TestEntrySet
      * {300="300" : 600="600"}.</p>
      * <p><b>Post-Condition</b>: The set contains {300="300" : 600="600"}, c contains
      * {300="300" : 600="600"}.</p>
-     * <p><b>Expected Results</b>: The arrays are equal, therefore set contains {300="300" : 600="600"}. retainAll returns true
+     * <p><b>Expected Results</b>: The sets are equal, therefore set contains {300="300" : 600="600"}. retainAll returns true
      * as the set is being modified. Coherence is checked after each retainAll invoke.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
@@ -1308,7 +1308,7 @@ public class TestEntrySet
         initHMap(m, 0, 1000);
         c = getEntryHCollection(300, 600);
         es.retainAll(c);
-        assertEquals("The arrays should match.", getEntryHSet(300, 600), es);
+        assertEquals("The sets should match.", getEntryHSet(300, 600), es);
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1320,7 +1320,7 @@ public class TestEntrySet
      * therefore the set should became the empty set, since mainteining
      * only a subset not contained in the set means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty intersection of set and c.</p>
+     * an empty intersection of set and c. Tests correct propagation.</p>
      * <p><b>Test Description</b>: The set removes all but "empty", so
      * it empties. In fact initially it contains {1="1":20="20"}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
@@ -1338,7 +1338,7 @@ public class TestEntrySet
         initHMap(m, 1, 20);
         c = getIntegerHCollection(20, 24);
 
-        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
+        assertTrue("The set has changed, it should return true.", es.retainAll(c));
         assertEquals("The set should be empty.", 0, es.size());
         checkEntrySet(m, es);
         checkIteration(es);
@@ -1353,7 +1353,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: c can contain duplicated element, and
      * this should not change retainAll behaviour. At the end of
      * retainAll execution every element not contained in coll
-     * must be removed.</p>
+     * must be removed. Tests correct propagation.</p>
      * <p><b>Test Description</b>: set contains {1="1", ..., 19="19"}. c contains
      * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}. retainAll is called, so the set should contain
      * {4="4", 5="5", 6="6"}. Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
@@ -1362,7 +1362,7 @@ public class TestEntrySet
      * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}.</p>
      * <p><b>Post-Condition</b>: set contains {4="4", 5="5", 6="6"}. c contains
      * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}.</p>
-     * <p><b>Expected Results</b>: The arrays are equal, therefore the
+     * <p><b>Expected Results</b>: The sets are equal, therefore the
      * set contains {4="4", 5="5", 6="6"}. retainAll returns true
      * as the set is being modified. Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
@@ -1377,8 +1377,9 @@ public class TestEntrySet
                                         getEntry(5, "5"),
                                         getEntry(6, "6"),
                                         getEntry(6, "6"),});
-        assertEquals("The set has changed, it should return true.", true, es.retainAll(c));
-        assertEquals("The arrays should match.", getEntryHSet(4, 7), es);
+        assertTrue("The set has changed, it should return true.", es.retainAll(c));
+        assertEquals("The sets should match.", getEntryHSet(4, 7), es);
+        assertEquals("Size should be 3", 3, es.size());
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1465,7 +1466,8 @@ public class TestEntrySet
      * and configurations of the entrySet.</p>
      * <p><b>Test Case Design</b>: Checks the array to be right
      * through checkToArray after each removals through es.remove,
-     * creating different situations and cases to test the method.</p>
+     * creating different situations and cases to test the method.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
@@ -1525,7 +1527,8 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: toArray method test case.</p>
      * <p><b>Test Case Design</b>: Tests the toArray method
-     * when the size of es and map is 1, which is a limit case.</p>
+     * when the size of es and map is 1, which is a limit case.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: toArray is invoked by an entryset
      * containing only one element, then es and the array returned
      * from toArray are checked through checkToArray.</p>
@@ -1554,7 +1557,8 @@ public class TestEntrySet
      * and configurations of the entrySet.</p>
      * <p><b>Test Case Design</b>: Checks the array to be right
      * through checkToArray after each removals through es.remove,
-     * creating different situations and cases to test the method.</p>
+     * creating different situations and cases to test the method.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
@@ -1759,7 +1763,8 @@ public class TestEntrySet
      * a remove
      * method, that needs a next invoke before using it (This method can
      * be called only once per
-     * call to next) will throw HISE.</p>
+     * call to next) will throw HISE.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: it invoke next and then remove, which
      * should work normally (no exception thrown here). Then the second
      * remove, which is not backed by any next call, throws
@@ -1795,7 +1800,8 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> entryset -> map.</p>
+     * to assure correct propagation iterator -> entryset -> map.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: map and es initially contain
      * {0="0":100="100"}. An iterator iterates through
      * each element and after each next it invokes the remove
@@ -1842,7 +1848,8 @@ public class TestEntrySet
      * removal checkEntry and checkIteration are invoked to
      * check map - entryset coherence and iterator's iteration
      * working correctly. Tests map -> entryset propagation and
-     * iterator -> entryset -> map propagation.</p>
+     * iterator -> entryset -> map propagation.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
      * are removed from the map through map.remove method. That means that 100 entries
@@ -1900,7 +1907,8 @@ public class TestEntrySet
      * and the single map propagating changes to multiple entrysets,
      * inserting entries through initHMap and removing them, through
      * simple remove method. This is a more general case than the
-     * single entryset.</p>
+     * single entryset.
+     * Tests correct propagation.</p>
      * <p><b>Test Description</b>: esArr contains 100 the entryset
      * generated by the map. After map initialization, each entryset
      * is checked through checkEntrySet, checkIteration and checkToArray.
@@ -1973,7 +1981,7 @@ public class TestEntrySet
      * it is not possible to directly modify a key, as it would not
      * mantain coherence in the HMap structure, it is possible
      * to modify a value through setValue(). This feature of HMap.Entry
-     * is tested.</p>
+     * is tested. Tests correct propagation.</p>
      * <p><b>Test Description</b>: m is initialized with {0="0":50="50}.
      * Then through the entryset iterator, each entry is obtained and
      * explicitly casted to HMap.Entry. Then e.setValue(bound) is invoked,
@@ -2015,7 +2023,7 @@ public class TestEntrySet
      * it is not possible to directly modify a key, as it would not
      * mantain coherence in the HMap structure, it is possible
      * to modify a value through setValue(). This feature of HMap.Entry
-     * is tested.</p>
+     * is tested. Tests correct propagation.</p>
      * <p><b>Test Description</b>: m is initialized with {ciao=Random value,
      * forza!=Random value, per favore=Random value, grazie=Random value}.
      * Then through the entryset iterator, each entry is obtained and
@@ -2085,7 +2093,7 @@ public class TestEntrySet
      * TestValues.checkValues(m, v), TestEntrySet.checkIteration(es),
      * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
      * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
-     * and TestValues.checkToArray(v, v.toArray()).</p>
+     * and TestValues.checkToArray(v, v.toArray()). Tests correct propagation.</p>
      * <p><b>Test Description</b>: m is initialized with {0="0":20="20"},
      * therefore es contains {0="0":20="20"}, ks contains {0:20},
      * v contains {"0":"20"}. After each insertion all the views and the map
@@ -2206,7 +2214,7 @@ public class TestEntrySet
      * TestValues.checkValues(m, v), TestEntrySet.checkIteration(es),
      * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
      * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
-     * and TestValues.checkToArray(v, v.toArray()).</p>
+     * and TestValues.checkToArray(v, v.toArray()). Tests correct propagation.</p>
      * <p><b>Test Description</b>:
      * 20 views are returned from entrySet(), keySet() and values().
      * In the ith iteration, if i%3 equals 0 then the ith view is an entrySet,
@@ -2284,7 +2292,7 @@ public class TestEntrySet
 
         for (int i = 0; i < bound; i++)
         {
-            // Remove the ith element
+            // Remove the ith element from the HCollection/HSet
             switch (i % 3)
             {
                 case 0: // Then it is an entrySet
@@ -2384,7 +2392,7 @@ public class TestEntrySet
     }
 
     /**
-     * Checks if the entrySet and the backing map contains the same informations.
+     * Tests correct propagation. Checks if the entrySet and the backing map contains the same informations.
      * This method asserts correct propagation from HMap to its
      * entrySet and from entrySet to HMap, therefore it is invoked
      * whenever it is necessary to check correct propagation.
@@ -2425,9 +2433,10 @@ public class TestEntrySet
      * Checks if the elements returned by the iteration are
      * coherent with the entryset's elements, and if the number
      * of iteration equals the actual size of the entrySet.
-     * This method asserts correct propagation from HMap to its
+     * Together with checkEntrySet() this method asserts correct propagation from HMap to its
      * entrySet and from entrySet to HMap, therefore it is invoked
      * whenever it is necessary to check correct propagation.
+     * Alone it tests correct iteration.
      * If this method fails the propagation
      * did not work correctly. Other wise, the propagation worked correctly.
      * @param es entryset to be checked
