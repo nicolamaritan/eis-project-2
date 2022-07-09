@@ -1058,6 +1058,30 @@ public class TestValues
     }
 
     /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is empty. The method should throw
+     * return false as the set is unchanged.</p>
+     * <p><b>Test Description</b>: v.removeAll(c) is invoked when v is empty
+     * and when v contains 10 elements. Tests propagation.</p>
+     * <p><b>Pre-Condition</b>: c is empty, v is empty.</p>
+     * <p><b>Post-Condition</b>: c is empty, v contains {"0":"10"}.</p>
+     * <p><b>Expected Results</b>: Both removeAll invoke return false,
+     * propagation works correctly.</p>
+     */
+    @Test
+    public void RemoveAll_Empty()
+    {
+        assertFalse("Should be unchanged", v.removeAll(c));
+        checkValues(m, v);
+        checkIteration(v);
+        initHMap(m, 0, 10);
+        assertFalse("Should be unchanged", v.removeAll(c));
+        checkValues(m, v);
+        checkIteration(v);
+    }
+
+    /**
      * <p><b>Summary</b>: removeAll method test case.
      * Tests removeAll method correct behaviour
      * and propagation from map to keySet and

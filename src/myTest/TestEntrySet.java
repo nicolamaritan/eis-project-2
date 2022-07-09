@@ -1176,6 +1176,30 @@ public class TestEntrySet
         es.removeAll(null);
     }
 
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is empty. The method should throw
+     * return false as the set is unchanged.</p>
+     * <p><b>Test Description</b>: es.removeAll(c) is invoked when es is empty
+     * and when es contains 10 elements. Tests propagation.</p>
+     * <p><b>Pre-Condition</b>: c is empty, es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: c is empty, es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: Both removeAll invoke return false,
+     * propagation works correctly.</p>
+     */
+    @Test
+    public void RemoveAll_Empty()
+    {
+        assertFalse("Should be unchanged", es.removeAll(c));
+        checkEntrySet(m, es);
+        checkIteration(es);
+        initHMap(m, 0, 10);
+        assertFalse("Should be unchanged", es.removeAll(c));
+        checkEntrySet(m, es);
+        checkIteration(es);
+    }
+
     // ------------------------------------------ retainAll method ------------------------------------------
 
     /**
