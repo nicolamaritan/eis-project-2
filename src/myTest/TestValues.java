@@ -1460,6 +1460,38 @@ public class TestValues
 
     /**
      * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * the same element plus 5 more than the invoking collection, therefore the
+     * collection should remain unchanged and retainAll(c) invoke
+     * should return false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the special case of
+     * the collection to contain the same elements plus 5 more. Tests propagation.</p>
+     * <p><b>Test Description</b>: The collection contains {"0":"i"}
+     * for i in (0, 100). retainAll(c) is invoked and then collection is unchanged.
+     * Through checkValues(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     * <p><b>Pre-Condition</b>: The collection is empty.</p>
+     * <p><b>Post-Condition</b>: The collection contains {"0":"100"}.</p>
+     * <p><b>Expected Results</b>: retainAll returns false
+     * because the collection is unchanged. Coherence is checked after each retainAll invoke.
+     * Through checkValues(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void RetainAll_SameMore()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse(v.retainAll(getStringHCollection(0, i + 5)));
+            checkIteration(v);
+            checkValues(m, v);;
+        }
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
      * The method is being tested with a collection containing
      * duplicated elements. This should not change the method
      * behaviour as the absence of one element in c removes
@@ -1521,6 +1553,8 @@ public class TestValues
         initHMap(m, 0, 10);
         v.retainAll(null);
     }
+
+
 
     // ------------------------------------------ toArray method ------------------------------------------
 
@@ -1726,7 +1760,7 @@ public class TestValues
      * iterated 0 times as the entrylist is empty.</p>
      */
     @Test
-    public void ESIterator_Empty()
+    public void VIterator_Empty()
     {
         checkIteration(v);
     }
@@ -1750,7 +1784,7 @@ public class TestValues
      * due to iterator.next() call.</p>
      */
     @Test (expected = NoSuchElementException.class)
-    public void ESIterator_EmptyNSEE()
+    public void VIterator_EmptyNSEE()
     {
         checkIteration(v);
         v.iterator().next();
@@ -1777,7 +1811,7 @@ public class TestValues
      * iterates i times, for each i in {0:1000}.</p>
      */
     @Test
-    public void ESIterator_Variable()
+    public void VIterator_Variable()
     {
         int bound = 100;
         for (int i = 1; i < bound; i++)
@@ -1803,7 +1837,7 @@ public class TestValues
      * by iterator.remove().</p>
      */
     @Test (expected = HIllegalStateException.class)
-    public void ESIterator_EmptyRemoveISE()
+    public void VIterator_EmptyRemoveISE()
     {
         v.iterator().remove();
     }
@@ -1836,7 +1870,7 @@ public class TestValues
      * by iterator.remove().</p>
      */
     @Test (expected = HIllegalStateException.class)
-    public void ESIterator_0To10RemoveISE()
+    public void VIterator_0To10RemoveISE()
     {
         initHMap(m, 0, 10);
         it = v.iterator();
@@ -1878,7 +1912,7 @@ public class TestValues
      * work fine after each removal.</p>
      */
     @Test
-    public void ESIterator_0To100Remove()
+    public void VIterator_0To100Remove()
     {
         initHMap(m, 0, 100);
         it = v.iterator();
@@ -1893,6 +1927,50 @@ public class TestValues
         }
         assertFalse("Should have not next", it.hasNext());
         assertTrue("Should be empty.", v.isEmpty() && m.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.
+     * Tests iterator.remove method on a changing entryset,
+     * checking entryset - map coherence and the iteration
+     * with checkEntrySet and checkIteration.</p>
+     * <p><b>Test Case Design</b>: The map is constantly
+     * changing during execution due to it.remove,
+     * therefore coherence and iteration must be check
+     * to assure correct propagation iterator -> entryset -> map.
+     * Tests propagation.</p>
+     * <p><b>Test Description</b>: map initially contain
+     * {0="0":100="100"} and v contains {"0":"100"}. An iterator iterates through
+     * each element and after 5 nexts it invokes the remove
+     * method, removing the just returned element.
+     * At the end 20 elements were removed from v.
+     * Then checkValues and checkIteration are invoke
+     * to check entryset - map coherence and iteration.</p>
+     * <p><b>Pre-Condition</b>: map initially contain
+     * {0="0":100="100"} and v contains {"0":"100"}</p>
+     * <p><b>Post-Condition</b>: m and v contains 80 elements.</p>
+     * <p><b>Expected Results</b>: Each remove invoke works right,
+     * the element is removed correctly and through checkValues(m, v)
+     * and checkIteration(v) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void VIterator_5Remove()
+    {
+        initHMap(m, 0, 100);
+        it = v.iterator();
+        int i = 0; 
+        while (it.hasNext())
+        {
+            if ((i + 1) % 5 == 0)
+                it.remove();
+            checkValues(m, v);
+            checkIteration(v);
+            it.next();
+            i++;
+        }
+        assertEquals("20 should be removed.", 80, v.size());
+        assertEquals("20 should be removed.", 80, m.size());
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------

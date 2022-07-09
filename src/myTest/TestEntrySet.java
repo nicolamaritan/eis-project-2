@@ -1436,6 +1436,38 @@ public class TestEntrySet
         }
     }
 
+	/**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * the same element plus 5 more of the invoking set, therefore the
+     * set should remain unchanged and retainAll(c) invoke
+     * should return false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the special case of
+     * the collection to contain the same elements plus 5 more. Tests propagation.</p>
+     * <p><b>Test Description</b>: The set contains {0="0":i="i"}
+     * for i in (0, 100). retainAll(c) is invoked and then set is unchanged.
+     * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     * <p><b>Pre-Condition</b>: The set is empty.</p>
+     * <p><b>Post-Condition</b>: The set contains {0="0":100="100"}.</p>
+     * <p><b>Expected Results</b>: retainAll returns false
+     * because the set is unchanged. Coherence is checked after each retainAll invoke.
+     * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void RetainAll_SameMore()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse(es.retainAll(getEntryHCollection(0, i + 5)));
+            checkIteration(es);
+            checkEntrySet(m, es);
+        }
+    }
+
     /**
      * <p><b>Summary</b>: retainAll method test case.
      * The method is being tested with a collection containing
@@ -1927,6 +1959,50 @@ public class TestEntrySet
         }
         assertFalse("Should have not next", it.hasNext());
         assertTrue("Should be empty.", es.isEmpty() && m.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.
+     * Tests iterator.remove method on a changing entryset,
+     * checking entryset - map coherence and the iteration
+     * with checkEntrySet and checkIteration.</p>
+     * <p><b>Test Case Design</b>: The map is constantly
+     * changing during execution due to it.remove,
+     * therefore coherence and iteration must be check
+     * to assure correct propagation iterator -> entryset -> map.
+     * Tests propagation.</p>
+     * <p><b>Test Description</b>: map and es initially contain
+     * {0="0":100="100"}. An iterator iterates through
+     * each element and after 5 nexts it invokes the remove
+     * method, removing the just returned element.
+     * At the end 20 elements were removed from es.
+     * Then checkEntrySet and checkIteration are invoke
+     * to check entryset - map coherence and iteration.</p>
+     * <p><b>Pre-Condition</b>: map and es initially contain
+     * {0="0":100="100"}</p>
+     * <p><b>Post-Condition</b>: m and es contains 80 elements.</p>
+     * <p><b>Expected Results</b>: Each remove invoke works right,
+     * the element is removed correctly and through checkEntrySet(m, es)
+     * and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void ESIterator_5Remove()
+    {
+        initHMap(m, 0, 100);
+        it = es.iterator();
+        int i = 0; 
+        while (it.hasNext())
+        {
+            if ((i + 1) % 5 == 0)
+                it.remove();
+            checkEntrySet(m, es);
+            checkIteration(es);
+            it.next();
+            i++;
+        }
+        assertEquals("20 should be removed.", 80, es.size());
+        assertEquals("20 should be removed.", 80, m.size());
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------

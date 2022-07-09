@@ -1435,6 +1435,38 @@ public class TestKeySet
 
     /**
      * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * the same element plus 5 more than the invoking set, therefore the
+     * set should remain unchanged and retainAll(c) invoke
+     * should return false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the special case of
+     * the collection to contain the same elements plus 5 more. Tests propagation.</p>
+     * <p><b>Test Description</b>: The set contains {0:i}
+     * for i in (0, 100). retainAll(c) is invoked and then set is unchanged.
+     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     * <p><b>Pre-Condition</b>: The set is empty.</p>
+     * <p><b>Post-Condition</b>: The set contains {0:100}.</p>
+     * <p><b>Expected Results</b>: retainAll returns false
+     * because the set is unchanged. Coherence is checked after each retainAll invoke.
+     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void RetainAll_SameMore()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse(ks.retainAll(getIntegerHCollection(0, i + 5)));
+            checkIteration(ks);
+            checkKeySet(m, ks);
+        }
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
      * The method is being tested with a collection containing
      * duplicated elements. This should not change the method
      * behaviour as the absence of one element in c removes
@@ -1759,7 +1791,7 @@ public class TestKeySet
      * iterated 0 times as the entrylist is empty.</p>
      */
     @Test
-    public void ESIterator_Empty()
+    public void KSIterator_Empty()
     {
         checkIteration(ks);
     }
@@ -1783,7 +1815,7 @@ public class TestKeySet
      * due to iterator.next() call.</p>
      */
     @Test (expected = NoSuchElementException.class)
-    public void ESIterator_EmptyNSEE()
+    public void KSIterator_EmptyNSEE()
     {
         checkIteration(ks);
         ks.iterator().next();
@@ -1813,7 +1845,7 @@ public class TestKeySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ESIterator_Variable()
+    public void KSIterator_Variable()
     {
         int bound = 100;
         for (int i = 1; i < bound; i++)
@@ -1840,7 +1872,7 @@ public class TestKeySet
      * by iterator.remove().</p>
      */
     @Test (expected = HIllegalStateException.class)
-    public void ESIterator_EmptyRemoveISE()
+    public void KSIterator_EmptyRemoveISE()
     {
         ks.iterator().remove();
     }
@@ -1874,7 +1906,7 @@ public class TestKeySet
      * by iterator.remove().</p>
      */
     @Test (expected = HIllegalStateException.class)
-    public void ESIterator_0To10RemoveISE()
+    public void KSIterator_0To10RemoveISE()
     {
         initHMap(m, 0, 10);
         it = ks.iterator();
@@ -1916,7 +1948,7 @@ public class TestKeySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void ESIterator_0To100Remove()
+    public void KSIterator_0To100Remove()
     {
         initHMap(m, 0, 100);
         it = ks.iterator();
@@ -1931,6 +1963,50 @@ public class TestKeySet
         }
         assertFalse("Should have not next", it.hasNext());
         assertTrue("Should be empty.", ks.isEmpty() && m.isEmpty());
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.
+     * Tests iterator.remove method on a changing entryset,
+     * checking entryset - map coherence and the iteration
+     * with checkEntrySet and checkIteration.</p>
+     * <p><b>Test Case Design</b>: The map is constantly
+     * changing during execution due to it.remove,
+     * therefore coherence and iteration must be check
+     * to assure correct propagation iterator -> entryset -> map.
+     * Tests propagation.</p>
+     * <p><b>Test Description</b>: map initially contain
+     * {0="0":100="100"} and ks contains {0:100}. An iterator iterates through
+     * each element and after 5 nexts it invokes the remove
+     * method, removing the just returned element.
+     * At the end 20 elements were removed from ks.
+     * Then checkKeySet and checkIteration are invoke
+     * to check entryset - map coherence and iteration.</p>
+     * <p><b>Pre-Condition</b>: map initially contain
+     * {0="0":100="100"} and ks contains {0:100}</p>
+     * <p><b>Post-Condition</b>: m and ks contains 80 elements.</p>
+     * <p><b>Expected Results</b>: Each remove invoke works right,
+     * the element is removed correctly and through checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void KSIterator_5Remove()
+    {
+        initHMap(m, 0, 100);
+        it = ks.iterator();
+        int i = 0; 
+        while (it.hasNext())
+        {
+            if ((i + 1) % 5 == 0)
+                it.remove();
+            checkKeySet(m, ks);
+            checkIteration(ks);
+            it.next();
+            i++;
+        }
+        assertEquals("20 should be removed.", 80, ks.size());
+        assertEquals("20 should be removed.", 80, m.size());
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------
