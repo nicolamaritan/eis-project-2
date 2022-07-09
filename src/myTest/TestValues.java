@@ -918,7 +918,7 @@ public class TestValues
             m.put(i, "" + i);
             checkValues(m, v);
             checkIteration(v);
-            m.remove(i);
+            assertEquals("Should be removed", ""+i, m.remove(i));
             checkValues(m, v);
             checkIteration(v);
         }
@@ -927,19 +927,21 @@ public class TestValues
         checkIteration(v);
         for (int i = bound - 1; i >= 0; i--)
         {
-            m.remove(i);
+            assertEquals("Should be removed", ""+i, m.remove(i));
             checkValues(m, v);
             checkIteration(v);
         }
+        assertEquals("Should be empty", 0, m.size());
         initHMap(m, 0, bound);
         checkValues(m, v);
         checkIteration(v);
         for (int i = bound - 1; i >= 0; i--)
         {
-            v.remove(i);
+            assertTrue("Should be removed", v.remove(""+i));
             checkValues(m, v);
             checkIteration(v);
         }
+        assertEquals("Should be empty", 0, m.size());
         checkValues(m, v);
         checkIteration(v);
     }
@@ -961,7 +963,7 @@ public class TestValues
      * Tests propagation.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the Values contains 
-     * {"0":"i"}, for each i in (0,600)
+     * {"0":"i"}, for each i in (1,600)
      * (Note that empty map/Values limit case is being tested). Then
      * v.removeAll(c) is invoked and coherence is check through checkValues.
      * Then the test asserts that m and v have the right size and isEmpty
@@ -980,10 +982,10 @@ public class TestValues
         int bound = 600;
         int secondBound = 500;
         c = getStringHCollection(0, secondBound);
-        for (int i = 0; i < bound; i++)
+        for (int i = 1; i < bound; i++)
         {
             initHMap(m, 0, i);
-            v.removeAll(c);
+            assertTrue("Should return true", v.removeAll(c));
             checkValues(m, v);
             checkIteration(v);
 
@@ -1014,6 +1016,28 @@ public class TestValues
     public void RemoveAll_EmptyNull()
     {
         v.removeAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is empty.
+     * The method should just return false, as collection
+     * is not modified.</p>
+     * <p><b>Test Description</b>: v.removeAll(c) is invoked, then m is
+     * cleared and v.removeAll(c) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {0="0":10="10"}</p>
+     * <p><b>Post-Condition</b>: v is empty.</p>
+     * <p><b>Expected Results</b>: false is returned both times,
+     * as the collection was not modified..</p>
+     */
+    @Test
+    public void RemoveAll_False()
+    {
+        initHMap(m, 0, 10);
+        assertFalse(v.removeAll(c));
+        m.clear();
+        assertFalse(v.removeAll(c));
     }
 
     /**
@@ -1349,7 +1373,7 @@ public class TestValues
      * are invoked to test values - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: The set initially contains numbers
-     * from 1 to 999 included in string representation. retainAll is called with a collection
+     * from 1 to 699 included in string representation. retainAll is called with a collection
      * containing {"300", ..., "599"}, therefore the set should contain
      * {"300", "599"}.</p>
      * <p><b>Pre-Condition</b>: The values contains {"1", ..., "699"}, c contains
@@ -1400,6 +1424,38 @@ public class TestValues
         assertEquals("The set should be empty.", 0, v.size());
         checkValues(m, v);
         checkIteration(v);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * the same element of the invoking collection, therefore the
+     * collection should remain unchanged and retainAll(c) invoke
+     * should return false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the special case of
+     * the collection to contain the same elements. Tests propagation.</p>
+     * <p><b>Test Description</b>: The collection contains {"0":"i"}
+     * for i in (0, 100). retainAll(c) is invoked and then collection is unchanged.
+     * Through checkValues(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     * <p><b>Pre-Condition</b>: The collection is empty.</p>
+     * <p><b>Post-Condition</b>: The collection contains {"0":"100"}.</p>
+     * <p><b>Expected Results</b>: retainAll returns false
+     * because the collection is unchanged. Coherence is checked after each retainAll invoke.
+     * Through checkValues(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void RetainAll_Same()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse(v.retainAll(getStringHCollection(0, i)));
+            checkIteration(v);
+            checkValues(m, v);;
+        }
     }
 
     /**

@@ -922,10 +922,10 @@ public class TestKeySet
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
-     * from the map remove. The map is initiated with {0="0", 500="500"},
-     * therefore ks contains {0:500}
+     * from the map remove. The map is initiated with {0="0", 200="200"},
+     * therefore ks contains {0:200}
      * and each element in map and KeySet is removed by map's remove.
-     * The map is initiated with {0="0", 500="500"},
+     * The map is initiated with {0="0", 200="200"},
      * and each element in map and KeySet is removed by KeySet's remove.
      * After each modification to the map, through checkKeySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.
@@ -940,34 +940,36 @@ public class TestKeySet
     @Test
     public void Remove_Backing0()
     {
-        int bound = 500;
+        int bound = 200;
         for (int i = 0; i < bound; i++)
         {
-            m.put(i, "i");
+            m.put(i, ""+i);
             checkKeySet(m, ks);
             checkIteration(ks);
-            m.remove(i);
+            assertEquals("Should be removed", ""+i, m.remove(i));
             checkKeySet(m, ks);
             checkIteration(ks);
         }
-        initHMap(m, 0, 500);
+        assertEquals("Should be empty", 0, m.size());
+        initHMap(m, 0, bound);
         checkKeySet(m, ks);
         checkIteration(ks);
         for (int i = bound - 1; i >= 0; i--)
         {
-            m.remove(i);
+            assertEquals("Should be removed", ""+i, m.remove(i));
             checkKeySet(m, ks);
             checkIteration(ks);
         }
-        initHMap(m, 0, 500);
+        initHMap(m, 0, bound);
         checkKeySet(m, ks);
         checkIteration(ks);
         for (int i = bound - 1; i >= 0; i--)
         {
-            ks.remove(i);
+            assertTrue("Should change and return true", ks.remove(i));
             checkKeySet(m, ks);
             checkIteration(ks);
         }
+        assertEquals("Should be empty", 0, m.size());
         checkKeySet(m, ks);
         checkIteration(ks);
     }
@@ -988,7 +990,7 @@ public class TestKeySet
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the keyset contains 
-     * {0:i}, for each i in (0,1000)
+     * {0:i}, for each i in (1,1000)
      * (Note that empty map/KeySet limit case is being tested). Then
      * ks.removeAll(c) is invoked and coherence is check through checkKeySet.
      * After each modification og the map and set, coherence is checked,
@@ -1011,10 +1013,10 @@ public class TestKeySet
         int bound = 1000;
         int secondBound = 500;
         c = getIntegerHCollection(0, secondBound);
-        for (int i = 0; i < bound; i++)
+        for (int i = 1; i < bound; i++)
         {
             initHMap(m, 0, i);
-            ks.removeAll(c);
+            assertTrue("Should return true", ks.removeAll(c));
             checkKeySet(m, ks);
             checkIteration(ks);
 
@@ -1115,6 +1117,28 @@ public class TestKeySet
     public void RemoveAll_EmptyNull()
     {
         ks.removeAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is empty.
+     * The method should just return false, as set
+     * is not modified.</p>
+     * <p><b>Test Description</b>: ks.removeAll(c) is invoked, then m is
+     * cleared and ks.removeAll(c) is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0="0":10="10"}</p>
+     * <p><b>Post-Condition</b>: ks is empty.</p>
+     * <p><b>Expected Results</b>: false is returned both times,
+     * as the set was not modified..</p>
+     */
+    @Test
+    public void RemoveAll_False()
+    {
+        initHMap(m, 0, 10);
+        assertFalse(ks.removeAll(c));
+        m.clear();
+        assertFalse(ks.removeAll(c));
     }
 
     /**
@@ -1375,6 +1399,38 @@ public class TestKeySet
         assertEquals("The set should be empty.", 0, ks.size());
         checkKeySet(m, ks);
         checkIteration(ks);
+    }
+
+    /**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * the same element of the invoking set, therefore the
+     * set should remain unchanged and retainAll(c) invoke
+     * should return false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the special case of
+     * the collection to contain the same elements. Tests propagation.</p>
+     * <p><b>Test Description</b>: The set contains {0:i}
+     * for i in (0, 100). retainAll(c) is invoked and then set is unchanged.
+     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     * <p><b>Pre-Condition</b>: The set is empty.</p>
+     * <p><b>Post-Condition</b>: The set contains {0:100}.</p>
+     * <p><b>Expected Results</b>: retainAll returns false
+     * because the set is unchanged. Coherence is checked after each retainAll invoke.
+     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void RetainAll_Same()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse(ks.retainAll(getIntegerHCollection(0, i)));
+            checkIteration(ks);
+            checkKeySet(m, ks);
+        }
     }
 
     /**

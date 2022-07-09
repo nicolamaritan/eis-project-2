@@ -960,30 +960,32 @@ public class TestEntrySet
         int bound = 200;
         for (int i = 0; i < bound; i++)
         {
-            m.put(i, "i");
+            m.put(i, ""+i);
             checkEntrySet(m, es);
             checkIteration(es);
-            m.remove(i);
+            assertEquals("Should be removed", ""+i, m.remove(i));
             checkEntrySet(m, es);
             checkIteration(es);
+        }
+        assertEquals("Should be empty", 0, m.size());
+        initHMap(m, 0, bound);
+        checkEntrySet(m, es);
+        checkIteration(es);
+        for (int i = bound - 1; i >= 0; i--)
+        {
+            assertEquals("Should be removed", ""+i, m.remove(i));
+            checkEntrySet(m, es);
         }
         initHMap(m, 0, bound);
         checkEntrySet(m, es);
         checkIteration(es);
         for (int i = bound - 1; i >= 0; i--)
         {
-            m.remove(i);
-            checkEntrySet(m, es);
-        }
-        initHMap(m, 0, bound);
-        checkEntrySet(m, es);
-        checkIteration(es);
-        for (int i = bound - 1; i >= 0; i--)
-        {
-            es.remove(getEntry(i, "" + i));
+            assertTrue("Should change and return true", es.remove(getEntry(i, "" + i)));
             checkEntrySet(m, es);
             checkIteration(es);
         }
+        assertEquals("Should be empty", 0, m.size());
         checkEntrySet(m, es);
         checkIteration(es);
     }
@@ -1003,7 +1005,7 @@ public class TestEntrySet
      * than the size of c, while then the size of es is bigger than the
      * size of c.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":200="200"},
-     * while map and entrySet contain {0="0" : i="i"}, for each i in (0,500)
+     * while map and entrySet contain {0="0" : i="i"}, for each i in (1,500)
      * (Note that empty map/entrySet limit case is being tested). Then
      * es.removeAll(c) is invoked and coherence is check through checkEntrySet.
      * Then the test asserts that m and es have the right size and isEmpty
@@ -1026,10 +1028,10 @@ public class TestEntrySet
         int bound = 500;
         int secondBound = 200;
         c = getEntryHCollection(0, secondBound);
-        for (int i = 0; i < bound; i++)
+        for (int i = 1; i < bound; i++)
         {
             initHMap(m, 0, i);
-            es.removeAll(c);
+            assertTrue("Should return true", es.removeAll(c));
             checkEntrySet(m, es);
             checkIteration(es);
 
@@ -1133,6 +1135,28 @@ public class TestEntrySet
     public void RemoveAll_EmptyNull()
     {
         es.removeAll(null);
+    }
+
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument is empty.
+     * The method should just return false, as set
+     * is not modified.</p>
+     * <p><b>Test Description</b>: es.removeAll(c) is invoked, then m is
+     * cleared and es.removeAll(c) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}</p>
+     * <p><b>Post-Condition</b>: es is empty.</p>
+     * <p><b>Expected Results</b>: false is returned both times,
+     * as the set was not modified..</p>
+     */
+    @Test
+    public void RemoveAll_False()
+    {
+        initHMap(m, 0, 10);
+        assertFalse(es.removeAll(c));
+        m.clear();
+        assertFalse(es.removeAll(c));
     }
 
     /**
@@ -1378,6 +1402,38 @@ public class TestEntrySet
         assertEquals("The set should be empty.", 0, es.size());
         checkEntrySet(m, es);
         checkIteration(es);
+    }
+
+	/**
+     * <p><b>Summary</b>: retainAll method test case.
+     * retainAll is being called with collection containing element
+     * the same element of the invoking set, therefore the
+     * set should remain unchanged and retainAll(c) invoke
+     * should return false.</p>
+     * <p><b>Test Case Design</b>: retainAll being called with the special case of
+     * the collection to contain the same elements. Tests propagation.</p>
+     * <p><b>Test Description</b>: The set contains {0="0":i="i"}
+     * for i in (0, 100). retainAll(c) is invoked and then set is unchanged.
+     * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     * <p><b>Pre-Condition</b>: The set is empty.</p>
+     * <p><b>Post-Condition</b>: The set contains {0="0":100="100"}.</p>
+     * <p><b>Expected Results</b>: retainAll returns false
+     * because the set is unchanged. Coherence is checked after each retainAll invoke.
+     * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void RetainAll_Same()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse(es.retainAll(getEntryHCollection(0, i)));
+            checkIteration(es);
+            checkEntrySet(m, es);
+        }
     }
 
     /**
