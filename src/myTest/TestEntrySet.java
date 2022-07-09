@@ -108,6 +108,23 @@ public class TestEntrySet
         es.add(1);
     }
 
+    /**
+     * <p><b>Summary</b>: add method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void Add_10UOE()
+    {
+        initHMap(m, 0, 10);
+        es.add(1);
+    }
+
     // ------------------------------------------ addAll method ------------------------------------------
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
@@ -122,6 +139,23 @@ public class TestEntrySet
     @Test (expected = UnsupportedOperationException.class)
     public void AddAll_UOE()
     {
+        es.addAll(c);
+    }
+
+    /**
+     * <p><b>Summary</b>: addAll method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void AddAll_10UOE()
+    {
+        initHMap(m, 0, 10);
         es.addAll(c);
     }
 
@@ -708,6 +742,7 @@ public class TestEntrySet
     public void Clear_Backing0()
     {
         addToHMap(m, 0, 500);
+        assertEquals("Size should be 500", 500, m.size());
         assertEquals(m.size(), es.size());
         checkEntrySet(m, es);
         checkIteration(es);
@@ -718,6 +753,7 @@ public class TestEntrySet
         assertTrue("Should be both empty", m.isEmpty() && es.isEmpty());
 
         addToHMap(m, 0, 500);
+        assertEquals("Size should be 500", 500, m.size());
         checkEntrySet(m, es);
         checkIteration(es);
         m.clear();  // Invoked from m this time
@@ -886,10 +922,10 @@ public class TestEntrySet
     public void Remove_NotInMap()
     {
         addToHMap(m, 0, 10);
-        m.remove("Not in map Key");
+        assertNull(m.remove("Not in map Key"));
         checkEntrySet(m, es);
         checkIteration(es);
-        es.remove("Not in entryset Entry");
+        assertFalse(es.remove("Not in entryset Entry"));
         checkEntrySet(m, es);
         checkIteration(es);
     }

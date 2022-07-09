@@ -112,16 +112,51 @@ public class TestKeySet
      * <p><b>Summary</b>: add method test case.</p>
      * <p><b>Test Case Design</b>: The methoud throws
      * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void Add_10UOE()
+    {
+        initHMap(m, 0, 10);
+        ks.add(1);
+    }
+
+    // ------------------------------------------ addAll method ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: addAll method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
      * <p><b>Test Description</b>: addAll is invoked.</p>
      * <p><b>Pre-Condition</b>: ks is empty.</p>
      * <p><b>Post-Condition</b>: ks is empty.</p>
      * <p><b>Expected Results</b>: The add method is not supported.
      * UnsupportedOperationException is thrown.</p>
      */
-    // ------------------------------------------ addAll method ------------------------------------------
     @Test (expected = UnsupportedOperationException.class)
     public void AddAll_UOE()
     {
+        ks.addAll(c);
+    }
+
+    /**
+     * <p><b>Summary</b>: addAll method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void AddAll_10UOE()
+    {
+        initHMap(m, 0, 10);
         ks.addAll(c);
     }
 
@@ -687,6 +722,7 @@ public class TestKeySet
     public void Clear_Backing0()
     {
         addToHMap(m, 0, 500);
+        assertEquals("Size should be 500", 500, m.size());
         assertEquals(m.size(), ks.size());
         checkKeySet(m, ks);
         checkIteration(ks);
@@ -697,6 +733,7 @@ public class TestKeySet
         assertTrue("Should be both empty", m.isEmpty() && ks.isEmpty());
 
         addToHMap(m, 0, 500);
+        assertEquals("Size should be 500", 500, m.size());
         checkKeySet(m, ks);
         checkIteration(ks);
         m.clear();  // Invoked from m this time
@@ -866,10 +903,10 @@ public class TestKeySet
     public void Remove_NotInMap()
     {
         addToHMap(m, 0, 10);
-        m.remove("Not in map Key");
+        assertNull(m.remove("Not in map Key"));
         checkKeySet(m, ks);
         checkIteration(ks);
-        ks.remove("Not in KeySet Entry");
+        assertFalse(ks.remove("Not in KeySet Entry"));
         checkKeySet(m, ks);
         checkIteration(ks);
     }

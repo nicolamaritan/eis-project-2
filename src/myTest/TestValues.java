@@ -108,6 +108,23 @@ public class TestValues
         v.add(1);
     }
 
+    /**
+     * <p><b>Summary</b>: add method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Post-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void Add_10UOE()
+    {
+        initHMap(m, 0, 10);
+        v.add(1);
+    }
+
     // ------------------------------------------ addAll method ------------------------------------------
     
     /**
@@ -123,6 +140,23 @@ public class TestValues
     @Test (expected = UnsupportedOperationException.class)
     public void AddAll_UOE()
     {
+        v.addAll(c);
+    }
+
+    /**
+     * <p><b>Summary</b>: addAll method test case.</p>
+     * <p><b>Test Case Design</b>: The methoud throws
+     * UnsupportedOperationException.</p>
+     * <p><b>Test Description</b>: add is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Post-Condition</b>: v contains {"0":"10"}.</p>
+     * <p><b>Expected Results</b>: The add method is not supported.
+     * UnsupportedOperationException is thrown.</p>
+     */
+    @Test (expected = UnsupportedOperationException.class)
+    public void AddAll_10UOE()
+    {
+        initHMap(m, 0, 10);
         v.addAll(c);
     }
 
@@ -672,6 +706,7 @@ public class TestValues
     public void Clear_Backing0()
     {
         addToHMap(m, 0, 500);
+        assertEquals("Size should be 500", 500, m.size());
         assertEquals(m.size(), v.size());
         checkIteration(v);
         checkValues(m, v);
@@ -680,6 +715,7 @@ public class TestValues
         assertTrue("Should be both empty", m.isEmpty() && v.isEmpty());
 
         addToHMap(m, 0, 500);
+        assertEquals("Size should be 500", 500, m.size());
         checkIteration(v);
         checkValues(m, v);
         m.clear();  // Invoked from m this time
@@ -842,10 +878,10 @@ public class TestValues
     public void Remove_NotInMap()
     {
         addToHMap(m, 0, 10);
-        m.remove("Not in map Key");
+        assertNull(m.remove("Not in map Key"));
         checkValues(m, v);
         checkIteration(v);
-        v.remove("Not in Values Entry");
+        assertFalse(v.remove("Not in Values Entry"));
         checkValues(m, v);
         checkIteration(v);
     }
