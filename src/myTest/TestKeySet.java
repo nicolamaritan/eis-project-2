@@ -217,7 +217,7 @@ public class TestKeySet
      * map -> KeySet is tested, as the keySet is modified
      * through m.put(1, "1"). checkKeySet and checkIteration
      * are invoked to test KeySet - map coherence and the iteration.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: The KeySet contains 1, map contains {1="1"}.</p>
      * <p><b>Post-Condition</b>: The KeySet contains 1 map contains {1="1"}.</p>
      * <p><b>Expected Results</b>: The size method returns 1 as the
@@ -243,7 +243,8 @@ public class TestKeySet
      * a size call and expected 3 size and not being empty. Propagation
      * map -> KeySet is tested,  as the keySet is modified
      * through addToHMap(m, 0, 3). checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the KeySet.</p>
      * <p><b>Pre-Condition</b>: The KeySet is empty.</p>
@@ -259,7 +260,7 @@ public class TestKeySet
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("KeySet with 3 elements does not have size of 3.", 3, ks.size());
-        assertEquals("isEmpty did not returned false.", false, ks.isEmpty());
+        assertFalse("isEmpty did not returned false.", ks.isEmpty());
     }
 
     /**
@@ -272,7 +273,8 @@ public class TestKeySet
      * a size call and expected 345 size and not being empty. Propagation
      * map -> KeySet is tested,  as the keySet is modified
      * through addToHMap(m, 0, 345). checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the KeySet.</p>
      * <p><b>Pre-Condition</b>: The KeySet is empty.</p>
@@ -347,7 +349,8 @@ public class TestKeySet
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
-     * and checked to be in the KeySet.</p>
+     * and checked to be in the KeySet.
+     * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: ks contains {0:500}, m
      * contains {0="0":500="500"}.</p>
      * <p><b>Post-Condition</b>: ks is unchanged.
@@ -389,7 +392,8 @@ public class TestKeySet
      * The method tests if an empty KeySet contains the elements
      * of another collection, which is obviusly false.</p>
      * <p><b>Test Case Design</b>: The test case tests the limit case of
-     * checking an empty KeySet containing something.</p>
+     * checking an empty KeySet containing something.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The collection contains 1, 2 and 3.
      * The containsAll method obviously should return false for
      * any coll's content as the KeySet is empty.</p>
@@ -491,7 +495,7 @@ public class TestKeySet
         addToHMap(m, 0, 11);
 
         c = getHCollection(new Object[]{11});
-        assertEquals("11=11 is not contained.", false, ks.containsAll(c));
+        assertFalse("11=11 is not contained.", ks.containsAll(c));
 
         c = getHCollection(new Object[]{3, 4, 5, 12});
         assertFalse("3, 4 and 5 are contained. 12 is not contained.", ks.containsAll(c));
@@ -550,10 +554,10 @@ public class TestKeySet
     {
         int to = 1000;
         addToHMap(m, 0, to);
-        assertEquals(true, ks.equals(getIntegerMapAdapter(0, to).keySet()));
-        assertEquals(true, getIntegerMapAdapter(0, to).keySet().equals(ks));   // Symmetric property
-        assertEquals(false, ks.equals(getIntegerMapAdapter(0, to + 15).keySet()));  // bigger KeySet returns false
-        assertEquals(false, ks.equals(getIntegerMapAdapter(0, 5).keySet()));  // smaller KeySet returns false
+        assertTrue("Should equal", ks.equals(getIntegerMapAdapter(0, to).keySet()));
+        assertTrue("Should equal", getIntegerMapAdapter(0, to).keySet().equals(ks));   // Symmetric property
+        assertFalse("Should NOT equal", ks.equals(getIntegerMapAdapter(0, to + 15).keySet()));  // bigger KeySet returns false
+        assertFalse("Should NOT equal", ks.equals(getIntegerMapAdapter(0, 5).keySet()));  // smaller KeySet returns false
     }
 
     
@@ -572,8 +576,8 @@ public class TestKeySet
     @Test
     public void Equals_Empty_True()
     {
-        assertEquals("Two empty KeySets should equals.", true, ks.equals(ks2));
-        assertEquals("Two empty KeySets should equals.", true, ks2.equals(ks));
+        assertTrue("Two empty KeySets should equals.", ks.equals(ks2));
+        assertTrue("Two empty KeySets should equals.", ks2.equals(ks));
     }
 
     /**
@@ -592,11 +596,11 @@ public class TestKeySet
     @Test
     public void Equals_Reflective()
     {
-        assertEquals("Reflective property is not met.", true, ks.equals(ks));    // KeySet is empty
+        assertTrue("Reflective property is not met.", ks.equals(ks));    // KeySet is empty
         initHMap(m, 0, 10);
-        assertEquals("Reflective property is not met.", true, ks.equals(ks));    // KeySet is not empty, should return true anyways
+        assertTrue("Reflective property is not met.", ks.equals(ks));    // KeySet is not empty, should return true anyways
         initHMap(m, 0, 500);
-        assertEquals("Reflective property is not met.", true, ks.equals(ks));    // KeySet is not empty, should return true anyways
+        assertTrue("Reflective property is not met.", ks.equals(ks));    // KeySet is not empty, should return true anyways
     }
 
     /**
@@ -619,9 +623,9 @@ public class TestKeySet
         addToHMap(m2, 0, to);
         HSet ks3 = getIntegerMapAdapter(0, to).keySet();
 
-        assertEquals("KeySets should be equal.", true, ks.equals(ks2));
-        assertEquals("KeySets should be equal.", true, ks2.equals(ks3));
-        assertEquals("Transitive property is not met.",true, ks.equals(ks3));
+        assertTrue("KeySets should be equal.", ks.equals(ks2));
+        assertTrue("KeySets should be equal.", ks2.equals(ks3));
+        assertTrue("Transitive property is not met.", ks.equals(ks3));
     }
 
     /**
@@ -666,7 +670,8 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of KeySet
      * and of map. Tests the backing map -> KeySet and viceversa, KeySet -> map.
      * checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"},
      * therefore ks contains {0:500}.
      * Through ks iterators iterates through the elements to assert that they both
@@ -707,7 +712,7 @@ public class TestKeySet
      * and map when they both are empty, which is a limit case (obviusly the limit case is that
      * they are empty, not that they have the same size, as it is trivial).
      * checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keyset - map coherence and the iteration.</p>
+     * are invoked to test keyset - map coherence and the iteration. Tests propagation.</p>
      * <p><b>Test Description</b>: clear is invoked by m and and they are checked through checkKeySet,
      * and checkIteration.
      * Same then but clear is invoked by the KeySet, and they are checked through checkKeySet,
@@ -737,7 +742,8 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: The same operations are applied to map 1 and 2,
      * so their KeySets must have the same elements each time, therefore they are equals.
      * If they are equals they must have the same hashCode. Changes propagates successfully from map to KeySet
-     * and viceversa, tests therefore the consinstency of equals and hashCode.</p>
+     * and viceversa, tests therefore the consinstency of equals and hashCode.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: Different configurations have been tested. In mathematical symbols, considering the keys:
      * empty, {1}, {-100:100}, {-100:100}/{0}, {-100:101}/{0}, {-100:100, 500:1000}/{0},
      * {-100:100, 500:1000} U {-1000:-900}/({0} ), {-100:100, 500:1000, 5000:6000}  U {-1000:-900}/({0})</p>
@@ -749,45 +755,45 @@ public class TestKeySet
     public void HashCode_Mixed()
     {
         // Empty map case
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         // One element case
         m.put(1, "1");
         m2.put(1, "1");
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         initHMap(m, -100, 100);
         initHMap(m2, -100, 100);
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         ks.remove((Object)0);
         ks2.remove((Object)0);
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         m.put(101, "101");
         m2.put(101, "101");
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         addToHMap(m, 500, 1000);
         addToHMap(m2, 500, 1000);
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         HMap t = getIntegerMapAdapter(-1000, -900);
         m.putAll(t);
         m2.putAll(t);
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
         initHMap(t, 5000, 6000);
         m.putAll(t);
         m2.putAll(t);
-        assertEquals("Maps should be equal.", true, ks.equals(ks2));
+        assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
     }
 
@@ -814,7 +820,8 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its KeySet and checks their consistency in propagation.
      * They both are empty, which is a limit case. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and set
      * are checked, remove is invoked by KeySet and m and set are checked again.
      * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
@@ -842,7 +849,8 @@ public class TestKeySet
      * and its KeySet and checks their consistency in propagation.
      * Map contains 10 elements, and arguments are keys/entries not
      * in the map/set. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and set
      * are checked, remove is invoked by KeySet and m and set are checked again.
      * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
@@ -874,7 +882,8 @@ public class TestKeySet
      * modification to map and set's structures are checked
      * by checkKeySet. Test aims to show the correct propagation
      * of information. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
      * from the map remove. The map is initiated with {0="0", 500="500"},
      * therefore ks contains {0:500}
@@ -1149,7 +1158,8 @@ public class TestKeySet
      * <p><b>Test Description</b>: The keyset removes all but "empty", so
      * it empties. In fact initially it contains the keys {1, 2, 3}.
      * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
-     * share the same informations about the map entries.</p>
+     * share the same informations about the map entries.
+     * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: The keyset contains the keys {1, 2, 3}.</p>
      * <p><b>Post-Condition</b>: The keyset is empty.</p>
      * <p><b>Expected Results</b>: The keyset is empty, retainAll returns true
@@ -1161,7 +1171,7 @@ public class TestKeySet
     public void RetainAll_Empty_True()
     {
         initHMap(m, 1, 4);
-        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertTrue("The set has changed, it should return true.", ks.retainAll(c));
         assertEquals("set should be empty.", 0, ks.size());
         assertEquals("coll should be empty.", 0, c.size());
         checkKeySet(m, ks);
@@ -1181,7 +1191,8 @@ public class TestKeySet
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The keyset removes all but "empty", so
      * it empties. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
-     * share the same informations about the map entries.</p>
+     * share the same informations about the map entries.
+     * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: The keyset is empty.</p>
      * <p><b>Post-Condition</b>: The keyset is still empty.</p>
      * <p><b>Expected Results</b>: retainAll returns false because keyset set is unchanged.
@@ -1191,7 +1202,7 @@ public class TestKeySet
     @Test
     public void RetainAll_Empty_False()
     {
-        assertEquals("The set has not changed, it should return false.", false, ks.retainAll(c));
+        assertFalse("The set has not changed, it should return false.", ks.retainAll(c));
         checkKeySet(m, ks);
         checkIteration(ks);
     }
@@ -1202,7 +1213,8 @@ public class TestKeySet
      * few elements.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
      * input. Testing a typical case. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The keyset initially contains numbers
      * from 1 to 5 included. retainAll is called with a collection
      * containing {3, 4, 5}, therefore the keyset should contain
@@ -1222,8 +1234,8 @@ public class TestKeySet
     {
         initHMap(m, 1, 6);
         c = getIntegerHCollection(3, 6);
-        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
-        assertTrue("set should contain {3, 4, 5}.", ks.equals(TestUtilities.getIntegerHSet(3, 6)));
+        assertTrue("The set has changed, it should return true.", ks.retainAll(c));
+        assertTrue("set should contain {3, 4, 5}.", ks.equals(getIntegerHSet(3, 6)));
         checkKeySet(m, ks);
         checkIteration(ks);
     }
@@ -1234,7 +1246,8 @@ public class TestKeySet
      * few elements. Testing a typical case.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
      * input. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The keyset initially contains numbers
      * from 1 to 9 included. retainAll is called with a collection
      * containing {2, 3}, therefore the keyset should contain the keys
@@ -1255,7 +1268,7 @@ public class TestKeySet
         initHMap(m, 1, 10);
         c = getHCollection(new Object[]{2, 3});
         assertTrue("The set has changed, it should return true.", ks.retainAll(c));
-        assertTrue("set should contain {2, 3}.", ks.equals(TestUtilities.getIntegerHSet(2, 4)));
+        assertTrue("set should contain {2, 3}.", ks.equals(getIntegerHSet(2, 4)));
         checkKeySet(m, ks);
         checkIteration(ks);
     }
@@ -1266,7 +1279,8 @@ public class TestKeySet
      * many elements. Testing a typical case with a large input.</p>
      * <p><b>Test Case Design</b>:  The retainAll method is tested with large
      * input. The case is still a common case. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The set initially contains numbers
      * from 1 to 999 included. retainAll is called with a collection
      * containing {300, ..., 599}, therefore the set should contain
@@ -1301,7 +1315,8 @@ public class TestKeySet
      * only a subset not contained in the set means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
      * an empty intersection of keyset and c. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The keyset removes all but "empty", so
      * it empties. In fact initially it contains {1, ..., 20}.
      * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
@@ -1319,7 +1334,7 @@ public class TestKeySet
         initHMap(m, 1, 21);
         c = getIntegerHCollection(21, 24);
 
-        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertTrue("The set has changed, it should return true.", ks.retainAll(c));
         assertEquals("The set should be empty.", 0, ks.size());
         checkKeySet(m, ks);
         checkIteration(ks);
@@ -1335,7 +1350,8 @@ public class TestKeySet
      * this should not change retainAll behaviour. At the end of
      * retainAll execution every element not contained in coll
      * must be removed. checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: keyset contains {1, ..., 19}. c contains
      * {4, 4, 5, 5, 6, 6}. retainAll is called, so the set should contain
      * {4, 5, 6}. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
@@ -1354,7 +1370,7 @@ public class TestKeySet
     {
         initHMap(m, 0, 20);
         c = getHCollection(new Object[]{4, 4, 5, 5, 6, 6});
-        assertEquals("The set has changed, it should return true.", true, ks.retainAll(c));
+        assertTrue("The set has changed, it should return true.", ks.retainAll(c));
         assertEquals("The arrays should match.", TestUtilities.getIntegerHSet(4, 7), ks);
         checkKeySet(m, ks);
         checkIteration(ks);
@@ -1504,7 +1520,8 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests the toArray method
      * when the size of ks and map is 1, which is a limit case.
      * checkKeySet(m, es) and checkIteration(es)
-     * are invoked to test keySet - map coherence and the iteration.</p>
+     * are invoked to test keySet - map coherence and the iteration.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: toArray is invoked by an KeySet
      * containing only one element, then ks and the array returned
      * from toArray are checked through checkToArray.</p>
@@ -1539,7 +1556,8 @@ public class TestKeySet
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
-     * generated array in all of this cases is right.</p>
+     * generated array in all of this cases is right.
+     * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: m contains {0="0":100="100"}, therefore
      * ks contains {0:100}.</p>
      * <p><b>Post-Condition</b>: m and ks are empty</p>
@@ -1746,7 +1764,8 @@ public class TestKeySet
      * a remove
      * method, that needs a next invoke before using it (This method can
      * be called only once per
-     * call to next) will throw HISE.</p>
+     * call to next) will throw HISE.
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: it invoke next and then remove, which
      * should work normally (no exception thrown here). Then the second
      * remove, which is not backed by any next call, throws
@@ -2088,7 +2107,7 @@ public class TestKeySet
 
 
     /**
-     * Checks if the keyset and the backing map contains the same informations.
+     * Tests propagation. Checks if the keyset and the backing map contains the same informations.
      * This method asserts correct propagation from HMap to its
      * keySet and from keySet to HMap, therefore it is invoked
      * whenever it is necessary to check correct propagation.
@@ -2132,9 +2151,10 @@ public class TestKeySet
      * Checks if the elements returned by the iteration are
      * coherent with the keyset's elements, and if the number
      * of iteration equals the actual size of the keyset.
-     * This method asserts correct propagation from HMap to its
+     * Together with checkKeySet() this method asserts correct propagation from HMap to its
      * keySet and from keySet to HMap, therefore it is invoked
      * whenever it is necessary to check correct propagation.
+     * Alone it tests correct iteration.
      * If this method fails the propagation
      * did not work correctly. Other wise, the propagation worked correctly.
      * @param es keyset to be checked

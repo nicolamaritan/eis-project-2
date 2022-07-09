@@ -1164,13 +1164,13 @@ public class TestEntrySet
         }
     }
 
-        /**
+    /**
      * <p><b>Summary</b>: retainAll method test case.
      * retainAll is being called with an empty collection as an argument,
      * therefore the set should became the empty set, since mainteining
      * only the "empty" subset means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument. Tests correct propagation.</p>
+     * an empty collection as an argument. Tests propagation.</p>
      * <p><b>Test Description</b>: The set removes all but "empty", so
      * it empties. In fact initially it contains {1="1", 2="2", 3="3"}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
@@ -1201,7 +1201,7 @@ public class TestEntrySet
      * RetainAll_Empty_True test case, the set is already empty, therefore
      * the method returns false.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument and an empty set. Tests correct propagation.</p>
+     * an empty collection as an argument and an empty set. Tests propagation.</p>
      * <p><b>Test Description</b>: The set removes all but "empty", so
      * it empties. Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries.</p>
@@ -1225,7 +1225,7 @@ public class TestEntrySet
      * The test calls retainAll with a collection containing
      * few elements.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input. Testing a typical case. Tests correct propagation.</p>
+     * input. Testing a typical case. Tests propagation.</p>
      * <p><b>Test Description</b>: The set initially contains entries integer - string
      * from 1 to 5 included. retainAll is called with a collection
      * containing {3=3, 4=4, 5=5}, therefore the set should contain
@@ -1256,7 +1256,7 @@ public class TestEntrySet
      * The test calls retainAll with a collection containing
      * few elements. Testing a typical case.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input. Tests correct propagation.</p>
+     * input. Tests propagation.</p>
      * <p><b>Test Description</b>: The set initially contains entries integer - string
      * from 1 to 9 included. retainAll is called with a collection
      * containing {2="2", 3="3"}, therefore the set should contain
@@ -1287,7 +1287,7 @@ public class TestEntrySet
      * The test calls retainAll with a collection containing
      * many elements. Testing a typical case with a large input.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with large
-     * input. The case is still a common case. Tests correct propagation.</p>
+     * input. The case is still a common case. Tests propagation.</p>
      * <p><b>Test Description</b>: The set initially contains entries integer - string
      * from 1 to 999 included. retainAll is called with a collection
      * containing {300="300" : 600="600"}, therefore the set should contain
@@ -1320,7 +1320,7 @@ public class TestEntrySet
      * therefore the set should became the empty set, since mainteining
      * only a subset not contained in the set means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty intersection of set and c. Tests correct propagation.</p>
+     * an empty intersection of set and c. Tests propagation.</p>
      * <p><b>Test Description</b>: The set removes all but "empty", so
      * it empties. In fact initially it contains {1="1":20="20"}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
@@ -1353,7 +1353,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: c can contain duplicated element, and
      * this should not change retainAll behaviour. At the end of
      * retainAll execution every element not contained in coll
-     * must be removed. Tests correct propagation.</p>
+     * must be removed. Tests propagation.</p>
      * <p><b>Test Description</b>: set contains {1="1", ..., 19="19"}. c contains
      * {4="4", 4="4", 5="5", 5="5", 6="6", 6="6"}. retainAll is called, so the set should contain
      * {4="4", 5="5", 6="6"}. Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
@@ -1467,7 +1467,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Checks the array to be right
      * through checkToArray after each removals through es.remove,
      * creating different situations and cases to test the method.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
@@ -1528,7 +1528,7 @@ public class TestEntrySet
      * <p><b>Summary</b>: toArray method test case.</p>
      * <p><b>Test Case Design</b>: Tests the toArray method
      * when the size of es and map is 1, which is a limit case.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: toArray is invoked by an entryset
      * containing only one element, then es and the array returned
      * from toArray are checked through checkToArray.</p>
@@ -1558,7 +1558,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Checks the array to be right
      * through checkToArray after each removals through es.remove,
      * creating different situations and cases to test the method.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
      * removal the checkToArray method is invoked to check if the
@@ -1764,7 +1764,7 @@ public class TestEntrySet
      * method, that needs a next invoke before using it (This method can
      * be called only once per
      * call to next) will throw HISE.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: it invoke next and then remove, which
      * should work normally (no exception thrown here). Then the second
      * remove, which is not backed by any next call, throws
@@ -1801,7 +1801,7 @@ public class TestEntrySet
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
      * to assure correct propagation iterator -> entryset -> map.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: map and es initially contain
      * {0="0":100="100"}. An iterator iterates through
      * each element and after each next it invokes the remove
@@ -1849,7 +1849,7 @@ public class TestEntrySet
      * check map - entryset coherence and iterator's iteration
      * working correctly. Tests map -> entryset propagation and
      * iterator -> entryset -> map propagation.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
      * are removed from the map through map.remove method. That means that 100 entries
@@ -1908,7 +1908,7 @@ public class TestEntrySet
      * inserting entries through initHMap and removing them, through
      * simple remove method. This is a more general case than the
      * single entryset.
-     * Tests correct propagation.</p>
+     * Tests propagation.</p>
      * <p><b>Test Description</b>: esArr contains 100 the entryset
      * generated by the map. After map initialization, each entryset
      * is checked through checkEntrySet, checkIteration and checkToArray.
@@ -1981,7 +1981,7 @@ public class TestEntrySet
      * it is not possible to directly modify a key, as it would not
      * mantain coherence in the HMap structure, it is possible
      * to modify a value through setValue(). This feature of HMap.Entry
-     * is tested. Tests correct propagation.</p>
+     * is tested. Tests propagation.</p>
      * <p><b>Test Description</b>: m is initialized with {0="0":50="50}.
      * Then through the entryset iterator, each entry is obtained and
      * explicitly casted to HMap.Entry. Then e.setValue(bound) is invoked,
@@ -2023,7 +2023,7 @@ public class TestEntrySet
      * it is not possible to directly modify a key, as it would not
      * mantain coherence in the HMap structure, it is possible
      * to modify a value through setValue(). This feature of HMap.Entry
-     * is tested. Tests correct propagation.</p>
+     * is tested. Tests propagation.</p>
      * <p><b>Test Description</b>: m is initialized with {ciao=Random value,
      * forza!=Random value, per favore=Random value, grazie=Random value}.
      * Then through the entryset iterator, each entry is obtained and
@@ -2093,7 +2093,7 @@ public class TestEntrySet
      * TestValues.checkValues(m, v), TestEntrySet.checkIteration(es),
      * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
      * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
-     * and TestValues.checkToArray(v, v.toArray()). Tests correct propagation.</p>
+     * and TestValues.checkToArray(v, v.toArray()). Tests propagation.</p>
      * <p><b>Test Description</b>: m is initialized with {0="0":20="20"},
      * therefore es contains {0="0":20="20"}, ks contains {0:20},
      * v contains {"0":"20"}. After each insertion all the views and the map
@@ -2214,7 +2214,7 @@ public class TestEntrySet
      * TestValues.checkValues(m, v), TestEntrySet.checkIteration(es),
      * TestKeySet.checkIteration(es), TestValues.checkIteration(es),
      * TestEntrySet.checkToArray(es, es.toArray()), TestKet.checkToArray(ks, ks.toArray())
-     * and TestValues.checkToArray(v, v.toArray()). Tests correct propagation.</p>
+     * and TestValues.checkToArray(v, v.toArray()). Tests propagation.</p>
      * <p><b>Test Description</b>:
      * 20 views are returned from entrySet(), keySet() and values().
      * In the ith iteration, if i%3 equals 0 then the ith view is an entrySet,
@@ -2392,7 +2392,7 @@ public class TestEntrySet
     }
 
     /**
-     * Tests correct propagation. Checks if the entrySet and the backing map contains the same informations.
+     * Tests propagation. Checks if the entrySet and the backing map contains the same informations.
      * This method asserts correct propagation from HMap to its
      * entrySet and from entrySet to HMap, therefore it is invoked
      * whenever it is necessary to check correct propagation.
