@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * An object that maps keys to values. A map cannot contain duplicate keys;
  * each key can map to at most one value.
  *
- * <p>This implementation is an object adapter, where the adaptee is Hashtable.
+ * <p>This implementation is an object adapter, where the adaptee is {@code Hashtable}.
  *
  * <p>The {@code HMap} interface provides three <i>collection views</i>, which
  * allow a map's contents to be viewed as a set of keys, collection of values,
@@ -74,6 +74,7 @@ public class MapAdapter implements HMap
      */
     public void clear()
     {
+        // Adapts ht method
         ht.clear();
     }
 
@@ -91,6 +92,7 @@ public class MapAdapter implements HMap
      */
     public boolean containsKey(Object key)
     {
+        // Adapts ht method
         return ht.containsKey(key);
     }
 
@@ -111,6 +113,7 @@ public class MapAdapter implements HMap
      */
     public boolean containsValue(Object value)
     {
+        // Adapts ht method
         return ht.contains(value);
     }
     /**
@@ -134,6 +137,7 @@ public class MapAdapter implements HMap
      */
     public Object get(Object key)
     {
+        // Adapts ht method
         return ht.get(key);
     }
 
@@ -177,6 +181,7 @@ public class MapAdapter implements HMap
         HSet es = this.entrySet();
         HIterator it = es.iterator();
         int hc = 0;
+        // Iterates through entrySet and sum each hashCode
         while (it.hasNext())
             hc += it.next().hashCode();
         return hc;
@@ -189,6 +194,7 @@ public class MapAdapter implements HMap
      */
     public boolean isEmpty()
     {
+        // Adapts ht method
         return ht.isEmpty();
     }
 
@@ -228,6 +234,7 @@ public class MapAdapter implements HMap
      */
     public Object put(Object key, Object value)
     {
+        // Adapts ht method
         return ht.put(key, value);
     }
 
@@ -275,6 +282,7 @@ public class MapAdapter implements HMap
      */
     public Object remove(Object key)
     {
+        // Adapts ht method
         return ht.remove(key);
     } 
 
@@ -287,6 +295,7 @@ public class MapAdapter implements HMap
      */
     public int size()
     {
+        // Adapts ht method
         return ht.size();
     }
 
@@ -426,9 +435,12 @@ public class MapAdapter implements HMap
          *
          * @param value new value to be stored in this entry
          * @return old value corresponding to the entry
+         * @throws NullPointerException if values is null
          */
         public Object setValue(Object value)
         {
+            if (value == null)
+                throw new NullPointerException();
             Object oldValue = this.value;
             this.value = value;
             ht.put(this.key, this.value);   // Substitution in the backing HMap, propagation
@@ -563,6 +575,7 @@ public class MapAdapter implements HMap
         public boolean containsAll(HCollection c)
         {
             HIterator it = c.iterator();
+            // Checks if contained for each element in c
             while (it.hasNext())
             {
                 Object element = it.next();
@@ -575,7 +588,7 @@ public class MapAdapter implements HMap
         @Override
         public boolean equals(Object o)
         {
-            // false if o is not a HSet
+            // false if o is not a HSet or it is null
             if (!(o instanceof HSet) || o == null)
                 return false;
             HSet oSet = (HSet)o;
@@ -696,6 +709,7 @@ public class MapAdapter implements HMap
         {
             boolean modified = false;
             HIterator it = c.iterator();
+            // Remove for each element
             while (it.hasNext())
             {
                 Object element = it.next();
@@ -729,8 +743,10 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object element = it.next();
+                // If c does NOT contain this element...
                 if (!c.contains(element))
                 {
+                    // ...remove
                     this.remove(element);
                     modified = true;
                 }     
@@ -771,12 +787,15 @@ public class MapAdapter implements HMap
         {
             Object[] arr = new Object[this.size()];
             int i = 0;
+            // "Enumerate" through keys
             for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
             {
+                // Construct new entry...
                 MapAdapterEntry entry = new MapAdapterEntry();
                 Object currentKey = e.nextElement();
                 entry.key = currentKey;
                 entry.value = ht.get(currentKey);
+                // ...put in arr
                 arr[i] = entry;
             }
     
@@ -830,9 +849,11 @@ public class MapAdapter implements HMap
                 throw new IllegalArgumentException();
                 
             int i = 0;
+            // Returned array's size equals this size
             Object[] ret = new Object[this.size()];
             for (Enumeration e = ht.keys(); e.hasMoreElements(); i++)
             {
+                // As toArray
                 MapAdapterEntry entry = new MapAdapterEntry();
                 Object currentKey = e.nextElement();
                 entry.key = currentKey;
@@ -897,11 +918,14 @@ public class MapAdapter implements HMap
                 if (!this.hasNext())
                     throw new NoSuchElementException();
 
+                // Save last returned for remove
                 lastReturnedKey = keys.nextElement();
 
                 MapAdapterEntry returned = new MapAdapterEntry();
                 returned.key = lastReturnedKey;
                 returned.value = MapAdapter.this.get(lastReturnedKey);
+
+                // Return entry
                 return returned;
             }
     
@@ -926,6 +950,7 @@ public class MapAdapter implements HMap
                  * as the key is, by definition, unique.
                 */
                 MapAdapter.this.remove(lastReturnedKey);
+                // Reset last returned
                 lastReturnedKey = null;
             }
         }
@@ -1034,6 +1059,7 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object element = it.next();
+                // If not contained, return false
                 if (!this.contains(element))
                     return false;
             }
@@ -1054,7 +1080,7 @@ public class MapAdapter implements HMap
          */
         public boolean equals(Object o)
         {
-            // false if o is not a HSet
+            // false if o is not a HSet or it is null
             if (!(o instanceof HSet) || o == null)
                 return false;
             HSet oSet = (HSet)o;
