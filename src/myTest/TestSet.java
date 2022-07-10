@@ -116,9 +116,6 @@ public class TestSet
 		System.out.print(s.size() + " ");
 		assertEquals(0, s.size());
 		iterate(s.iterator());
-
-		System.out.print(s.size() + " ");
-		iterate(s.iterator());
 		for(int i=0;i<argv.length;i++)
 		{
 			// True if new insertion
@@ -161,6 +158,7 @@ public class TestSet
 	@Test
 	public void EntrySetCheckContentTest()
 	{
+		// Recreates original file configuration for test case
 		argvInitialize(m);
         s = m.entrySet();
 		System.out.println("Set.toString()? " + s);
@@ -197,6 +195,7 @@ public class TestSet
 	@Test
 	public void EntrySetIteratorRemovalTest()
 	{
+		// Recreates original file configuration for test case
 		argvInitialize(m);
         s = m.entrySet();
 		
@@ -246,7 +245,6 @@ public class TestSet
 		System.out.print(s.size() + " ");
 		assertEquals(0, s.size());
 		iterate(s.iterator());
-
 		for(int i=0;i<argv.length;i++)
 		{
 			// True if new insertion
@@ -289,6 +287,7 @@ public class TestSet
 	@Test
 	public void KeySetCheckContentTest()
 	{
+		// Recreates original file configuration for test case
 		argvInitialize(m);
         s = m.keySet();
 		System.out.println("Set.toString()? " + s);
@@ -325,6 +324,7 @@ public class TestSet
 	@Test
 	public void KeySetIteratorRemovalTest()
 	{
+		// Recreates original file configuration for test case
 		argvInitialize(m);
         s = m.keySet();
 		
@@ -374,7 +374,7 @@ public class TestSet
 		assertEquals(0, c.size());
 		iterate(c.iterator());
 		
-        // Out of the loop because manual key
+        // Out of the loop because manual key, in order to insert 2 pippos in collection
         m.put("Random key", argv[0]);   // The important thing is that the key will be unique, only values HCollection is tested
 
 		for(int i=1;i<argv.length;i++)
@@ -419,8 +419,9 @@ public class TestSet
 	@Test
 	public void ValuesCollectionCheckContentTest()
 	{
+		// Recreates original file configuration for test case
 		argvInitialize(m);
-        // Out of the loop because manual key
+        // Out of the loop because manual key, in order to insert 2 pippo in collection
         m.put("Random key", argv[0]);	// The important thing is that the key will be unique, only values HCollection is tested
 
         c = m.values();
@@ -459,8 +460,9 @@ public class TestSet
 	@Test
 	public void CollectionIteratorRemovalTest()
 	{
+		// Recreates original file configuration for test case
 		argvInitialize(m);
-        // Out of the loop because manual key
+        // Out of the loop because manual key, in order to insert 2 pippos in the collection
         m.put("Random key", argv[0]); 
         c = m.values();
 

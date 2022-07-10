@@ -148,11 +148,10 @@ public class TestMap
 		m.put(argv[0], argv[0]);
 		sm2 = m.size();
 		ss2 = ks.size();
-
 		System.out.println("Entry restored: " + m + " " + m.size());
-		assertEquals("Size should be 5", 5, m.size());
+		assertEquals("Map size should be 5", 5, m.size());
 		System.out.println(ks + " " + ks.size());
-		assertEquals("Size should be 5", 5, ks.size());
+		assertEquals("KeySet size should be 5", 5, ks.size());
 
 		assertTrue("\n*** map NON propaga modifiche a keyset ***\n", sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1);
 	}
@@ -181,15 +180,14 @@ public class TestMap
      * gambatek=gambatek. map is unchanged</p>
      * <p><b>Expected Results</b>: map contains argv keys and values,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
-     * gambatek=gambatek, as the size is asserted to be 5 and
+     * gambatek=gambatek, and
      * iterating through argv, each element is asserted to be stored
      * correctly. The map is unchanged</p>
      */
 	@Test
-	public void TestContent1()
+	public void TestContent()
 	{
 		argvInitialize(m);
-		assertEquals("Size should be 5", m.size(), 5);
         System.out.println("Map.toString() ? " + m);
         for (int i = 0; i < argv.length; i++)
         {
@@ -257,11 +255,9 @@ public class TestMap
 		while(iter.hasNext()&&count-->=0)
 		{
 			Object k = iter.next();
-			
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
 			assertTrue("Elements should match", k.equals(m.get(k)));
 		}
-
 		System.out.println("\n" + s1);	
 		s1.remove(argv[0]);
 
@@ -270,33 +266,28 @@ public class TestMap
 
 	    System.out.println(m + " " + m.size());
 		assertEquals("Size should be 4", 4, m.size());
-
 		iter = s1.iterator();
 		count = s1.size()+2;
 		while(iter.hasNext()&&count-->=0)
 		{
 			Object k = iter.next();
-
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
 			assertTrue("Elements should match", k.equals(m.get(k)));
 		}
-
 	    System.out.println("\n" + s1);
+
 		System.out.println("Inserisco nella mappa e controllo il set");
 		m.put("carrozza", "carrozza");
 		System.out.println(m + " " + m.size());
 		assertEquals("Size should be 5.", 5, m.size());
-
 		iter = s1.iterator();
 		count = s1.size()+2;
 		while(iter.hasNext()&&count-->=0)
 		{
 			Object k = iter.next();
-			
 			System.out.print("[" + k + "=" + m.get(k) + "]; ");
 			assertTrue("Elements should match", k.equals(m.get(k)));
 		}
-		
 		System.out.println("\n" + s1);
 
 		sm2 = m.size();
@@ -304,7 +295,6 @@ public class TestMap
 
 		System.out.println("Removed carrozza from keyset");
 		assertTrue("Should be removed.", s1.remove("carrozza"));
-
 		System.out.println("set size=" + s1.size() + "; map size=" + m.size());
 		assertEquals("set size=4; map size=4", "set size=" + s1.size() + "; map size=" + m.size());
 		assertFalse("\n*** map NON propaga modifiche a keyset ***\n", sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size());
@@ -338,6 +328,7 @@ public class TestMap
 	@Test
 	public void TestEmptyingByKeySetIterator()
 	{
+        // Recreates original file configuration for test case
 		argvInitialize(m);
 		s1 = m.keySet();
 		m.remove(argv[0]);
@@ -345,7 +336,6 @@ public class TestMap
 		System.out.println("Test emptying by keyset iterator");
 		iter = s1.iterator();
 		count = s1.size()+2;
-
 		while(iter.hasNext() && count-- >= 0)
 		{
 			Object k = iter.next();
@@ -354,7 +344,6 @@ public class TestMap
             assertFalse("Should be just removed", s1.contains(k));
             System.out.println(k + " " + m.size() + "; ");
 		}
-
 		assertEquals("[]", s1.toString());
 		System.out.println("\n" + s1);
 
@@ -401,16 +390,13 @@ public class TestMap
 	{
 		System.out.println("reset map content and test values");
 		m.clear();
-		
 		System.out.println("Before " + m + " " + m.size());
 		assertEquals("Before{} 0", "Before" + m + " " + m.size());
-
 		m.put(argv[0], argv[0]);
 		for(int i=0;i<argv.length;i++)
 		{
 			m.put(argv[i], argv[i]);
 		}
-		
 		assertFalse("*** map.put malfunction ***", m.size() != argv.length);
 
 		System.out.println("after " + m + " " + m.size());
@@ -425,7 +411,6 @@ public class TestMap
 		while(iter.hasNext() && count-- >= 0)
             System.out.print(iter.next() + "; ");
 		System.out.println("\n" + c);
-
 		c.remove(argv[0]);
 
 		sm1 = m.size();
@@ -438,7 +423,6 @@ public class TestMap
 		count = c.size()+2;
 		while(iter.hasNext()&&count-->= 0)
             System.out.println("\n" + c);
-
 		System.out.println("\n" + c);
 
 		sm2 = m.size();
@@ -472,6 +456,7 @@ public class TestMap
 	@Test
 	public void EmptyingByValuesIteratorTest()
 	{
+        // Recreates original file configuration for test case
 		argvInitialize(m);
 		m.remove(argv[0]);
 		c = m.values();
@@ -479,7 +464,6 @@ public class TestMap
 		System.out.println("\nemptying by values iterator");
 		iter = c.iterator();
 		count = c.size()+2;
-
 		while(iter.hasNext()&&count-->=0)
 		{
             Object next = iter.next();
