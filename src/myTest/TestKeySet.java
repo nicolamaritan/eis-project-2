@@ -95,14 +95,14 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: add method test case.</p>
      * <p><b>Test Case Design</b>: The methoud throws
-     * UnsupportedOperationException.</p>
+     * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: ks is empty.</p>
      * <p><b>Post-Condition</b>: ks is empty.</p>
      * <p><b>Expected Results</b>: The add method is not supported.
-     * UnsupportedOperationException is thrown.</p>
+     * HUnsupportedOperationException is thrown.</p>
      */
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = HUnsupportedOperationException.class)
     public void Add_UOE()
     {
         ks.add(1);
@@ -111,14 +111,14 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: add method test case.</p>
      * <p><b>Test Case Design</b>: The methoud throws
-     * UnsupportedOperationException.</p>
+     * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
      * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
      * <p><b>Expected Results</b>: The add method is not supported.
-     * UnsupportedOperationException is thrown.</p>
+     * HUnsupportedOperationException is thrown.</p>
      */
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = HUnsupportedOperationException.class)
     public void Add_10UOE()
     {
         initHMap(m, 0, 10);
@@ -130,14 +130,14 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
      * <p><b>Test Case Design</b>: The methoud throws
-     * UnsupportedOperationException.</p>
+     * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: addAll is invoked.</p>
      * <p><b>Pre-Condition</b>: ks is empty.</p>
      * <p><b>Post-Condition</b>: ks is empty.</p>
      * <p><b>Expected Results</b>: The add method is not supported.
-     * UnsupportedOperationException is thrown.</p>
+     * HUnsupportedOperationException is thrown.</p>
      */
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = HUnsupportedOperationException.class)
     public void AddAll_UOE()
     {
         ks.addAll(c);
@@ -146,14 +146,14 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
      * <p><b>Test Case Design</b>: The methoud throws
-     * UnsupportedOperationException.</p>
+     * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
      * <p><b>Post-Condition</b>: ks contains {0:10}.</p>
      * <p><b>Expected Results</b>: The add method is not supported.
-     * UnsupportedOperationException is thrown.</p>
+     * HUnsupportedOperationException is thrown.</p>
      */
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = HUnsupportedOperationException.class)
     public void AddAll_10UOE()
     {
         initHMap(m, 0, 10);

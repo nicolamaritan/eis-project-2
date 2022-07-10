@@ -489,12 +489,12 @@ public class MapAdapter implements HMap
          * @param e element to be added to this set
          * @return {@code true} if this set did not already contain the specified
          *         element
-         * @throws UnsupportedOperationException as the operation is not supported
+         * @throws HUnsupportedOperationException as the operation is not supported
          * @see HMap#entrySet()
          */
         public boolean add(Object o)
         {
-            throw new UnsupportedOperationException();
+            throw new HUnsupportedOperationException();
         }
     
         /**
@@ -508,13 +508,13 @@ public class MapAdapter implements HMap
          * @param  c collection containing elements to be added to this set
          * @return {@code true} if this set changed as a result of the call
          *
-         * @throws UnsupportedOperationException as the operation is not supported
+         * @throws HUnsupportedOperationException as the operation is not supported
          * @see HMap#entrySet()
          * @see #add(Object)
          */
         public boolean addAll(HCollection c)
         {
-            throw new UnsupportedOperationException();
+            throw new HUnsupportedOperationException();
         }
     
         /**
@@ -937,7 +937,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HIllegalStateException if the next method has not
+             * @exception HHIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
@@ -987,12 +987,12 @@ public class MapAdapter implements HMap
          * @param e element to be added to this set
          * @return {@code true} if this set did not already contain the specified
          *         element
-         * @throws UnsupportedOperationException as the operation is not supported
+         * @throws HUnsupportedOperationException as the operation is not supported
          * @see HMap#keySet()
          */
         public boolean add(Object o)
         {
-            throw new UnsupportedOperationException();
+            throw new HUnsupportedOperationException();
         }
     
         /**
@@ -1006,13 +1006,13 @@ public class MapAdapter implements HMap
          * @param  c collection containing elements to be added to this set
          * @return {@code true} if this set changed as a result of the call
          *
-         * @throws UnsupportedOperationException as the operation is not supported
+         * @throws HUnsupportedOperationException as the operation is not supported
          * @see HMap#keySet()
          * @see #add(Object)
          */
         public boolean addAll(HCollection c)
         {
-            throw new UnsupportedOperationException();
+            throw new HUnsupportedOperationException();
         }
         
         /**
@@ -1350,16 +1350,17 @@ public class MapAdapter implements HMap
          * Iterator for KeySet class.
          * Permits to iterate through KeySet elements
          * and eventually remove them.
+         * KeySetIterator is an adapter, where the
+         * adaptee is MapAdapter.EntrySet.EntrySetIterator.
          */
         private class KeySetIterator implements HIterator
         {
-            //private Enumeration values;
-            private Enumeration keys;
+            private HIterator entrySetIterator;
             private Object lastReturnedKey;
     
             public KeySetIterator()
             {
-                keys = ht.keys();
+                entrySetIterator = MapAdapter.this.entrySet().iterator();
                 lastReturnedKey = null;
             }
     
@@ -1372,7 +1373,7 @@ public class MapAdapter implements HMap
              */
             public boolean hasNext()
             {
-                return keys.hasMoreElements();
+                return entrySetIterator.hasNext();
             }
     
             /**
@@ -1383,10 +1384,8 @@ public class MapAdapter implements HMap
              */
             public Object next()
             {
-                if (!this.hasNext())
-                    throw new NoSuchElementException();
-
-                lastReturnedKey = keys.nextElement();
+                Entry next = (Entry)entrySetIterator.next();
+                lastReturnedKey = next.getKey();      
                 return lastReturnedKey;
             }
     
@@ -1398,17 +1397,14 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception IllegalStateException if the next method has not
+             * @exception HIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
             */
             public void remove()
             {
-                if (lastReturnedKey == null)
-                    throw new HIllegalStateException();
-                ht.remove(lastReturnedKey);
-                lastReturnedKey = null;
+                entrySetIterator.remove();
             }
         }
     }
@@ -1585,12 +1581,12 @@ public class MapAdapter implements HMap
          *
          * @param obj element whose presence in this collection is to be ensured.
          * @return true if this collection changed as a result of the call
-         * @throws UnsupportedOperationException as the operation is not supported
+         * @throws HUnsupportedOperationException as the operation is not supported
          * @see HMap#values()
          */
         public boolean add(Object obj)
         {
-            throw new UnsupportedOperationException();
+            throw new HUnsupportedOperationException();
         }
 
         /**
@@ -1654,13 +1650,13 @@ public class MapAdapter implements HMap
          *
          * @param coll elements to be inserted into this collection.
          * @return true if this collection changed as a result of the call
-         * @throws UnsupportedOperationException as the operation is not supported
+         * @throws HUnsupportedOperationException as the operation is not supported
          * @see #add(Object)
          * @see HMap#values()
          */
         public boolean addAll(HCollection coll)
         {
-            throw new UnsupportedOperationException();
+            throw new HUnsupportedOperationException();
         }
 
         /**
@@ -1860,15 +1856,17 @@ public class MapAdapter implements HMap
          * Iterator for Values class.
          * Permits to iterate through Values elements
          * and eventually remove them.
+         * ValuesIterator is an adapter, where the
+         * adaptee is MapAdapter.EntrySet.EntrySetIterator.
          */
         private class ValuesIterator implements HIterator
         {
-            Enumeration values;
-            Object lastReturnedValue;
+            private HIterator entrySetIterator;
+            private Object lastReturnedValue;
 
             public ValuesIterator()
             {
-                values = ht.elements();
+                entrySetIterator = MapAdapter.this.entrySet().iterator();
             }
 
             /**
@@ -1880,7 +1878,7 @@ public class MapAdapter implements HMap
              */
             public boolean hasNext()
             {
-                return values.hasMoreElements();
+                return entrySetIterator.hasNext(); 
             }
 
             /**
@@ -1891,9 +1889,8 @@ public class MapAdapter implements HMap
              */
             public Object next()
             {
-                if (!this.hasNext())
-                    throw new NoSuchElementException();
-                lastReturnedValue = values.nextElement();
+                Entry next = (Entry)entrySetIterator.next();
+                lastReturnedValue = next.getValue();
                 return lastReturnedValue;
             } 
 
@@ -1905,17 +1902,14 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception IllegalStateException if the next method has not
+             * @exception HIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
              *		  been called after the last call to the next
              *		  method.
              */
             public void remove()
             {
-                if (lastReturnedValue == null)
-                    throw new HIllegalStateException();
-                Values.this.remove(lastReturnedValue);
-                lastReturnedValue = null;
+                entrySetIterator.remove();
             }
         }
     }
