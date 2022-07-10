@@ -429,7 +429,7 @@ public class MapAdapter implements HMap
 
         /**
          * Replaces the value corresponding to this entry with the specified
-         * value (optional operation).  (Writes through to the map.)  The
+         * value (optional operation). (Writes through to the map.) The
          * behavior of this call is undefined if the mapping has already been
          * removed from the map (by the iterator's {@code remove} operation).
          *
@@ -1548,6 +1548,7 @@ public class MapAdapter implements HMap
             if (a.length < this.size())
                 throw new IllegalArgumentException();
             int i = 0;
+            // Returned array size mathes this size
             Object[] ret = new Object[this.size()];
             for (Enumeration e = ht.elements(); e.hasMoreElements(); i++)
             {
@@ -1635,6 +1636,7 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object element = it.next();
+                // If at least one is not contained
                 if (!this.contains(element))
                     return false;
             }
@@ -1764,7 +1766,7 @@ public class MapAdapter implements HMap
          */
         public boolean equals(Object o)
         {
-            // false if o is not a HCollection
+            // false if o is not a HCollection or it is null
             if (!(o instanceof HCollection) || o == null)
                 return false;
             HCollection oCollection = (HCollection)o;

@@ -1155,8 +1155,6 @@ public class TestValues
         
         assertTrue("Should be removed", v.removeAll(c));
 
-        System.out.println(v);
-
         assertTrue(m.size() == v.size() && m.size() == 1);
 
         assertFalse("Should NOT be contained", v.contains("a"));
