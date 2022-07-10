@@ -2654,6 +2654,54 @@ public class TestEntrySet
     }
 
     /**
+     * <p><b>Summary</b>: Map's views iterator test case.</p>
+     * <p><b>Test Case Design</b>: Tests the behaviour of
+     * entrySet's iterator, keySet's iterator and value's iterator
+     * together. They should return their elements in the
+     * same order: that means that if entrySet's iterator.next() returns an
+     * entry k=v during ith iteration, keySet's iterator.next() returns k
+     * during ith iteration and values' iterator.next() returns v during
+     * ith iteration.</p>
+     * <p><b>Test Description</b>: For each i in (0, 100),
+     * m is initialized with {0="0":i="i"}. Then entrySet, keySet
+     * and values iterators are created. They iterates simultaneously
+     * through their collection/set, asserting that the next returned
+     * elements are coherent with the other ones. In particular,
+     * retKs equals retEs.getKey() and retV equals retEs.getValue().
+     * At the end of iterators' iteration they all do not have next.
+     * </p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: m contains {0="0":100="100"},</p>
+     * <p><b>Expected Results</b>: Iterations through each set/collection
+     * is coherent with the other ones, and they all iterates through the
+     * same entries in the same order.</p>
+     */
+    @Test
+    public void SameIterationTest()
+    {
+        int bound = 100;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m, 0, i);
+            HIterator esIt = m.entrySet().iterator();
+            HIterator ksIt = m.keySet().iterator();
+            HIterator vIt = m.values().iterator();
+
+            while (esIt.hasNext() && ksIt.hasNext() && vIt.hasNext())
+            {
+                HMap.Entry retEs = (HMap.Entry)esIt.next();
+                Object retKs = ksIt.next();
+                Object retV = vIt.next();
+
+                assertEquals("Iterators do not iterate same order", retKs, retEs.getKey());
+                assertEquals("Iterators do not iterate same order", retV, retEs.getValue());
+            }
+
+            assertTrue("Iterators do not iterate same order", !esIt.hasNext() && !ksIt.hasNext() && !vIt.hasNext());
+        }
+    }
+
+    /**
      * Tests propagation. Checks if the entrySet and the backing map contains the same informations.
      * This method asserts correct propagation from HMap to its
      * entrySet and from entrySet to HMap, therefore it is invoked
