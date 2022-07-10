@@ -1828,10 +1828,23 @@ public class TestMap
      * <p><b>Test Case Design</b>: Map is modified through different
      * actions (insertions/removals) and its content is inspected.</p>
      * <p><b>Test Description</b>: Each pair of element is put in the
-     * map</p>
-     * <p><b>Pre-Condition</b>:</p>
-     * <p><b>Post-Condition</b>:</p>
-     * <p><b>Expected Results</b>:</p>
+     * map and then removed instantly. Then all the pair element are
+     * put in the map. Key "Break", "Killer" and "Free" are removed
+     * from the put. At the end, the size should be 3.</p>
+     * <p><b>Pre-Condition</b>: The map is empty.</p>
+     * <p><b>Post-Condition</b>: The map contains 3 elements.</p>
+     * <p><b>Expected Results</b>: Before each insertion the
+     * map does NOT contain the key and value size is 0 and getting
+     * the ith key returns null, put returns null as there is
+     * no previous mapping. After the put containsKey and containsValue return true.
+     * The size is 1. getting the ith key returns the ith value.
+     * Then the inserted mapping is removed through remove method.
+     * The map does NOT contain the key and the value anymore. Size is 0.
+     * getting the ith key returns null.
+     * After the initialization, m.remove("Break") returns "Free",
+     * m.remove("Life") returns "Mars" and m.remove("Killer") returns
+     * null as there is no mapping in the map where "Killer" is the key.
+     * Size then is 3 as 2 entries were removed.</p>
      */
     @Test
     public void MapInsertionsAndInspections0()
@@ -1843,11 +1856,20 @@ public class TestMap
         for (int i = 0; i < size; i++)
         {
             assertFalse("Not contained yet", m.containsKey(arg_k[i]));
-            assertNull("Should null", m.put(arg_k[i], arg_v[i]));
+            assertFalse("Not contained yet", m.containsValue(arg_v[i]));
+            assertNull("No mapping", m.get(arg_k[i]));
+            assertEquals("Size should be 0", 0, m.size());
+            
+            assertNull("No previous mapping", m.put(arg_k[i], arg_v[i]));
             assertTrue("Should be contained", m.containsKey(arg_k[i]));
+            assertTrue("Should be contained", m.containsValue(arg_v[i]));
+            assertEquals("Should equal", arg_v[i], m.get(arg_k[i]));
             assertEquals("Size should be 1", 1, m.size());
+
             assertEquals("Should equal", arg_v[i], m.remove(arg_k[i]));
             assertFalse("Not contained yet", m.containsKey(arg_k[i]));
+            assertFalse("Not contained yet", m.containsValue(arg_v[i]));
+            assertNull("No mapping", m.get(arg_k[i]));
             assertEquals("Size should be 0", 0, m.size());
         }
 
@@ -1858,6 +1880,44 @@ public class TestMap
         assertEquals("Should equal", "Mars", m.remove("Life"));
 
         assertEquals("Two removed, should be 3", 3, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: Tests general insertions and inspections
+     * on a map.</p>
+     * <p><b>Test Case Design</b>: Map is modified through different
+     * actions (insertions/removals) and its content is inspected.</p>
+     * <p><b>Test Description</b>: m is initialized with 1="1"
+     * and 2="2". Entry with key 1 is removed. 2="3" is put,
+     * updating 2's current value. Then 2="20" is put,
+     * updating 2's current value.</p>
+     * <p><b>Pre-Condition</b>: The map is empty.</p>
+     * <p><b>Post-Condition</b>: After removal map has size 1.
+     * When a key's mapping is updated the old value is
+     * correctly returned from put's method.
+     * Initialization's puts return null. put(2, "3") returns
+     * "2" as it was 2's previous mapping. put(2, "20") returns
+     * "3" as it was 2's previous mapping.</p>
+     */
+    @Test
+    public void MapInsertionsAndInspections1()
+    {
+        assertNull("No mapping", m.put(1, "1"));
+        assertNull("No mapping", m.put(2, "2"));
+
+        assertEquals("Should equals", "1", m.remove(1));
+        assertEquals("Size should be 1", 1, m.size());
+
+        assertTrue("Should be contained", m.containsKey(2));
+        assertTrue("Should be contained", m.containsValue("2"));
+        assertEquals("Old element should be 2", "2", m.put(2, "3"));
+        assertTrue("Should be contained", m.containsValue("3"));
+        assertEquals("{2=3}", m.toString());
+        assertEquals("Old element should be 3", "3", m.put(2, "20"));
+        assertEquals("{2=20}", m.toString());
+        assertTrue("Should be contained", m.containsKey(2));
+        assertTrue("Should be contained", m.containsValue("20"));
+        assertEquals("Should be equal", "20", m.get(2));
     }
 }
 

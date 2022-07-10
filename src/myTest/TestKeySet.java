@@ -277,7 +277,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 3 size and not being empty. Propagation
      * map -> KeySet is tested,  as the keySet is modified
-     * through addToHMap(m, 0, 3). checkKeySet(m, es) and checkIteration(es)
+     * through addToHMap(m, 0, 3). checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
@@ -307,7 +307,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 345 size and not being empty. Propagation
      * map -> KeySet is tested,  as the keySet is modified
-     * through addToHMap(m, 0, 345). checkKeySet(m, es) and checkIteration(es)
+     * through addToHMap(m, 0, 345). checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
@@ -355,7 +355,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests if each entry of type
      * (i, "i") is contained in the KeySet, for i in (0,500).
      * Propagation map -> KeySet is tested.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
@@ -380,7 +380,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests if the key
      * i + 500 is contained in the KeySet, for i in (0,500).
      * This is obviusly false for each i, as ks contains {0:500}.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 500 times
      * in a for loop. At each iteration a contained entry is generated
@@ -464,6 +464,29 @@ public class TestKeySet
     {
         c = getEmptyHCollection();
         assertEquals("The method should return true because the collection is empty.", true, ks.containsAll(c)); 
+    }
+
+   /**
+     * <p><b>Summary</b>: containsAll method test case.
+     * The method tests if an non-empty keyset contains the elements
+     * of another collection.</p>
+     * <p><b>Test Case Design</b>: The test case tests the limit case of
+     * checking an keyset containing an empty collection, which is true, 
+     * as the empty subset is the subset of every set.
+     * The tested case is a limit case of containsAll.</p>
+     * <p><b>Test Description</b>: The collection is empty.
+     * The containsAll method obviously should return true for
+     * any coll's content, because the empty subset is the
+     * subset of every set.</p>
+     * <p><b>Pre-Condition</b>: The keyset contains 10 elements.</p>
+     * <p><b>Post-Condition</b>: The keyset contains 10 elements.</p>
+     * <p><b>Expected Results</b>: The containsAll(c) method return true.</p>
+     */
+    @Test
+    public void ContainsAll_EmptyCollection()
+    {
+        initHMap(m, 0, 10);
+        assertTrue("The method should return true because the collection is empty.", ks.containsAll(c)); 
     }
     
     /**
@@ -704,7 +727,7 @@ public class TestKeySet
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of KeySet
      * and of map. Tests the backing map -> KeySet and viceversa, KeySet -> map.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"},
@@ -748,7 +771,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of KeySet
      * and map when they both are empty, which is a limit case (obviusly the limit case is that
      * they are empty, not that they have the same size, as it is trivial).
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keyset - map coherence and the iteration. Tests propagation.</p>
      * <p><b>Test Description</b>: clear is invoked by m and and they are checked through checkKeySet,
      * and checkIteration.
@@ -856,12 +879,12 @@ public class TestKeySet
      * <p><b>Summary</b>: remove method test case.</p>
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its KeySet and checks their consistency in propagation.
-     * They both are empty, which is a limit case. checkKeySet(m, es) and checkIteration(es)
+     * They both are empty, which is a limit case. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and set
      * are checked, remove is invoked by KeySet and m and set are checked again.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: m and ks are empty.</p>
      * <p><b>Post-Condition</b>: m and ks are unchanged.</p>
@@ -885,12 +908,12 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Tests remove method invoked by map
      * and its KeySet and checks their consistency in propagation.
      * Map contains 10 elements, and arguments are keys/entries not
-     * in the map/set. checkKeySet(m, es) and checkIteration(es)
+     * in the map/set. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: remove is invoked by map, m and set
      * are checked, remove is invoked by KeySet and m and set are checked again.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: m contains {0="0", 10="10"},
      * therefore ks contains {0:10}.</p>
@@ -918,7 +941,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: After each removals and
      * modification to map and set's structures are checked
      * by checkKeySet. Test aims to show the correct propagation
-     * of information. checkKeySet(m, es) and checkIteration(es)
+     * of information. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
@@ -927,13 +950,13 @@ public class TestKeySet
      * and each element in map and KeySet is removed by map's remove.
      * The map is initiated with {0="0", 200="200"},
      * and each element in map and KeySet is removed by KeySet's remove.
-     * After each modification to the map, through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * After each modification to the map, through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.
      * </p>
      * <p><b>Pre-Condition</b>: map and set are empty.</p>
      * <p><b>Post-Condition</b>: map and set are empty.</p>
      * <p><b>Expected Results</b>: Each removal is correctly propagated
-     * from map to KeySet and from KeySet to map. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * from map to KeySet and from KeySet to map. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries. In particular,
      * they still contains coherent informations.</p>
      */
@@ -986,31 +1009,31 @@ public class TestKeySet
      * The collection keeps changing during execution. Note that
      * different sizes are tested, as first the size of ks is smaller
      * than the size of c, while then the size of ks is bigger than the
-     * size of c. checkKeySet(m, es) and checkIteration(es)
+     * size of c. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"} and the keyset contains 
-     * {0:i}, for each i in (1,1000)
+     * {0:i}, for each i in (1,700)
      * (Note that empty map/KeySet limit case is being tested). Then
      * ks.removeAll(c) is invoked and coherence is check through checkKeySet.
      * After each modification og the map and set, coherence is checked,
-     * through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.
      * Then the test asserts that m and ks have the right size and isEmpty
      * returns the right value.</p>
      * <p><b>Pre-Condition</b>: c contains {0="0":500="500"}, m and ks are
      * empty.</p>
      * <p><b>Post-Condition</b>: c is unchanged, m contains
-     * {500="500":1000="1000"}, while ks contains {500:1000}.</p>
+     * {500="500":700="700"}, while ks contains {500:700}.</p>
      * <p><b>Expected Results</b>: Each removal is correctly propagated
-     * from map to KeySet and from KeySet to map. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * from map to KeySet and from KeySet to map. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries. In particular,
      * they still contains coherent informations.</p>
      */
     @Test
     public void RemoveAll_Backing0()
     {
-        int bound = 1000;
+        int bound = 700;
         int secondBound = 500;
         c = getIntegerHCollection(0, secondBound);
         for (int i = 1; i < bound; i++)
@@ -1038,7 +1061,7 @@ public class TestKeySet
      * Tests removeAll method correct behaviour
      * and propagation from map to keySet and
      * viceversa. Coherence is also checked through
-     * checkKeySet(m, es) and checkIteration(es).</p>
+     * checkKeySet(m, ks) and checkIteration(ks).</p>
      * <p><b>Test Case Design</b>: Tests removeAll method with
      * keySet HSet. Correct propagation is tested in both ways.
      * </p>
@@ -1192,14 +1215,14 @@ public class TestKeySet
      * the coherence is checked through checkKeySet. Tests right
      * propagation from the entry set to the map. Retaining all entries
      * from the KeySet implies retaining all the entries in the map.
-     * The collection keeps changing during execution. checkKeySet(m, es) and checkIteration(es)
+     * The collection keeps changing during execution. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The collection contains {0="0":500="500"},
      * while map contains {0="0" : i="i"}
      * and the keySet contains {0:i}, for each i in (0,1000)
      * (Note that empty map/KeySet limit case is being tested). Then
-     * ks.retainAll(c) is invoked and coherence is check through checkKeySet(m, es)
-     * and checkIteration(es) asserts that they both
+     * ks.retainAll(c) is invoked and coherence is check through checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.
      * Then the test asserts that m and ks have the right size and isEmpty
      * returns the right value.</p>
@@ -1208,7 +1231,7 @@ public class TestKeySet
      * <p><b>Post-Condition</b>: c is unchanged, m contains
      * {0="0":500="500"} and ks contains {0:500}.</p>
      * <p><b>Expected Results</b>: Each retainAll is correctly propagated
-     * from map to KeySet and from KeySet to map. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * from map to KeySet and from KeySet to map. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries. In particular,
      * they still contains coherent informations.</p>
      */
@@ -1238,17 +1261,17 @@ public class TestKeySet
      * therefore the keyset should became the empty set, since mainteining
      * only the "empty" subset means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument. checkKeySet(m, es) and checkIteration(es)
+     * an empty collection as an argument. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The keyset removes all but "empty", so
      * it empties. In fact initially it contains the keys {1, 2, 3}.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.
      * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: The keyset contains the keys {1, 2, 3}.</p>
      * <p><b>Post-Condition</b>: The keyset is empty.</p>
      * <p><b>Expected Results</b>: The keyset is empty, retainAll returns true
-     * because the keyset has changed. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * because the keyset has changed. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries. Coherence is checked through
      * checkKeySet.</p>
      */
@@ -1272,16 +1295,16 @@ public class TestKeySet
      * RetainAll_Empty_True test case, the keyset is already empty, therefore
      * the method returns false.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty collection as an argument and an empty set. checkKeySet(m, es) and checkIteration(es)
+     * an empty collection as an argument and an empty set. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The keyset removes all but "empty", so
-     * it empties. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * it empties. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.
      * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: The keyset is empty.</p>
      * <p><b>Post-Condition</b>: The keyset is still empty.</p>
      * <p><b>Expected Results</b>: retainAll returns false because keyset set is unchanged.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1297,13 +1320,13 @@ public class TestKeySet
      * The test calls retainAll with a collection containing
      * few elements.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input. Testing a typical case. checkKeySet(m, es) and checkIteration(es)
+     * input. Testing a typical case. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: The keyset initially contains numbers
      * from 1 to 5 included. retainAll is called with a collection
      * containing {3, 4, 5}, therefore the keyset should contain
-     * {3, 4, 5}. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * {3, 4, 5}. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 5}, c contains
      * {3, 4, 5}.</p>
@@ -1311,7 +1334,7 @@ public class TestKeySet
      * {3, 4, 5}.</p>
      * <p><b>Expected Results</b>: set contains {3, 4, 5}, keyset has changed. retainAll returns true
      * because the keyset has changed. Coherence is checked after each retainAll invoke.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1330,7 +1353,7 @@ public class TestKeySet
      * The test calls retainAll with a collection containing
      * few elements. Testing a typical case.</p>
      * <p><b>Test Case Design</b>: The retainAll method is tested with small
-     * input. checkKeySet(m, es) and checkIteration(es)
+     * input. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: The keyset initially contains numbers
@@ -1344,7 +1367,7 @@ public class TestKeySet
      * <p><b>Expected Results</b>: keyset contains {2, 3}, skeysetet has changed.
      * retainAll returns true
      * because the set has changed. Coherence is checked after each retainAll
-     * invoke. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * invoke. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1363,13 +1386,13 @@ public class TestKeySet
      * The test calls retainAll with a collection containing
      * many elements. Testing a typical case with a large input.</p>
      * <p><b>Test Case Design</b>:  The retainAll method is tested with large
-     * input. The case is still a common case. checkKeySet(m, es) and checkIteration(es)
+     * input. The case is still a common case. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: The set initially contains numbers
      * from 1 to 999 included. retainAll is called with a collection
      * containing {300, ..., 599}, therefore the set should contain
-     * {300, 599}. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * {300, 599}. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 699}, c contains
      * {300, ..., 599}.</p>
@@ -1378,7 +1401,7 @@ public class TestKeySet
      * <p><b>Expected Results</b>: The sets are equal, therefore keyset contains {300:600}.
      * retainAll returns true
      * as the set is being modified. Coherence is checked after each
-     * retainAll invoke. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * retainAll invoke. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1399,18 +1422,18 @@ public class TestKeySet
      * therefore the keyset should became the empty set, since mainteining
      * only a subset not contained in the set means deleting all the elements.</p>
      * <p><b>Test Case Design</b>: retainAll being called with the limit case of
-     * an empty intersection of keyset and c. checkKeySet(m, es) and checkIteration(es)
+     * an empty intersection of keyset and c. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: The keyset removes all but "empty", so
      * it empties. In fact initially it contains {1, ..., 20}.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: The keyset contains {1, ..., 20}.</p>
      * <p><b>Post-Condition</b>: The keyset is empty.</p>
      * <p><b>Expected Results</b>: The keyset is empty, retainAll returns true
      * because the set changes. Coherence is checked after each retainAll
-     * invoke. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * invoke. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1435,13 +1458,13 @@ public class TestKeySet
      * the collection to contain the same elements. Tests propagation.</p>
      * <p><b>Test Description</b>: The set contains {0:i}
      * for i in (0, 100). retainAll(c) is invoked and then set is unchanged.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: The set is empty.</p>
      * <p><b>Post-Condition</b>: The set contains {0:100}.</p>
      * <p><b>Expected Results</b>: retainAll returns false
      * because the set is unchanged. Coherence is checked after each retainAll invoke.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1467,13 +1490,13 @@ public class TestKeySet
      * the collection to contain the same elements plus 5 more. Tests propagation.</p>
      * <p><b>Test Description</b>: The set contains {0:i}
      * for i in (0, 100). retainAll(c) is invoked and then set is unchanged.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: The set is empty.</p>
      * <p><b>Post-Condition</b>: The set contains {0:100}.</p>
      * <p><b>Expected Results</b>: retainAll returns false
      * because the set is unchanged. Coherence is checked after each retainAll invoke.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1498,12 +1521,12 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: c can contain duplicated element, and
      * this should not change retainAll behaviour. At the end of
      * retainAll execution every element not contained in coll
-     * must be removed. checkKeySet(m, es) and checkIteration(es)
+     * must be removed. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: keyset contains {1, ..., 19}. c contains
      * {4, 4, 5, 5, 6, 6}. retainAll is called, so the set should contain
-     * {4, 5, 6}. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * {4, 5, 6}. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      * <p><b>Pre-Condition</b>: keyset contains {1, ..., 19}. c contains
      * {4, 4, 5, 5, 6, 6}.</p>
@@ -1511,7 +1534,7 @@ public class TestKeySet
      * {4, 4, 5, 5, 6, 6}.</p>
      * <p><b>Expected Results</b>: The arrays are equal, therefore the
      * keyset contains {4, 5, 6}. retainAll returns true
-     * as the set is being modified. Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * as the set is being modified. Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1596,6 +1619,7 @@ public class TestKeySet
     public void ToArray_OneElement()
     {
         m.put(1, "One");
+        assertArrayEquals(new Object[]{1}, ks.toArray());
         checkToArray(ks, ks.toArray());
     }
 
@@ -1606,7 +1630,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Checks the array to be right
      * through checkToArray after each removals through ks.remove,
      * creating different situations and cases to test the method.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
@@ -1617,8 +1641,8 @@ public class TestKeySet
      * <p><b>Post-Condition</b>: m and ks are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through ks.toArray is right and coherent. At the end ks and m are empty.
-     * Through checkToArray(es, es.toArray()), checkKeySet(m, es)
-     * and checkIteration(es) asserts that they both
+     * Through checkToArray(es, es.toArray()), checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1668,7 +1692,7 @@ public class TestKeySet
      * <p><b>Summary</b>: toArray method test case.</p>
      * <p><b>Test Case Design</b>: Tests the toArray method
      * when the size of ks and map is 1, which is a limit case.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: toArray is invoked by an KeySet
@@ -1678,8 +1702,8 @@ public class TestKeySet
      * <p><b>Post-Condition</b>: ks and m are unchanged</p>
      * <p><b>Expected Results</b>: ks.toArray returns an array
      * of lenght 1 containing only the element 1="One".
-     * Through checkToArray(es, es.toArray()), checkKeySet(m, es)
-     * and checkIteration(es) asserts that they both
+     * Through checkToArray(es, es.toArray()), checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1688,6 +1712,7 @@ public class TestKeySet
         Object[] a = new Object[1];
         m.put(1, "One");
         ks.toArray(a);
+        assertArrayEquals(new Object[]{1}, a);
         checkToArray(ks, a);
         checkIteration(ks);
         checkKeySet(m, ks);
@@ -1700,7 +1725,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Checks the array to be right
      * through checkToArray after each removals through ks.remove,
      * creating different situations and cases to test the method.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: The test first removes the
      * entries with even key, then the entries with odd key. After each
@@ -1712,8 +1737,8 @@ public class TestKeySet
      * <p><b>Post-Condition</b>: m and ks are empty</p>
      * <p><b>Expected Results</b>: After each removal the generated array
      * through ks.toArray is right and coherent. At the end ks and m are empty.
-     * Through checkToArray(es, es.toArray()), checkKeySet(m, es)
-     * and checkIteration(es) asserts that they both
+     * Through checkToArray(es, es.toArray()), checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1748,7 +1773,7 @@ public class TestKeySet
      * <p><b>Summary</b>: toArray method test case.
      * Test took by TestValues.java tests assigned by the professor.</p>
      * <p><b>Test Case Design</b>: Tests keySet toArray with a single element.</p>
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * <p><b>Test Description</b>: size is true if lenght is 1, content
 	 * is true if a[0] equals the Collection Adapter.</p>
@@ -1849,7 +1874,7 @@ public class TestKeySet
      * <p><b>Summary</b>: iteration on an KeySet test case.</p>
      * <p><b>Test Case Design</b>: Tests the iterator's behaviour
      * on an KeySet of variable size, including the size 1 and
-     * a much bigger size. checkKeySet(m, es) and checkIteration(es)
+     * a much bigger size. checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: checks if the iterator is right
      * through checkIteration method. In particular, checks
@@ -1865,7 +1890,7 @@ public class TestKeySet
      * <p><b>Expected Results</b>: For each iteration, m containing {0="0":i="i"},
      * the iteration is tested through checkIteration. In particular,
      * iterates i times, for each i in {0:100}.
-     * Through checkKeySet(m, es) and checkIteration(es) asserts that they both
+     * Through checkKeySet(m, ks) and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1953,7 +1978,7 @@ public class TestKeySet
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
      * to assure correct propagation iterator -> KeySet -> map.
-     * checkKeySet(m, es) and checkIteration(es)
+     * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: map and ks initially contain
      * {0="0":100="100"}. An iterator iterates through
@@ -1967,8 +1992,8 @@ public class TestKeySet
      * {0="0":100="100"}, therefore ks contains {0:100}</p>
      * <p><b>Post-Condition</b>: m and ks are empty.</p>
      * <p><b>Expected Results</b>: Each remove invoke works right,
-     * the element is removed correctly and through checkKeySet(m, es)
-     * and checkIteration(es) asserts that they both
+     * the element is removed correctly and through checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
      * share the same informations about the map entries.</p>
      */
     @Test
@@ -1993,7 +2018,7 @@ public class TestKeySet
      * <p><b>Summary</b>: iteration on entryset test case.
      * Tests iterator.remove method on a changing entryset,
      * checking entryset - map coherence and the iteration
-     * with checkEntrySet and checkIteration.</p>
+     * with checkKeySet and checkIteration.</p>
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
@@ -2031,6 +2056,56 @@ public class TestKeySet
         }
         assertEquals("20 should be removed.", 80, ks.size());
         assertEquals("20 should be removed.", 80, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests put on map propagation
+     * to the entrySet.</p>
+     * <p><b>Test Description</b>: map is initialized with
+     * {0="0":3="3"}. Therefore ks contains {0:3}.
+     * Then entries {0="3":3="6"} are put
+     * in the map through map. Therefore ks still contains
+     * {0:3}.
+     * Note that, unlikely values collection and entrySet,
+     * it is impossible to see at put changes through iterator,
+     * as iterates only through keys, that are unchanged unless
+     * some removal. Therefore, in this case immutability
+     * for keyset is tested.</p>
+     * <p><b>Pre-Condition</b>: map initially contain
+     * {0="0":3="3"}, ks contains {0:3}.</p>
+     * <p><b>Post-Condition</b>: map contains
+     * {0="3":3="6"}, ks contains {0:3}.</p>
+     * <p><b>Expected Results</b>: Each put propagation works right,
+     * the element is substituted correctly and through checkKeySet(m, ks)
+     * and checkIteration(ks) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void KSIterator_PutSubstitute()
+    {
+        initHMap(m, 0, 3);
+        it = ks.iterator();
+        while (it.hasNext())
+        {
+            Object curr = it.next();
+            assertTrue(curr.equals(0) ||
+                       curr.equals(1) ||
+                       curr.equals(2));
+        }
+        for (int i = 0; i < 3; i++)
+            assertEquals(""+i, m.put(i, ""+(i+3)));
+        
+        it = ks.iterator();
+        while (it.hasNext())
+        {
+            Object curr = it.next();
+            assertTrue(curr.equals(0) ||
+                       curr.equals(1) ||
+                       curr.equals(2));
+        }
+        checkKeySet(m, ks);
+        checkIteration(ks);
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------

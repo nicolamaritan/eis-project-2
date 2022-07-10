@@ -463,7 +463,7 @@ public class TestEntrySet
      * <p><b>Expected Results</b>: The containsAll(c) method return false.</p>
      */
     @Test
-    public void ContainsAll_Empty_False()
+    public void ContainsAll_Empty()
     {
         c = getEntryHCollection(1, 4);
         assertFalse("The method should return false because the entryset is empty.", es.containsAll(c)); 
@@ -486,8 +486,31 @@ public class TestEntrySet
      * <p><b>Expected Results</b>: The containsAll(c) method return true.</p>
      */
     @Test
-    public void ContainsAll_BothEmpty_False()
+    public void ContainsAll_BothEmpty()
     {
+        assertTrue("The method should return true because the collection is empty.", es.containsAll(c)); 
+    }
+
+   /**
+     * <p><b>Summary</b>: containsAll method test case.
+     * The method tests if an non-empty entryset contains the elements
+     * of another collection.</p>
+     * <p><b>Test Case Design</b>: The test case tests the limit case of
+     * checking an entryset containing an empty collection, which is true, 
+     * as the empty subset is the subset of every set.
+     * The tested case is a limit case of containsAll.</p>
+     * <p><b>Test Description</b>: The collection is empty.
+     * The containsAll method obviously should return true for
+     * any coll's content, because the empty subset is the
+     * subset of every set.</p>
+     * <p><b>Pre-Condition</b>: The entryset contains 10 elements.</p>
+     * <p><b>Post-Condition</b>: The entryset contains 10 elements.</p>
+     * <p><b>Expected Results</b>: The containsAll(c) method return true.</p>
+     */
+    @Test
+    public void ContainsAll_EmptyCollection()
+    {
+        initHMap(m, 0, 10);
         assertTrue("The method should return true because the collection is empty.", es.containsAll(c)); 
     }
     
@@ -1605,6 +1628,7 @@ public class TestEntrySet
     public void ToArray_OneElement()
     {
         m.put(1, "One");
+        assertArrayEquals(new Object[]{getEntry(1, "One")}, es.toArray());
         checkToArray(es, es.toArray());
     }
 
@@ -1694,6 +1718,7 @@ public class TestEntrySet
         Object[] a = new Object[1];
         m.put(1, "One");
         es.toArray(a);
+        assertArrayEquals(new Object[]{getEntry(1, "One")}, a);
         checkToArray(es, a);
         checkEntrySet(m, es);
         checkIteration(es);
@@ -2027,6 +2052,51 @@ public class TestEntrySet
         }
         assertEquals("20 should be removed.", 80, es.size());
         assertEquals("20 should be removed.", 80, m.size());
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests put on map propagation
+     * to the entrySet.</p>
+     * <p><b>Test Description</b>: map is initialized with
+     * {0="0":3="3"}. Therefore es contains {0="3":3="6"}.
+     * Then entries {0="3":3="6"} are put
+     * in the map through map. Therefore es contains
+     * {0="3":3="6"}.</p>
+     * <p><b>Pre-Condition</b>: map and es initially contain
+     * {0="0":3="3"}</p>
+     * <p><b>Post-Condition</b>: map and es contains
+     * {0="3":3="6"}.</p>
+     * <p><b>Expected Results</b>: Each put propagation works right,
+     * the element is substituted correctly and through checkEntrySet(m, es)
+     * and checkIteration(es) asserts that they both
+     * share the same informations about the map entries.</p>
+     */
+    @Test
+    public void ESIterator_PutSubstitute()
+    {
+        initHMap(m, 0, 3);
+        it = es.iterator();
+        while (it.hasNext())
+        {
+            HMap.Entry curr = (HMap.Entry)it.next();
+            assertTrue(curr.equals(getEntry(0, "0")) ||
+                       curr.equals(getEntry(1, "1")) ||
+                       curr.equals(getEntry(2, "2")));
+        }
+        for (int i = 0; i < 3; i++)
+            assertEquals(""+i, m.put(i, ""+(i+3)));
+        
+        it = es.iterator();
+        while (it.hasNext())
+        {
+            HMap.Entry curr = (HMap.Entry)it.next();
+            assertTrue(curr.equals(getEntry(0, "3")) ||
+                       curr.equals(getEntry(1, "4")) ||
+                       curr.equals(getEntry(2, "5")));
+        }
+        checkEntrySet(m, es);
+        checkIteration(es);
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------
