@@ -289,7 +289,7 @@ public class TestEntrySet
         checkEntrySet(m, es);
         checkIteration(es);
         assertEquals("entryset with 3 elements does not have size of 3.", 3, es.size());
-        assertEquals("isEmpty did not returned false.", false, es.isEmpty());
+        assertFalse("isEmpty did not returned false.", es.isEmpty());
     }
 
     /**
@@ -317,7 +317,7 @@ public class TestEntrySet
         checkEntrySet(m, es);
         checkIteration(es);
         assertEquals("entryset with 345 elements does not have size of 345.", 345, es.size());
-        assertEquals("isEmpty did not returned false.", false, es.isEmpty());
+        assertFalse("isEmpty did not returned false.",  es.isEmpty());
     }
 
     // ------------------------------------------ contains method ------------------------------------------
@@ -390,7 +390,7 @@ public class TestEntrySet
     public void Contains_0To100_DifferentValue()
     {
         int bound = 100;
-        addToHMap(m, 0, bound);
+        initHMap(m, 0, bound);
         checkEntrySet(m, es);
         checkIteration(es);
         for (int i = 0; i < bound; i++)
@@ -420,7 +420,7 @@ public class TestEntrySet
     public void Contains_0To100_DifferentKey()
     {
         int bound = 100;
-        TestUtilities.addToHMap(m, 0, bound);
+        initHMap(m, 0, bound);
         checkEntrySet(m, es);
         checkIteration(es);
         for (int i = 0; i < bound; i++)
@@ -702,8 +702,8 @@ public class TestEntrySet
     public void Equals_Transitive()
     {
         int to = 500;
-        addToHMap(m, 0, to);
-        addToHMap(m2, 0, to);
+        initHMap(m, 0, to);
+        initHMap(m2, 0, to);
         HSet es3 = getIntegerMapAdapter(0, to).entrySet();
 
         assertTrue("EntrySets should be equal.", es.equals(es2));
@@ -831,7 +831,7 @@ public class TestEntrySet
      * and viceversa, tests therefore the consinstency of equals and hashCode.</p>
      * <p><b>Test Description</b>: Different configurations have been tested. In mathematical symbols, considering the keys:
      * empty, {1}, {-100:100}, {-100:100}/{0}, {-100:101}/{0}, {-100:100, 500:1000}/{0},
-     * {-100:100, 500:1000} U {-1000:-900}/({0} ), {-100:100, 500:1000, 5000:6000}  U {-1000:-900}/({0})</p>
+     * {-100:100, 500:1000} U {-1000:-900}/({0}), {-100:100, 500:1000, 5000:6000}  U {-1000:-900}/({0})</p>
      * <p><b>Pre-Condition</b>: EntrySets have same hashCode and they are equal.</p>
      * <p><b>Post-Condition</b>: EntrySets have same hashCode and they are equal.</p>
      * <p><b>Expected Results</b>: EntrySets have same hashCode and they are equal.</p>
@@ -1478,7 +1478,7 @@ public class TestEntrySet
         for (int i = 0; i < bound; i++)
         {
             initHMap(m, 0, i);
-            assertFalse(es.retainAll(getEntryHCollection(0, i)));
+            assertFalse("Contain same element, should return false", es.retainAll(getEntryHCollection(0, i)));
             checkIteration(es);
             checkEntrySet(m, es);
         }
@@ -1510,7 +1510,7 @@ public class TestEntrySet
         for (int i = 0; i < bound; i++)
         {
             initHMap(m, 0, i);
-            assertFalse(es.retainAll(getEntryHCollection(0, i + 5)));
+            assertFalse("Contain same elements plus more, should return false", es.retainAll(getEntryHCollection(0, i + 5)));
             checkIteration(es);
             checkEntrySet(m, es);
         }
@@ -2060,7 +2060,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Tests put on map propagation
      * to the entrySet.</p>
      * <p><b>Test Description</b>: map is initialized with
-     * {0="0":3="3"}. Therefore es contains {0="3":3="6"}.
+     * {0="0":3="3"}. Therefore es contains {0="3":3="3"}.
      * Then entries {0="3":3="6"} are put
      * in the map through map. Therefore es contains
      * {0="3":3="6"}.</p>
@@ -2098,6 +2098,38 @@ public class TestEntrySet
         }
         checkEntrySet(m, es);
         checkIteration(es);
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests iteration and then
+     * expects exception thrown after next invoke
+     * when hasNext() returns false.</p>
+     * <p><b>Test Description</b>: map is initialized with
+     * {0="0":10="10"}. Therefore es contains {0="0":10="10"}.
+     * Test iterated through the set incrementing a counter.
+     * i is asserted to be 10, the map size. next is invoked.</p>
+     * <p><b>Pre-Condition</b>: map and es contain
+     * {0="0":10="10"}</p>
+     * <p><b>Post-Condition</b>: map and es are unchanged</p>
+     * <p><b>Expected Results</b>: Iteration works correctly.
+     * Map and sets are coherent. i equals 10. Last next
+     * throws NoSuchElementException.</p>
+     */
+    @Test (expected = NoSuchElementException.class)
+    public void ESIterator_0To10NSE()
+    {
+        initHMap(m, 0, 10);
+        it = es.iterator();
+        int i = 0; 
+        while (it.hasNext())
+        {
+            it.next();
+            i++;
+        }
+        assertEquals("i should be 10", 10, i);
+        assertFalse("Should NOT have next", it.hasNext());
+        it.next();
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------

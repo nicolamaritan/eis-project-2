@@ -14,7 +14,7 @@ import static myTest.TestUtilities.*;
  * test cases.
  * The test suite contains the tests in the TestCollection.java
  * file assigned by the professor in the JUnit format. The original tests
- * inserted elements directly inserted elements in the set through add(Object) method,
+ * directly inserted elements in the set through add(Object) method,
  * but the HMap interfaces states that the HCollection returned from value() cannot use
  * add or addAll. Therefore the original test (contained in TestSet.java given by the professor)
  * has being recreated inserting an entry

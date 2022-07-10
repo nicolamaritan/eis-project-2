@@ -1475,7 +1475,7 @@ public class TestKeySet
         for (int i = 0; i < bound; i++)
         {
             initHMap(m, 0, i);
-            assertFalse(ks.retainAll(getIntegerHCollection(0, i)));
+            assertFalse("Contain same elements, should return false", ks.retainAll(getIntegerHCollection(0, i)));
             checkIteration(ks);
             checkKeySet(m, ks);
         }
@@ -1507,7 +1507,7 @@ public class TestKeySet
         for (int i = 0; i < bound; i++)
         {
             initHMap(m, 0, i);
-            assertFalse(ks.retainAll(getIntegerHCollection(0, i + 5)));
+            assertFalse("Contain same elements plus more, should return false", ks.retainAll(getIntegerHCollection(0, i + 5)));
             checkIteration(ks);
             checkKeySet(m, ks);
         }
@@ -2107,6 +2107,38 @@ public class TestKeySet
         }
         checkKeySet(m, ks);
         checkIteration(ks);
+    }
+
+    /**
+     * <p><b>Summary</b>: iteration on entryset test case.</p>
+     * <p><b>Test Case Design</b>: Tests iteration and then
+     * expects exception thrown after next invoke
+     * when hasNext() returns false.</p>
+     * <p><b>Test Description</b>: map is initialized with
+     * {0="0":10="10"}. Therefore ks contains {0:10}.
+     * Test iterated through the set incrementing a counter.
+     * i is asserted to be 10, the map size. next is invoked.</p>
+     * <p><b>Pre-Condition</b>: map contains
+     * {0="0":10="10"}, ks contains {0:10}.</p>
+     * <p><b>Post-Condition</b>: map and ks are unchanged</p>
+     * <p><b>Expected Results</b>: Iteration works correctly.
+     * Map and sets are coherent. i equals 10. Last next
+     * throws NoSuchElementException.</p>
+     */
+    @Test (expected = NoSuchElementException.class)
+    public void KSIterator_0To10NSE()
+    {
+        initHMap(m, 0, 10);
+        it = ks.iterator();
+        int i = 0; 
+        while (it.hasNext())
+        {
+            it.next();
+            i++;
+        }
+        assertEquals("i should be 10", 10, i);
+        assertFalse("Should NOT have next", it.hasNext());
+        it.next();
     }
 
     // ------------------------------------------ Coarse grained tests ------------------------------------------

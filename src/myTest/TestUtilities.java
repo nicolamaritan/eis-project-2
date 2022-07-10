@@ -216,12 +216,12 @@ public class TestUtilities
     }
 
     /**
-     * Returns an HCollection containing objects of class HMap.Entry
+     * Returns an HCollection containing objects of interface HMap.Entry
      * of type i="i", with integer key and string value, for i in
      * (from, to).
      * @param from lower bound of HMap.Entry key and value
      * @param to upper bound of HMap.Entry key and value
-     * @return an HCollection containing objects of class HMap.Entry
+     * @return an HCollection containing objects of interface HMap.Entry
      * of type i="i", with integer key and string value, for i in
      * (from, to).
      */
@@ -241,12 +241,12 @@ public class TestUtilities
     }
 
     /**
-     * Returns an HSet containing objects of class HMap.Entry
+     * Returns an HSet containing objects of interface HMap.Entry
      * of type i="i", with integer key and string value, for i in
      * (from, to).
      * @param from lower bound of HMap.Entry key and value
      * @param to upper bound of HMap.Entry key and value
-     * @return an HCollection containing objects of class HMap.Entry
+     * @return an HCollection containing objects of interface HMap.Entry
      * of type i="i", with integer key and string value, for i in
      * (from, to).
      */
