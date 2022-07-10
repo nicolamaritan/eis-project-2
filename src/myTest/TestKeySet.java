@@ -41,6 +41,7 @@ import myAdapter.*;
  * from entrySet() or through the backing map, checkKeySet() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HSet cannot
  * contain duplicated, as the backing HMap cannot contain elements with the same key.</p>
+ * @author  Nicola Maritan
  */
 public class TestKeySet 
 {

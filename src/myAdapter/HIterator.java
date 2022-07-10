@@ -1,7 +1,7 @@
 package myAdapter;
 
 /**
- *  An iterator over a collection. Iterator takes the place of Enumeration in
+ * An iterator over a collection. Iterator takes the place of Enumeration in
  * the Java collections framework. Iterators differ from enumerations in two
  * ways:
  * <ul>
@@ -9,6 +9,7 @@ package myAdapter;
  * collection during the iteration with well-defined semantics.
  * <li>Method names have been improved.
  * </ul>
+ * @author  Nicola Maritan
  */
 public interface HIterator {
     /**

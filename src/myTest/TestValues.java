@@ -41,6 +41,7 @@ import myAdapter.*;
  * from entrySet() or through the backing map, checkValues() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HCollection can
  * actually contain clones, as the presence of a duplicated value in a HMap is prohibited.</p>
+ * @author  Nicola Maritan
  */
 public class TestValues 
 {

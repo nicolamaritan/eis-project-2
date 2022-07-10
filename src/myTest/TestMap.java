@@ -41,6 +41,7 @@ import myAdapter.*;
  * purpouse, to test the most general case possible.
  * Prints are kept from the original file, as it helped during the Test Driven Development
  * at looking for errors and fixing them.</p>
+ * @author  Nicola Maritan
  */
 public class TestMap
 {
@@ -342,7 +343,7 @@ public class TestMap
             assertTrue("Should be present", s1.contains(k));
 			iter.remove();
             assertFalse("Should be just removed", s1.contains(k));
-            System.out.println(k + " " + m.size() + "; ");
+            System.out.print(k + " " + m.size() + "; ");
 		}
 		assertEquals("[]", s1.toString());
 		System.out.println("\n" + s1);
@@ -418,12 +419,11 @@ public class TestMap
 
 		System.out.println(m + " " + m.size());
 		assertEquals("Size should be 4", 4, m.size());
-
 		iter = c.iterator();
 		count = c.size()+2;
-		while(iter.hasNext()&&count-->= 0)
-            System.out.println("\n" + c);
-		System.out.println("\n" + c);
+        while(iter.hasNext()&&count-->= 0)
+            System.out.print(iter.next() + "; ");
+        System.out.println("\n" + c);
 
 		sm2 = m.size();
 		ss2 = c.size();

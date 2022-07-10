@@ -42,6 +42,7 @@ import myAdapter.*;
  * to assert that changes propagated successfully. Note that the afore mentioned HSet cannot
  * contain duplicated, in particular cannot contains two entries whith the same keys,
  * as the backing HMap cannot too.</p>
+ * @author  Nicola Maritan
  */
 public class TestEntrySet 
 {

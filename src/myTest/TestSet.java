@@ -36,6 +36,7 @@ import myAdapter.*;
  * </ul>
  * Prints are kept from the original file, as it helped during the Test Driven Development
  * at looking for errors and fixing them.
+ * @author  Nicola Maritan
  */
 public class TestSet
 {

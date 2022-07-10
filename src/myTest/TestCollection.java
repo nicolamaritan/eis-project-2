@@ -29,6 +29,7 @@ import static myTest.TestUtilities.*;
  * the map structure is modified in different ways, and inspection test, where information are retrieved
  * from the map to see if the informations are stored correctly, and tests where modifications and
  * inspections are combined. Each method is tested apart from others.
+ * @author  Nicola Maritan
  */
 public class TestCollection 
 {

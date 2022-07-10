@@ -5,6 +5,7 @@ import myAdapter.*;
 /**
  * Class with static methods used during Test Driven Development to initialize and create
  * HMap and other objects samples quickly.
+ * @author  Nicola Maritan
  */
 public class TestUtilities
 {

@@ -1,2 +1,0 @@
-java myTest.TestRunner
-pause
