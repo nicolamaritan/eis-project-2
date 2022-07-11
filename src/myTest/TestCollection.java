@@ -19,7 +19,9 @@ import static myTest.TestUtilities.*;
  * add or addAll. Therefore the original test (contained in TestSet.java given by the professor)
  * has being recreated inserting an entry
  * with adeguate value to the map, in other to indirectly "insert" that element in
- * the set.
+ * the set. Method hashCode and iterator in the original TestCollection file contained empty
+ * body, therefore they were eliminated because hashCode and iterator method are tested
+ * in {@code TestValues}.
  * Notation used in this test suite:
  * <ul>
  * <li>x=y means an entry, where s is the key, and y is its mapped value.</li>
@@ -30,6 +32,7 @@ import static myTest.TestUtilities.*;
  * from the map to see if the informations are stored correctly, and tests where modifications and
  * inspections are combined. Each method is tested apart from others.
  * @author  Nicola Maritan
+ * @see TestValues
  */
 public class TestCollection 
 {
@@ -44,6 +47,9 @@ public class TestCollection
 	private boolean c, cc, ccc;
 	private boolean h;
 
+	/**
+	 * Prints test suite name before running tests.
+	 */
     @BeforeClass
     public static void BeforeClassMethod()
     {
@@ -86,6 +92,9 @@ public class TestCollection
 		intersect = getHCollection(new Object[]{"aaa", "bbb", "ccc"});
 	}
 
+	/**
+	 * Prints test suite name after running tests.
+	 */
 	@AfterClass
 	public static void AfterClassMethod()
 	{

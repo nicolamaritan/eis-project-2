@@ -56,6 +56,9 @@ public class TestMap
     private int sm0, sm1, sm2, ss0, ss1, ss2;
 	private String[] argv = {"pippo", "pluto", "qui", "ciccio", "gambatek"};
 
+    /**
+	 * Prints test suite name before running tests.
+	 */
 	@BeforeClass
 	public static void BeforeClassMethod()
 	{
@@ -73,6 +76,9 @@ public class TestMap
 		m2 = new MapAdapter();
 	}
 
+    /**
+	 * Prints test suite name after running tests.
+	 */
 	@AfterClass
 	public static void AfterClassMethod()
 	{

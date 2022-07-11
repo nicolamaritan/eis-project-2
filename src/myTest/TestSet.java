@@ -38,6 +38,8 @@ import myAdapter.*;
  * Prints are kept from the original file, as it helped during the Test Driven Development
  * at looking for errors and fixing them.
  * @author  Nicola Maritan
+ * @see TestEntrySet
+ * @see TestKeySet
  */
 public class TestSet
 {
@@ -47,7 +49,9 @@ public class TestSet
 	private HIterator iter2 = null;
 	private String[] argv = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
 
-
+	/**
+	 * Prints test suite name before running tests.
+	 */
     @BeforeClass
     public static void BeforeClassMethod()
     {
@@ -62,7 +66,10 @@ public class TestSet
 	{
         m = new MapAdapter();
 	}
-
+	
+	/**
+	 * Prints test suite name after running tests.
+	 */
 	@AfterClass
 	public static void AfterClassMethod()
 	{

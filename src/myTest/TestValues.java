@@ -50,6 +50,9 @@ public class TestValues
     private HCollection c;
     private HIterator it;
 
+    /**
+	 * Prints test suite name before running tests.
+	 */
     @BeforeClass
     public static void BeforeClassMethod()
     {
@@ -69,7 +72,9 @@ public class TestValues
         c = getEmptyHCollection();
     }
 
-    
+    /**
+	 * Prints test suite name after running tests.
+	 */
     @AfterClass
     public static void AfterClassMethod()
     {
