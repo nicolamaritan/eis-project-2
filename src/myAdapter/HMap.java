@@ -35,9 +35,9 @@ package myAdapter;
  *
  * <p>The "destructive" methods contained in this interface, that is, the
  * methods that modify the map on which they operate, are specified to throw
- * {@code UnsupportedOperationException} if this map does not support the
+ * {@code HUnsupportedOperationException} if this map does not support the
  * operation.  If this is the case, these methods may, but are not required
- * to, throw an {@code UnsupportedOperationException} if the invocation would
+ * to, throw an {@code HUnsupportedOperationException} if the invocation would
  * have no effect on the map.  For example, invoking the {@link #putAll(Map)}
  * method on an unmodifiable map may, but is not required to, throw the
  * exception if the map whose mappings are to be "superimposed" is empty.
@@ -91,7 +91,7 @@ package myAdapter;
  * <ul>
  * <li>They are <a href="Collection.html#unmodifiable"><i>unmodifiable</i></a>. Keys and values
  * cannot be added, removed, or updated. Calling any mutator method on the Map
- * will always cause {@code UnsupportedOperationException} to be thrown.
+ * will always cause {@code HUnsupportedOperationException} to be thrown.
  * However, if the contained keys or values are themselves mutable, this may cause the
  * Map to behave inconsistently or its contents to appear to change.
  * <li>They disallow {@code null} keys and values. Attempts to create them with
@@ -220,7 +220,7 @@ public interface HMap
      *         (A {@code null} return can also indicate that the map
      *         previously associated {@code null} with {@code key},
      *         if the implementation supports {@code null} values.)
-     * @throws UnsupportedOperationException if the {@code put} operation
+     * @throws HUnsupportedOperationException if the {@code put} operation
      *         is not supported by this map
      * @throws ClassCastException if the class of the specified key or value
      *         prevents it from being stored in this map
@@ -252,7 +252,7 @@ public interface HMap
      * @param key key whose mapping is to be removed from the map
      * @return the previous value associated with {@code key}, or
      *         {@code null} if there was no mapping for {@code key}.
-     * @throws UnsupportedOperationException if the {@code remove} operation
+     * @throws HUnsupportedOperationException if the {@code remove} operation
      *         is not supported by this map
      * @throws ClassCastException if the key is of an inappropriate type for
      *         this map
@@ -275,7 +275,7 @@ public interface HMap
      * specified map is modified while the operation is in progress.
      *
      * @param m mappings to be stored in this map
-     * @throws UnsupportedOperationException if the {@code putAll} operation
+     * @throws HUnsupportedOperationException if the {@code putAll} operation
      *         is not supported by this map
      * @throws ClassCastException if the class of a key or value in the
      *         specified map prevents it from being stored in this map
@@ -291,7 +291,7 @@ public interface HMap
      * Removes all of the mappings from this map (optional operation).
      * The map will be empty after this call returns.
      *
-     * @throws UnsupportedOperationException if the {@code clear} operation
+     * @throws HUnsupportedOperationException if the {@code clear} operation
      *         is not supported by this map
      */
     void clear();
@@ -370,7 +370,7 @@ public interface HMap
          * Returns the key corresponding to this entry.
          *
          * @return the key corresponding to this entry
-         * @throws IllegalStateException implementations may, but are not
+         * @throws HIllegalStateException implementations may, but are not
          *         required to, throw this exception if the entry has been
          *         removed from the backing map.
          */
@@ -382,7 +382,7 @@ public interface HMap
          * {@code remove} operation), the results of this call are undefined.
          *
          * @return the value corresponding to this entry
-         * @throws IllegalStateException implementations may, but are not
+         * @throws HIllegalStateException implementations may, but are not
          *         required to, throw this exception if the entry has been
          *         removed from the backing map.
          */
@@ -396,7 +396,7 @@ public interface HMap
          *
          * @param value new value to be stored in this entry
          * @return old value corresponding to the entry
-         * @throws UnsupportedOperationException if the {@code put} operation
+         * @throws HUnsupportedOperationException if the {@code put} operation
          *         is not supported by the backing map
          * @throws ClassCastException if the class of the specified value
          *         prevents it from being stored in the backing map
@@ -404,7 +404,7 @@ public interface HMap
          *         null values, and the specified value is null
          * @throws IllegalArgumentException if some property of this value
          *         prevents it from being stored in the backing map
-         * @throws IllegalStateException implementations may, but are not
+         * @throws HIllegalStateException implementations may, but are not
          *         required to, throw this exception if the entry has been
          *         removed from the backing map.
          */

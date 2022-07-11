@@ -292,7 +292,7 @@ public class TestKeySet
     @Test
     public void Size_ThreeElements()
     {
-        addToHMap(m, 0, 3);
+        initHMap(m, 0, 3);
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("KeySet with 3 elements does not have size of 3.", 3, ks.size());
@@ -321,7 +321,7 @@ public class TestKeySet
     @Test
     public void Size_345Elements()
     {
-        addToHMap(m, 0, 345);
+        initHMap(m, 0, 345);
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("KeySet with 345 elements does not have size of 345.", 345, ks.size());

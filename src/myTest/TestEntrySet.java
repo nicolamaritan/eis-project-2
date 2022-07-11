@@ -285,7 +285,7 @@ public class TestEntrySet
     @Test
     public void Size_ThreeElements()
     {
-        TestUtilities.addToHMap(m, 0, 3);
+        initHMap(m, 0, 3);
         checkEntrySet(m, es);
         checkIteration(es);
         assertEquals("entryset with 3 elements does not have size of 3.", 3, es.size());
@@ -313,7 +313,7 @@ public class TestEntrySet
     @Test
     public void Size_345Elements()
     {
-        TestUtilities.addToHMap(m, 0, 345);
+        initHMap(m, 0, 345);
         checkEntrySet(m, es);
         checkIteration(es);
         assertEquals("entryset with 345 elements does not have size of 345.", 345, es.size());

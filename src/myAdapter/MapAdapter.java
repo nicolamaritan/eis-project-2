@@ -320,7 +320,7 @@ public class MapAdapter implements HMap
 
     /**
      * Returns a string representation of the HMap.
-     * The order is determined by entrySet.iterator().
+     * The order is determined by entrySet().iterator().
      */
     @Override
     public String toString()
@@ -374,6 +374,24 @@ public class MapAdapter implements HMap
         private Object value;
         private Object key;
 
+        /**
+         * Compares the specified object with this entry for equality.
+         * Returns {@code true} if the given object is also a map entry and
+         * the two entries represent the same mapping.  More formally, two
+         * entries {@code e1} and {@code e2} represent the same mapping
+         * if<pre>
+         *     (e1.getKey()==null ?
+         *      e2.getKey()==null : e1.getKey().equals(e2.getKey()))  &amp;&amp;
+         *     (e1.getValue()==null ?
+         *      e2.getValue()==null : e1.getValue().equals(e2.getValue()))
+         * </pre>
+         * This ensures that the {@code equals} method works properly across
+         * different implementations of the {@code Map.Entry} interface.
+         *
+         * @param o object to be compared for equality with this map entry
+         * @return {@code true} if the specified object is equal to this map
+         *         entry
+         */
         public boolean equals(Object o)
         {
             if (!(o instanceof Entry))
@@ -862,6 +880,10 @@ public class MapAdapter implements HMap
             return ret;
         }
     
+        /**
+         * Returns a string representation of the HSet.
+         * The order is determined by entrySet().iterator().
+         */
         public String toString()
         {
             String res = "[";
@@ -935,7 +957,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HHIllegalStateException if the next method has not
+             * @exception HHHIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
@@ -1328,6 +1350,10 @@ public class MapAdapter implements HMap
             return ret;
         }
     
+        /**
+         * Returns a string representation of the HSet.
+         * The order is determined by keySet().iterator().
+         */
         public String toString()
         {
             String res = "[";
@@ -1394,7 +1420,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HIllegalStateException if the next method has not
+             * @exception HHIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
@@ -1836,6 +1862,10 @@ public class MapAdapter implements HMap
             return hc;
         }
 
+        /**
+         * Returns a string representation of the HCollection.
+         * The order is determined by values().iterator().
+         */
         public String toString()
         {
             HIterator it = this.iterator();
@@ -1900,7 +1930,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HIllegalStateException if the next method has not
+             * @exception HHIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
              *		  been called after the last call to the next
              *		  method.

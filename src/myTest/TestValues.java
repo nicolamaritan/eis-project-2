@@ -287,7 +287,7 @@ public class TestValues
     @Test
     public void Size_ThreeElements_3()
     {
-        addToHMap(m, 0, 3);
+        initHMap(m, 0, 3);
         checkValues(m, v);
         checkIteration(v);
         assertEquals("Values with 3 elements does not have size of 3.", 3, v.size());
@@ -314,7 +314,7 @@ public class TestValues
     @Test
     public void Size_345Elements_345()
     {
-        addToHMap(m, 0, 345);
+        initHMap(m, 0, 345);
         checkValues(m, v);
         checkIteration(v);
         assertEquals("Values with 345 elements does not have size of 345.", 345, v.size());
