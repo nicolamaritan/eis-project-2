@@ -2444,6 +2444,7 @@ public class TestEntrySet
         for (int i = 0; i < bound; i++)
         {
             m.put(i, ""+i);
+            assertTrue(m.size() == i + 1 && es.size() == i + 1 && ks.size() == i + 1 && v.size() == i + 1);
 
             TestEntrySet.checkEntrySet(m, es);
             TestKeySet.checkKeySet(m, ks);
@@ -2483,6 +2484,8 @@ public class TestEntrySet
             TestEntrySet.checkToArray(es, es.toArray());
             TestKeySet.checkToArray(ks, ks.toArray());
             TestValues.checkToArray(v, v.toArray());
+
+            assertTrue(m.size() == bound - i - 1 && es.size() == bound - 1 - i && ks.size() == bound - 1 - i && v.size() == bound - 1 -i);
         }
 
         assertTrue("ALL size should be equal.", m.size() == es.size() && es.size() == ks.size() && ks.size() == v.size());
@@ -2507,6 +2510,7 @@ public class TestEntrySet
         for (int i = 0; i < bound; i++)
         {
             m.remove(i);
+            assertTrue(m.size() == bound - i - 1 && es.size() == bound - 1 - i && ks.size() == bound - 1 - i && v.size() == bound - 1 -i);
 
             TestEntrySet.checkEntrySet(m, es);
             TestKeySet.checkKeySet(m, ks);
