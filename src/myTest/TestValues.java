@@ -2083,7 +2083,7 @@ public class TestValues
      * throws NoSuchElementException.</p>
      */
     @Test (expected = NoSuchElementException.class)
-    public void KSIterator_0To10NSE()
+    public void VIterator_0To10NSE()
     {
         initHMap(m, 0, 10);
         it = v.iterator();
