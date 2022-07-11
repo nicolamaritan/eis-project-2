@@ -28,7 +28,7 @@ import myAdapter.*;
  * <li>{x="x":y="y"} = {x="x", ..., y="y"} means entries, where the key is an element
  * and the value is its string representation, from x (included) to y (excluded), offently used
  * for map and entrysets.</li>
- * </ul></p>
+ * </ul>
  * 
  * <p><b>Test Suite Design</b>: The test suite contains fine-grained test cases in order to
  * easily individuate errors in HSet methods and also coarse-grained test cases in order to
@@ -189,7 +189,7 @@ public class TestEntrySet
      * <p><b>Summary</b>: isEmpty method test case.</p>
      * <p><b>Test Case Design</b>: Tests the limit case
      * of an entrySet containing only 1 element. Propagation
-     * map -> entryset is tested.</p>
+     * map -{@literal >} entryset is tested.</p>
      * <p><b>Test Description</b>: es contains {1=One}, then size,
      * isEmpty and its iterators have been tested.</p>
      * <p><b>Pre-Condition</b>: es contains {1=One}.</p>
@@ -246,7 +246,7 @@ public class TestEntrySet
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 1 size and not being empty. Propagation
-     * map -> entryset is tested. checkEntrySet(m, es) and checkIteration(es)
+     * map -{@literal >} entryset is tested. checkEntrySet(m, es) and checkIteration(es)
      * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Pre-Condition</b>: The entryset contains 1 element.</p>
      * <p><b>Post-Condition</b>: The entryset contains 1 element.</p>
@@ -271,7 +271,7 @@ public class TestEntrySet
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 3 size and not being empty. Propagation
-     * map -> entryset is tested, as the map is modified
+     * map -{@literal >} entryset is tested, as the map is modified
      * through addToHMap(m, 0, 3). checkEntrySet(m, es) and checkIteration(es)
      * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
@@ -300,7 +300,7 @@ public class TestEntrySet
      * The entryset is modiefied before the asserts.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 345 size and not being empty. Propagation
-     * map -> entryset is tested, as the entryset is modified
+     * map -{@literal >} entryset is tested, as the entryset is modified
      * through addToHMap(m, 0, 345). checkEntrySet(m, es) and checkIteration(es)
      * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
@@ -346,7 +346,7 @@ public class TestEntrySet
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
      * (i, "i") is contained in the entrySet, for i in (0,100).
-     * Propagation map -> entryset is tested, as map is modified
+     * Propagation map -{@literal >} entryset is tested, as map is modified
      * through addToHMap(m, 0, bound). checkEntrySet(m, es) and checkIteration(es)
      * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 100 times
@@ -374,7 +374,7 @@ public class TestEntrySet
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
      * (i, "i + 1") is contained in the entrySet, for i in (0,100).
-     * Propagation map -> entryset is tested, as map is modified
+     * Propagation map -{@literal >} entryset is tested, as map is modified
      * through addToHMap(m, 0, bound).
      * This is obviusly false for each i, as es contains {0="0":100="100"},
      * and not {0="1":100="101"}. checkEntrySet(m, es) and checkIteration(es)
@@ -406,7 +406,7 @@ public class TestEntrySet
      * (i + 1, "i") is contained in the entrySet, for i in (0,100).
      * This is obviusly false for each i, as es contains {0="0":100="100"},
      * and not (1="0":101="100").
-     * Propagation map -> entryset is tested, as map is modified
+     * Propagation map -{@literal >} entryset is tested, as map is modified
      * through addToHMap(m, 0, bound). checkEntrySet(m, es) and checkIteration(es)
      * are invoked to test entryset - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 100 times
@@ -520,7 +520,7 @@ public class TestEntrySet
      * The test case tests different containsAll calls
      * with different collection.</p>
      * <p><b>Test Case Design</b>: The tests calls containsAll
-     * with some as argument. Propagation map -> entryset is tested.</p>
+     * with some as argument. Propagation map -{@literal >} entryset is tested.</p>
      * <p><b>Test Description</b>: In the test containsAll is called with the
      * collection containing
      * {1="1"}, {10="10"}, {3="3", 4="4", 5="5"}, {1="1", 5="5", 10="10"}.</p>
@@ -560,7 +560,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Different scenario are tested where
      * containsAll should return false. Calling containsAll with arguments
      * not present in the entryset is a common case for the method. Propagation
-     * map -> entryset is tested.</p>
+     * map -{@literal >} entryset is tested.</p>
      * <p><b>Test Description</b>: The first containsAll takes as argument
      * a collection containing a single element, not present in the
      * entryset. The second one takes as argument a collection containing element
@@ -668,7 +668,7 @@ public class TestEntrySet
      * The reflective property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be reflective,
      * therefore x.equals(x) should always return true. Propagation
-     * map -> entryset is tested through initHMap.</p>
+     * map -{@literal >} entryset is tested through initHMap.</p>
      * <p><b>Test Description</b>: The test invokes es.equals(es) when
      * es is empty, when it has 10 elements and when it has 500 elements.</p>
      * <p><b>Pre-Condition</b>: EntrySet is not null.</p>
@@ -691,7 +691,7 @@ public class TestEntrySet
      * The transitive property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be transitive,
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).
-     * Propagation map -> entryset is tested.</p>
+     * Propagation map -{@literal >} entryset is tested.</p>
      * <p><b>Test Description</b>: The test invokes es.equals(es2) and es2.equals(EntrySet3)
      * and es.equals(es3)</p>
      * <p><b>Pre-Condition</b>: EntrySets contain {1="1" : 500="500"}.</p>
@@ -751,7 +751,7 @@ public class TestEntrySet
     /**
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of entrySet
-     * and of map. Tests the backing map -> entrySet and viceversa, entrySet -> map.</p>
+     * and of map. Tests the backing map -{@literal >} entrySet and viceversa, entrySet -{@literal >} map.</p>
      * <p><b>Test Description</b>: map is initialized with {0="0" : 500="500"}.
      * Through checkEntrySet(m, es) and checkIteration(es) asserts that they both
      * share the same informations about the map entries. Then clear is invoked
@@ -2003,7 +2003,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> entryset -> map.
+     * to assure correct propagation iterator -{@literal >} entryset -{@literal >} map.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: map and es initially contain
      * {0="0":100="100"}. An iterator iterates through
@@ -2048,7 +2048,7 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> entryset -> map.
+     * to assure correct propagation iterator -{@literal >} entryset -{@literal >} map.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: map and es initially contain
      * {0="0":100="100"}. An iterator iterates through
@@ -2171,8 +2171,8 @@ public class TestEntrySet
      * elements from the backing map and the entryset. After each
      * removal checkEntry and checkIteration are invoked to
      * check map - entryset coherence and iterator's iteration
-     * working correctly. Tests map -> entryset propagation and
-     * iterator -> entryset -> map propagation.
+     * working correctly. Tests map -{@literal >} entryset propagation and
+     * iterator -{@literal >} entryset -{@literal >} map propagation.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
@@ -2266,7 +2266,7 @@ public class TestEntrySet
             checkToArray(es, es.toArray());
         }
 
-        // entrysets -> map
+        // entrysets -{@literal >} map
         for (int i = 0; i < bound; i++)
         {
             esArr[i].remove(getEntry(i, "" + i));
@@ -2281,7 +2281,7 @@ public class TestEntrySet
         for (int i = 0; i < bound; i++)
             assertTrue(esArr[i].size() == 0 && esArr[i].isEmpty() && m.isEmpty());
 
-        // map -> entrysets
+        // map -{@literal >} entrysets
         initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
         {

@@ -56,7 +56,7 @@ public class TestUtilities
         /**
      * Adds at the end of the collection the integers starting at from (included) and
      * ending at to (escluded).
-     * @param coll collection where to append new elements
+     * @param m collection where to append new elements
      * @param from lower bound (included) of the map
      * @param to upper bound (escluded) of the map
      * @throws IllegalArgumentException if from {@literal >} to
@@ -89,8 +89,8 @@ public class TestUtilities
      * check purpouse only (testing containsAll, removeAll, retainAll
      * methods of the entrySet returned from HMap), as it is impossible
      * to directly insert an HMap.Entry to an entryset. 
-     * @param key
-     * @param value
+     * @param key key of the entry
+     * @param value value of the entry
      * @return the aforementioned Entry.
      * @throws NullPointerException if key is null or value is null
      */

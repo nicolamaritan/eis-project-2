@@ -38,7 +38,7 @@ package myAdapter;
  * {@code HUnsupportedOperationException} if this map does not support the
  * operation.  If this is the case, these methods may, but are not required
  * to, throw an {@code HUnsupportedOperationException} if the invocation would
- * have no effect on the map.  For example, invoking the {@link #putAll(Map)}
+ * have no effect on the map.  For example, invoking the {@link #putAll(HMap)}
  * method on an unmodifiable map may, but is not required to, throw the
  * exception if the map whose mappings are to be "superimposed" is empty.
  *
@@ -79,36 +79,6 @@ package myAdapter;
  * {@code equals()}, {@code hashCode()} and {@code toString()} methods.
  * Implementations may optionally handle the self-referential scenario, however
  * most current implementations do not do so.
- *
- * <h2><a id="unmodifiable">Unmodifiable Maps</a></h2>
- * <p>The {@link Map#of() Map.of},
- * {@link Map#ofEntries(Map.Entry...) Map.ofEntries}, and
- * {@link Map#copyOf Map.copyOf}
- * static factory methods provide a convenient way to create unmodifiable maps.
- * The {@code Map}
- * instances created by these methods have the following characteristics:
- *
- * <ul>
- * <li>They are <a href="Collection.html#unmodifiable"><i>unmodifiable</i></a>. Keys and values
- * cannot be added, removed, or updated. Calling any mutator method on the Map
- * will always cause {@code HUnsupportedOperationException} to be thrown.
- * However, if the contained keys or values are themselves mutable, this may cause the
- * Map to behave inconsistently or its contents to appear to change.
- * <li>They disallow {@code null} keys and values. Attempts to create them with
- * {@code null} keys or values result in {@code NullPointerException}.
- * <li>They are serializable if all keys and values are serializable.
- * <li>They reject duplicate keys at creation time. Duplicate keys
- * passed to a static factory method result in {@code IllegalArgumentException}.
- * <li>The iteration order of mappings is unspecified and is subject to change.
- * <li>They are <a href="../lang/doc-files/ValueBased.html">value-based</a>.
- * Callers should make no assumptions about the identity of the returned instances.
- * Factories are free to create new instances or reuse existing ones. Therefore,
- * identity-sensitive operations on these instances (reference equality ({@code ==}),
- * identity hash code, and synchronization) are unreliable and should be avoided.
- * <li>They are serialized as specified on the
- * <a href="{@docRoot}/serialized-form.html#java.util.CollSer">Serialized Form</a>
- * page.
- * </ul>
  *
  *
  * @author Nicola Maritan
@@ -361,7 +331,7 @@ public interface HMap
      * modified after the entry was returned by the iterator, except through
      * the {@code setValue} operation on the map entry.
      *
-     * @see Map#entrySet()
+     * @see HMap#entrySet()
      * @since 1.0
      */
     interface Entry
@@ -474,7 +444,7 @@ public interface HMap
      * {@link Object#hashCode}.
      *
      * @return the hash code value for this map
-     * @see Map.Entry#hashCode()
+     * @see HMap.Entry#hashCode()
      * @see Object#equals(Object)
      * @see #equals(Object)
      */

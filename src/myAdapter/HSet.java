@@ -38,39 +38,7 @@ package myAdapter;
  * Such exceptions are marked as "optional" in the specification for this
  * interface.
  *
- * <h2><a id="unmodifiable">Unmodifiable Sets</a></h2>
- * <p>The {@link Set#of(Object...) Set.of} and
- * {@link Set#copyOf Set.copyOf} static factory methods
- * provide a convenient way to create unmodifiable sets. The {@code Set}
- * instances created by these methods have the following characteristics:
  *
- * <ul>
- * <li>They are <a href="Collection.html#unmodifiable"><i>unmodifiable</i></a>. Elements cannot
- * be added or removed. Calling any mutator method on the Set
- * will always cause {@code UnsupportedOperationException} to be thrown.
- * However, if the contained elements are themselves mutable, this may cause the
- * Set to behave inconsistently or its contents to appear to change.
- * <li>They disallow {@code null} elements. Attempts to create them with
- * {@code null} elements result in {@code NullPointerException}.
- * <li>They are serializable if all elements are serializable.
- * <li>They reject duplicate elements at creation time. Duplicate elements
- * passed to a static factory method result in {@code IllegalArgumentException}.
- * <li>The iteration order of set elements is unspecified and is subject to change.
- * <li>They are <a href="../lang/doc-files/ValueBased.html">value-based</a>.
- * Callers should make no assumptions about the identity of the returned instances.
- * Factories are free to create new instances or reuse existing ones. Therefore,
- * identity-sensitive operations on these instances (reference equality ({@code ==}),
- * identity hash code, and synchronization) are unreliable and should be avoided.
- * <li>They are serialized as specified on the
- * <a href="{@docRoot}/serialized-form.html#java.util.CollSer">Serialized Form</a>
- * page.
- * </ul>
- *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/java.base/java/util/package-summary.html#CollectionsFramework">
- * Java Collections Framework</a>.
- *
- * @param <E> the type of elements maintained by this set
  *
  * @author  Nicola Maritan
  * @see HCollection
@@ -375,7 +343,7 @@ public interface HSet extends HCollection
      *
      * @return the hash code value for this set
      * @see Object#equals(Object)
-     * @see Set#equals(Object)
+     * @see HSet#equals(Object)
      */
     int hashCode();
 }

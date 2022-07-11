@@ -511,7 +511,7 @@ public class TestSet
     /**
 	 * Initialize the map m with the elements
 	 * in argv as keys and values.
-	 * @param c collection to be initialized
+	 * @param m map to be initialized
 	 */
     public void argvInitialize(HMap m)
     {

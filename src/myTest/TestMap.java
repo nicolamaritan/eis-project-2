@@ -123,7 +123,7 @@ public class TestMap
 	 * through map, implying its presence in keySet. They both have size 5.
 	 * Lastly asserts that m and ks have the same size after all removal/insertions and
 	 * the difference in size from stage 0 to stage 1 is 1
-     * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1 must be true).
+     * (sm0 == ss0 {@literal &&} sm1 == ss1 {@literal &&} sm2 == ss2 {@literal &&} (sm0-sm1) == 1 must be true).
      * Hence the propagation from map to keySet works correctly.</p>
      */
 	@Test
@@ -235,7 +235,7 @@ public class TestMap
 	 * false, which means that map size at stage 2 is different from final map size AND
 	 * keySet size at stage 2 is different from final keySet size AND keySet and map have the
 	 * same final size.
-	 * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1) is true wich means the map
+	 * (sm0 == ss0 {@literal &&} sm1 == ss1 {@literal &&} sm2 == ss2 {@literal &&} (sm0-sm1) == 1) is true wich means the map
 	 * and the keySet have the same size in each stage and the difference in size from stage 0 and
 	 * 1 is 1.
 	 * </p>
@@ -310,7 +310,7 @@ public class TestMap
      * <p><b>Test Case Design</b>: The test focuses on map changes through
 	 * keySet's iterator. The changes on KeySet should affect the backing map.
      * In this case scenario propagation from the logical point of view
-     * is: iterator -> keyset -> map. Therefore this kind of propagation
+     * is: iterator -{@literal >} keyset -{@literal >} map. Therefore this kind of propagation
      * is tested in this test, by modifying the map from a keyset iterator.</p>
      * <p><b>Test Description</b>: Initialize the map with argv keys and
 	 * values (recreates the previous test's situation, as the original
@@ -323,7 +323,7 @@ public class TestMap
      * <p><b>Post-Condition</b>: The map is empty.</p>
      * <p><b>Expected Results</b>: Contains assertion pass (the object is contained
      * before removal, the object is not contained after removal). The map is empty after
-	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
+	 * removals. m.size() == s1.size() {@literal &&} m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
 	@Test
@@ -382,7 +382,7 @@ public class TestMap
 	 * as the second pippo=pippo insertion is not valid (map only accepts unique keys). m is checked to
 	 * contain all argv keys and values and its size is 5.
      * pippo is removed from values,
-	 * (sm0 == ss0 && sm1 == ss1 && sm2 == ss2 && (sm0-sm1) == 1) is true, which means
+	 * (sm0 == ss0 {@literal &&} sm1 == ss1{@literal &&} sm2 == ss2 {@literal &&} (sm0-sm1) == 1) is true, which means
 	 * the sizes of map and values equals in each stage, and the difference in size
 	 * from stage 0 and 1 is 1.</p>
      */
@@ -439,7 +439,7 @@ public class TestMap
      * <p><b>Test Case Design</b>: The tests focuses on map changes through
 	 * value's iterator. The changes on KeySet should affect the backing map.
      * In this case scenario propagation from the logical point of view
-     * is: iterator -> value -> map. Therefore this kind of propagation
+     * is: iterator -{@literal >} value -{@literal >} map. Therefore this kind of propagation
      * is tested in this test, by modifying the map from a value iterator.</p>
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * c the value is created. pippo=pippo is removed from the map.
@@ -450,7 +450,7 @@ public class TestMap
      * <p><b>Expected Results</b>:  Contains assertion pass (the object is contained
      * before removal, the object is not contained after removal)
      * The map is empty after
-	 * removals. m.size() == s1.size() && m.size() == 0 is true, which means
+	 * removals. m.size() == s1.size() {@literal &&} m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
 	@Test
@@ -1173,7 +1173,7 @@ public class TestMap
      * <p><b>Expected Results</b>: m.put(1, "3") returns null as there
      * was no previous mapping.  m.put(1, "1") returns "3" as
      * the key was previously mapped to the value "3". The map
-     * finally contains 1="1", in particular  m.containsKey(1) && m.containsValue("1") && !m.containsValue("3")
+     * finally contains 1="1", in particular  m.containsKey(1) {@literal &&} m.containsValue("1") {@literal &&} !m.containsValue("3")
      * e m.get(1) == "1" return true.</p>
      */
     @Test

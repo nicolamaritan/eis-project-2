@@ -290,7 +290,7 @@ public interface HCollection {
      * @return true if the specified object is equal to this collection
      *
      * @see Object#equals(Object)
-     * @see HList#equals(Object)
+     * @see HSet#equals(Object)
      */
     boolean equals(Object obj);
 

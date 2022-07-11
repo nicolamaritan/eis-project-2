@@ -34,8 +34,8 @@ public class Hashtable
      * containsKey} method.
      *
      * <p>Note that this method is identical in functionality to
-     * {@link #containsValue containsValue}, (which is part of the
-     * {@link Map} interface in the collections framework).
+     * {@link #contains contains}, (which is part of the
+     * {@link HMap} interface in the collections framework).
      *
      * @param      value   a value to search for
      * @return     {@code true} if and only if some key maps to the
@@ -73,8 +73,7 @@ public class Hashtable
      * @return  an enumeration of the values in this hashtable.
      * @see     java.util.Enumeration
      * @see     #keys()
-     * @see     #values()
-     * @see     Map
+     * @see     HMap
      */
     public Enumeration elements()
     {
@@ -121,8 +120,7 @@ public class Hashtable
      * @return  an enumeration of the keys in this hashtable.
      * @see     Enumeration
      * @see     #elements()
-     * @see     #keySet()
-     * @see     Map
+     * @see     HMap
      */
     public Enumeration keys()
     {
@@ -191,11 +189,8 @@ public class Hashtable
     }
 
     /**
-     * Returns the hash code value for this Map as per the definition in the
-     * Map interface.
+     * Returns the hash code value for this Hashtable.
      *
-     * @see Map#hashCode()
-     * @since 1.2
      */
     public int hashCode()
     {

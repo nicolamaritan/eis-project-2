@@ -28,7 +28,7 @@ import myAdapter.*;
  * <li>{x="x":y="y"} = {x="x", ..., y="y"} means entries, where the key is an element
  * and the value is its string representation, from x (included) to y (excluded), offently used
  * for map and keySets.</li>
- * </ul></p>
+ * </ul>
  * 
  * <p><b>Test Suite Design</b>: The test suite contains fine-grained test cases in order to
  * easily individuate errors in HSet methods and also coarse-grained test cases in order to
@@ -190,7 +190,7 @@ public class TestKeySet
      * <p><b>Summary</b>: isEmpty method test case.</p>
      * <p><b>Test Case Design</b>: Tests the limit case
      * of an KeySet containing only 1 element. Propagation
-     * map -> KeySet is tested.</p>
+     * map -{@literal >} KeySet is tested.</p>
      * <p><b>Test Description</b>: ks contains {1}, while map
      * contains {1="One"}, then size,
      * isEmpty and its iterators have been tested.</p>
@@ -250,7 +250,7 @@ public class TestKeySet
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 1 size and not being empty. Propagation
-     * map -> KeySet is tested, as the keySet is modified
+     * map -{@literal >} KeySet is tested, as the keySet is modified
      * through m.put(1, "1"). checkKeySet and checkIteration
      * are invoked to test KeySet - map coherence and the iteration.
      * Tests propagation.</p>
@@ -277,7 +277,7 @@ public class TestKeySet
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 3 size and not being empty. Propagation
-     * map -> KeySet is tested,  as the keySet is modified
+     * map -{@literal >} KeySet is tested,  as the keySet is modified
      * through addToHMap(m, 0, 3). checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
@@ -307,7 +307,7 @@ public class TestKeySet
      * The KeySet is modified before the asserts.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 345 size and not being empty. Propagation
-     * map -> KeySet is tested,  as the keySet is modified
+     * map -{@literal >} KeySet is tested,  as the keySet is modified
      * through addToHMap(m, 0, 345). checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
@@ -355,7 +355,7 @@ public class TestKeySet
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
      * (i, "i") is contained in the KeySet, for i in (0,500).
-     * Propagation map -> KeySet is tested.
+     * Propagation map -{@literal >} KeySet is tested.
      * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: contains is invoked 500 times
@@ -495,7 +495,7 @@ public class TestKeySet
      * The test case tests different containsAll calls
      * with different collection.</p>
      * <p><b>Test Case Design</b>: The tests calls containsAll
-     * with some as argument. Propagation map -> KeySet is tested.</p>
+     * with some as argument. Propagation map -{@literal >} KeySet is tested.</p>
      * <p><b>Test Description</b>: In the test containsAll is called with the
      * collection containing
      * {1}, {10}, {3, 4, 5}, {1, 5, 10}.</p>
@@ -534,7 +534,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: Different scenario are tested where
      * containsAll should return false. Calling containsAll with arguments
      * not present in the KeySet is a common case for the method. Propagation
-     * map -> KeySet is tested. </p>
+     * map -{@literal >} KeySet is tested. </p>
      * <p><b>Test Description</b>: The first containsAll takes as argument
      * a collection containing a single element, not present in the
      * KeySet. The second one takes as argument a collection containing element
@@ -644,7 +644,7 @@ public class TestKeySet
      * The reflective property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be reflective,
      * therefore x.equals(x) should always return true. Propagation
-     * map -> KeySet is tested through initHMap.</p>
+     * map -{@literal >} KeySet is tested through initHMap.</p>
      * <p><b>Test Description</b>: The test invokes ks.equals(ks) when
      * ks is empty, when it has 10 elements and when it has 500 elements.</p>
      * <p><b>Pre-Condition</b>: KeySet is not null.</p>
@@ -667,7 +667,7 @@ public class TestKeySet
      * The transitive property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be transitive,
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).
-     * Propagation map -> KeySet is tested.</p>
+     * Propagation map -{@literal >} KeySet is tested.</p>
      * <p><b>Test Description</b>: The test invokes ks.equals(ks2) and ks2.equals(KeySet3)
      * and ks.equals(ks3)</p>
      * <p><b>Pre-Condition</b>: KeySets contain {1 : 1000}.</p>
@@ -727,7 +727,7 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of KeySet
-     * and of map. Tests the backing map -> KeySet and viceversa, KeySet -> map.
+     * and of map. Tests the backing map -{@literal >} KeySet and viceversa, KeySet -{@literal >} map.
      * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.
      * Tests propagation.</p>
@@ -2007,7 +2007,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> KeySet -> map.
+     * to assure correct propagation iterator -{@literal >} KeySet -{@literal >} map.
      * checkKeySet(m, ks) and checkIteration(ks)
      * are invoked to test keySet - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: map and ks initially contain
@@ -2052,7 +2052,7 @@ public class TestKeySet
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> entryset -> map.
+     * to assure correct propagation iterator -{@literal >} entryset -{@literal >} map.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: map initially contain
      * {0="0":100="100"} and ks contains {0:100}. An iterator iterates through
@@ -2180,8 +2180,8 @@ public class TestKeySet
      * elements from the backing map and the KeySet. After each
      * removal checkEntry and checkIteration are invoked to
      * check map - KeySet coherence and iterator's iteration
-     * working correctly. Tests map -> KeySet propagation and
-     * iterator -> KeySet -> map propagation.</p>
+     * working correctly. Tests map -{@literal >} KeySet propagation and
+     * iterator -{@literal >} KeySet -{@literal >} map propagation.</p>
      * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
      * are removed from the map through map.remove method. That means that 10 entries
@@ -2273,7 +2273,7 @@ public class TestKeySet
             checkToArray(ks, ks.toArray());
         }
 
-        // KeySets -> map
+        // KeySets -{@literal >} map
         for (int i = 0; i < bound; i++)
         {
             ksArr[i].remove(i);
@@ -2288,7 +2288,7 @@ public class TestKeySet
         for (int i = 0; i < bound; i++)
             assertTrue(ksArr[i].size() == 0 && ksArr[i].isEmpty() && m.isEmpty());
 
-        // map -> KeySets
+        // map -{@literal >} KeySets
         initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
         {
@@ -2487,7 +2487,7 @@ public class TestKeySet
      * Alone it tests correct iteration.
      * If this method fails the propagation
      * did not work correctly. Other wise, the propagation worked correctly.
-     * @param es keyset to be checked
+     * @param ks keyset to be checked
      */
     public static void checkIteration(HSet ks)
     {

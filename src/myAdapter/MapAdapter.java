@@ -245,7 +245,7 @@ public class MapAdapter implements HMap
      * specified map.  The behavior of this operation is undefined if the
      * specified map is modified while the operation is in progress.
      *
-     * @param m mappings to be stored in this map
+     * @param t mappings to be stored in this map
      * @throws NullPointerException if the specified map is null, or the
      *         specified map contains null keys or values
      */

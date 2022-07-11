@@ -28,7 +28,7 @@ import myAdapter.*;
  * <li>{x="x":y="y"} = {x="x", ..., y="y"} means entries, where the key is an element
  * and the value is its string representation, from x (included) to y (excluded), offently used
  * for map and entrysets.</li>
- * </ul></p>
+ * </ul>
  * 
  * <p><b>Test Suite Design</b>: The test suite contains fine-grained test cases in order to
  * easily individuate errors in HCollection methods and also coarse-grained test cases in order to
@@ -190,7 +190,7 @@ public class TestValues
      * <p><b>Summary</b>: isEmpty method test case.</p>
      * <p><b>Test Case Design</b>: Tests the limit case
      * of an Values containing only 1 element. Propagation
-     * map -> Values is tested.</p>
+     * map -{@literal >} Values is tested.</p>
      * <p><b>Test Description</b>: v contains {"1"}, while map
      * contains {1="1"}, then size,
      * isEmpty and its iterators have been tested.</p>
@@ -249,7 +249,7 @@ public class TestValues
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 1 size and not being empty. Propagation
-     * map -> Values is tested. checkValues and checkIteration
+     * map -{@literal >} Values is tested. checkValues and checkIteration
      * are invoked to test Values - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Pre-Condition</b>: The Values contains 1, map contains {1="1"}.</p>
@@ -274,7 +274,7 @@ public class TestValues
      * false.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 3 size and not being empty. Propagation
-     * map -> Values is tested. checkValues(m, es) and checkIteration(ks)
+     * map -{@literal >} Values is tested. checkValues(m, es) and checkIteration(ks)
      * are invoked to test values - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
@@ -302,7 +302,7 @@ public class TestValues
      * The Values is modiefied before the asserts.</p>
      * <p><b>Test Case Design</b>: The design is a simple assert of
      * a size call and expected 345 size and not being empty. Propagation
-     * map -> Values is tested. checkValues(m, es) and checkIteration(ks)
+     * map -{@literal >} Values is tested. checkValues(m, es) and checkIteration(ks)
      * are invoked to test values - map coherence and the iteration.</p>
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the Values.</p>
@@ -346,7 +346,7 @@ public class TestValues
      * <p><b>Summary</b>: contains method test case</p>
      * <p><b>Test Case Design</b>: Tests if each entry of type
      * (i, "i") is contained in the Values, for i in (0,100).
-     * Propagation map -> Values is tested.</p>
+     * Propagation map -{@literal >} Values is tested.</p>
      * <p><b>Test Description</b>: contains is invoked 100 times
      * in a for loop. At each iteration a contained entry is generated
      * and checked to be in the Values.</p>
@@ -479,7 +479,7 @@ public class TestValues
      * The test case tests different containsAll calls
      * with different collection.</p>
      * <p><b>Test Case Design</b>: The tests calls containsAll
-     * with some as argument. Propagation map -> Values is tested.</p>
+     * with some as argument. Propagation map -{@literal >} Values is tested.</p>
      * <p><b>Test Description</b>: In the test containsAll is called with the
      * collection containing
      * {"1"}, {"10"}, {"3", "4", "5"}, {"1", "5", "10"}.</p>
@@ -518,7 +518,7 @@ public class TestValues
      * <p><b>Test Case Design</b>: Different scenario are tested where
      * containsAll should return false. Calling containsAll with arguments
      * not present in the Values is a common case for the method. Propagation
-     * map -> Values is tested.</p>
+     * map -{@literal >} Values is tested.</p>
      * <p><b>Test Description</b>: The first containsAll takes as argument
      * a collection containing a single element, not present in the
      * Values. The second one takes as argument a collection containing element
@@ -628,7 +628,7 @@ public class TestValues
      * The reflective property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be reflective,
      * therefore x.equals(x) should always return true. Propagation
-     * map -> Values is tested through initHMap.</p>
+     * map -{@literal >} Values is tested through initHMap.</p>
      * <p><b>Test Description</b>: The test invokes v.equals(v) when
      * v is empty, when it has 10 elements and when it has 100 elements.</p>
      * <p><b>Pre-Condition</b>: Values is not null.</p>
@@ -651,7 +651,7 @@ public class TestValues
      * The transitive property of equal method is tested.</p>
      * <p><b>Test Case Design</b>: equals method should be transitive,
      * therefore a.equals(b) and b.equals(c) {@literal =>} a.equals(c).
-     * Propagation map -> Values is tested.</p>
+     * Propagation map -{@literal >} Values is tested.</p>
      * <p><b>Test Description</b>: The test invokes v.equals(v2) and v2.equals(Values3)
      * and v.equals(v3)</p>
      * <p><b>Pre-Condition</b>: Values contain {"1" : "200"}.</p>
@@ -711,7 +711,7 @@ public class TestValues
     /**
      * <p><b>Summary</b>: clear, containsKey, containsValue, get method test case.</p>
      * <p><b>Test Case Design</b>: Tests the behaviour of clear method of Values
-     * and of map. Tests the backing map -> Values and viceversa, Values -> map.
+     * and of map. Tests the backing map -{@literal >} Values and viceversa, Values -{@literal >} map.
      * checkValues(m, es) and checkIteration(ks)
      * are invoked to test values - map coherence and the iteration.
      * Tests propagation.</p>
@@ -1969,7 +1969,7 @@ public class TestValues
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> Values -> map.
+     * to assure correct propagation iterator -{@literal >} Values -{@literal >} map.
      * checkValues(m, es) and checkIteration(ks)
      * are invoked to test values - map coherence and the iteration
      * Tests propagation..</p>
@@ -2014,7 +2014,7 @@ public class TestValues
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
      * therefore coherence and iteration must be check
-     * to assure correct propagation iterator -> entryset -> map.
+     * to assure correct propagation iterator -{@literal >} entryset -{@literal >} map.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: map initially contain
      * {0="0":100="100"} and v contains {"0":"100"}. An iterator iterates through
@@ -2137,8 +2137,8 @@ public class TestValues
      * elements from the backing map and the Values. After each
      * removal checkEntry and checkIteration are invoked to
      * check map - Values coherence and iterator's iteration
-     * working correctly. Tests map -> Values propagation and
-     * iterator -> Values -> map propagation.</p>
+     * working correctly. Tests map -{@literal >} Values propagation and
+     * iterator -{@literal >} Values -{@literal >} map propagation.</p>
      * <p><b>Test Description</b>: m is filled with entries {0="0":100="100"}.
      * Through a for loop entries {i="i"}, i being 10, 20, 30,...
      * are removed from the map through map.remove method. That means that 100 entries
@@ -2230,7 +2230,7 @@ public class TestValues
             checkToArray(v, v.toArray());
         }
 
-        // Valuess -> map
+        // Valuess -{@literal >} map
         for (int i = 0; i < bound; i++)
         {
             vArr[i].remove(""+i);
@@ -2245,7 +2245,7 @@ public class TestValues
         for (int i = 0; i < bound; i++)
             assertTrue(vArr[i].size() == 0 && vArr[i].isEmpty() && m.isEmpty());
 
-        // map -> Valuess
+        // map -{@literal >} Valuess
         initHMap(m, 0, bound);
         for (int i = 0; i < bound; i++)
         {
