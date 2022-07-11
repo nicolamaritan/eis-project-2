@@ -729,6 +729,37 @@ public class TestMap
         
     }
 
+    /**
+     * <p><b>Summary</b>: containsKey method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the method with
+     * null argument.</p>
+     * <p><b>Test Case Design</b>: m.containsKey(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: map is unchanged.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ContainsKey_EmptyNull()
+    {
+        m.containsKey(null);
+    }
+
+        /**
+     * <p><b>Summary</b>: containsKey method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the method with
+     * null argument.</p>
+     * <p><b>Test Case Design</b>: m.containsKey(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: map contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ContainsKey_Null()
+    {
+        initHMap(m, 0, 10);
+        m.containsKey(null);
+    }
+
     // ------------------------------------------ containsValue method ------------------------------------------
 
     /**
@@ -847,6 +878,37 @@ public class TestMap
         for (int i = bound; i < bound2; i++)
             assertFalse("Should not contain.", m.containsValue(i));
         
+    }
+
+    /**
+     * <p><b>Summary</b>: containsKey method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the method with
+     * null argument.</p>
+     * <p><b>Test Case Design</b>: m.containsValue(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: map is unchanged.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ContainsValue_EmptyNull()
+    {
+        m.containsValue(null);
+    }
+
+        /**
+     * <p><b>Summary</b>: containsKey method test case.</p>
+     * <p><b>Test Case Design</b>: Tests the method with
+     * null argument.</p>
+     * <p><b>Test Case Design</b>: m.containsValue(null) is invoked.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: map contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: NPE is thrown.</p>
+     */
+    @Test (expected = NullPointerException.class)
+    public void ContainsValue_Null()
+    {
+        initHMap(m, 0, 10);
+        m.containsValue(null);
     }
 
 	// ------------------------------------------ get method ------------------------------------------
@@ -1507,6 +1569,29 @@ public class TestMap
             assertTrue(m.containsValue("" + (i + bound)));
             assertEquals("" + (i + bound), m.get(i));
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: putAll method test case.
+     * The method test multiple putAll of the same map,
+     * therefore should remain equals.</p>
+     * <p><b>Test Case Design</b>: Multiple putAll are invoked,
+     * reinserting the same elements.</p>
+     * <p><b>Test Description</b>: m.putAll(m2) is invoked 20 times,
+     * thus reinserting the same elements 20 times.</p>
+     * <p><b>Pre-Condition</b>: m is empty.</p>
+     * <p><b>Post-Condition</b>: The Map contains {0="0":10="10"} as m2.</p>
+     * <p><b>Expected Results</b>: m equals m2 and m's size is 10.
+     */
+    @Test
+    public void PutAll_Multiple()
+    {
+        int bound = 20;
+        initHMap(m2, 0, 10);
+        for (int i = 0; i < bound; i++)
+            m.putAll(m2);
+        assertEquals("Should be equals", m, m2);
+        assertEquals("Size should be 10", 10, m.size());
     }
 
 	// ------------------------------------------ remove method ------------------------------------------
