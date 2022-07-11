@@ -176,16 +176,6 @@ public class TestCollection
 		assertTrue(ris);
 	}
 	
-	@Test
-	/**
-	 * @safe.precondition
-	 * @safe.postcondition
-	 * @safe.summary
-	 */
-	public void hash_Code() {
-		
-	}
-	
 	/**
      * <p><b>Summary</b>: isEmpty method test case.</p>
      * <p><b>Test Case Design</b>: isEmpty is tested after a clear invoke.</p>
@@ -199,16 +189,6 @@ public class TestCollection
 		ct.clear();
 		boolean ris = ct.isEmpty();
 		assertTrue(ris);
-	}
-	
-	@Test
-	/**
-	 * @safe.precondition
-	 * @safe.postcondition
-	 * @safe.summary
-	 */
-	public void iterator() {
-		
 	}
 	
     /**
