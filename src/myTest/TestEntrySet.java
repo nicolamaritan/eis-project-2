@@ -242,7 +242,7 @@ public class TestEntrySet
     public void Size_Empty()
     {
         assertEquals("Empty entryset does not have size of zero.", 0, es.size());
-        assertTrue("isEmpty did not returned true.", es.isEmpty());
+        assertTrue("Should be empty.", es.isEmpty());
     }
 
     /**
@@ -267,7 +267,7 @@ public class TestEntrySet
         checkEntrySet(m, es);
         checkIteration(es);
         assertEquals("Empty entryset does not have size of one.", 1, es.size());
-        assertEquals("isEmpty did not returned false.", false, es.isEmpty());
+        assertFalse("Should NOT be empty.", es.isEmpty());
     }
 
     /**
@@ -294,8 +294,8 @@ public class TestEntrySet
         initHMap(m, 0, 3);
         checkEntrySet(m, es);
         checkIteration(es);
-        assertEquals("entryset with 3 elements does not have size of 3.", 3, es.size());
-        assertFalse("isEmpty did not returned false.", es.isEmpty());
+        assertEquals("Entryset with 3 elements does not have size of 3.", 3, es.size());
+        assertFalse("Should NOT be empty.", es.isEmpty());
     }
 
     /**
@@ -322,8 +322,8 @@ public class TestEntrySet
         initHMap(m, 0, 345);
         checkEntrySet(m, es);
         checkIteration(es);
-        assertEquals("entryset with 345 elements does not have size of 345.", 345, es.size());
-        assertFalse("isEmpty did not returned false.",  es.isEmpty());
+        assertEquals("Entryset with 345 elements does not have size of 345.", 345, es.size());
+        assertFalse("Should NOT be empty.",  es.isEmpty());
     }
 
     // ------------------------------------------ contains method ------------------------------------------
@@ -685,11 +685,11 @@ public class TestEntrySet
     @Test
     public void Equals_Reflective()
     {
-        assertTrue("Reflective property is not met.", es.equals(es));    // EntrySet is empty
+        assertTrue("Reflective property is NOT met.", es.equals(es));    // EntrySet is empty
         TestUtilities.initHMap(m, 0, 10);
-        assertTrue("Reflective property is not met.", es.equals(es));    // EntrySet is not empty, should return true anyways
+        assertTrue("Reflective property is NOT met.", es.equals(es));    // EntrySet is not empty, should return true anyways
         TestUtilities.initHMap(m, 0, 500);
-        assertTrue("Reflective property is not met.", es.equals(es));    // EntrySet is not empty, should return true anyways
+        assertTrue("Reflective property is NOT met.", es.equals(es));    // EntrySet is not empty, should return true anyways
     }
 
     /**
@@ -714,7 +714,7 @@ public class TestEntrySet
 
         assertTrue("EntrySets should be equal.", es.equals(es2));
         assertTrue("EntrySets should be equal.", es2.equals(es3));
-        assertTrue("Transitive property is not met.", es.equals(es3));
+        assertTrue("Transitive property is NOT met.", es.equals(es3));
     }
 
     /**
@@ -846,45 +846,45 @@ public class TestEntrySet
     public void HashCode_Mixed()
     {
         // Empty map case
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         // One element case
         m.put(1, "1");
         m2.put(1, "1");
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         initHMap(m, -100, 100);
         initHMap(m2, -100, 100);
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
-        es.remove((Object)0);
-        es2.remove((Object)0);
-        assertTrue("maps should be equal.", es.equals(es2));
+        es.remove(getEntry(0, "0"));
+        es2.remove(getEntry(0, "0"));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         m.put(101, "101");
         m2.put(101, "101");
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         addToHMap(m, 500, 1000);
         addToHMap(m2, 500, 1000);
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         HMap t = getIntegerMapAdapter(-1000, -900);
         m.putAll(t);
         m2.putAll(t);
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
         initHMap(t, 5000, 6000);
         m.putAll(t);
         m2.putAll(t);
-        assertTrue("maps should be equal.", es.equals(es2));
+        assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
     }
 

@@ -246,7 +246,7 @@ public class TestKeySet
     public void Size_Empty()
     {
         assertEquals("Empty KeySet does not have size of zero.", 0, ks.size());
-        assertTrue("isEmpty did not returned true.", ks.isEmpty());
+        assertTrue("Should be empty.", ks.isEmpty());
     }
 
     /**
@@ -273,7 +273,7 @@ public class TestKeySet
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("Empty KeySet does not have size of one.", 1, ks.size());
-        assertFalse("isEmpty did not returned false.", ks.isEmpty());
+        assertFalse("Should NOT be empty.", ks.isEmpty());
     }
 
     /**
@@ -302,7 +302,7 @@ public class TestKeySet
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("KeySet with 3 elements does not have size of 3.", 3, ks.size());
-        assertFalse("isEmpty did not returned false.", ks.isEmpty());
+        assertFalse("Should NOT be empty.", ks.isEmpty());
     }
 
     /**
@@ -331,7 +331,7 @@ public class TestKeySet
         checkKeySet(m, ks);
         checkIteration(ks);
         assertEquals("KeySet with 345 elements does not have size of 345.", 345, ks.size());
-        assertFalse("isEmpty did not returned false.", ks.isEmpty());
+        assertFalse("Should NOT be empty.", ks.isEmpty());
     }
 
     // ------------------------------------------ contains method ------------------------------------------
@@ -661,11 +661,11 @@ public class TestKeySet
     @Test
     public void Equals_Reflective()
     {
-        assertTrue("Reflective property is not met.", ks.equals(ks));    // KeySet is empty
+        assertTrue("Reflective property is NOT met.", ks.equals(ks));    // KeySet is empty
         initHMap(m, 0, 10);
-        assertTrue("Reflective property is not met.", ks.equals(ks));    // KeySet is not empty, should return true anyways
+        assertTrue("Reflective property is NOT met.", ks.equals(ks));    // KeySet is not empty, should return true anyways
         initHMap(m, 0, 500);
-        assertTrue("Reflective property is not met.", ks.equals(ks));    // KeySet is not empty, should return true anyways
+        assertTrue("Reflective property is NOT met.", ks.equals(ks));    // KeySet is not empty, should return true anyways
     }
 
     /**
@@ -690,7 +690,7 @@ public class TestKeySet
 
         assertTrue("KeySets should be equal.", ks.equals(ks2));
         assertTrue("KeySets should be equal.", ks2.equals(ks3));
-        assertTrue("Transitive property is not met.", ks.equals(ks3));
+        assertTrue("Transitive property is NOT met.", ks.equals(ks3));
     }
 
     /**

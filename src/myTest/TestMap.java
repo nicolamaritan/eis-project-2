@@ -115,13 +115,12 @@ public class TestMap
      * happens correctly.</p>
      * <p><b>Test Description</b>: The map is first initialized with entries
 	 * with key and value equals to the elements in argv. Then a KeySet is created
-	 * from m. The entry of key pippo is removed from the map, and then reinserted.</p>
-     * <p><b>Pre-Condition</b>: The map contains argv elements as keys and values,
+	 * from m. The entry of key pippo is removed from the map (m.remove(argv[0])), and then reinserted
+     * through m.put(argv[0], argv[0]).</p>
+     * <p><b>Pre-Condition</b>: m and ks are both empty.</p>
+     * <p><b>Post-Condition</b>: The map contains argv elements as keys and values,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
-     * gambatek=gambatek.</p>
-     * <p><b>Post-Condition</b>:  The map contains argv elements as keys and values,
-     * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
-     * gambatek=gambatek.</p>
+     * gambatek=gambatek. ks contains pippo, pluto, qui, ciccio, gambatek.</p>
      * <p><b>Expected Results</b>: After initialization m contains 5 entries with keys
 	 * the argv elements. KeySet contains argv elements and its size is 5. Next the entry pippo=pippo
 	 * is removed from the map, therefore map and KeySet contains argv elements
@@ -135,7 +134,10 @@ public class TestMap
 	@Test
 	public void TestPropagationFromMapToKeySet()
 	{
-		argvInitialize(m);
+		for(int i=0;i<argv.length;i++)
+		{
+			m.put(argv[i], argv[i]);
+		}
 		
 		System.out.println("Test propagation from map to keyset");
 		ks = m.keySet();
@@ -169,7 +171,7 @@ public class TestMap
      * string is not reliable as
      * it is not possible predict HMap internal order/toString() output
      * (if not with iterators). Therefore, to
-     * test its content, the test iterates through argv[i], asserting
+     * test its content, the test iterates through argv, asserting
      * the map to contains the right elements.
      * Original output is mantained to help checking consistency
      * during development.</p>
@@ -177,8 +179,8 @@ public class TestMap
 	 * values (recreates the previous test's situation, as the original
      * file TestMap.java was not formatted in the JUnit format),
      * asserts its size to be 5, then checks its content. For each element elem in argv,
-     * it contains the key elem, it contains the value elem, and m.get(eleme)
-     * equals elem.</p>
+     * it contains the key elem, it contains the value elem, and m.get(elem)
+     * equals elem, meaning that the element is correctly in the map.</p>
      * <p><b>Pre-Condition</b>: map contains argv keys and values,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
      * gambatek=gambatek.</p>
@@ -208,7 +210,7 @@ public class TestMap
      * <p><b>Summary</b>: Tests KeySet and backing. HMap interface
 	 * states that changes through the keySet affects the backing
 	 * map. Tests method keySet, contains, get, size, put of MapAdapter,
-	 * size, iterator, remove of KeySet, next and has Next of KeySet's
+	 * size, iterator, remove of KeySet, next and hasNext of KeySet's
 	 * iterator.</p>
      * <p><b>Test Case Design</b>: HMap interface states that a change in KeySet
 	 * affects the backing HMap. Therefore
@@ -220,7 +222,7 @@ public class TestMap
 	 * their presence is tested with contains method, its size is 5.
 	 * Then the keySet s1 is created. KeySet iterator iterates through the set
 	 * and asserts that the next key returned is equal to the element of the same
-	 * key in the map (in fact pippo=pippo, qui=qui, ecc).
+	 * key in the map (in fact pippo=pippo, qui=qui, etc).
 	 * Next the key pippo is removed from the KeySet (s1.remove(argv[0])), thus affecting the backing
 	 * map (it removes pippo=pippo from it). KeySet iterator iterates through the set
 	 * and asserts that the next key returned is equal to the element of the same
@@ -228,15 +230,17 @@ public class TestMap
 	 * Then the entry carrozza=carrozza is inserted through the map (m.put("carrozza", "carrozza")),
 	 * thus affecting s1. Then the key carrozza is removed from s1 (s1.remove("carrozza")), thus
 	 * affecting the backing Map.</p>
-     * <p><b>Pre-Condition</b>: map contains argv keys and values.</p>
-     * <p><b>Post-Condition</b>: pippo=pippo is removed.</p>
+     * <p><b>Pre-Condition</b>: map contains argv keys and s1 contains argv elements as keys .</p>
+     * <p><b>Post-Condition</b>: pippo=pippo is removed from the map, therefore pippo
+     * is removed from s1.</p>
      * <p><b>Expected Results</b>: backing Map is correctly affected by changes
 	 * in keySet.
      * After initialization map size is 5 and contains argv as key and m.get(argv[i])
      * equals argv[i]. The keyset's size is 5 and contains argv elements.
      * After pippo removal, map size and keyset size is 4. Then the
-     * entry carrozza=carrozza is inserted, set is checked to be coherent, then carrozza
-     * is removed.
+     * entry carrozza=carrozza is inserted in m therefore carrozza is inserted in s1,
+     * set is checked to be coherent, then carrozza
+     * is removed from s1, therefore the entry carrozza=carrozza is removed from the map.
      * At the end sm2 == m.size() || ss2 == s1.size() || s1.size() != m.size() is
 	 * false, which means that map size at stage 2 is different from final map size AND
 	 * keySet size at stage 2 is different from final keySet size AND keySet and map have the
@@ -317,18 +321,19 @@ public class TestMap
 	 * keySet's iterator. The changes on KeySet should affect the backing map.
      * In this case scenario propagation from the logical point of view
      * is: iterator -{@literal >} keyset -{@literal >} map. Therefore this kind of propagation
-     * is tested in this test, by modifying the map from a keyset iterator.</p>
+     * is tested in this test, by modifying the map and keyset from a keyset iterator.</p>
      * <p><b>Test Description</b>: Initialize the map with argv keys and
 	 * values (recreates the previous test's situation, as the original
      * file TestMap.java was not formatted in the JUnit format).
-	 * s1 the KeySet is created. pippo=pippo is removed from the map.
+	 * s1 the KeySet is created. pippo=pippo is removed from the map (m.remove(argv[0])).
 	 * Then iterates through the keySet asserting the returned element to be contained in the keyset
 	 * and removing each element after each next, asserting them to be NOT
      * contained in the keyset. Therefore the Map is then empty.</p>
-     * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
-     * <p><b>Post-Condition</b>: The map is empty.</p>
+     * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo, s1
+     * contains argv elements as keys but pippo.</p>
+     * <p><b>Post-Condition</b>: The map and s1 are empty.</p>
      * <p><b>Expected Results</b>: Contains assertion pass (the object is contained
-     * before removal, the object is not contained after removal). The map is empty after
+     * before removal, the object is not contained after removal). The map and s1 are empty after
 	 * removals. m.size() == s1.size() {@literal &&} m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
@@ -369,25 +374,25 @@ public class TestMap
 	 * values (recreates the previous test's situation, as the original
      * file TestMap.java was not formatted in the JUnit format).
      * clear method is invoked on the map.
-	 * Then argv keys and values are inserted in the map. pippo=pippo is
+	 * Then argv keys and values are inserted in the map (m.put(argv[i], argv[i])). pippo=pippo is
 	 * inserted twice, but map only accept unique keys.
 	 * values is created. m and argv are asserted to have the
      * same size. Iteration prints c's elements separated by
-     * a semicolon. Then pippo value is removed, therefore
-     * the map now has a size of 4. Iteration prints c's elements separated by
+     * a semicolon. Then pippo value is removed from c (c.remove(argv[0])), therefore
+     * the map and the values collection now have a size of 4. Iteration prints c's elements separated by
      * a semicolon.</p>
      * <p><b>Pre-Condition</b>: map contains argv values and keys,
      * therefore contains pippo=pippo, pluto=pluto, qui=qui, ciccio=ciccio,
-     * gambatek=gambatek.</p>
+     * gambatek=gambatek. c contains pluto, qui, ciccio, gambatek.</p>
      * <p><b>Post-Condition</b>: map contains argv values and keys but pippo=pippo,
      * therefore contains pluto=pluto, qui=qui, ciccio=ciccio,
-     * gambatek=gambatek. </p>
+     * gambatek=gambatek. c contains pluto, qui, ciccio, gambatek.</p>
      * <p><b>Expected Results</b>: After clear the map is empty (toString returns {} when
      * the map is empty).
 	 * After inserting argv keys and values and pippo=pippo m.size is equal to argv.size,
-	 * as the second pippo=pippo insertion is not valid (map only accepts unique keys). m is checked to
-	 * contain all argv keys and values and its size is 5.
-     * pippo is removed from values,
+	 * as the second pippo=pippo insertion is not valid (map only accepts unique keys). c contains pippo, pluto,
+     * qui, ciccio, gambatek and its size is 5.
+     * pippo is removed from values and therefore its entry is removed from map,
 	 * (sm0 == ss0 {@literal &&} sm1 == ss1{@literal &&} sm2 == ss2 {@literal &&} (sm0-sm1) == 1) is true, which means
 	 * the sizes of map and values equals in each stage, and the difference in size
 	 * from stage 0 and 1 is 1.</p>
@@ -450,12 +455,12 @@ public class TestMap
      * <p><b>Test Description</b>: m is initialized with argv keys and values.
 	 * c the value is created. pippo=pippo is removed from the map.
 	 * Then iterates through the values
-	 * and removing each element after each next. Therefore the Map is then empty.</p>
-     * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo.</p>
-     * <p><b>Post-Condition</b>: The map is empty.</p>
+	 * and removing each element after each next. Therefore the Map and the values collection is then empty.</p>
+     * <p><b>Pre-Condition</b>: The map contains argv keys and values but pippo=pippo, c contains argv elements.</p>
+     * <p><b>Post-Condition</b>: The map and c are empty.</p>
      * <p><b>Expected Results</b>:  Contains assertion pass (the object is contained
      * before removal, the object is not contained after removal)
-     * The map is empty after
+     * The map and values are empty after
 	 * removals. m.size() == s1.size() {@literal &&} m.size() == 0 is true, which means
 	 * that the map and the keySet size both equals 0.</p>
      */
@@ -1083,8 +1088,8 @@ public class TestMap
         assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 
-        m.remove((Object)0);
-        m2.remove((Object)0);
+        m.remove(0);
+        m2.remove(0);
         assertTrue("maps should be equal.", m.equals(m2));
         assertEquals("Hash codes should be equal.", m.hashCode(), m2.hashCode());
 

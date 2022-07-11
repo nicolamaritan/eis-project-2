@@ -243,8 +243,8 @@ public class TestValues
     @Test
     public void Size_Empty_0()
     {
-        assertEquals("Empty Values does not have size of zero.", 0, v.size());
-        assertTrue("isEmpty did not returned true.", v.isEmpty());
+        assertEquals("Empty values collection does not have size of zero.", 0, v.size());
+        assertTrue("Should be empty.", v.isEmpty());
     }
 
     /**
@@ -269,7 +269,7 @@ public class TestValues
         checkValues(m, v);
         checkIteration(v);
         assertEquals("Empty Values does not have size of one.", 1, v.size());
-        assertFalse("isEmpty did not returned false.", v.isEmpty());
+        assertFalse("Should NOT be empty.", v.isEmpty());
     }
 
     /**
@@ -296,7 +296,7 @@ public class TestValues
         checkValues(m, v);
         checkIteration(v);
         assertEquals("Values with 3 elements does not have size of 3.", 3, v.size());
-        assertFalse("isEmpty did not returned false.", v.isEmpty());
+        assertFalse("Should NOT be empty.", v.isEmpty());
     }
 
     /**
@@ -323,7 +323,7 @@ public class TestValues
         checkValues(m, v);
         checkIteration(v);
         assertEquals("Values with 345 elements does not have size of 345.", 345, v.size());
-        assertFalse("isEmpty did not returned false.", v.isEmpty());
+        assertFalse("Should NOT be empty.", v.isEmpty());
     }
 
     // ------------------------------------------ contains method ------------------------------------------
@@ -573,8 +573,8 @@ public class TestValues
      * <p><b>Test Case Design</b>: Tests the method with null arguments, which is a special
      * case of invalid argument.</p>
      * <p><b>Test Description</b>: Calls method with null collection.</p>
-     * <p><b>Pre-Condition</b>: values contains {0:10}, coll is null.</p>
-     * <p><b>Post-Condition</b>: values contains {0:10}, coll is null.</p>
+     * <p><b>Pre-Condition</b>: Values contains {0:10}, coll is null.</p>
+     * <p><b>Post-Condition</b>: Values contains {0:10}, coll is null.</p>
      * <p><b>Expected Results</b>: NullPointerException thrown.</p>
      */    
     @Test(expected = java.lang.NullPointerException.class)
@@ -644,11 +644,11 @@ public class TestValues
     @Test
     public void Equals_Reflective()
     {
-        assertTrue("Reflective property is not met.", v.equals(v));    // Values is empty
+        assertTrue("Reflective property is NOT met.", v.equals(v));    // Values is empty
         initHMap(m, 0, 10);
-        assertTrue("Reflective property is not met.", v.equals(v));    // Values is not empty, should return true anyways
+        assertTrue("Reflective property is NOT met.", v.equals(v));    // Values is not empty, should return true anyways
         initHMap(m, 0, 100);
-        assertTrue("Reflective property is not met.", v.equals(v));    // Values is not empty, should return true anyways
+        assertTrue("Reflective property is NOT met.", v.equals(v));    // Values is not empty, should return true anyways
     }
 
     /**
@@ -673,7 +673,7 @@ public class TestValues
 
         assertTrue("Valuess should be equal.", v.equals(v2));
         assertTrue("Valuess should be equal.", v2.equals(v3));
-        assertTrue("Transitive property is not met.", v.equals(v3));
+        assertTrue("Transitive property is NOT met.", v.equals(v3));
     }
 
     /**
