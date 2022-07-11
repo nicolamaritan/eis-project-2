@@ -13,7 +13,7 @@ import static myTest.TestUtilities.*;
  * behaviour in different case scenario. Each HCollection method is tested in different
  * test cases.
  * The test suite contains the tests in the TestCollection.java
- * file assigned by the professor in the JUnit format. The original tests
+ * file assigned by the professor in the JUnit format (further testing in {@code TestValues}). The original tests
  * directly inserted elements in the set through add(Object) method,
  * but the HMap interfaces states that the HCollection returned from value() cannot use
  * add or addAll. Therefore the original test (contained in TestSet.java given by the professor)
@@ -34,15 +34,15 @@ import static myTest.TestUtilities.*;
 public class TestCollection 
 {
 
-	HMap m = null;
-	HCollection head;
-	HCollection param = null;
-	HCollection intersect = null;
-	HCollection ct = null;
-	boolean a, aa, aaa;
-	boolean b, bb, bbb;
-	boolean c, cc, ccc;
-	boolean h;
+	private HMap m = null;
+	private HCollection head;
+	private HCollection param = null;
+	private HCollection intersect = null;
+	private HCollection ct = null;
+	private boolean a, aa, aaa;
+	private boolean b, bb, bbb;
+	private boolean c, cc, ccc;
+	private boolean h;
 
     @BeforeClass
     public static void BeforeClassMethod()

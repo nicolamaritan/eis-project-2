@@ -12,7 +12,8 @@ import myAdapter.*;
  * behaviour in different case scenario. Each HSet/HCollection method is tested in different
  * test cases.
  * The test suite contains the tests in the TestSet.java
- * file assigned by the professor in the JUnit format. The original tests
+ * file assigned by the professor in the JUnit format (further testing in {@code TestEntrySet},
+ * {@code TestValues} and {@code TestKeySet}). The original tests
  * directly inserted elements in the set through add(Object) method,
  * but the HMap interfaces states that the HSet/HCollection returned from value() cannot use
  * add or addAll. Therefore the original test (contained in TestSet.java given by the professor)
@@ -40,11 +41,11 @@ import myAdapter.*;
  */
 public class TestSet
 {
-	HSet s = null, s2 = null;
-	HCollection c = null;
-    HMap m = null;
-	HIterator iter2 = null;
-	String[] argv = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
+	private HSet s = null;
+	private HCollection c = null;
+    private HMap m = null;
+	private HIterator iter2 = null;
+	private String[] argv = {"pippo", "pippo", "pluto", "paperino", "ciccio", "qui"};
 
 
     @BeforeClass
@@ -76,7 +77,6 @@ public class TestSet
 	public void Cleanup()
 	{
 		s = null;
-        s2 = null;
 		c = null;
         m = null;
         iter2 = null;
@@ -133,7 +133,7 @@ public class TestSet
 	 * the elements in argv as keys and values, [pluto=pippo, ciccio=ciccio, qui=qui,
      * paperino=paperino, pippo=pippo].</p>
      * <p><b>Test Case Design</b>: Tests the content of the set. As the element
-	 * in a set are not ordered, printing
+	 * in a set are not ordered, asserting Equals
 	 * a string representation of the object to test its content
 	 * is not reliable, therefore it is better looping through the elements in
 	 * some way to test their presence in the set.</p>
@@ -149,7 +149,7 @@ public class TestSet
 	 * sets contains the right elements.
 	 * The sets is then restored.</p>
      * <p><b>Pre-Condition</b>: s contains argv[i]=argv[i] (key, value) elements,
-	 * for each i in (1, argv.lenght).</p>
+	 * for each i in (1, argv.lenght) (1 because only one pippo=pippo in map).</p>
      * <p><b>Post-Condition</b>: s in unchanged.</p>
      * <p><b>Expected Results</b>: At each iteration isEmpty returns false
 	 * and contains returns true, therefore set contains the argv elements
@@ -264,7 +264,7 @@ public class TestSet
      * (containing unique keys) and definition of set (containing unique elements)
      * [pluto, ciccio, qui, paperino, pippo].</p>
      * <p><b>Test Case Design</b>: Tests the content of the set. As the element
-	 * in a set are not ordered, printing
+	 * in a set are not ordered, asserting Equals
 	 * a string representation of the object to test its content
 	 * is not reliable, therefore it is better looping through the elements in
 	 * some way to test their presence in the set.</p>
@@ -279,7 +279,8 @@ public class TestSet
 	 * size is zero, the elements are the same and the
 	 * sets contains the right elements.
 	 * The sets is then restored.</p>
-     * <p><b>Pre-Condition</b>: s contains argv elements.</p>
+     * <p><b>Pre-Condition</b>: s contains argv[i]=argv[i] (key, value) elements,
+	 * for each i in (1, argv.lenght) (1 because only one pippo=pippo in map).</p>
      * <p><b>Post-Condition</b>: s in unchanged.</p>
      * <p><b>Expected Results</b>: At each iteration isEmpty returns false
 	 * and contains returns true, therefore set contains the argv elements

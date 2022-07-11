@@ -45,16 +45,16 @@ import myAdapter.*;
  */
 public class TestMap
 {
-	int count = 0;
-	HMap m = null;
-	HMap m2 = null;
-	HSet s1 = null;
-	HSet ks = null;
-	HIterator iter = null;
-	HCollection c = null;
+	private int count = 0;
+	private HMap m = null;
+	private HMap m2 = null;
+	private HSet s1 = null;
+	private HSet ks = null;
+	private HIterator iter = null;
+	private HCollection c = null;
 
-    int sm0, sm1, sm2, ss0, ss1, ss2;
-	String[] argv = {"pippo", "pluto", "qui", "ciccio", "gambatek"};
+    private int sm0, sm1, sm2, ss0, ss1, ss2;
+	private String[] argv = {"pippo", "pluto", "qui", "ciccio", "gambatek"};
 
 	@BeforeClass
 	public static void BeforeClassMethod()
@@ -494,7 +494,38 @@ public class TestMap
 
 	// ------------------------------------------ Test cases ideated by me ------------------------------------------
 
-	// ------------------------------------------ clear, isEmpty, size methods ------------------------------------------
+    // ------------------------------------------ Constructors ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: Tests constructors' correct behaviour.</p>
+     * <p><b>Test Case Design</b>: MapAdapter has 2 constructors:
+     * the no-argument one constructs an empty map; the second one
+     * takes a HMap as argument and copies all its entries in itself
+     * as initialization.</p>
+     * <p><b>Test Description</b>: The map obtained through the first
+     * constructor is empty. Then for each i in (0, 20) m2 is initialized with
+     * {0="0":i="i"}. Then m is initialized as new MapAdapter(m2), taking
+     * all m2 entries. Therefore m and m2 should equal.</p>
+     * <p><b>Pre-Condition</b>: m and m2 are empty.</p>
+     * <p><b>Post-Condition</b>: m and m2 contain {0="0":20="20"}.</p>
+     * <p><b>Expected Results</b>: The two MapAdapter's constructors
+     * work correctly.</p>
+     */
+	@Test
+    public void ConstructorTest()
+    {
+        m = new MapAdapter();
+        assertTrue("Should be empty", m.size() == 0 && m.isEmpty());
+        int bound = 20;
+        for (int i = 0; i < bound; i++)
+        {
+            initHMap(m2, 0, i);
+            m = new MapAdapter(m2);
+            assertEquals("Should be equal", m, m2);
+        }
+    }
+    
+    // ------------------------------------------ clear, isEmpty, size methods ------------------------------------------
 
     /**
      * <p><b>Summary</b>: clear, isEmpty and size method test case.</p>

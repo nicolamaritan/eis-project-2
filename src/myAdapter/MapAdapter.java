@@ -1,7 +1,6 @@
 package myAdapter;
 
 import java.util.Enumeration;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -171,7 +170,7 @@ public class MapAdapter implements HMap
      * {@link Object#hashCode}.
      *
      * @return the hash code value for this map
-     * @see Map.Entry#hashCode()
+     * @see HMap.Entry#hashCode()
      * @see Object#equals(Object)
      * @see #equals(Object)
      */
@@ -632,9 +631,8 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object e = it.next();
-                if (e == null)
-                    continue;
-                hc += e.hashCode();
+                if (e != null)
+                    hc += e.hashCode();
             }
 
             return hc;
@@ -1123,9 +1121,8 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object next = it.next();
-                if (next == null)
-                    continue;
-                hc += next.hashCode();
+                if (next != null)
+                    hc += next.hashCode();
             }
 
             return hc;
@@ -1832,9 +1829,8 @@ public class MapAdapter implements HMap
             while (it.hasNext())
             {
                 Object next = it.next();
-                if (next == null)
-                    continue;
-                hc += next.hashCode();
+                if (next != null)
+                    hc += next.hashCode();
             }
 
             return hc;
