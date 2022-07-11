@@ -1247,6 +1247,35 @@ public class TestValues
         assertTrue("Size should be 9", m.size() == v.size() && v.size() == 9);
     }
 
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument contains element not in the set.
+     * The method should throw
+     * return false as the set is unchanged.</p>
+     * <p><b>Test Description</b>: es.removeAll(c) is invoked when v contains
+     * {"0":"i"} for i in (0, 10). c contains {"15":"20"}.
+     * Tests propagation.</p>
+     * <p><b>Pre-Condition</b>: c contains {"15":"20"},
+     * m is empty.</p>
+     * <p><b>Post-Condition</b>: c is unchanged, v contains {0:10}.</p>
+     * <p><b>Expected Results</b>: removeAll(c) invoke return false,
+     * propagation works correctly.</p>
+     */
+    @Test
+    public void RemoveAll_NotInSet()
+    { 
+        c = getStringHCollection(15, 20);
+        for (int i = 0; i < 10; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse("Should not change", v.removeAll(c));
+            assertEquals("Should equals", getStringHCollection(0, i), v);
+        }
+        checkValues(m, v);
+        checkIteration(v);
+    }
+
     // ------------------------------------------ retainAll method ------------------------------------------
 
     /**
@@ -1318,8 +1347,8 @@ public class TestValues
     {
         initHMap(m, 1, 4);
         assertTrue("The set has changed, it should return true.", v.retainAll(c));
-        assertEquals("set should be empty.", 0, v.size());
-        assertEquals("coll should be empty.", 0, c.size());
+        assertEquals("Set should be empty.", 0, v.size());
+        assertEquals("Coll should be empty.", 0, c.size());
         checkValues(m, v);
         checkIteration(v);
     }
@@ -1374,7 +1403,7 @@ public class TestValues
         initHMap(m, 1, 6);
         c = getStringHCollection(3, 6);
         assertTrue("The set has changed, it should return true.", v.retainAll(c));
-        assertTrue("set should contain {3, 4, 5}.", v.equals(TestUtilities.getStringHCollection(3, 6)));
+        assertTrue("Set should contain {3, 4, 5}.", v.equals(TestUtilities.getStringHCollection(3, 6)));
         checkValues(m, v);
         checkIteration(v);
     }
@@ -1405,7 +1434,7 @@ public class TestValues
         initHMap(m, 1, 10);
         c = getHCollection(new Object[]{"2", "3"});
         assertTrue("The set has changed, it should return true.", v.retainAll(c));
-        assertTrue("set should contain {2, 3}.", v.equals(TestUtilities.getStringHCollection(2, 4)));
+        assertTrue("Set should contain {2, 3}.", v.equals(TestUtilities.getStringHCollection(2, 4)));
         checkValues(m, v);
         checkIteration(v);
     }

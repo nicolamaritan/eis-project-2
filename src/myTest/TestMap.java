@@ -576,7 +576,7 @@ public class TestMap
      * <p><b>Expected Results</b>: isEmpty returns true and size is 0.</p>
      */
     @Test
-    public void Clear_On1To10()
+    public void Clear_On0To10()
     {
         initHMap(m, 0, 10);
         m.clear();
@@ -596,7 +596,7 @@ public class TestMap
      * <p><b>Expected Results</b>: isEmpty returns true and size is 0.</p>
      */
     @Test
-    public void Clear_On1To1000()
+    public void Clear_On0To1000()
     {
         initHMap(m, 0, 1000);
         m.clear();
@@ -620,7 +620,7 @@ public class TestMap
     @Test
     public void ClearSize_From0To1000()
     {
-        int bound = 10000;
+        int bound = 1000;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, i + "");

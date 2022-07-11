@@ -1224,6 +1224,35 @@ public class TestEntrySet
         checkIteration(es);
     }
 
+    /**
+     * <p><b>Summary</b>: removeAll method test case.</p>
+     * <p><b>Test Case Design</b>: Tests removeAll behaviour
+     * when the passed argument contains element not in the set.
+     * The method should throw
+     * return false as the set is unchanged.</p>
+     * <p><b>Test Description</b>: es.removeAll(c) is invoked when es contains
+     * {0="0":i="i"} for i in (0, 10). c contains {15="15":20="20"}.
+     * Tests propagation.</p>
+     * <p><b>Pre-Condition</b>: c contains {15="15":20="20"},
+     * m is empty.</p>
+     * <p><b>Post-Condition</b>: c is unchanged, es contains {0="0":10="10"}.</p>
+     * <p><b>Expected Results</b>: removeAll(c) invoke return false,
+     * propagation works correctly.</p>
+     */
+    @Test
+    public void RemoveAll_NotInSet()
+    { 
+        c = getEntryHCollection(15, 20);
+        for (int i = 0; i < 10; i++)
+        {
+            initHMap(m, 0, i);
+            assertFalse("Should not change", es.removeAll(c));
+            assertEquals("Should equals", getEntryHCollection(0, i), es);
+        }
+        checkEntrySet(m, es);
+        checkIteration(es);
+    }
+
     // ------------------------------------------ retainAll method ------------------------------------------
 
     /**
