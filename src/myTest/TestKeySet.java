@@ -2195,6 +2195,39 @@ public class TestKeySet
         it.next();
     }
 
+    // ------------------------------------------ toString method ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: toString is tested with
+     * empty ks.</p>
+     * <p><b>Test Description</b>: ks.toString() is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks is empty.</p>
+     * <p><b>Post-Condition</b>: ks is empty.</p>
+     * <p><b>Expected Results</b>: ks.toString() returns [].</p>
+     */
+    @Test
+    public void ToString_Empty()
+    {
+        assertEquals("[]", ks.toString());
+    }
+
+    /**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: toString is tested with
+     * one-element ks.</p>
+     * <p><b>Test Description</b>: ks.toString() is invoked.</p>
+     * <p><b>Pre-Condition</b>: ks contains Pippo=10.</p>
+     * <p><b>Post-Condition</b>: ks contains Pippo=10.</p>
+     * <p><b>Expected Results</b>: ks.toString() returns [Pippo=10].</p>
+     */
+    @Test
+    public void ToString_OneElement()
+    {
+        m.put("Pippo", 10);
+        assertEquals("[Pippo]", ks.toString());
+    }
+
     // ------------------------------------------ Coarse grained tests ------------------------------------------
     
     /**

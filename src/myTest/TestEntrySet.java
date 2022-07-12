@@ -2792,6 +2792,41 @@ public class TestEntrySet
         }
     }
 
+    // ------------------------------------------ toString method ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: toString is tested with
+     * empty es.</p>
+     * <p><b>Test Description</b>: es.toString() is invoked.</p>
+     * <p><b>Pre-Condition</b>: es is empty.</p>
+     * <p><b>Post-Condition</b>: es is empty.</p>
+     * <p><b>Expected Results</b>: es.toString() returns [].</p>
+     */
+    @Test
+    public void ToString_Empty()
+    {
+        assertEquals("[]", es.toString());
+    }
+
+    /**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: toString is tested with
+     * one-element es.</p>
+     * <p><b>Test Description</b>: es.toString() is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains Pippo=10.</p>
+     * <p><b>Post-Condition</b>: es contains Pippo=10.</p>
+     * <p><b>Expected Results</b>: es.toString() returns [Pippo=10].</p>
+     */
+    @Test
+    public void ToString_OneElement()
+    {
+        m.put("Pippo", 10);
+        assertEquals("[Pippo=10]", es.toString());
+    }
+
+    // ------------------------------------------ Entry tests ------------------------------------------
+
     /**
      * <p><b>Summary</b>: Entry test case. Tests
      * HMap.Entry getKey(), getValue(), setValue(Object) and toString()

@@ -2151,6 +2151,39 @@ public class TestValues
         it.next();
     }
 
+    // ------------------------------------------ toString method ------------------------------------------
+
+    /**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: toString is tested with
+     * empty ks.</p>
+     * <p><b>Test Description</b>: v.toString() is invoked.</p>
+     * <p><b>Pre-Condition</b>: v is empty.</p>
+     * <p><b>Post-Condition</b>: v is empty.</p>
+     * <p><b>Expected Results</b>: v.toString() returns [].</p>
+     */
+    @Test
+    public void ToString_Empty()
+    {
+        assertEquals("[]", v.toString());
+    }
+
+    /**
+     * <p><b>Summary</b>: toString method test case.</p>
+     * <p><b>Test Case Design</b>: toString is tested with
+     * one-element ks.</p>
+     * <p><b>Test Description</b>: v.toString() is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains Pippo=10.</p>
+     * <p><b>Post-Condition</b>: v contains Pippo=10.</p>
+     * <p><b>Expected Results</b>: v.toString() returns [Pippo=10].</p>
+     */
+    @Test
+    public void ToString_OneElement()
+    {
+        m.put("Pippo", 10);
+        assertEquals("[10]", v.toString());
+    }
+
     // ------------------------------------------ Coarse grained tests ------------------------------------------
     
     /**
