@@ -494,7 +494,7 @@ public class TestMap
      * Initiate the map with the elements in argv as key
      * and value, in order to recreate the test in a
      * no-JUnit format assigned by the professor in TestMap.java. 
-     * @param m
+     * @param m the map to be initialized
      */
 	private void argvInitialize(HMap m)
 	{

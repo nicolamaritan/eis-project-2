@@ -504,7 +504,7 @@ public class MapAdapter implements HMap
          * Individual set implementations should clearly document any
          * restrictions on the elements that they may contain.
          *
-         * @param e element to be added to this set
+         * @param o element to be added to this set
          * @return {@code true} if this set did not already contain the specified
          *         element
          * @throws HUnsupportedOperationException as the operation is not supported
@@ -639,7 +639,7 @@ public class MapAdapter implements HMap
          *
          * @return the hash code value for this set
          * @see Object#equals(Object)
-         * @see Set#equals(Object)
+         * @see HSet#equals(Object)
          */
         @Override
         public int hashCode()
@@ -958,7 +958,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HHHIllegalStateException if the next method has not
+             * @exception HIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
@@ -1005,7 +1005,7 @@ public class MapAdapter implements HMap
          * Individual set implementations should clearly document any
          * restrictions on the elements that they may contain.
          *
-         * @param e element to be added to this set
+         * @param o element to be added to this set
          * @return {@code true} if this set did not already contain the specified
          *         element
          * @throws HUnsupportedOperationException as the operation is not supported
@@ -1134,7 +1134,7 @@ public class MapAdapter implements HMap
          *
          * @return the hash code value for this set
          * @see Object#equals(Object)
-         * @see Set#equals(Object)
+         * @see HSet#equals(Object)
          */
         public int hashCode()
         {
@@ -1421,7 +1421,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HHIllegalStateException if the next method has not
+             * @exception HIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
             *		  been called after the last call to the next
             *		  method.
@@ -1559,7 +1559,7 @@ public class MapAdapter implements HMap
          * Note that toArray(new Object[0]) is identical in function to
          * toArray().
          *
-         * @param arrayTarget the array into which the elements of this collection are
+         * @param a the array into which the elements of this collection are
          *                    to be stored, if it is big enough; otherwise, a new array
          *                    of the same runtime type is allocated for this purpose.
          * @return an array containing the elements of this collection
@@ -1782,7 +1782,7 @@ public class MapAdapter implements HMap
          * (By the same logic, it is not possible to write a class that correctly
          * implements both the Set and List interfaces.)
          *
-         * @param obj Object to be compared for equality with this collection.
+         * @param o Object to be compared for equality with this collection.
          * @return true if the specified object is equal to this collection
          *
          * @see Object#equals(Object)
@@ -1931,7 +1931,7 @@ public class MapAdapter implements HMap
              * the underlying collection is modified while the iteration is in
              * progress in any way other than by calling this method.
              *
-             * @exception HHIllegalStateException if the next method has not
+             * @exception HIllegalStateException if the next method has not
              *		  yet been called, or the remove method has already
              *		  been called after the last call to the next
              *		  method.

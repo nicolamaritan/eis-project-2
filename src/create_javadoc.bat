@@ -1,2 +1,2 @@
-javadoc -d ..\Documentazione\myTest myTest
-javadoc -d ..\Documentazione\myAdapter myAdapter
+javadoc -d ..\Documentazione\myTest -private myTest
+javadoc -d ..\Documentazione\myAdapter -private myAdapter
