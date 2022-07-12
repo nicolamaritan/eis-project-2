@@ -40,7 +40,9 @@ import myAdapter.*;
  * Special attention is paid to backing: after almost each modification, through the HCollection returned
  * from entrySet() or through the backing map, checkValues() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HCollection can
- * actually contain clones, as the presence of a duplicated value in a HMap is prohibited.</p>
+ * actually contain clones, as the presence of a duplicated value in a HMap is prohibited.
+ * Even if not every test case is marked as "Backing" in the method name,
+ * pretty much all of this test suite's test cases tests the backing feature.</p>
  * @author  Nicola Maritan
  */
 public class TestValues 
@@ -592,15 +594,15 @@ public class TestValues
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: Values is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: map contains {0="0" : 200="200"},
-     * therefore v contains {"0":"200"}.</p>
+     * <p><b>Pre-Condition</b>: map contains {0="0" : 400="400"},
+     * therefore v contains {"0":"400"}.</p>
      * <p><b>Post-Condition</b>: Values is unchanged.</p>
      * <p><b>Expected Results</b>: The Values is unchanged and symmetric property is valid.</p>
      */
     @Test
     public void Equals_0To200()
     {
-        int to = 200;
+        int to = 400;
         addToHMap(m, 0, to);
         assertTrue("Should equal", v.equals(getIntegerMapAdapter(0, to).values()));
         assertTrue("Should equal", getIntegerMapAdapter(0, to).values().equals(v));   // Symmetric property
@@ -732,7 +734,7 @@ public class TestValues
      * and viceversa.</p>
      */
     @Test
-    public void Clear_Backing0()
+    public void Clear_Backing()
     {
         addToHMap(m, 0, 500);
         assertEquals("Size should be 500", 500, m.size());
@@ -926,10 +928,10 @@ public class TestValues
      * are invoked to test values - map coherence and the iteration.
      * Tests propagation.</p>
      * <p><b>Test Description</b>: Entries (i, "i") are inserted and removed
-     * from the map remove. The map is initiated with {0="0", 100="100"},
-     * therefore v contains {"0":"100"}
+     * from the map remove. The map is initiated with {0="0", 200="200"},
+     * therefore v contains {"0":"200"}
      * and each element in map and Values is removed by map's remove.
-     * The map is initiated with {0="0": 100="100"},
+     * The map is initiated with {0="0": 200="200"},
      * and each element in map and Values is removed by Values's remove.
      * </p>
      * <p><b>Pre-Condition</b>: map and collection are empty.</p>
@@ -941,7 +943,7 @@ public class TestValues
     @Test
     public void Remove_Backing0()
     {
-        int bound = 100;
+        int bound = 200;
         for (int i = 0; i < bound; i++)
         {
             m.put(i, "" + i);
@@ -1032,6 +1034,78 @@ public class TestValues
     }
 
     /**
+     * <p><b>Summary</b>: removeAll method test case.
+     * Tests removeAll method correct behaviour
+     * and propagation from map to keySet and
+     * viceversa. Coherence is also checked through
+     * checkValues(m, es) and checkIteration(ks).</p>
+     * <p><b>Test Case Design</b>: Tests removeAll method with
+     * values HCollection. Correct propagation is tested in both ways.
+     * </p>
+     * <p><b>Test Description</b>: m contains the
+     * entries A=a, B=b, C=c, D=d, D2=d. The HCollection
+     * c is initialized with a, c and c. That means,
+     * invoking es.removeAll(c) will remove A=a, C=c, D=d AND D2=d:
+     * it will remove both d's in values, therefore will
+     * remove the whole entry from the HMap for propagation.
+     * The test asserts that afore mentioned entries are
+     * removed, while the remaining ones are still in the
+     * HMap and in the keySet.</p>
+     * <p><b>Pre-Condition</b>: m contains A=a, B=b, C=c, D=d, D2=d,
+     * ks contains A, B, C, D, D2.</p>
+     * <p><b>Post-Condition</b>: m contains B=b, ks contains B.</p>
+     * <p><b>Expected Results</b>: m contains B=b, D2=d.
+     * ks contains B.
+     * Propagation works correctly from map to keySet and
+     * from keySet to map.</p>
+     */
+    @Test
+    public void RemoveAll_Backing1()
+    {
+        String[] arg_k = {"A", "B", "C", "D", "D2"};
+        String[] arg_v = {"a", "b", "c", "d", "d"};
+        
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            m.put(arg_k[i], arg_v[i]);
+            checkValues(m, v);
+            checkIteration(v);
+        }
+
+        c = getHCollection(new Object[]{"a", "c", "d"});
+        
+        for (int i = 0; i < arg_k.length; i++)
+        {
+            assertTrue("Should be contained", v.contains(arg_v[i]));
+            assertTrue("Should be contained", m.containsKey(arg_k[i]) && m.containsValue(arg_v[i]));
+            assertTrue(m.get(arg_k[i]).equals(arg_v[i]));
+        }
+
+        
+        assertTrue("Should be removed", v.removeAll(c));
+
+        assertTrue(m.size() == v.size() && m.size() == 1);
+
+        assertFalse("Should NOT be contained", v.contains("a"));
+        assertTrue("Should NOT be contained", !m.containsKey("A") && !m.containsValue("a"));
+        assertNull("Should be null", m.get("A"));
+
+        assertTrue("Should be contained", v.contains("b"));
+        assertTrue("Should be contained", m.containsKey("B") && m.containsValue("b"));
+        assertTrue("Should match", m.get("B").equals("b"));
+
+        assertFalse("Should NOT be contained", v.contains("c"));
+        assertTrue("Should NOT be contained", !m.containsKey("C") && !m.containsValue("c"));
+        assertNull("Should be null", m.get("C"));
+
+        assertFalse("Should NOT be contained", v.contains("d"));
+        assertTrue("Should NOT be contained", !m.containsKey("D") && !m.containsValue("d"));
+        assertNull("Should be null", m.get("D"));
+        assertTrue("Should be contained", !m.containsKey("D2") && !m.containsValue("d"));
+        assertNull("Should match", m.get("D2"));  
+    }
+
+    /**
      * <p><b>Summary</b>: removeAll method test case.</p>
      * <p><b>Test Case Design</b>: Tests removeAll behaviour
      * when the passed argument is null. The method should throw
@@ -1110,77 +1184,7 @@ public class TestValues
         checkIteration(v);
     }
 
-    /**
-     * <p><b>Summary</b>: removeAll method test case.
-     * Tests removeAll method correct behaviour
-     * and propagation from map to keySet and
-     * viceversa. Coherence is also checked through
-     * checkValues(m, es) and checkIteration(ks).</p>
-     * <p><b>Test Case Design</b>: Tests removeAll method with
-     * values HCollection. Correct propagation is tested in both ways.
-     * </p>
-     * <p><b>Test Description</b>: m contains the
-     * entries A=a, B=b, C=c, D=d, D2=d. The HCollection
-     * c is initialized with a, c and c. That means,
-     * invoking es.removeAll(c) will remove A=a, C=c, D=d AND D2=d:
-     * it will remove both d's in values, therefore will
-     * remove the whole entry from the HMap for propagation.
-     * The test asserts that afore mentioned entries are
-     * removed, while the remaining ones are still in the
-     * HMap and in the keySet.</p>
-     * <p><b>Pre-Condition</b>: m contains A=a, B=b, C=c, D=d, D2=d,
-     * ks contains A, B, C, D, D2.</p>
-     * <p><b>Post-Condition</b>: m contains B=b, ks contains B.</p>
-     * <p><b>Expected Results</b>: m contains B=b, D2=d.
-     * ks contains B.
-     * Propagation works correctly from map to keySet and
-     * from keySet to map.</p>
-     */
-    @Test
-    public void RemoveAll_Backing1()
-    {
-        String[] arg_k = {"A", "B", "C", "D", "D2"};
-        String[] arg_v = {"a", "b", "c", "d", "d"};
-        
-        for (int i = 0; i < arg_k.length; i++)
-        {
-            m.put(arg_k[i], arg_v[i]);
-            checkValues(m, v);
-            checkIteration(v);
-        }
 
-        c = getHCollection(new Object[]{"a", "c", "d"});
-        
-        for (int i = 0; i < arg_k.length; i++)
-        {
-            assertTrue("Should be contained", v.contains(arg_v[i]));
-            assertTrue("Should be contained", m.containsKey(arg_k[i]) && m.containsValue(arg_v[i]));
-            assertTrue(m.get(arg_k[i]).equals(arg_v[i]));
-        }
-
-        
-        assertTrue("Should be removed", v.removeAll(c));
-
-        assertTrue(m.size() == v.size() && m.size() == 1);
-
-        assertFalse("Should NOT be contained", v.contains("a"));
-        assertTrue("Should NOT be contained", !m.containsKey("A") && !m.containsValue("a"));
-        assertNull("Should be null", m.get("A"));
-
-        assertTrue("Should be contained", v.contains("b"));
-        assertTrue("Should be contained", m.containsKey("B") && m.containsValue("b"));
-        assertTrue("Should match", m.get("B").equals("b"));
-
-        assertFalse("Should NOT be contained", v.contains("c"));
-        assertTrue("Should NOT be contained", !m.containsKey("C") && !m.containsValue("c"));
-        assertNull("Should be null", m.get("C"));
-
-        assertFalse("Should NOT be contained", v.contains("d"));
-        assertTrue("Should NOT be contained", !m.containsKey("D") && !m.containsValue("d"));
-        assertNull("Should be null", m.get("D"));
-        assertTrue("Should be contained", !m.containsKey("D2") && !m.containsValue("d"));
-        assertNull("Should match", m.get("D2"));  
-    }
 
     /**
      * <p><b>Summary</b>: removeAll method test case.
@@ -1310,7 +1314,7 @@ public class TestValues
      * they still contains coherent informations.</p>
      */
     @Test
-    public void RetainAll_Backing0()
+    public void RetainAll_Backing()
     {
         int bound = 400;
         int secondBound = 300;

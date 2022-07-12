@@ -40,7 +40,9 @@ import myAdapter.*;
  * Special attention is paid to backing: after almost each modification, through the HSet returned
  * from entrySet() or through the backing map, checkKeySet() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HSet cannot
- * contain duplicated, as the backing HMap cannot contain elements with the same key.</p>
+ * contain duplicated, as the backing HMap cannot contain elements with the same key.
+ * Even if not every test case is marked as "Backing" in the method name,
+ * pretty much all of this test suite's test cases tests the backing feature.</p>
  * @author  Nicola Maritan
  */
 public class TestKeySet 
@@ -610,14 +612,14 @@ public class TestKeySet
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: KeySet is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: KeySet contains {0="0" : 1000="1000"}.</p>
+     * <p><b>Pre-Condition</b>: KeySet contains {0="0" : 400="400"}.</p>
      * <p><b>Post-Condition</b>: KeySet is unchanged.</p>
      * <p><b>Expected Results</b>: The KeySet is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To1000()
+    public void Equals_0To400()
     {
-        int to = 1000;
+        int to = 400;
         addToHMap(m, 0, to);
         assertTrue("Should equal", ks.equals(getIntegerMapAdapter(0, to).keySet()));
         assertTrue("Should equal", getIntegerMapAdapter(0, to).keySet().equals(ks));   // Symmetric property
@@ -749,7 +751,7 @@ public class TestKeySet
      * and viceversa.</p>
      */
     @Test
-    public void Clear_Backing0()
+    public void Clear_Backing()
     {
         addToHMap(m, 0, 500);
         assertEquals("Size should be 500", 500, m.size());
@@ -968,7 +970,7 @@ public class TestKeySet
      * they still contains coherent informations.</p>
      */
     @Test
-    public void Remove_Backing0()
+    public void Remove_Backing()
     {
         int bound = 200;
         for (int i = 0; i < bound; i++)
@@ -1272,7 +1274,7 @@ public class TestKeySet
      * they still contains coherent informations.</p>
      */
     @Test
-    public void RetainAll_Backing0()
+    public void RetainAll_Backing()
     {
         int bound = 500;
         int secondBound = 300;

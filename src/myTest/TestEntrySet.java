@@ -41,7 +41,8 @@ import myAdapter.*;
  * from entrySet() or through the backing map, checkEntrySet() and checkIteration() are invoked
  * to assert that changes propagated successfully. Note that the afore mentioned HSet cannot
  * contain duplicated, in particular cannot contains two entries whith the same keys,
- * as the backing HMap cannot too.</p>
+ * as the backing HMap cannot too. Even if not every test case is marked as "Backing" in the method name,
+ * pretty much all of this test suite's test cases tests the backing feature.</p>
  * @author  Nicola Maritan
  */
 public class TestEntrySet 
@@ -634,14 +635,14 @@ public class TestEntrySet
      * Also reflective property of equal is tested.</p>
      * <p><b>Test Description</b>: EntrySet is initialized, then different equals invoke are
      * asserted with different arguments, generated for each case.</p>
-     * <p><b>Pre-Condition</b>: EntrySet contains {0="0" : 500="500"}.</p>
+     * <p><b>Pre-Condition</b>: EntrySet contains {0="0" : 400="400"}.</p>
      * <p><b>Post-Condition</b>: EntrySet is unchanged.</p>
      * <p><b>Expected Results</b>: The EntrySet is unchanged and symmetric property is valid.</p>
      */
     @Test
-    public void Equals_0To10()
+    public void Equals_0To400()
     {
-        int to = 500;
+        int to = 400;
         initHMap(m, 0, to);
         assertTrue("Should equals", es.equals(getIntegerMapAdapter(0, to).entrySet()));
         assertTrue("Should equals", getIntegerMapAdapter(0, to).entrySet().equals(es));   // Symmetric property
@@ -769,7 +770,7 @@ public class TestEntrySet
      * and viceversa.</p>
      */
     @Test
-    public void Clear_Backing0()
+    public void Clear_Backing()
     {
         addToHMap(m, 0, 500);
         assertEquals("Size should be 500", 500, m.size());
@@ -985,7 +986,7 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void Remove_Backing0()
+    public void Remove_Backing()
     {
         int bound = 200;
         for (int i = 0; i < bound; i++)
@@ -1288,7 +1289,7 @@ public class TestEntrySet
      * share the same informations about the map entries.</p>
      */
     @Test
-    public void RetainAll_Backing0()
+    public void RetainAll_Backing()
     {
         int bound = 500;
         int secondBound = 200;
