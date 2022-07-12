@@ -1825,6 +1825,25 @@ public class TestValues
         v.toArray(null);
     }
 
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked the array argument is smaller than the collection's size.</p>
+     * <p><b>Test Description</b>: v.toArray(a) is invoked.</p>
+     * <p><b>Pre-Condition</b>: v contains {0="0":10="10"}, a is
+     * 1 element array.</p>
+     * <p><b>Post-Condition</b>: v contains {0="0":10="10"}, a is
+     * 1 element array..</p>
+     * <p><b>Expected Results</b>: IllegalArgumentException is being thrown.</p>
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void ToArrayArrayArg_EmptyIAE()
+    {
+        initHMap(m, 0, 10);
+        Object[] a = new Object[5];
+        v.toArray(a);
+    }
+
     // ------------------------------------------ iterator method and ValuesIterator ------------------------------------------
     
     /**

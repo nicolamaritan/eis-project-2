@@ -1860,6 +1860,25 @@ public class TestEntrySet
         es.toArray(null);
     }
 
+    /**
+     * <p><b>Summary</b>: toArray method test case.</p>
+     * <p><b>Test Case Design</b>: Tests toArray behaviour when
+     * invoked the array argument is smaller than the set's size.</p>
+     * <p><b>Test Description</b>: es.toArray(a) is invoked.</p>
+     * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}, a is
+     * 1 element array.</p>
+     * <p><b>Post-Condition</b>: es contains {0="0":10="10"}, a is
+     * 1 element array..</p>
+     * <p><b>Expected Results</b>: IllegalArgumentException is being thrown.</p>
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void ToArrayArrayArg_EmptyIAE()
+    {
+        initHMap(m, 0, 10);
+        Object[] a = new Object[5];
+        es.toArray(a);
+    }
+
     // ------------------------------------------ iterator method and EntrySetIterator ------------------------------------------
     
     /**
@@ -2771,6 +2790,68 @@ public class TestEntrySet
 
             assertTrue("Iterators do not iterate same order", !esIt.hasNext() && !ksIt.hasNext() && !vIt.hasNext());
         }
+    }
+
+    /**
+     * <p><b>Summary</b>: Entry test case. Tests
+     * HMap.Entry getKey(), getValue(), setValue(Object) and toString()
+     * methods.</p>
+     * <p><b>Test Case Design</b>: Tests get/set methods and toString.</p>
+     * <p><b>Test Description</b>: For each i in (0, 10),
+     * the entry i="i" is obtained through getEntry(i, ""+i).
+     * Key is asserted to be i and value is asserted to be "i".
+     * toString is asserted to be i=i.
+     * e.setValue(""+(i+10)) is invoked, therefore
+     * Key is asserted to be i and value is asserted to be "i+10".
+     * toString is asserted i=i+10.</p>
+     * <p><b>Pre-Condition</b>: e is null.</p>
+     * <p><b>Post-Condition</b>: e is i=i+10.</p>
+     * <p><b>Expected Results</b>: gets and sets work correctly.
+     * toString returns correct string.</p>
+     */
+    @Test
+    public void Entry_GetsSet()
+    {
+        HMap.Entry e;
+        for (int i = 0; i < 10; i++)
+        {
+            e = getEntry(i, ""+i);
+            assertEquals("Should be " + i, i, e.getKey());
+            assertEquals("Should be " + i, ""+i, e.getValue());
+            assertEquals(""+i+"="+i, e.toString());
+            assertEquals("Should return old value", ""+i, e.setValue("" + (i + 10)));
+            assertEquals("Should be " + i, i, e.getKey());
+            assertEquals("Should be " + i, ""+(i + 10), e.getValue());
+            assertEquals(""+i+"="+(i+10), e.toString());
+        }
+    }
+
+    /**
+     * <p><b>Summary</b>: Entry test case. Tests
+     * equals and hashCode.</p>
+     * <p><b>Test Case Design</b>: If two entries equals
+     * they should return the same hashCode.</p>
+     * <p><b>Test Description</b>: 
+     * e1 equals e2, e1 and e2 are i="i+10". They are
+     * asserted to be the same.
+     * Their hashcode are asserted to be the same.</p>
+     * <p><b>Pre-Condition</b>: e1 and e2 are null.</p>
+     * <p><b>Post-Condition</b>: e1 and e2 are i="i+10".</p>
+     * <p><b>Expected Results</b>: If two entries equal they return
+     * the same hashCode.</p>
+     */
+    @Test
+    public void Entry_HashCodeAndEquals()
+    {
+        HMap.Entry e1, e2;
+        for (int i = 0; i < 10; i++)
+        {
+            e1 = getEntry(i, ""+(i+10));
+            e2 = getEntry(i, ""+(i+10));
+            assertEquals("Should be equal", e1, e2);
+            assertEquals("Hashcode should be equal", e1.hashCode(), e2.hashCode());
+        }
+
     }
 
     /**
