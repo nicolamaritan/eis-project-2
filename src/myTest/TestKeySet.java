@@ -103,7 +103,7 @@ public class TestKeySet
     
     /**
      * <p><b>Summary</b>: add method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: ks is empty.</p>
@@ -119,7 +119,7 @@ public class TestKeySet
 
     /**
      * <p><b>Summary</b>: add method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>
@@ -138,7 +138,7 @@ public class TestKeySet
 
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: addAll is invoked.</p>
      * <p><b>Pre-Condition</b>: ks is empty.</p>
@@ -154,7 +154,7 @@ public class TestKeySet
 
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: ks contains {0:10}.</p>

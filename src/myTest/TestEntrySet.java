@@ -102,7 +102,7 @@ public class TestEntrySet
     
     /**
      * <p><b>Summary</b>: add method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: es is empty.</p>
@@ -118,7 +118,7 @@ public class TestEntrySet
 
     /**
      * <p><b>Summary</b>: add method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>
@@ -136,7 +136,7 @@ public class TestEntrySet
     // ------------------------------------------ addAll method ------------------------------------------
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: addAll is invoked.</p>
      * <p><b>Pre-Condition</b>: es is empty.</p>
@@ -152,7 +152,7 @@ public class TestEntrySet
 
     /**
      * <p><b>Summary</b>: addAll method test case.</p>
-     * <p><b>Test Case Design</b>: The methoud throws
+     * <p><b>Test Case Design</b>: The method throws
      * HUnsupportedOperationException.</p>
      * <p><b>Test Description</b>: add is invoked.</p>
      * <p><b>Pre-Condition</b>: es contains {0="0":10="10"}.</p>

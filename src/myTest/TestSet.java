@@ -112,7 +112,8 @@ public class TestSet
      * <p><b>Pre-Condition</b>: Set is empty.</p>
      * <p><b>Post-Condition</b>: Set contains argv elements in the form
      * of argv[i]=argv[i].</p>
-     * <p><b>Expected Results</b>: First pippo=pippo insertion returns true,
+     * <p><b>Expected Results</b>: EntrySet correctly refuses clones.
+	 * First pippo=pippo insertion returns true,
 	 * second returns false. Remaining insertion return true, size is
 	 * i at each iteration. In the end argv lenght is 1 more than s size.
      * Propagation from map to entryset works correctly.</p>
@@ -194,10 +195,11 @@ public class TestSet
 	 * Iterates through set and after each next it removes the element (iter2.remove()),
 	 * decrementing i. i starts from 5. At each iteration iterate with a new
 	 * iterator is invoked to test correct iteration (iterate(s.iterator())).</p>
-     * <p><b>Pre-Condition</b>: set contains argv elements.</p>
-     * <p><b>Post-Condition</b>: set is empty, as it has been emptied
+     * <p><b>Pre-Condition</b>: Entryset contains argv elements.</p>
+     * <p><b>Post-Condition</b>: Entryset is empty, as it has been emptied
 	 * by iterator's remove.</p>
-     * <p><b>Expected Results</b>: In each iteration must be --i equals s.size.
+     * <p><b>Expected Results</b>: EntrySet iterator removal works.
+	 * In each iteration must be --i equals s.size.
 	 * At the end set size is 0. Therefore iterator's remove works correctly.</p>
      */
 	@Test
@@ -239,9 +241,10 @@ public class TestSet
 	 * present in the keySet (key already in the map) and iterates through
 	 * its elements through a new iterator
 	 * (iterate(s.iterator())).</p>
-     * <p><b>Pre-Condition</b>: Set is empty.</p>
-     * <p><b>Post-Condition</b>: Set contains argv elements only once.</p>
-     * <p><b>Expected Results</b>: First pippo=pippo insertion returns true,
+     * <p><b>Pre-Condition</b>: KeySet is empty.</p>
+     * <p><b>Post-Condition</b>: KeySet contains argv elements only once.</p>
+     * <p><b>Expected Results</b>: KeySet correctly refuses clones.
+	 * First pippo=pippo insertion returns true,
 	 * second returns false. Remaining insertion return true, size is
 	 * i at each iteration. In the end argv lenght is 1 more than s size.
      * Propagation from map to keyset works correctly.</p>
@@ -327,7 +330,8 @@ public class TestSet
      * <p><b>Pre-Condition</b>: set contains argv elements.</p>
      * <p><b>Post-Condition</b>: set is empty, as it has been emptied
 	 * by iterator's remove.</p>
-     * <p><b>Expected Results</b>: In each iteration must be --i equals s.size.
+     * <p><b>Expected Results</b>: KeySet iterator removal works.
+	 * In each iteration must be --i equals s.size.
 	 * At the end set size is 0. Therefore iterator's remove works correctly.</p>
      */
 	@Test
@@ -372,7 +376,8 @@ public class TestSet
 	 * (iterate(s.iterator())).</p>
      * <p><b>Pre-Condition</b>: Set is empty.</p>
      * <p><b>Post-Condition</b>: Set contains argv elements.</p>
-     * <p><b>Expected Results</b>: First pippo insertion returns true,
+     * <p><b>Expected Results</b>: Collection value accepts clones.
+	 * First pippo insertion returns true,
 	 * second returns true too. Remaining insertions return true, size is
 	 * i at each iteration. In the end argv lenght is not 1 more than s size.</p>
      */
@@ -460,8 +465,9 @@ public class TestSet
 	 * Iterates through Collection and after each next it removes the element,
 	 * decrementing i. i starts from 6. At each iteration iterate with a new
 	 * iterator is invoked to test correct iteration (iterate(c.iterator())).</p>
-     * <p><b>Pre-Condition</b>: Collection contains argv elements.</p>
-     * <p><b>Post-Condition</b>: Collection is empty, as it has been emptied
+     * <p><b>Pre-Condition</b>: Collection value contains argv elements.</p>
+     * <p><b>Post-Condition</b>: Collection value iterator removal works.
+	 * Collection is empty, as it has been emptied
 	 * by iterator's remove.</p>
      * <p><b>Expected Results</b>: In each iteration must be --i equals s.size.
 	 * At the end Collection size is 0. Therefore iterator's remove works correctly.</p>
@@ -501,18 +507,6 @@ public class TestSet
 			System.out.print(iter.next() + "; ");
 		}
 		System.out.println("}");
-	}
-
-	/**
-	 * Initialize the collection c with the elements
-	 * in argv.
-	 * @param c collection to be initialized
-	 */
-	public void argvInitialize(HCollection c)
-	{
-        c.clear();
-		for (int i = 0; i < argv.length; i++)
-			c.add(argv[i]);
 	}
 
     /**
