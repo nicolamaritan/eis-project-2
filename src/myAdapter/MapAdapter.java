@@ -1,5 +1,6 @@
 package myAdapter;
 
+// Imports
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
@@ -63,7 +64,7 @@ public class MapAdapter implements HMap
      */
     public MapAdapter(HMap t)
     {
-        this();
+        ht = new Hashtable();
         putAll(t);
     }
 
