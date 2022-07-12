@@ -284,7 +284,7 @@ public class TestEntrySet
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the entryset.</p>
      * <p><b>Pre-Condition</b>: The entryset is empty.</p>
-     * <p><b>Post-Condition</b>: The entryset has 3 elements ({0, 1, 2}).</p>
+     * <p><b>Post-Condition</b>: The entryset has 3 elements ({0="0", 1="1", 2="2"}).</p>
      * <p><b>Expected Results</b>: The size method returns 3 as the
      * entryset contains 3 elements and the isEmpty
      * method returns false. Map initialization keeps coherence.</p>
@@ -599,8 +599,8 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Tests the method with null arguments, which is a special
      * case of invalid argument.</p>
      * <p><b>Test Description</b>: Calls method with null collection.</p>
-     * <p><b>Pre-Condition</b>: entryset is empty, coll is null.</p>
-     * <p><b>Post-Condition</b>: entryset is empty, coll is null.</p>
+     * <p><b>Pre-Condition</b>: Entryset is empty, coll is null.</p>
+     * <p><b>Post-Condition</b>: Entryset is empty, coll is null.</p>
      * <p><b>Expected Results</b>: NullPointerException thrown.</p>
      */    
     @Test(expected = java.lang.NullPointerException.class)
@@ -616,8 +616,8 @@ public class TestEntrySet
      * <p><b>Test Case Design</b>: Tests the method with null arguments, which is a special
      * case of invalid argument.</p>
      * <p><b>Test Description</b>: Calls method with null collection.</p>
-     * <p><b>Pre-Condition</b>: entryset contains {0="0":10="10"}, coll is null.</p>
-     * <p><b>Post-Condition</b>: entryset contains {0="0":10="10"}, coll is null.</p>
+     * <p><b>Pre-Condition</b>: Entryset contains {0="0":10="10"}, coll is null.</p>
+     * <p><b>Post-Condition</b>: Entryset contains {0="0":10="10"}, coll is null.</p>
      * <p><b>Expected Results</b>: NullPointerException thrown.</p>
      */    
     @Test(expected = java.lang.NullPointerException.class)
@@ -866,8 +866,8 @@ public class TestEntrySet
         assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 
-        m.put(101, "101");
-        m2.put(101, "101");
+        m.put(100, "100");
+        m2.put(100, "100");
         assertTrue("Maps should be equal.", es.equals(es2));
         assertEquals("Hash codes should be equal.", es.hashCode(), es2.hashCode());
 

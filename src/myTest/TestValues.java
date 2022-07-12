@@ -287,7 +287,7 @@ public class TestValues
      * <p><b>Test Description</b>: size and isEmpty methods are invoked on
      * the Values.</p>
      * <p><b>Pre-Condition</b>: The Values is empty.</p>
-     * <p><b>Post-Condition</b>: The Values has 3 elements ({0, 1, 2}).</p>
+     * <p><b>Post-Condition</b>: The Values has 3 elements ({"0", "1", "2"}).</p>
      * <p><b>Expected Results</b>: The size method returns 3 and the isEmpty
      * method returns false. checkValues and checkIteration tests pass.</p>
      */
@@ -815,13 +815,13 @@ public class TestValues
         assertTrue("Maps should be equal.", v.equals(v2));
         assertEquals("Hash codes should be equal.", v.hashCode(), v2.hashCode());
 
-        v.remove((Object)0);
-        v2.remove((Object)0);
+        v.remove("0");
+        v2.remove("0");
         assertTrue("Maps should be equal.", v.equals(v2));
         assertEquals("Hash codes should be equal.", v.hashCode(), v2.hashCode());
 
-        m.put(101, "101");
-        m2.put(101, "101");
+        m.put(100, "100");
+        m2.put(100, "100");
         assertTrue("Maps should be equal.", v.equals(v2));
         assertEquals("Hash codes should be equal.", v.hashCode(), v2.hashCode());
 
@@ -2037,7 +2037,7 @@ public class TestValues
     /**
      * <p><b>Summary</b>: iteration on entryset test case.
      * Tests iterator.remove method on a changing entryset,
-     * checking entryset - map coherence and the iteration
+     * checking values - map coherence and the iteration
      * with checkValues and checkIteration.</p>
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
@@ -2050,7 +2050,7 @@ public class TestValues
      * method, removing the just returned element.
      * At the end 20 elements were removed from v.
      * Then checkValues and checkIteration are invoke
-     * to check entryset - map coherence and iteration.</p>
+     * to check values - map coherence and iteration.</p>
      * <p><b>Pre-Condition</b>: map initially contain
      * {0="0":100="100"} and v contains {"0":"100"}</p>
      * <p><b>Post-Condition</b>: m and v contains 80 elements.</p>
@@ -2352,7 +2352,7 @@ public class TestValues
      * checkValues and checkIteration after each modification.</p>
      */
     @Test
-    public void Put_Substitute1()
+    public void Put_Substitute()
     {
         int bound = 100;
         for (int i = 0; i < bound; i++)

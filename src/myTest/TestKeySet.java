@@ -838,13 +838,13 @@ public class TestKeySet
         assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
-        ks.remove((Object)0);
-        ks2.remove((Object)0);
+        ks.remove(0);
+        ks2.remove(0);
         assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
-        m.put(101, "101");
-        m2.put(101, "101");
+        m.put(100, "100");
+        m2.put(100, "100");
         assertTrue("Maps should be equal.", ks.equals(ks2));
         assertEquals("Hash codes should be equal.", ks.hashCode(), ks2.hashCode());
 
@@ -2074,7 +2074,7 @@ public class TestKeySet
     /**
      * <p><b>Summary</b>: iteration on entryset test case.
      * Tests iterator.remove method on a changing entryset,
-     * checking entryset - map coherence and the iteration
+     * checking keyset - map coherence and the iteration
      * with checkKeySet and checkIteration.</p>
      * <p><b>Test Case Design</b>: The map is constantly
      * changing during execution due to it.remove,
@@ -2087,7 +2087,7 @@ public class TestKeySet
      * method, removing the just returned element.
      * At the end 20 elements were removed from ks.
      * Then checkKeySet and checkIteration are invoke
-     * to check entryset - map coherence and iteration.</p>
+     * to check keyset - map coherence and iteration.</p>
      * <p><b>Pre-Condition</b>: map initially contain
      * {0="0":100="100"} and ks contains {0:100}</p>
      * <p><b>Post-Condition</b>: m and ks contains 80 elements.</p>

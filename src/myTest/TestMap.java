@@ -37,7 +37,8 @@ import myAdapter.*;
  * from the backing HMap to the KeySet/Values (and eventually their iterator) and viceversa, which is an important feature
  * of HMap. In the test suite there are many test cases focusing on limit and special cases,
  * invalid arguments and etc. Note that the in the map often contains entries where the key is an
- * integer i and value is the string representation of that integer "i". That is for testing
+ * integer i and value is the string representation of that integer "i" (using TestUtilities methods).
+ * That is for testing
  * purpouse, to test the most general case possible.
  * Prints are kept from the original file, as it helped during the Test Driven Development
  * at looking for errors and fixing them.</p>
@@ -1294,8 +1295,7 @@ public class TestMap
         {
             assertTrue("Should be contained", m.containsKey(i));
             assertTrue("Should be contained", m.containsValue("" + (i + bound)));
-            assertEquals("Value not substitued correctly.", "" + (i + bound), m.get(i));
-            
+            assertEquals("Value not substitued correctly.", "" + (i + bound), m.get(i));  
         }
     }
 
