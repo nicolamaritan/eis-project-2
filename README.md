@@ -1,5 +1,6 @@
 # Elements of Software Engineering assignment 12/07/2022
 
+## Summary
 The assignment is creating an adapter of ```java.util.Map``` (J2SE 1.4.2), where the adaptee is ```java.util.Hashtable``` (CLDC 1.1).
 The adapter is called ```myAdapter.HMap```. It was developed through TDD. The test suites are contained in ```myTest``` package.
 
